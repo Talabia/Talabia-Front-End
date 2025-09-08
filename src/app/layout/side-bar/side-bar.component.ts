@@ -1,10 +1,23 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { PanelMenuModule } from 'primeng/panelmenu';
 
 @Component({
   selector: 'app-side-bar',
-  imports: [],
+  standalone: true,
+  imports: [PanelMenuModule, CommonModule],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SideBarComponent { }
+export class SideBarComponent {
+  @Input() collapsed = false;
+  @Input() collapsedOnMobile = true;
+  @Input() isMobile = false; // ✅ now Sidebar can use it
+
+  menuItems = [
+    { label: 'Dashboard', icon: 'pi pi-home', routerLink: ['/dashboard'] },
+    { label: 'Users', icon: 'pi pi-users', routerLink: ['/users'] },
+    { label: 'Settings', icon: 'pi pi-cog', routerLink: ['/settings'] },
+  ];
+}

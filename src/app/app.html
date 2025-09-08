@@ -1,2 +1,16 @@
-<app-header></app-header>
-<router-outlet />
+<div class="layout-wrapper" [class.sidebar-collapsed]="collapsed">
+  <!-- Header Component -->
+  <app-header (toggleSidebar)="toggleSidebar()"></app-header>
+
+  <!-- Sidebar + Content -->
+  <div class="layout-body">
+    <app-side-bar [collapsed]="collapsed" [collapsedOnMobile]="collapsedOnMobile"
+      [isMobile]="isMobile()"></app-side-bar>
+    <main class="layout-content">
+      <router-outlet />
+    </main>
+  </div>
+
+  <!-- Overlay for mobile -->
+  <div class="mobile-overlay" *ngIf="!collapsedOnMobile && isMobile()" (click)="toggleSidebar()"></div>
+</div>

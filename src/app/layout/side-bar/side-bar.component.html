@@ -1,1 +1,3 @@
-<p>side-bar works!</p>,
+<aside class="layout-sidebar" [class.hidden]="collapsedOnMobile && isMobile" [class.collapsed]="collapsed && !isMobile">
+  <p-panelmenu [model]="menuItems"></p-panelmenu>
+</aside>

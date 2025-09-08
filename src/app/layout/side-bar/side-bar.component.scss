@@ -1,3 +1,32 @@
 :host {
   display: block;
 }
+
+.layout-sidebar {
+  width: 250px;
+  background: var(--surface-100);
+  border-right: 1px solid var(--surface-300);
+  padding: 1rem 0.5rem;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+.hidden {
+  transform: translateX(-100%);
+}
+
+.collapsed {
+  width: 60px !important;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .layout-sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+  }
+}
