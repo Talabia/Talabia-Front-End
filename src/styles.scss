@@ -1,0 +1,10 @@
+@use './assets/theme/font'as font;
+
+html,
+body {
+  font-family: var(--font-family);
+}
+
+:root {
+  --font-family: 'Nunito Sans', sans-serif;
+}
