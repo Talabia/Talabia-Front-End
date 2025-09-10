@@ -13,7 +13,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 export class SideBarComponent {
   @Input() collapsed = false;
   @Input() collapsedOnMobile = true;
-  @Input() isMobile = false; // ✅ now Sidebar can use it
+  @Input() isMobile = false;
 
   menuItems = [
     { label: 'Dashboard', icon: 'pi pi-home', routerLink: ['/dashboard'] },

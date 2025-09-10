@@ -16,18 +16,15 @@ export class HeaderComponent implements OnInit {
   darkModeBtn: boolean = false;
 
   ngOnInit() {
-    // Load user preference from localStorage
     const savedDarkMode = localStorage.getItem('darkMode');
     if (savedDarkMode) {
       this.darkModeBtn = savedDarkMode === 'true';
-      // Apply saved theme on initialization
       this.applyTheme();
     }
   }
 
   toggleDarkMode() {
     this.darkModeBtn = !this.darkModeBtn;
-    // Save user preference to localStorage
     localStorage.setItem('darkMode', this.darkModeBtn.toString());
     this.applyTheme();
   }
