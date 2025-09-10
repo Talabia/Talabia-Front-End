@@ -14,6 +14,7 @@ export class SideBarComponent {
   @Input() collapsed = false;
   @Input() collapsedOnMobile = true;
   @Input() isMobile = false;
+  @Input() hidden = false;
 
   menuItems = [
     { label: 'Dashboard', icon: 'pi pi-home', routerLink: ['/dashboard'] },

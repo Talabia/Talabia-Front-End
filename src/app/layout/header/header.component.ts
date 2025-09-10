@@ -3,9 +3,10 @@ import { Toolbar } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
 import { SharedModule } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 @Component({
   selector: 'app-header',
-  imports: [Toolbar, AvatarModule, ButtonModule],
+  imports: [Toolbar, AvatarModule, ButtonModule, TooltipModule],
   standalone: true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -13,6 +14,7 @@ import { ButtonModule } from 'primeng/button';
 })
 export class HeaderComponent implements OnInit {
   @Output() toggleSidebar = new EventEmitter<void>();
+  @Output() toggleHideSidebar = new EventEmitter<void>();
   darkModeBtn: boolean = false;
 
   ngOnInit() {
@@ -42,5 +44,9 @@ export class HeaderComponent implements OnInit {
 
   onToggleClick() {
     this.toggleSidebar.emit();
+  }
+  
+  onToggleHideClick() {
+    this.toggleHideSidebar.emit();
   }
 }

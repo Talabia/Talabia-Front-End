@@ -1,36 +1,19 @@
 .layout-wrapper {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .layout-body {
-    flex: 1;
-    display: flex;
-    overflow: hidden;
-    position: relative;
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
 }
 
 .layout-content {
-    flex: 1;
-    padding: 1rem;
-    overflow-y: auto;
-    background: var(--surface-50);
-}
-
-/* Collapsed sidebar for desktop */
-.sidebar-collapsed app-sidebar {
-    width: 60px;
-    overflow: hidden;
-}
-
-/* Overlay for mobile */
-.mobile-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 500;
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  background: var(--surface-100);
 }

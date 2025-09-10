@@ -1,3 +1,4 @@
-<aside class="layout-sidebar" [class.hidden]="collapsedOnMobile && isMobile" [class.collapsed]="collapsed">
+<aside class="layout-sidebar" [class.mobile-hidden]="!collapsedOnMobile && isMobile" [class.collapsed]="collapsed"
+  [class.hidden]="hidden">
   <p-panelmenu [model]="menuItems"></p-panelmenu>
 </aside>
