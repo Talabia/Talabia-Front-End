@@ -1,4 +1,6 @@
-<aside class="layout-sidebar" [class.mobile-hidden]="!collapsedOnMobile && isMobile" [class.collapsed]="collapsed"
-  [class.hidden]="hidden">
+<aside class="layout-sidebar" [class.mobile-hidden]="!collapsedOnMobile && isMobile" [class.hidden]="hidden">
   <p-panelmenu [model]="menuItems"></p-panelmenu>
+  <div class="card flex justify-center">
+    <p-panelmenu [model]="items" class="w-full md:w-80 mt-2" />
+  </div>
 </aside>

@@ -1,25 +1,17 @@
-<header class="layout-header">
-  <div class="card">
-    <p-toolbar [style]="{ 'padding': '0.5rem 0.5rem 0.5rem 0.5rem' }">
-      <ng-template #start>
-      </ng-template>
-
-      <ng-template #end>
-        <div class="flex items-center gap-2" [style]="{ 'display': 'flex', 'align-items': 'center', 'gap':'8px' }">
-          <!-- dark theme button -->
-          <p-button severity="secondary" [icon]="darkModeBtn ? 'pi pi-sun' : 'pi pi-moon'" (onClick)="toggleDarkMode()"
-            pTooltip="Toggle Theme" tooltipPosition="left" />
-          <!-- sidebar toggle buttons - hidden on mobile -->
-          <div class="sidebar-toggle-buttons">
-            <!-- sidebar hide -->
-            <p-button icon="pi pi-eye-slash" severity="secondary" (click)="onToggleHideClick()" pTooltip="Toggle Hide"
-              tooltipPosition="left"></p-button>
-            <!-- sidebar collapse -->
-            <p-button icon="pi pi-bars" severity="secondary" (click)="onToggleClick()" pTooltip="Toggle Collapse"
-              tooltipPosition="left"></p-button>
-          </div>
-        </div>
-      </ng-template>
-    </p-toolbar>
-  </div>
+<header>
+  <p-toolbar class="header">
+    <ng-template #start>
+    </ng-template>
+    <ng-template #end>
+      <div class="header-action">
+        <!-- dark theme btn -->
+        <p-button severity="secondary" [icon]="darkModeBtn ? 'pi pi-sun' : 'pi pi-moon'" (onClick)="toggleDarkMode()"
+          pTooltip="Toggle Theme" tooltipPosition="left" />
+        <!-- sidebar hide -->
+        <p-button [icon]="hideSideBarBtn ? 'pi pi-bars' : 'pi pi-arrow-down-left-and-arrow-up-right-to-center'"
+          severity="secondary" (click)="onToggleHideClick()" pTooltip="Toggle Sidebar"
+          tooltipPosition="left"></p-button>
+      </div>
+    </ng-template>
+  </p-toolbar>
 </header>

@@ -13,15 +13,19 @@ import { TooltipModule } from 'primeng/tooltip';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
-  @Output() toggleSidebar = new EventEmitter<void>();
   @Output() toggleHideSidebar = new EventEmitter<void>();
   darkModeBtn: boolean = false;
+  hideSideBarBtn: boolean = false;
 
   ngOnInit() {
     const savedDarkMode = localStorage.getItem('darkMode');
+    const savedSideBar = localStorage.getItem('hideSideBar');
     if (savedDarkMode) {
       this.darkModeBtn = savedDarkMode === 'true';
       this.applyTheme();
+    }
+    if (savedSideBar) {
+      this.hideSideBarBtn = savedSideBar === 'true';
     }
   }
 
@@ -41,12 +45,9 @@ export class HeaderComponent implements OnInit {
       }
     }
   }
-
-  onToggleClick() {
-    this.toggleSidebar.emit();
-  }
-  
   onToggleHideClick() {
+    this.hideSideBarBtn = !this.hideSideBarBtn;
+    localStorage.setItem('hideSideBar', this.hideSideBarBtn.toString());
     this.toggleHideSidebar.emit();
   }
 }

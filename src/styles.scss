@@ -1,36 +1,24 @@
 @use './assets/theme/font'as font;
 
-html,
-body {
-  overflow-x: hidden;
-  overflow-y: auto;
-  background-color: var(--ground-background) !important;
-  font-family: var(--font-family);
-}
-
 :root {
   --font-family: 'Nunito Sans', sans-serif;
-  --text-color: #333;
-  --background-color: #fff;
-  --card-background: #f8f9fa;
-  --border-color: #dee2e6;
-}
-
-.my-app-dark {
-  --text-color: #f8f9fa;
-  --background-color: #121212;
-  --card-background: #1e1e1e;
-  --border-color: #343a40;
 }
 
 html {
-  color: var(--text-color);
-  background-color: var(--background-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--p-surface-50);
+  color: var(--p-surface-700);
+  font-family: var(--font-family);
+  font-weight: 400;
 
-.card {
-  background-color: var(--card-background);
-  border-color: var(--border-color);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  &.my-app-dark {
+    background-color: var(--p-surface-950);
+    color: var(--p-surface-0);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  transition: background-color 0.3s ease,
+  color 0.3s ease;
+
 }
