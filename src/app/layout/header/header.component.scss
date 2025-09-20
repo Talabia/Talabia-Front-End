@@ -1,3 +1,15 @@
 :host {
   display: block;
 }
+
+.sidebar-toggle-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .sidebar-toggle-buttons {
+    display: none;
+  }
+}

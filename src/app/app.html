@@ -1,8 +1,10 @@
-<div class="layout-wrapper" [class.sidebar-collapsed]="collapsed" [class.sidebar-hidden]="hidden">
+<div class="layout-wrapper" [class.sidebar-collapsed]="collapsed" [class.sidebar-hidden]="hidden" [class.sidebar-mobile-open]="!collapsedOnMobile && isMobile()">
   <!-- Header Component -->
   <app-header (toggleSidebar)="toggleSidebar()" (toggleHideSidebar)="toggleHideSidebar()"></app-header>
   <!-- Sidebar+Content -->
   <div class="layout-body">
+    <!-- Mobile overlay click handler -->
+    <div *ngIf="!collapsedOnMobile && isMobile()" class="mobile-overlay" (click)="toggleSidebar()"></div>
     <app-side-bar [collapsed]="collapsed" [collapsedOnMobile]="collapsedOnMobile" [isMobile]="isMobile()"
       [hidden]="hidden"></app-side-bar>
     <main class="layout-content">

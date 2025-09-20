@@ -1,12 +1,13 @@
 import { Component, signal, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { PrimeNG } from 'primeng/config';
 import { HeaderComponent } from './layout/header/header.component';
 import { SideBarComponent } from './layout/side-bar/side-bar.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, SideBarComponent],
+  imports: [RouterOutlet, CommonModule, HeaderComponent, SideBarComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
