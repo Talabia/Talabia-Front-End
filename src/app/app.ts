@@ -12,83 +12,24 @@ import { SideBarComponent } from './layout/side-bar/side-bar.component';
   styleUrl: './app.scss',
 })
 export class App implements OnInit {
-  protected readonly title = signal('talabia-admin');
-  constructor(private primeng: PrimeNG) {}
+  sidebarState: 'open' | 'hidden' = 'open';
 
-  // Sidebar states
-  sidebarState = 'open'; // 'open', 'collapsed', 'hidden'
-  collapsed = false; // for desktop collapse
-  hidden = false; // for desktop hidden
-  collapsedOnMobile = true; // for mobile toggle
+  constructor(private primeng: PrimeNG) {}
 
   ngOnInit() {
     this.primeng.ripple.set(true);
-
-    // Load saved sidebar state from localStorage
-    const savedState = localStorage.getItem('sidebarState');
+    const savedState = localStorage.getItem('sidebarState') as 'open' | 'hidden' | null;
     if (savedState) {
       this.sidebarState = savedState;
-      this.applyStateFromSaved();
-    }
-  }
-
-  toggleSidebar() {
-    if (this.isMobile()) {
-      this.collapsedOnMobile = !this.collapsedOnMobile;
-    } else {
-      // Toggle between open and collapsed on desktop
-      if (this.sidebarState === 'open') {
-        this.sidebarState = 'collapsed';
-        this.collapsed = true;
-        this.hidden = false;
-      } else if (this.sidebarState === 'collapsed') {
-        this.sidebarState = 'open';
-        this.collapsed = false;
-        this.hidden = false;
-      } else if (this.sidebarState === 'hidden') {
-        this.sidebarState = 'open';
-        this.collapsed = false;
-        this.hidden = false;
-      }
-
-      // Save state to localStorage
-      localStorage.setItem('sidebarState', this.sidebarState);
     }
   }
 
   toggleHideSidebar() {
-    if (this.sidebarState === 'hidden') {
-      this.sidebarState = 'open';
-      this.hidden = false;
-      this.collapsed = false;
-    } else {
-      this.sidebarState = 'hidden';
-      this.hidden = true;
-      this.collapsed = false;
-    }
-
-    // Save state to localStorage
+    this.sidebarState = this.sidebarState === 'hidden' ? 'open' : 'hidden';
     localStorage.setItem('sidebarState', this.sidebarState);
   }
 
-  private applyStateFromSaved(): void {
-    switch (this.sidebarState) {
-      case 'open':
-        this.collapsed = false;
-        this.hidden = false;
-        break;
-      case 'collapsed':
-        this.collapsed = true;
-        this.hidden = false;
-        break;
-      case 'hidden':
-        this.collapsed = false;
-        this.hidden = true;
-        break;
-    }
-  }
-
-  isMobile() {
-    return window.innerWidth <= 768;
+  get hidden() {
+    return this.sidebarState === 'hidden';
   }
 }

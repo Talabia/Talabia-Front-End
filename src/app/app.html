@@ -1,17 +1,16 @@
-<div class="layout-wrapper" [class.sidebar-collapsed]="collapsed" [class.sidebar-hidden]="hidden" [class.sidebar-mobile-open]="!collapsedOnMobile && isMobile()">
-  <!-- Header Component -->
-  <app-header (toggleSidebar)="toggleSidebar()" (toggleHideSidebar)="toggleHideSidebar()"></app-header>
-  <!-- Sidebar+Content -->
+<div class="layout-container">
+  <!-- Header -->
+  <app-header (toggleHideSidebar)="toggleHideSidebar()"></app-header>
+  <!-- Sidebar + Main Content -->
   <div class="layout-body">
-    <!-- Mobile overlay click handler -->
-    <div *ngIf="!collapsedOnMobile && isMobile()" class="mobile-overlay" (click)="toggleSidebar()"></div>
-    <app-side-bar [collapsed]="collapsed" [collapsedOnMobile]="collapsedOnMobile" [isMobile]="isMobile()"
-      [hidden]="hidden"></app-side-bar>
+    <app-side-bar [hidden]="hidden"></app-side-bar>
     <main class="layout-content">
       <router-outlet />
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad recusandae perferendis distinctio, illo debitis
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad recusandae perferendis distinctio, illo debitis
         maxime reiciendis a, est magni quia laborum voluptate beatae molestiae, tenetur corporis excepturi cumque
-        architecto deleniti.</p>
+        architecto deleniti.
+      </p>
     </main>
   </div>
 </div>

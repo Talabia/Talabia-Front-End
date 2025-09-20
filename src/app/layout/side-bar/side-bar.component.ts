@@ -14,18 +14,34 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SideBarComponent implements OnInit {
-  @Input() collapsed = false;
-  @Input() collapsedOnMobile = true;
-  @Input() isMobile = false;
-  @Input() hidden = false;
+  @Input() hidden: boolean | undefined;
 
-  menuItems = [{ label: 'Dashboard', icon: 'pi pi-home', routerLink: ['/dashboard'] }];
+  menuItems = [
+    { label: 'Dashboard', icon: 'pi pi-home', routerLink: ['/dashboard'] },
+    { label: 'Dashboard', icon: 'pi pi-home', routerLink: ['/dashboard'] },
+  ];
   items: MenuItem[] | undefined;
 
   constructor(private router: Router) {}
 
   ngOnInit() {
     this.items = [
+      {
+        label: 'Lookups',
+        icon: 'pi pi-book',
+        items: [
+          {
+            label: 'Installation',
+            icon: 'pi pi-eraser',
+            routerLink: '/installation',
+          },
+          {
+            label: 'Configuration',
+            icon: 'pi pi-heart',
+            routerLink: '/configuration',
+          },
+        ],
+      },
       {
         label: 'Lookups',
         icon: 'pi pi-book',

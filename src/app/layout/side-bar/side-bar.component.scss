@@ -3,28 +3,29 @@
 }
 
 .layout-sidebar {
-  width: 250px;
-  background: var(--surface-100);
-  padding: 1rem 0.5rem;
+  background: var(--p-toolbar-background);
   border: 1px solid var(--p-toolbar-border-color);
   border-radius: var(--p-toolbar-border-radius);
+  width: 250px;
   margin-block-start: 0.5rem;
+  padding: 1rem 0.5rem;
   overflow-y: auto;
+  z-index: 10000;
   transition: all 0.3s ease;
-  z-index: 1000;
-
-  &.mobile-hidden {
-    transform: translateX(-100%);
-  }
 
   &.hidden {
     width: 0 !important;
     overflow: hidden;
     visibility: hidden;
     transform: translateX(-100%);
-
+    transition: all 0.3s ease;
   }
 
+  .dropdown-menu {
+    &:not(:first-of-type) {
+      margin-block-start: 0.5rem;
+    }
+  }
 }
 
 
@@ -33,15 +34,11 @@
     position: fixed;
     top: 70px;
     left: 0;
-    height: 100vh;
+    min-height: 89vh;
     width: 250px;
-    z-index: 1000;
-    transform: translateX(-100%);
+    transform: translateX(0);
+    border-radius: 0 var(--p-toolbar-border-radius) var(--p-toolbar-border-radius) 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
-
-    &:not(.mobile-hidden) {
-      transform: translateX(0);
-    }
   }
 }
