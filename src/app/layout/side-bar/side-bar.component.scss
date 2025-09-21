@@ -4,11 +4,9 @@
 
 .layout-sidebar {
   background: var(--p-toolbar-background);
-  border: 1px solid var(--p-toolbar-border-color);
-  border-radius: var(--p-toolbar-border-radius);
+  border-inline: 1px solid var(--p-toolbar-border-color);
   width: 250px;
-  height: calc(100vh - 80px);
-  margin-block-start: 0.5rem;
+  height: 100vh;
   padding: 1rem 0.5rem;
   overflow-y: auto;
   z-index: 10000;
@@ -33,12 +31,10 @@
 @media (max-width: 768px) {
   .layout-sidebar {
     position: fixed;
-    top: 70px;
+    top: 0px;
     left: 0;
-    width: 250px;
-    transform: translateX(0);
-    border-radius: 0 var(--p-toolbar-border-radius) var(--p-toolbar-border-radius) 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transform: translateX(0);
     transition: transform 0.3s ease;
   }
 }
