@@ -1,1 +1,50 @@
-<p>cities works!</p>,
+<p-card header="Cities">
+    <div class="card">
+        <div class="action-container">
+            <p-iconfield>
+                <p-inputicon class="pi pi-search" />
+                <input type="text" pInputText placeholder="Search" />
+            </p-iconfield>
+            <p-divider layout="vertical" />
+            <p-button (click)="showDialog()" label="Create" icon="pi pi-plus" />
+        </div>
+        <p-table [value]="cities" [scrollable]="true" [paginator]="true" [rows]="5" showGridlines scrollHeight="400px"
+            style="border-radius: 50rem !important;">
+            <ng-template #header>
+                <tr>
+                    <th style="min-width:100px">Name AR</th>
+                    <th style="min-width:200px">Name EN</th>
+                    <th style="min-width:200px">Actions</th>
+
+                </tr>
+            </ng-template>
+            <ng-template #body let-cities>
+                <tr>
+                    <td>{{cities.nameAr}}</td>
+                    <td>{{cities.nameEn}}</td>
+                    <td>
+                        <div class="table-actions">
+                            <p-button icon="pi pi-pen-to-square" severity="success" />
+                            <p-button icon="pi pi-times" severity="danger" />
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+    </div>
+</p-card>
+<p-dialog header="Create City" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <div class="input-container">
+        <label for="nameAr" class="font-semibold w-24">Name AR</label>
+        <input pInputText id="nameAr" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="input-container">
+        <label for="nameEn" class="font-semibold w-24"> Name EN</label>
+        <input pInputText id="nameEn" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="dialog-footer">
+        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+        <p-button label="Save" (click)="visible = false" />
+    </div>
+</p-dialog>
