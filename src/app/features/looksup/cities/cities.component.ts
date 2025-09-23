@@ -8,11 +8,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
 import { DialogModule } from 'primeng/dialog';
+import { TooltipModule } from 'primeng/tooltip';
+
 import { CitiesService } from '../services/cities.service';
 
 @Component({
   selector: 'app-cities',
-  imports: [CardModule, TableModule, ButtonModule, InputIcon, IconField, InputTextModule, FormsModule, DividerModule, DialogModule],
+  imports: [CardModule, TableModule, ButtonModule, InputIcon, IconField, InputTextModule, FormsModule, DividerModule, DialogModule, TooltipModule],
   templateUrl: './cities.component.html',
   styleUrl: './cities.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
