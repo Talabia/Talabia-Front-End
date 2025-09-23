@@ -26,38 +26,32 @@ export class SideBarComponent implements OnInit {
 
   ngOnInit() {
     this.items = [
-      {
+      { 
         label: 'Lookups',
         icon: 'pi pi-book',
         items: [
           {
-            label: 'Installation',
-            icon: 'pi pi-eraser',
-            routerLink: '/installation',
+            label: 'Cities',
+            icon: 'pi pi-file',
+            routerLink: '/looksup/cities',
           },
           {
-            label: 'Configuration',
-            icon: 'pi pi-heart',
-            routerLink: '/configuration',
+            label: 'Conditions',
+            icon: 'pi pi-file',
+            routerLink: '/looksup/conditions',
+          },
+          {
+            label: 'Spare Parts Status',
+            icon: 'pi pi-file',
+            routerLink: '/looksup/spare-parts-status',
+          },
+          {
+            label: 'Vehicle Types',
+            icon: 'pi pi-file',
+            routerLink: '/looksup/vehicle-types',
           },
         ],
-      },
-      {
-        label: 'Lookups',
-        icon: 'pi pi-book',
-        items: [
-          {
-            label: 'Installation',
-            icon: 'pi pi-eraser',
-            routerLink: '/installation',
-          },
-          {
-            label: 'Configuration',
-            icon: 'pi pi-heart',
-            routerLink: '/configuration',
-          },
-        ],
-      },
+      }
     ];
   }
 }
