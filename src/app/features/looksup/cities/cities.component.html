@@ -41,10 +41,12 @@
     <div class="input-container">
         <label for="nameAr" class="font-semibold w-24">Name AR</label>
         <input pInputText id="nameAr" class="flex-auto" autocomplete="off" />
+        <small *ngIf="nameArError" class="text-red-500">error or help here</small>
     </div>
     <div class="input-container">
         <label for="nameEn" class="font-semibold w-24"> Name EN</label>
         <input pInputText id="nameEn" class="flex-auto" autocomplete="off" />
+        <small *ngIf="nameEnError" class="text-red-500">error or help here</small>
     </div>
     <div class="dialog-footer">
         <p-button label="Cancel" severity="secondary" (click)="visible = false" />
