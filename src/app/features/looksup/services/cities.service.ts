@@ -1,165 +1,173 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
+import { 
+  City, 
+  CreateCityRequest, 
+  EditCityRequest, 
+  CitiesListRequest, 
+  CitiesListResponse, 
+  ApiResponse,
+  DeleteCityRequest 
+} from '../models/city.models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CitiesService {  
-  getAll() {
-    return of([
-      {
-        id: 1,
-        nameAr: 'الرياض',
-        nameEn: 'Riyadh',
-      },
-      {
-        id: 2,
-        nameAr: 'جدة',
-        nameEn: 'Jeddah',
-      },
-      {
-        id: 3,
-        nameAr: 'مكة المكرمة',
-        nameEn: 'Mecca',
-      },
-      {
-        id: 4,
-        nameAr: 'المدينة المنورة',
-        nameEn: 'Medina',
-      },
-      {
-        id: 5,
-        nameAr: 'الدمام',
-        nameEn: 'Dammam',
-      },
-      {
-        id: 6,
-        nameAr: 'الطائف',
-        nameEn: 'Taif',
-      },
-      {
-        id: 7,
-        nameAr: 'تبوك',
-        nameEn: 'Tabuk',
-      },
-      {
-        id: 8,
-        nameAr: 'بريدة',
-        nameEn: 'Buraidah',
-      },
-      {
-        id: 9,
-        nameAr: 'خميس مشيط',
-        nameEn: 'Khamis Mushait',
-      },
-      {
-        id: 10,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 11,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 12,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 13,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 14,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 15,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 16,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 17,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 18,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 19,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 20,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 21,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 22,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 23,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 24,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 25,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 26,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 27,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 28,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 29,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-    },
-      {
-        id: 30,
-        nameAr: 'حائل',
-        nameEn: 'Hail',
-      }
-    ]);
+export class CitiesService {
+  private readonly baseUrl = environment.baseUrl;
+
+  constructor(private http: HttpClient) { }
+
+  /**
+   * Get paginated list of cities with optional search
+   * GET /api/Cities/list?SearchKeyword=dd&PageSize=10&CurrentPage=1
+   */
+  getCitiesList(request: CitiesListRequest): Observable<CitiesListResponse> {
+    let params = new HttpParams()
+      .set('PageSize', request.pageSize.toString())
+      .set('CurrentPage', request.currentPage.toString());
+
+    if (request.searchKeyword && request.searchKeyword.trim()) {
+      params = params.set('SearchKeyword', request.searchKeyword.trim());
+    }
+
+    const url = `${this.baseUrl}Cities/list`;
+    console.log('Making API call to:', url, 'with params:', params.toString());
+
+    return this.http.get<any>(`${this.baseUrl}Cities/list`, { params })
+      .pipe(
+        map(response => {
+          console.log('Raw API Response:', response);
+          
+          // Handle different possible response structures
+          if (response && response.data) {
+            // If response has a data property (wrapped response)
+            return {
+              data: response.data,
+              totalRecords: response.totalCount || response.totalRecords || 0,
+              currentPage: response.currentPage || request.currentPage,
+              pageSize: response.pageSize || request.pageSize,
+              totalPages: response.totalPages || Math.ceil((response.totalCount || response.totalRecords || 0) / (response.pageSize || request.pageSize))
+            };
+          } else if (Array.isArray(response)) {
+            // If response is directly an array
+            return {
+              data: response,
+              totalRecords: response.length,
+              currentPage: request.currentPage,
+              pageSize: request.pageSize,
+              totalPages: Math.ceil(response.length / request.pageSize)
+            };
+          } else if (response && response.cities) {
+            // If response has cities property
+            return {
+              data: response.cities,
+              totalRecords: response.totalRecords || response.cities.length,
+              currentPage: response.currentPage || request.currentPage,
+              pageSize: response.pageSize || request.pageSize,
+              totalPages: response.totalPages || Math.ceil((response.totalRecords || response.cities.length) / request.pageSize)
+            };
+          } else {
+            // Default structure
+            return response;
+          }
+        }),
+        catchError(this.handleError)
+      );
   }
 
-  constructor() { }
+  /**
+   * Get single city by ID
+   * GET /api/Cities/get?Id=0
+   */
+  getCityById(id: number): Observable<City> {
+    const params = new HttpParams().set('Id', id.toString());
+    
+    return this.http.get<ApiResponse<City>>(`${this.baseUrl}Cities/get`, { params })
+      .pipe(
+        map(response => response.data),
+        catchError(this.handleError)
+      );
+  }
 
+  /**
+   * Create a new city
+   * POST /api/Cities/create
+   */
+  createCity(request: CreateCityRequest): Observable<City> {
+    return this.http.post<ApiResponse<City>>(`${this.baseUrl}Cities/create`, request)
+      .pipe(
+        map(response => response.data),
+        catchError(this.handleError)
+      );
+  }
+
+  /**
+   * Edit existing city
+   * PUT /api/Cities/edit
+   */
+  editCity(request: EditCityRequest): Observable<City> {
+    return this.http.put<ApiResponse<City>>(`${this.baseUrl}Cities/edit`, request)
+      .pipe(
+        map(response => response.data),
+        catchError(this.handleError)
+      );
+  }
+
+  /**
+   * Delete city by ID
+   * DELETE /api/Cities/delete?Id=0
+   */
+  deleteCity(id: number): Observable<boolean> {
+    const params = new HttpParams().set('Id', id.toString());
+    
+    return this.http.delete<ApiResponse<boolean>>(`${this.baseUrl}Cities/delete`, { params })
+      .pipe(
+        map(response => response.success),
+        catchError(this.handleError)
+      );
+  }
+
+  /**
+   * Centralized error handling
+   */
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'An unknown error occurred';
+    
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      errorMessage = `Client Error: ${error.error.message}`;
+    } else {
+      // Server-side error
+      if (error.error && error.error.message) {
+        errorMessage = error.error.message;
+      } else {
+        switch (error.status) {
+          case 400:
+            errorMessage = 'Bad Request: Please check your input data';
+            break;
+          case 401:
+            errorMessage = 'Unauthorized: Please log in again';
+            break;
+          case 403:
+            errorMessage = 'Forbidden: You do not have permission to perform this action';
+            break;
+          case 404:
+            errorMessage = 'Not Found: The requested resource was not found';
+            break;
+          case 500:
+            errorMessage = 'Internal Server Error: Please try again later';
+            break;
+          default:
+            errorMessage = `Server Error: ${error.status} - ${error.message}`;
+        }
+      }
+    }
+
+    console.error('Cities Service Error:', error);
+    return throwError(() => new Error(errorMessage));
+  }
 }
