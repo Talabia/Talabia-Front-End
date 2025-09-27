@@ -23,7 +23,7 @@ import {
   CitiesListRequest, 
   CitiesListResponse 
 } from '../models/city.models';
-import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
 
 @Component({
   selector: 'app-cities',
@@ -98,6 +98,12 @@ export class CitiesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    
+    // Force stop any pending requests
+    if (this.currentSearchRequest) {
+      this.currentSearchRequest.unsubscribe();
+    }
+    this.loading = false;
   }
 
   private initializeForm(): void {
@@ -158,16 +164,27 @@ export class CitiesComponent implements OnInit, OnDestroy {
     };
 
     this.currentSearchRequest = this.citiesService.getCitiesList(request)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        timeout(30000), // 30 second timeout
+        takeUntil(this.destroy$)
+      )
       .subscribe({
         next: (response: CitiesListResponse) => {
-          this.cities = response.data || [];
-          this.totalRecords = response.totalRecords || 0;
-          this.loading = false;
-          this.currentSearchRequest = undefined;
-          this.cdr.detectChanges();
+          try {
+            this.cities = response.data || [];
+            this.totalRecords = response.totalRecords || 0;
+            this.loading = false;
+            this.currentSearchRequest = undefined;
+            this.cdr.detectChanges();
+          } catch (error) {
+            console.error('Error processing response:', error);
+            this.loading = false;
+            this.currentSearchRequest = undefined;
+            this.cdr.detectChanges();
+          }
         },
         error: (error) => {
+          console.error('API Error:', error);
           this.loading = false;
           this.cities = [];
           this.totalRecords = 0;
@@ -205,10 +222,18 @@ export class CitiesComponent implements OnInit, OnDestroy {
   /**
    * Handle pagination change
    */
-  pageChange(event: { first: number; rows: number; }): void {
-    this.first = event.first;
-    this.rows = event.rows;
-    this.currentPage = Math.floor(event.first / event.rows) + 1;
+  pageChange(event: any): void {
+    // Prevent multiple rapid calls
+    if (this.loading) {
+      return;
+    }
+    
+    this.first = event.first || 0;
+    this.rows = event.rows || 10;
+    
+    // Calculate current page (API expects 1-based page numbers)
+    this.currentPage = Math.floor(this.first / this.rows) + 1;
+    
     this.loadCities();
   }
 
@@ -430,5 +455,17 @@ export class CitiesComponent implements OnInit, OnDestroy {
     }
 
     return 'Invalid input';
+  }
+
+  /**
+   * Force reset loading state (for debugging)
+   */
+  resetLoadingState(): void {
+    this.loading = false;
+    if (this.currentSearchRequest) {
+      this.currentSearchRequest.unsubscribe();
+      this.currentSearchRequest = undefined;
+    }
+    this.cdr.detectChanges();
   }
 }

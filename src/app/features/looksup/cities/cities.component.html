@@ -3,21 +3,18 @@
         <div class="action-container">
             <p-iconfield>
                 <p-inputicon class="pi pi-search" />
-                <input type="text" pInputText placeholder="Search cities..." 
-                    (input)="onSearch($event)"
-                    (keyup)="onSearchKeyup($event)"
-                    [value]="searchKeyword" />
+                <input type="text" pInputText placeholder="Search cities..." (input)="onSearch($event)"
+                    (keyup)="onSearchKeyup($event)" [value]="searchKeyword" />
 
             </p-iconfield>
             <p-divider layout="vertical" />
             <p-button (click)="showCreateDialog()" label="Create" icon="pi pi-plus" [disabled]="loading" />
         </div>
-
         <p-table [value]="cities" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
             [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading"
-            [showCurrentPageReport]="true">
+            [showCurrentPageReport]="true" paginatorPosition="bottom">
 
             <ng-template #header>
                 <tr>
@@ -44,17 +41,17 @@
 
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="3" class="text-center p-4">
+                    <td colspan="3">
                         @if (searchKeyword && searchKeyword.trim()) {
-                            <div class="flex flex-column align-items-center gap-2">
-                                <i class="pi pi-search" style="font-size: 2rem; color: var(--text-color-secondary);"></i>
-                                <span>No cities found matching "{{searchKeyword}}"</span>
-                            </div>
+                        <div class="empty-container">
+                            <i class="pi pi-search"></i>
+                            <h4>No cities found matching <strong>"{{searchKeyword}}"</strong></h4>
+                        </div>
                         } @else {
-                            <div class="flex flex-column align-items-center gap-2">
-                                <i class="pi pi-info-circle" style="font-size: 2rem; color: var(--text-color-secondary);"></i>
-                                <span>No cities available</span>
-                            </div>
+                        <div class="empty-container">
+                            <i class="pi pi-info-circle"></i>
+                            <h4>No cities available</h4>
+                        </div>
                         }
                     </td>
                 </tr>
