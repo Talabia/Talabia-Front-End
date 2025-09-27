@@ -56,6 +56,106 @@ export class CitiesService {
         id: 10,
         nameAr: 'حائل',
         nameEn: 'Hail',
+    },
+      {
+        id: 11,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 12,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 13,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 14,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 15,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 16,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 17,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 18,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 19,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 20,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 21,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 22,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 23,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 24,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 25,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 26,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 27,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 28,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 29,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
+    },
+      {
+        id: 30,
+        nameAr: 'حائل',
+        nameEn: 'Hail',
       }
     ]);
   }
