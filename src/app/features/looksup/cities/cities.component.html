@@ -3,7 +3,9 @@
         <div class="action-container">
             <p-iconfield>
                 <p-inputicon class="pi pi-search" />
-                <input type="text" pInputText placeholder="Search cities..." (input)="onSearch($event)"
+                <input type="text" pInputText placeholder="Search cities..." 
+                    (input)="onSearch($event)"
+                    (keyup)="onSearchKeyup($event)"
                     [value]="searchKeyword" />
 
             </p-iconfield>
@@ -43,11 +45,16 @@
             <ng-template pTemplate="emptymessage">
                 <tr>
                     <td colspan="3" class="text-center p-4">
-                        @if (searchKeyword || searchKeyword.trim()) {
-                        <div class="flex flex-column align-items-center gap-2">
-                            <i class="pi pi-search" style="font-size: 2rem; color: var(--text-color-secondary);"></i>
-                            <span>No cities found matching "{{searchKeyword}}"</span>
-                        </div>
+                        @if (searchKeyword && searchKeyword.trim()) {
+                            <div class="flex flex-column align-items-center gap-2">
+                                <i class="pi pi-search" style="font-size: 2rem; color: var(--text-color-secondary);"></i>
+                                <span>No cities found matching "{{searchKeyword}}"</span>
+                            </div>
+                        } @else {
+                            <div class="flex flex-column align-items-center gap-2">
+                                <i class="pi pi-info-circle" style="font-size: 2rem; color: var(--text-color-secondary);"></i>
+                                <span>No cities available</span>
+                            </div>
                         }
                     </td>
                 </tr>

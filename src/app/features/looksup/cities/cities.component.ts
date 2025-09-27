@@ -63,6 +63,7 @@ export class CitiesComponent implements OnInit, OnDestroy {
   // Search properties
   searchKeyword: string = '';
   private searchSubject = new Subject<string>();
+  private currentSearchRequest?: any;
   
   // Dialog properties
   visible: boolean = false;
@@ -110,15 +111,32 @@ export class CitiesComponent implements OnInit, OnDestroy {
   private setupSearchDebounce(): void {
     this.searchSubject
       .pipe(
-        debounceTime(300), // Reduced delay for better UX
         distinctUntilChanged(),
         takeUntil(this.destroy$)
       )
       .subscribe(searchTerm => {
-        this.searchKeyword = searchTerm;
+        const trimmedTerm = searchTerm.trim();
+        
+        // If search is empty, load immediately without debounce
+        if (!trimmedTerm) {
+          this.searchKeyword = '';
+          this.first = 0;
+          this.currentPage = 1;
+          this.loadCities();
+          return;
+        }
+        
+        // For non-empty search, use minimal debounce
+        this.searchKeyword = trimmedTerm;
         this.first = 0;
         this.currentPage = 1;
-        this.loadCities();
+        
+        // Use setTimeout for very short debounce only for typed searches
+        setTimeout(() => {
+          if (this.searchKeyword === trimmedTerm) {
+            this.loadCities();
+          }
+        }, 150); // Much faster debounce for typing
       });
   }
 
@@ -126,6 +144,11 @@ export class CitiesComponent implements OnInit, OnDestroy {
    * Load cities with pagination and search
    */
   loadCities(): void {
+    // Cancel previous request if still pending
+    if (this.currentSearchRequest) {
+      this.currentSearchRequest.unsubscribe();
+    }
+    
     this.loading = true;
     
     const request: CitiesListRequest = {
@@ -134,19 +157,21 @@ export class CitiesComponent implements OnInit, OnDestroy {
       currentPage: this.currentPage
     };
 
-    this.citiesService.getCitiesList(request)
+    this.currentSearchRequest = this.citiesService.getCitiesList(request)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: CitiesListResponse) => {
           this.cities = response.data || [];
           this.totalRecords = response.totalRecords || 0;
           this.loading = false;
+          this.currentSearchRequest = undefined;
           this.cdr.detectChanges();
         },
         error: (error) => {
           this.loading = false;
           this.cities = [];
           this.totalRecords = 0;
+          this.currentSearchRequest = undefined;
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
@@ -163,7 +188,18 @@ export class CitiesComponent implements OnInit, OnDestroy {
    */
   onSearch(event: any): void {
     const searchTerm = event.target.value || '';
-    this.searchSubject.next(searchTerm.trim());
+    this.searchSubject.next(searchTerm);
+  }
+
+  /**
+   * Handle keyup events for faster response on backspace/delete
+   */
+  onSearchKeyup(event: any): void {
+    const searchTerm = event.target.value || '';
+    // For backspace, delete, or when field becomes empty, trigger immediately
+    if (event.key === 'Backspace' || event.key === 'Delete' || !searchTerm.trim()) {
+      this.searchSubject.next(searchTerm);
+    }
   }
 
   /**
