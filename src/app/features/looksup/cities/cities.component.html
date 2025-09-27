@@ -5,22 +5,17 @@
                 <p-inputicon class="pi pi-search" />
                 <input type="text" pInputText placeholder="Search cities..." (input)="onSearch($event)"
                     [value]="searchKeyword" />
+
             </p-iconfield>
             <p-divider layout="vertical" />
             <p-button (click)="showCreateDialog()" label="Create" icon="pi pi-plus" [disabled]="loading" />
         </div>
 
-        <!-- Loading spinner -->
-        @if (loading) {
-        <div class="loading-container">
-            <p-progressSpinner strokeWidth="4" animationDuration="1s"></p-progressSpinner>
-        </div>
-        }
-
         <p-table [value]="cities" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
             [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading">
+            (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading"
+            [showCurrentPageReport]="true">
 
             <ng-template #header>
                 <tr>
@@ -36,22 +31,23 @@
                     <td>{{city.nameEn}}</td>
                     <td>
                         <div class="table-actions">
-                            <p-button icon="pi pi-pen-to-square" severity="success" pTooltip="Edit" [disabled]="loading"
+                            <p-button label="Edit" severity="success" [disabled]="loading"
                                 (click)="showEditDialog(city)" />
-                            <p-button icon="pi pi-times" severity="danger" pTooltip="Delete" [disabled]="loading"
+                            <p-button label="Delete" severity="danger" [disabled]="loading"
                                 (click)="confirmDelete($event, city)" />
                         </div>
                     </td>
                 </tr>
             </ng-template>
 
-            <ng-template #empty>
+            <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="3">
-                        @if (searchKeyword) {
-                        <span>No cities found matching "{{searchKeyword}}"</span>
-                        } @else {
-                        <span>No cities available</span>
+                    <td colspan="3" class="text-center p-4">
+                        @if (searchKeyword || searchKeyword.trim()) {
+                        <div class="flex flex-column align-items-center gap-2">
+                            <i class="pi pi-search" style="font-size: 2rem; color: var(--text-color-secondary);"></i>
+                            <span>No cities found matching "{{searchKeyword}}"</span>
+                        </div>
                         }
                     </td>
                 </tr>

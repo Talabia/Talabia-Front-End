@@ -110,7 +110,7 @@ export class CitiesComponent implements OnInit, OnDestroy {
   private setupSearchDebounce(): void {
     this.searchSubject
       .pipe(
-        debounceTime(500),
+        debounceTime(300), // Reduced delay for better UX
         distinctUntilChanged(),
         takeUntil(this.destroy$)
       )
@@ -134,36 +134,23 @@ export class CitiesComponent implements OnInit, OnDestroy {
       currentPage: this.currentPage
     };
 
-    console.log('Loading cities with request:', request);
-    
     this.citiesService.getCitiesList(request)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: CitiesListResponse) => {
-          console.log('Cities API Response:', response);
           this.cities = response.data || [];
           this.totalRecords = response.totalRecords || 0;
           this.loading = false;
-          console.log('Cities loaded:', this.cities.length, 'Total records:', this.totalRecords);
           this.cdr.detectChanges();
         },
         error: (error) => {
-          console.error('Cities API Error:', error);
           this.loading = false;
-          
-          // For testing purposes, add some mock data if API fails
-          this.cities = [
-            { id: 1, nameAr: 'الرياض', nameEn: 'Riyadh' },
-            { id: 2, nameAr: 'جدة', nameEn: 'Jeddah' },
-            { id: 3, nameAr: 'مكة المكرمة', nameEn: 'Mecca' }
-          ];
-          this.totalRecords = 3;
-          console.log('Using mock data due to API error');
-          
+          this.cities = [];
+          this.totalRecords = 0;
           this.messageService.add({
-            severity: 'warn',
-            summary: 'API Error - Using Mock Data',
-            detail: error.message || 'Failed to load cities from API, showing test data',
+            severity: 'error',
+            summary: 'Error',
+            detail: error.message || 'Failed to load cities',
             life: 5000
           });
           this.cdr.detectChanges();
@@ -175,8 +162,8 @@ export class CitiesComponent implements OnInit, OnDestroy {
    * Handle search input
    */
   onSearch(event: any): void {
-    const searchTerm = event.target.value;
-    this.searchSubject.next(searchTerm);
+    const searchTerm = event.target.value || '';
+    this.searchSubject.next(searchTerm.trim());
   }
 
   /**

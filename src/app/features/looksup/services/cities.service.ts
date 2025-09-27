@@ -34,17 +34,11 @@ export class CitiesService {
       params = params.set('SearchKeyword', request.searchKeyword.trim());
     }
 
-    const url = `${this.baseUrl}Cities/list`;
-    console.log('Making API call to:', url, 'with params:', params.toString());
-
     return this.http.get<any>(`${this.baseUrl}Cities/list`, { params })
       .pipe(
         map(response => {
-          console.log('Raw API Response:', response);
-          
-          // Handle different possible response structures
+          // Handle API response structure
           if (response && response.data) {
-            // If response has a data property (wrapped response)
             return {
               data: response.data,
               totalRecords: response.totalCount || response.totalRecords || 0,
@@ -52,28 +46,8 @@ export class CitiesService {
               pageSize: response.pageSize || request.pageSize,
               totalPages: response.totalPages || Math.ceil((response.totalCount || response.totalRecords || 0) / (response.pageSize || request.pageSize))
             };
-          } else if (Array.isArray(response)) {
-            // If response is directly an array
-            return {
-              data: response,
-              totalRecords: response.length,
-              currentPage: request.currentPage,
-              pageSize: request.pageSize,
-              totalPages: Math.ceil(response.length / request.pageSize)
-            };
-          } else if (response && response.cities) {
-            // If response has cities property
-            return {
-              data: response.cities,
-              totalRecords: response.totalRecords || response.cities.length,
-              currentPage: response.currentPage || request.currentPage,
-              pageSize: response.pageSize || request.pageSize,
-              totalPages: response.totalPages || Math.ceil((response.totalRecords || response.cities.length) / request.pageSize)
-            };
-          } else {
-            // Default structure
-            return response;
           }
+          return response;
         }),
         catchError(this.handleError)
       );
