@@ -3,6 +3,8 @@ import { CitiesComponent } from './features/looksup/cities/cities.component';
 import { ConditionsComponent } from './features/looksup/conditions/conditions.component';
 import { SparePartsStatusComponent } from './features/looksup/spare-parts-status/spare-parts-status.component';
 import { VehicleTypesComponent } from './features/looksup/vehicle-types/vehicle-types.component';
+import { VehicleMakersComponent } from './features/looksup/vehicle-makers/vehicle-makers.component';
+import { VehicleModelsComponent } from './features/looksup/vehicle-models/vehicle-models.component';
 
 export const routes: Routes = [
         {
@@ -23,6 +25,14 @@ export const routes: Routes = [
                 {
                     path: 'vehicle-types',
                     component: VehicleTypesComponent
+                },
+                {
+                    path: 'vehicle-makers',
+                    component: VehicleMakersComponent
+                },
+                {
+                    path: 'vehicle-models',
+                    component: VehicleModelsComponent
                 },
 
             ]
