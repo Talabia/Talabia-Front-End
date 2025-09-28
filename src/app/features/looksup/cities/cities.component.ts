@@ -23,7 +23,7 @@ import {
   CitiesListRequest, 
   CitiesListResponse 
 } from '../models/city.models';
-import { debounceTime, distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
+import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
 
 @Component({
   selector: 'app-cities',
