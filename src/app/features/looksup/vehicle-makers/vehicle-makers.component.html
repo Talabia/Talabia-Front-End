@@ -32,8 +32,7 @@
                     <td>
                         @if (vehicleMaker.logo) {
                         <div class="logo-container">
-                            <p-image [src]="vehicleMaker.logo" [alt]="vehicleMaker.nameEn" width="80" [preview]="true"
-                                class="logo-image" />
+                            <img [src]="vehicleMaker.logo" [alt]="vehicleMaker.nameEn" width="80" class="logo-image" />
                         </div>
                         } @else {
                         <div class="no-logo-container">

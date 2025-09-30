@@ -58,13 +58,10 @@
   justify-content: center; 
     
   .logo-image {
-    img{
-      filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(288deg) brightness(103%) contrast(101%) !important;
-      width: 80px;
-      object-fit: contain !important;
-      object-position: center !important;
-      aspect-ratio: 1 !important;      
-    }
+    width: 80px;
+    object-fit: contain !important;
+    object-position: center !important;
+    aspect-ratio: 1 !important;      
     :host-context(.my-app-dark) & {
       filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(288deg) brightness(103%) contrast(101%) !important;
     }
@@ -100,7 +97,6 @@
     object-position: center !important;
     aspect-ratio: 1 !important;
     
-    // Apply white filter in dark theme only
     :host-context(.my-app-dark) & {
       filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(288deg) brightness(103%) contrast(101%);
     }
