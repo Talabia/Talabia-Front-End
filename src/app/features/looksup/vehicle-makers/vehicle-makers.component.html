@@ -31,10 +31,12 @@
                     <td>{{vehicleMaker.nameEn}}</td>
                     <td>
                         @if (vehicleMaker.logo) {
-                        <p-image [src]="vehicleMaker.logo" [alt]="vehicleMaker.nameEn" width="80" height="80"
-                            [preview]="true" imageClass="logo-image" />
+                        <div class="logo-container">
+                            <p-image [src]="vehicleMaker.logo" [alt]="vehicleMaker.nameEn" width="80" [preview]="true"
+                                class="logo-image" />
+                        </div>
                         } @else {
-                        <div class="no-logo">
+                        <div class="no-logo-container">
                             <i class="pi pi-image"></i>
                             <span>No Logo</span>
                         </div>
@@ -105,26 +107,19 @@
 
         <!-- Logo Upload Section -->
         <div class="input-container">
-            <label class="font-semibold w-24">Logo</label>
-
+            <p-fileupload mode="basic" name="logo" chooseIcon="pi pi-upload" accept="image/*" maxFileSize="5000000"
+                (onSelect)="onImageUpload($event)" [auto]="false" chooseLabel="Upload image"
+                [disabled]="loading || isImageUploading" />
             @if (uploadedImageUrl) {
             <div class="uploaded-image-container">
-                <p-image [src]="uploadedImageUrl" alt="Vehicle Maker Logo" width="100" height="100" [preview]="true"
-                    imageClass="uploaded-logo" />
-                <p-button icon="pi pi-times" severity="danger" size="small" (click)="removeImage()" [disabled]="loading"
-                    pTooltip="Remove Image" tooltipPosition="top" />
+                <img [src]="uploadedImageUrl" class="uploaded-image" />
+                <p-button icon="pi pi-times" [text]="true" severity="danger" size="small" (click)="removeImage()"
+                    [disabled]="loading" />
             </div>
             }
 
-            <p-fileupload mode="basic" name="logo" chooseIcon="pi pi-upload" accept="image/*" maxFileSize="5000000"
-                (onSelect)="onImageUpload($event)" [auto]="false" chooseLabel="Choose Logo"
-                [disabled]="loading || isImageUploading" />
-
             @if (isImageUploading) {
-            <div class="upload-progress">
-                <p-progressSpinner [style]="{'width': '20px', 'height': '20px'}" />
-                <span>Uploading...</span>
-            </div>
+            <p-progressSpinner strokeWidth="5" [style]="{ width: '16px', height: '16px'}" />
             }
         </div>
 
