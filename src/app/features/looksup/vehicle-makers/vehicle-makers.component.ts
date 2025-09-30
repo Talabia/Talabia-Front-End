@@ -14,7 +14,7 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { FileUpload, FileUploadEvent, FileUploadModule } from 'primeng/fileupload';
+import { FileUpload, FileUploadEvent, FileUploadModule, FileSelectEvent } from 'primeng/fileupload';
 import { ImageModule } from 'primeng/image';
 import { VehicleMakersService } from '../services/vehicle-makers.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -273,7 +273,7 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
   /**
    * Handle image upload
    */
-  onImageUpload(event: FileUploadEvent): void {
+  onImageUpload(event: FileSelectEvent): void {
     const file = event.files[0];
     if (!file) return;
 
@@ -328,13 +328,16 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
 
     this.loading = true;
     const formValue = this.vehicleMakerForm.value;
+    
+    // Use uploadedImageUrl as fallback if form logo is empty
+    const logoUrl = formValue.logo || this.uploadedImageUrl || '';
 
     if (this.isEditMode) {
       const editRequest: EditVehicleMakerRequest = {
         id: formValue.id,
         nameAr: formValue.nameAr.trim(),
         nameEn: formValue.nameEn.trim(),
-        logo: formValue.logo || ''
+        logo: logoUrl
       };
 
       this.vehicleMakersService.editVehicleMaker(editRequest)
@@ -366,7 +369,7 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
       const createRequest: CreateVehicleMakerRequest = {
         nameAr: formValue.nameAr.trim(),
         nameEn: formValue.nameEn.trim(),
-        logo: formValue.logo || ''
+        logo: logoUrl
       };
 
       this.vehicleMakersService.createVehicleMaker(createRequest)

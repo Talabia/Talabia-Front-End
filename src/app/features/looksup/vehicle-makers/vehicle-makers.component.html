@@ -117,7 +117,7 @@
             }
 
             <p-fileupload mode="basic" name="logo" chooseIcon="pi pi-upload" accept="image/*" maxFileSize="5000000"
-                (onUpload)="onImageUpload($event)" [auto]="true" chooseLabel="Choose Logo"
+                (onSelect)="onImageUpload($event)" [auto]="false" chooseLabel="Choose Logo"
                 [disabled]="loading || isImageUploading" />
 
             @if (isImageUploading) {
