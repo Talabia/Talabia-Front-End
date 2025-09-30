@@ -10,7 +10,7 @@
             <p-divider layout="vertical" />
             <p-button (click)="showCreateDialog()" label="Create" icon="pi pi-plus" [disabled]="loading" />
         </div>
-        <p-table [value]="cities" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
+        <p-table [value]="vehicleMakers" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
             [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading"
@@ -20,22 +20,32 @@
                 <tr>
                     <th style="min-width:120px">Name AR</th>
                     <th style="min-width:120px">Name EN</th>
-                    <th style="min-width:120px">Image</th>
+                    <th style="min-width:120px">Logo</th>
                     <th style="min-width:120px">Actions</th>
                 </tr>
             </ng-template>
 
-            <ng-template #body let-city>
+            <ng-template #body let-vehicleMaker>
                 <tr>
-                    <td>{{city.nameAr}}</td>
-                    <td>{{city.nameEn}}</td>
-                    <td><img [src]="city.image" alt="city.image" width="50" /></td>
+                    <td>{{vehicleMaker.nameAr}}</td>
+                    <td>{{vehicleMaker.nameEn}}</td>
+                    <td>
+                        @if (vehicleMaker.logo) {
+                        <p-image [src]="vehicleMaker.logo" [alt]="vehicleMaker.nameEn" width="80" height="80"
+                            [preview]="true" imageClass="logo-image" />
+                        } @else {
+                        <div class="no-logo">
+                            <i class="pi pi-image"></i>
+                            <span>No Logo</span>
+                        </div>
+                        }
+                    </td>
                     <td>
                         <div class="table-actions">
                             <p-button label="Edit" severity="success" [disabled]="loading"
-                                (click)="showEditDialog(city)" />
+                                (click)="showEditDialog(vehicleMaker)" />
                             <p-button label="Delete" severity="danger" [disabled]="loading"
-                                (click)="confirmDelete($event, city)" />
+                                (click)="confirmDelete($event, vehicleMaker)" />
                         </div>
                     </td>
                 </tr>
@@ -47,12 +57,12 @@
                         @if (searchKeyword && searchKeyword.trim()) {
                         <div class="empty-container">
                             <i class="pi pi-search"></i>
-                            <h4>No cities found matching <strong>"{{searchKeyword}}"</strong></h4>
+                            <h4>No vehicle makers found matching <strong>"{{searchKeyword}}"</strong></h4>
                         </div>
                         } @else {
                         <div class="empty-container">
                             <i class="pi pi-info-circle"></i>
-                            <h4>No cities available</h4>
+                            <h4>No vehicle makers available</h4>
                         </div>
                         }
                     </td>
@@ -63,17 +73,17 @@
 </p-card>
 
 <!-- Create/Edit Dialog -->
-<p-dialog [header]="dialogTitle" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem' }" [closable]="!loading"
+<p-dialog [header]="dialogTitle" [modal]="true" [(visible)]="visible" [style]="{ width: '35rem' }" [closable]="!loading"
     [draggable]="false" [resizable]="false">
 
-    <form [formGroup]="cityForm" (ngSubmit)="saveCity()">
+    <form [formGroup]="vehicleMakerForm" (ngSubmit)="saveVehicleMaker()">
         <div class="input-container">
             <label for="nameAr" class="font-semibold w-24">Name AR <span>*</span></label>
             <input pInputText id="nameAr" formControlName="nameAr" class="flex-auto" autocomplete="off"
                 [disabled]="loading" [invalid]="hasError('nameAr')" />
 
-            @if (hasError('nameAr') || cityForm.get('nameAr')?.dirty
-            || cityForm.get('nameAr')?.touched ) {
+            @if (hasError('nameAr') || vehicleMakerForm.get('nameAr')?.dirty
+            || vehicleMakerForm.get('nameAr')?.touched ) {
             <p-message severity="error" size="small" variant="simple">
                 {{getErrorMessage('nameAr')}}
             </p-message>
@@ -85,22 +95,43 @@
             <input pInputText id="nameEn" formControlName="nameEn" class="flex-auto" autocomplete="off"
                 [disabled]="loading" [invalid]="hasError('nameEn')" />
 
-            @if (hasError('nameEn') || cityForm.get('nameEn')?.dirty
-            || cityForm.get('nameEn')?.touched ) {
+            @if (hasError('nameEn') || vehicleMakerForm.get('nameEn')?.dirty
+            || vehicleMakerForm.get('nameEn')?.touched ) {
             <p-message severity="error" size="small" variant="simple">
                 {{getErrorMessage('nameEn')}}
             </p-message>
             }
         </div>
+
+        <!-- Logo Upload Section -->
         <div class="input-container">
-            <p-fileupload mode="basic" name="demo[]" chooseIcon="pi pi-upload"
-                url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"
-                (onUpload)="onBasicUploadAuto($event)" [auto]="true" chooseLabel="Browse" />
+            <label class="font-semibold w-24">Logo</label>
+
+            @if (uploadedImageUrl) {
+            <div class="uploaded-image-container">
+                <p-image [src]="uploadedImageUrl" alt="Vehicle Maker Logo" width="100" height="100" [preview]="true"
+                    imageClass="uploaded-logo" />
+                <p-button icon="pi pi-times" severity="danger" size="small" (click)="removeImage()" [disabled]="loading"
+                    pTooltip="Remove Image" tooltipPosition="top" />
+            </div>
+            }
+
+            <p-fileupload mode="basic" name="logo" chooseIcon="pi pi-upload" accept="image/*" maxFileSize="5000000"
+                (onUpload)="onImageUpload($event)" [auto]="true" chooseLabel="Choose Logo"
+                [disabled]="loading || isImageUploading" />
+
+            @if (isImageUploading) {
+            <div class="upload-progress">
+                <p-progressSpinner [style]="{'width': '20px', 'height': '20px'}" />
+                <span>Uploading...</span>
+            </div>
+            }
         </div>
+
         <div class="dialog-footer">
             <p-button label="Cancel" severity="secondary" type="button" [disabled]="loading" (click)="cancelDialog()" />
             <p-button [label]="isEditMode ? 'Update' : 'Create'" type="submit" [loading]="loading"
-                [disabled]="cityForm.invalid && submitted" />
+                [disabled]="vehicleMakerForm.invalid && submitted" />
         </div>
     </form>
 </p-dialog>

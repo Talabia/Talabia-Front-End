@@ -14,16 +14,17 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { FileUpload, FileUploadEvent } from 'primeng/fileupload';
-import { CitiesService } from '../services/cities.service';
+import { FileUpload, FileUploadEvent, FileUploadModule } from 'primeng/fileupload';
+import { ImageModule } from 'primeng/image';
+import { VehicleMakersService } from '../services/vehicle-makers.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { 
-  City, 
-  CreateCityRequest, 
-  EditCityRequest, 
-  CitiesListRequest, 
-  CitiesListResponse 
-} from '../models/city.models';
+  VehicleMaker, 
+  CreateVehicleMakerRequest, 
+  EditVehicleMakerRequest, 
+  VehicleMakersListRequest, 
+  VehicleMakersListResponse 
+} from '../models/vehicle-makers.models';
 import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
 @Component({
   selector: 'app-vehicle-makers',
@@ -43,7 +44,8 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
     ConfirmPopupModule,
     MessageModule,
     ProgressSpinnerModule,
-    FileUpload
+    FileUploadModule,
+    ImageModule
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './vehicle-makers.component.html',
@@ -53,7 +55,7 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
 export class VehicleMakersComponent implements OnInit, OnDestroy {
 
   // Data properties
-  cities: City[] = [];
+  vehicleMakers: VehicleMaker[] = [];
   totalRecords: number = 0;
   loading: boolean = false;
   
@@ -70,11 +72,15 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
   // Dialog properties
   visible: boolean = false;
   isEditMode: boolean = false;
-  dialogTitle: string = 'Create City';
+  dialogTitle: string = 'Create Vehicle Maker';
   
   // Form properties
-  cityForm!: FormGroup;
+  vehicleMakerForm!: FormGroup;
   submitted: boolean = false;
+  
+  // Image upload properties
+  uploadedImageUrl: string = '';
+  isImageUploading: boolean = false;
   
   // Validation patterns
   private readonly arabicPattern = /^(?!\s+$)(?!\d+$)(?![^\w\s\u0600-\u06FF]+$)(?=.*[\u0600-\u06FF])[\u0600-\u06FF0-9][\u0600-\u06FF0-9\s.,!?@#$%^&()|_+=<>:;\-\[\]]*$/;
@@ -83,7 +89,7 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private citiesService: CitiesService, 
+    private vehicleMakersService: VehicleMakersService, 
     private cdr: ChangeDetectorRef,
     private confirmationService: ConfirmationService, 
     private messageService: MessageService,
@@ -94,7 +100,7 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadCities();
+    this.loadVehicleMakers();
   }
 
   ngOnDestroy(): void {
@@ -109,10 +115,11 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
   }
 
   private initializeForm(): void {
-    this.cityForm = this.fb.group({
+    this.vehicleMakerForm = this.fb.group({
       id: [0],
       nameAr: ['', [Validators.required, Validators.pattern(this.arabicPattern)]],
-      nameEn: ['', [Validators.required, Validators.pattern(this.englishPattern)]]
+      nameEn: ['', [Validators.required, Validators.pattern(this.englishPattern)]],
+      logo: ['']
     });
   }
 
@@ -130,7 +137,7 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
           this.searchKeyword = '';
           this.first = 0;
           this.currentPage = 1;
-          this.loadCities();
+          this.loadVehicleMakers();
           return;
         }
         
@@ -142,16 +149,16 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
         // Use setTimeout for very short debounce only for typed searches
         setTimeout(() => {
           if (this.searchKeyword === trimmedTerm) {
-            this.loadCities();
+            this.loadVehicleMakers();
           }
         }, 150); // Much faster debounce for typing
       });
   }
 
   /**
-   * Load cities with pagination and search
+   * Load vehicle makers with pagination and search
    */
-  loadCities(): void {
+  loadVehicleMakers(): void {
     // Cancel previous request if still pending
     if (this.currentSearchRequest) {
       this.currentSearchRequest.unsubscribe();
@@ -159,21 +166,21 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
     
     this.loading = true;
     
-    const request: CitiesListRequest = {
+    const request: VehicleMakersListRequest = {
       searchKeyword: this.searchKeyword,
       pageSize: this.rows,
       currentPage: this.currentPage
     };
 
-    this.currentSearchRequest = this.citiesService.getCitiesList(request)
+    this.currentSearchRequest = this.vehicleMakersService.getVehicleMakersList(request)
       .pipe(
         timeout(30000), // 30 second timeout
         takeUntil(this.destroy$)
       )
       .subscribe({
-        next: (response: CitiesListResponse) => {
+        next: (response: VehicleMakersListResponse) => {
           try {
-            this.cities = response.data || [];
+            this.vehicleMakers = response.data || [];
             this.totalRecords = response.totalRecords || 0;
             this.loading = false;
             this.currentSearchRequest = undefined;
@@ -185,16 +192,16 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
             this.cdr.detectChanges();
           }
         },
-        error: (error) => {
+        error: (error: any) => {
           console.error('API Error:', error);
           this.loading = false;
-          this.cities = [];
+          this.vehicleMakers = [];
           this.totalRecords = 0;
           this.currentSearchRequest = undefined;
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: error.message || 'Failed to load cities',
+            detail: error.message || 'Failed to load vehicle makers',
             life: 5000
           });
           this.cdr.detectChanges();
@@ -236,7 +243,7 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
     // Calculate current page (API expects 1-based page numbers)
     this.currentPage = Math.floor(this.first / this.rows) + 1;
     
-    this.loadCities();
+    this.loadVehicleMakers();
   }
 
   /**
@@ -244,8 +251,9 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
    */
   showCreateDialog(): void {
     this.isEditMode = false;
-    this.dialogTitle = 'Create City';
-    this.cityForm.reset({ id: 0 });
+    this.dialogTitle = 'Create Vehicle Maker';
+    this.vehicleMakerForm.reset({ id: 0, logo: '' });
+    this.uploadedImageUrl = '';
     this.submitted = false;
     this.visible = true;
   }
@@ -253,36 +261,83 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
   /**
    * Show edit dialog
    */
-  showEditDialog(city: City): void {
+  showEditDialog(vehicleMaker: VehicleMaker): void {
     this.isEditMode = true;
-    this.dialogTitle = 'Edit City';
-    this.cityForm.patchValue(city);
+    this.dialogTitle = 'Edit Vehicle Maker';
+    this.vehicleMakerForm.patchValue(vehicleMaker);
+    this.uploadedImageUrl = vehicleMaker.logo || '';
     this.submitted = false;
     this.visible = true;
   }
 
   /**
-   * Save city (create or edit)
+   * Handle image upload
    */
-  saveCity(): void {
+  onImageUpload(event: FileUploadEvent): void {
+    const file = event.files[0];
+    if (!file) return;
+
+    this.isImageUploading = true;
+    
+    this.vehicleMakersService.uploadImage(file)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (imageUrl: string) => {
+          this.uploadedImageUrl = imageUrl;
+          this.vehicleMakerForm.patchValue({ logo: imageUrl });
+          this.isImageUploading = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Image uploaded successfully',
+            life: 3000
+          });
+          this.cdr.detectChanges();
+        },
+        error: (error: any) => {
+          this.isImageUploading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error.message || 'Failed to upload image',
+            life: 5000
+          });
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  /**
+   * Remove uploaded image
+   */
+  removeImage(): void {
+    this.uploadedImageUrl = '';
+    this.vehicleMakerForm.patchValue({ logo: '' });
+  }
+
+  /**
+   * Save vehicle maker (create or edit)
+   */
+  saveVehicleMaker(): void {
     this.submitted = true;
     
-    if (this.cityForm.invalid) {
+    if (this.vehicleMakerForm.invalid) {
       this.markFormGroupTouched();
       return;
     }
 
     this.loading = true;
-    const formValue = this.cityForm.value;
+    const formValue = this.vehicleMakerForm.value;
 
     if (this.isEditMode) {
-      const editRequest: EditCityRequest = {
+      const editRequest: EditVehicleMakerRequest = {
         id: formValue.id,
         nameAr: formValue.nameAr.trim(),
-        nameEn: formValue.nameEn.trim()
+        nameEn: formValue.nameEn.trim(),
+        logo: formValue.logo || ''
       };
 
-      this.citiesService.editCity(editRequest)
+      this.vehicleMakersService.editVehicleMaker(editRequest)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
@@ -291,29 +346,30 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
-              detail: 'City updated successfully',
+              detail: 'Vehicle maker updated successfully',
               life: 3000
             });
-            this.loadCities();
+            this.loadVehicleMakers();
           },
-          error: (error) => {
+          error: (error: any) => {
             this.loading = false;
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: error.message || 'Failed to update city',
+              detail: error.message || 'Failed to update vehicle maker',
               life: 5000
             });
             this.cdr.detectChanges();
           }
         });
     } else {
-      const createRequest: CreateCityRequest = {
+      const createRequest: CreateVehicleMakerRequest = {
         nameAr: formValue.nameAr.trim(),
-        nameEn: formValue.nameEn.trim()
+        nameEn: formValue.nameEn.trim(),
+        logo: formValue.logo || ''
       };
 
-      this.citiesService.createCity(createRequest)
+      this.vehicleMakersService.createVehicleMaker(createRequest)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
@@ -322,17 +378,17 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
-              detail: 'City created successfully',
+              detail: 'Vehicle maker created successfully',
               life: 3000
             });
-            this.loadCities();
+            this.loadVehicleMakers();
           },
-          error: (error) => {
+          error: (error: any) => {
             this.loading = false;
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: error.message || 'Failed to create city',
+              detail: error.message || 'Failed to create vehicle maker',
               life: 5000
             });
             this.cdr.detectChanges();
@@ -342,12 +398,12 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Confirm and delete city
+   * Confirm and delete vehicle maker
    */
-  confirmDelete(event: Event, city: City): void {
+  confirmDelete(event: Event, vehicleMaker: VehicleMaker): void {
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
-      message: `Are you sure you want to delete "${city.nameEn}" (${city.nameAr})?`,
+      message: `Are you sure you want to delete "${vehicleMaker.nameEn}" (${vehicleMaker.nameAr})?`,
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
         label: 'Cancel',
@@ -359,18 +415,18 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
         severity: 'danger'
       },
       accept: () => {
-        this.deleteCity(city.id);
+        this.deleteVehicleMaker(vehicleMaker.id);
       }
     });
   }
 
   /**
-   * Delete city
+   * Delete vehicle maker
    */
-  private deleteCity(cityId: number): void {
+  private deleteVehicleMaker(vehicleMakerId: number): void {
     this.loading = true;
     
-    this.citiesService.deleteCity(cityId)
+    this.vehicleMakersService.deleteVehicleMaker(vehicleMakerId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -378,17 +434,17 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
-            detail: 'City deleted successfully',
+            detail: 'Vehicle maker deleted successfully',
             life: 3000
           });
-          this.loadCities();
+          this.loadVehicleMakers();
         },
-        error: (error) => {
+        error: (error: any) => {
           this.loading = false;
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: error.message || 'Failed to delete city',
+            detail: error.message || 'Failed to delete vehicle maker',
             life: 5000
           });
           this.cdr.detectChanges();
@@ -402,15 +458,16 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
   cancelDialog(): void {
     this.visible = false;
     this.submitted = false;
-    this.cityForm.reset({ id: 0 });
+    this.vehicleMakerForm.reset({ id: 0, logo: '' });
+    this.uploadedImageUrl = '';
   }
 
   /**
    * Mark all form controls as touched for validation display
    */
   private markFormGroupTouched(): void {
-    Object.keys(this.cityForm.controls).forEach(key => {
-      const control = this.cityForm.get(key);
+    Object.keys(this.vehicleMakerForm.controls).forEach(key => {
+      const control = this.vehicleMakerForm.get(key);
       control?.markAsTouched();
     });
     this.cdr.detectChanges();
@@ -420,7 +477,7 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
    * Get form control for template access
    */
   getFormControl(controlName: string) {
-    return this.cityForm.get(controlName);
+    return this.vehicleMakerForm.get(controlName);
   }
 
   /**
@@ -470,7 +527,4 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
     }
     this.cdr.detectChanges();
   }
-  onBasicUploadAuto(event: FileUploadEvent) {
-    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Auto Mode' });
-}
 }
