@@ -1,1 +1,147 @@
-<p>advertisement-management works!</p>,
+<p-card header="Advertisement Management">
+    <div class="card">
+        <div class="action-container">
+            <p-iconfield>
+                <p-inputicon class="pi pi-search" />
+                <input type="text" pInputText placeholder="Search by title..." (input)="onSearch($event)"
+                    (keyup)="onSearchKeyup($event)" [value]="searchKeyword" />
+            </p-iconfield>
+
+            <p-select [options]="statusOptions" [(ngModel)]="statusFilter" optionLabel="label"
+                placeholder="Filter by status" (onChange)="onStatusFilterChange()" [style]="{ width: '200px' }"
+                [disabled]="loading" />
+
+            <p-divider layout="vertical" />
+            <p-button (click)="showCreateDialog()" label="Create" icon="pi pi-plus" [disabled]="loading" />
+        </div>
+        <p-table [value]="advertisements" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
+            [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading"
+            [showCurrentPageReport]="true" paginatorPosition="bottom">
+
+            <ng-template #header>
+                <tr>
+                    <th style="min-width:200px">Title</th>
+                    <th style="min-width:150px">Image</th>
+                    <th style="min-width:100px">Status</th>
+                    <th style="min-width:150px">Actions</th>
+                </tr>
+            </ng-template>
+
+            <ng-template #body let-advertisement>
+                <tr>
+                    <td>{{advertisement.title}}</td>
+                    <td>
+                        @if (advertisement.imageUrl) {
+                        <div class="image-container">
+                            <img [src]="advertisement.imageUrl" [alt]="advertisement.title" width="100"
+                                class="ad-image" />
+                        </div>
+                        } @else {
+                        <div class="no-image-container">
+                            <i class="pi pi-image"></i>
+                            <span>No Image</span>
+                        </div>
+                        }
+                    </td>
+                    <td>
+                        @if (advertisement.isActive) {
+                        <p-tag severity="success" value="Active" />
+                        } @else {
+                        <p-tag severity="warn" value="Inactive" />
+                        }
+                    </td>
+                    <td>
+                        <div class="table-actions">
+                            <p-button label="Edit" severity="success" [disabled]="loading"
+                                (click)="showEditDialog(advertisement)" />
+                            <p-button label="Delete" severity="danger" [disabled]="loading"
+                                (click)="confirmDelete($event, advertisement)" />
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">
+                        @if (searchKeyword && searchKeyword.trim()) {
+                        <div class="empty-container">
+                            <i class="pi pi-search"></i>
+                            <h4>No advertisements found matching <strong>"{{searchKeyword}}"</strong></h4>
+                        </div>
+                        } @else {
+                        <div class="empty-container">
+                            <i class="pi pi-info-circle"></i>
+                            <h4>No advertisements available</h4>
+                        </div>
+                        }
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</p-card>
+
+<!-- Create/Edit Dialog -->
+<p-dialog [header]="dialogTitle" [modal]="true" [(visible)]="visible" [style]="{ width: '35rem' }" [closable]="!loading"
+    [draggable]="false" [resizable]="false">
+
+    <form [formGroup]="advertisementForm" (ngSubmit)="saveAdvertisement()">
+        <div class="input-container">
+            <label for="title" class="font-semibold w-24">Title <span>*</span></label>
+            <input pInputText id="title" formControlName="title" class="flex-auto" autocomplete="off"
+                [disabled]="loading" [invalid]="hasError('title')" />
+
+            @if (hasError('title') || advertisementForm.get('title')?.dirty
+            || advertisementForm.get('title')?.touched ) {
+            <p-message severity="error" size="small" variant="simple">
+                {{getErrorMessage('title')}}
+            </p-message>
+            }
+        </div>
+
+        <!-- Status Toggle -->
+        <div class="input-container">
+            <label for="isActive" class="font-semibold w-24">Status <span>*</span></label>
+            <p-select [options]="[{label: 'Active', value: true}, {label: 'Inactive', value: false}]"
+                formControlName="isActive" optionLabel="label" placeholder="Select status" [disabled]="loading" />
+        </div>
+
+        <!-- Image Upload Section -->
+        <div class="input-container">
+            <label class="font-semibold w-24">Image <span>*</span></label>
+            <p-fileupload mode="basic" name="imageUrl" chooseIcon="pi pi-upload" accept="image/*" maxFileSize="5000000"
+                (onSelect)="onImageUpload($event)" [auto]="false" chooseLabel="Upload image"
+                [disabled]="loading || isImageUploading" />
+
+            @if (uploadedImageUrl) {
+            <div class="uploaded-image-container">
+                <img [src]="uploadedImageUrl" class="uploaded-image" />
+                <p-button icon="pi pi-times" [text]="true" severity="danger" size="small" (click)="removeImage()"
+                    [disabled]="loading" />
+            </div>
+            }
+
+            @if (isImageUploading) {
+            <p-progressSpinner strokeWidth="5" [style]="{ width: '16px', height: '16px'}" />
+            }
+
+            @if (hasError('imageUrl')) {
+            <p-message severity="error" size="small" variant="simple">
+                {{getErrorMessage('imageUrl')}}
+            </p-message>
+            }
+        </div>
+
+        <div class="dialog-footer">
+            <p-button label="Cancel" severity="secondary" type="button" [disabled]="loading" (click)="cancelDialog()" />
+            <p-button [label]="isEditMode ? 'Update' : 'Create'" type="submit" [loading]="loading"
+                [disabled]="advertisementForm.invalid && submitted" />
+        </div>
+    </form>
+</p-dialog>
+
+<p-toast />
+<p-confirmpopup />

@@ -17,7 +17,7 @@ export class SideBarComponent implements OnInit {
   @Input() hidden: boolean | undefined;
 
   menuItems = [
-    { label: 'Dashboard', icon: 'pi pi-home', routerLink: ['/dashboard'] }  ];
+    { label: 'advertisement', icon: 'pi pi-home', routerLink: ['/advertisement/advertisement-management'] }  ];
   items: MenuItem[] | undefined;
 
   constructor(private router: Router) {}
@@ -57,6 +57,11 @@ export class SideBarComponent implements OnInit {
             label: 'Vehicle Models',
             icon: 'pi pi-file',
             routerLink: '/looksup/vehicle-models',
+          },
+          {
+            label: 'Advertisements',
+            icon: 'pi pi-file',
+            routerLink: '/advertisement/advertisement-management',
           },
         ],
       }

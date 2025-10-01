@@ -5,6 +5,7 @@ import { SparePartsStatusComponent } from './features/looksup/spare-parts-status
 import { VehicleTypesComponent } from './features/looksup/vehicle-types/vehicle-types.component';
 import { VehicleMakersComponent } from './features/looksup/vehicle-makers/vehicle-makers.component';
 import { VehicleModelsComponent } from './features/looksup/vehicle-models/vehicle-models.component';
+import { AdvertisementManagementComponent } from './features/advertisement/advertisement-management/advertisement-management.component';
 
 export const routes: Routes = [
         {
@@ -35,6 +36,15 @@ export const routes: Routes = [
                     component: VehicleModelsComponent
                 },
 
+            ]
+        },
+        {
+            path: 'advertisement',
+            children: [
+                {
+                    path: 'advertisement-management',
+                    component: AdvertisementManagementComponent
+                },
             ]
         }
 ];
