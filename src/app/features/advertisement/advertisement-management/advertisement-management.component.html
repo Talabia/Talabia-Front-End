@@ -7,7 +7,7 @@
                     (keyup)="onSearchKeyup($event)" [value]="searchKeyword" />
             </p-iconfield>
 
-            <p-select [options]="statusOptions" [(ngModel)]="statusFilter" optionLabel="label"
+            <p-select [options]="statusOptions" [(ngModel)]="statusFilter" optionLabel="label" optionValue="value"
                 placeholder="Filter by status" (onChange)="onStatusFilterChange()" [style]="{ width: '200px' }"
                 [disabled]="loading" />
 

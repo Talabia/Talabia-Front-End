@@ -17,7 +17,7 @@ export class SideBarComponent implements OnInit {
   @Input() hidden: boolean | undefined;
 
   menuItems = [
-    { label: 'advertisement', icon: 'pi pi-home', routerLink: ['/advertisement/advertisement-management'] }  ];
+    { label: 'advertisement', icon: 'pi pi-bullseye', routerLink: ['/advertisement/advertisement-management'] }  ];
   items: MenuItem[] | undefined;
 
   constructor(private router: Router) {}
