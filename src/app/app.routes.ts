@@ -8,6 +8,11 @@ import { VehicleModelsComponent } from './features/looksup/vehicle-models/vehicl
 import { AdvertisementManagementComponent } from './features/advertisement/advertisement-management/advertisement-management.component';
 
 export const routes: Routes = [
+    {
+        path: '',
+                       component: AdvertisementManagementComponent
+
+    },
         {
             path: 'looksup',
             children: [

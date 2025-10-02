@@ -57,12 +57,7 @@ export class SideBarComponent implements OnInit {
             label: 'Vehicle Models',
             icon: 'pi pi-file',
             routerLink: '/looksup/vehicle-models',
-          },
-          {
-            label: 'Advertisements',
-            icon: 'pi pi-file',
-            routerLink: '/advertisement/advertisement-management',
-          },
+          }
         ],
       }
     ];
