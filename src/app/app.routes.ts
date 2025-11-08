@@ -8,6 +8,7 @@ import { VehicleModelsComponent } from './features/looksup/vehicle-models/vehicl
 import { AdvertisementManagementComponent } from './features/advertisement/advertisement-management/advertisement-management.component';
 import { ThemeManagementComponent } from './features/application theme/theme management/theme management.component';
 import { CustomerSupportMangementComponent } from './features/customer-support/customer-support-mangement/customer-support-mangement.component';
+import { UserAccountManagementComponent } from './features/users/user-account-management/user-account-management.component';
 
 export const routes: Routes = [
   {
@@ -41,6 +42,15 @@ export const routes: Routes = [
         path: 'vehicle-models',
         component: VehicleModelsComponent,
       },
+    ],
+  },
+    {
+    path: 'users',
+    children: [
+      {
+        path: 'user-management',
+        component: UserAccountManagementComponent,
+      }
     ],
   },
   {
