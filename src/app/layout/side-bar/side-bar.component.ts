@@ -22,7 +22,11 @@ export class SideBarComponent implements OnInit {
      },
      { label: 'theme', icon: 'pi pi-palette',
       routerLink: ['/application-theme/theme-management']
-     }  ];
+     } ,
+     { label: 'customer support', icon: 'pi pi-megaphone',
+      routerLink: ['/customer-support/customer-support-mangement']
+     } 
+     ];
   items: MenuItem[] | undefined;
 
   constructor(private router: Router) {}
