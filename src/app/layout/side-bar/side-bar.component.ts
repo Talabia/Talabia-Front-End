@@ -20,7 +20,7 @@ export class SideBarComponent implements OnInit {
     { label: 'advertisement', icon: 'pi pi-bullseye',
       routerLink: ['/advertisement/advertisement-management']
      },
-     { label: 'theme', icon: 'pi pi-bullseye',
+     { label: 'theme', icon: 'pi pi-palette',
       routerLink: ['/application-theme/theme-management']
      }  ];
   items: MenuItem[] | undefined;
