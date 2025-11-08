@@ -6,6 +6,7 @@ import { VehicleTypesComponent } from './features/looksup/vehicle-types/vehicle-
 import { VehicleMakersComponent } from './features/looksup/vehicle-makers/vehicle-makers.component';
 import { VehicleModelsComponent } from './features/looksup/vehicle-models/vehicle-models.component';
 import { AdvertisementManagementComponent } from './features/advertisement/advertisement-management/advertisement-management.component';
+import { ThemeManagementComponent } from './features/application theme/theme management/theme management.component';
 
 export const routes: Routes = [
     {
@@ -51,5 +52,14 @@ export const routes: Routes = [
                     component: AdvertisementManagementComponent
                 },
             ]
-        }
+        },
+        {
+            path: 'application-theme',
+            children: [
+                {
+                    path: 'theme-management',
+                    component: ThemeManagementComponent
+                },
+            ]
+        },
 ];
