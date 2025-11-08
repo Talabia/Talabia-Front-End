@@ -58,9 +58,9 @@
                     </td>
                     <td>
                         <div class="table-actions">
-                            <p-button [label]="theme.isActive ? 'Active' : 'Inactive'"
-                                [icon]="theme.isActive ? 'pi pi-check' : 'pi pi-times'"
-                                [severity]="theme.isActive ? 'success' : 'danger'" [disabled]="loading"
+                            <p-button [label]="theme.isActive ? 'Inactive' : 'Active'"
+                                [icon]="theme.isActive ? 'pi pi-times' : 'pi pi-check'"
+                                [severity]="theme.isActive ? 'danger' : 'success'" [disabled]="loading"
                                 (click)="toggleActiveStatus(theme, { checked: !theme.isActive })" />
                             <p-button label="Set Default" [disabled]="loading || theme.isDefault"
                                 (click)="setAsDefault(theme)" />
