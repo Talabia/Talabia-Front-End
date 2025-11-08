@@ -1,7 +1,7 @@
 <p-card header="Theme Management">
     <div class="card">
         <div class="action-container">
-            <p-button (click)="showCreateDialog()" label="Create" icon="pi pi-plus" [disabled]="loading" />
+            <p-button (click)="showCreateDialog()" label="Add Theme" icon="pi pi-plus" [disabled]="loading" />
         </div>
         <p-table [value]="themes" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
             [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
