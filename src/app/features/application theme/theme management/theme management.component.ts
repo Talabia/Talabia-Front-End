@@ -32,8 +32,6 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
     CardModule, 
     TableModule, 
     ButtonModule, 
-    InputIcon, 
-    IconField, 
     InputTextModule, 
     FormsModule, 
     ReactiveFormsModule,

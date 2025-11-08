@@ -68,6 +68,17 @@ export class SideBarComponent implements OnInit {
             routerLink: '/looksup/vehicle-models',
           }
         ],
+      },
+      { 
+        label: 'users',
+        icon: 'pi pi-users',
+        items: [
+          {
+            label: 'User Management',
+            icon: 'pi pi-user',
+            routerLink: '/users/user-management',
+          }
+        ],
       }
     ];
   }
