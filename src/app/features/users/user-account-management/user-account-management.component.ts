@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TagModule } from 'primeng/tag';
 import { Select } from 'primeng/select';
 import { InputIcon } from 'primeng/inputicon';
@@ -20,7 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../services/users.service';
 import { CitiesService } from '../../looksup/services/cities.service';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import {
   AdminUser,
   AdminUserDetails,
@@ -46,8 +47,9 @@ import { Subject, takeUntil, timeout, distinctUntilChanged } from 'rxjs';
     InputTextModule,
     FormsModule,
     CommonModule,
+    ConfirmPopupModule,
   ],
-  providers: [MessageService],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './user-account-management.component.html',
   styleUrl: './user-account-management.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -90,7 +92,8 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
     private usersService: UsersService,
     private citiesService: CitiesService,
     private cdr: ChangeDetectorRef,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {
     this.setupSearchDebounce();
   }
@@ -290,9 +293,35 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Confirm and toggle ban status
+   */
+  confirmBanToggle(event: Event, user: AdminUser): void {
+    const action = user.isBlocked ? 'unban' : 'ban';
+    const actionCapitalized = user.isBlocked ? 'Unban' : 'Ban';
+    
+    this.confirmationService.confirm({
+      target: event.currentTarget as EventTarget,
+      message: `Are you sure you want to ${action} "${user.userName}"?`,
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+        label: 'Cancel',
+        severity: 'secondary',
+        outlined: true
+      },
+      acceptButtonProps: {
+        label: actionCapitalized,
+        severity: user.isBlocked ? 'success' : 'danger'
+      },
+      accept: () => {
+        this.toggleBanStatus(user);
+      }
+    });
+  }
+
+  /**
    * Toggle ban status
    */
-  toggleBanStatus(user: AdminUser): void {
+  private toggleBanStatus(user: AdminUser): void {
     const newStatus = !user.isBlocked;
     
     this.usersService
@@ -322,9 +351,35 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Confirm and toggle premium status
+   */
+  confirmPremiumToggle(event: Event, user: AdminUser): void {
+    const action = user.isPremium ? 'remove premium status from' : 'make premium';
+    const actionCapitalized = user.isPremium ? 'Remove Premium' : 'Make Premium';
+    
+    this.confirmationService.confirm({
+      target: event.currentTarget as EventTarget,
+      message: `Are you sure you want to ${action} "${user.userName}"?`,
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+        label: 'Cancel',
+        severity: 'secondary',
+        outlined: true
+      },
+      acceptButtonProps: {
+        label: actionCapitalized,
+        severity: user.isPremium ? 'secondary' : 'primary'
+      },
+      accept: () => {
+        this.togglePremiumStatus(user);
+      }
+    });
+  }
+
+  /**
    * Toggle premium status
    */
-  togglePremiumStatus(user: AdminUser): void {
+  private togglePremiumStatus(user: AdminUser): void {
     const newStatus = !user.isPremium;
     
     this.usersService

@@ -1,4 +1,4 @@
-<p-card header="User Account Management">
+<p-card header="User Management">
     <div class="card">
         <!-- Filters Section -->
         <div class="action-container">
@@ -65,10 +65,10 @@
                             <p-button label="View" [disabled]="loading" (click)="showViewDialog(user)" />
                             <p-button [label]="user.isBlocked ? 'Unban' : 'Ban'"
                                 [severity]="user.isBlocked ? 'success' : 'danger'" [disabled]="loading"
-                                (click)="toggleBanStatus(user)" />
-                            <p-button [label]="user.isPremium ? 'Make Regular' : 'Make Premium'"
+                                (click)="confirmBanToggle($event, user)" />
+                            <p-button [label]="user.isPremium ? 'Regular' : 'Premium'"
                                 [severity]="user.isPremium ? 'secondary' : 'primary'" [disabled]="loading"
-                                (click)="togglePremiumStatus(user)" />
+                                (click)="confirmPremiumToggle($event, user)" />
                         </div>
                     </td>
                 </tr>
@@ -149,3 +149,4 @@
 </p-dialog>
 
 <p-toast />
+<p-confirmpopup />
