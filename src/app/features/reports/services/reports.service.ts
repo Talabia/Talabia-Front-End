@@ -51,8 +51,17 @@ export class ReportsService {
     }
 
     if (request.searchKeyword && request.searchKeyword.trim()) {
+      // Try multiple parameter names to see which one works
       params = params.set('SearchKeyword', request.searchKeyword.trim());
+      params = params.set('Search', request.searchKeyword.trim());
+      params = params.set('Keyword', request.searchKeyword.trim());
+      params = params.set('Filter', request.searchKeyword.trim());
+      console.log('Setting SearchKeyword param:', request.searchKeyword.trim());
     }
+
+    console.log('API Request URL:', `${this.baseUrl}Reports/list`);
+    console.log('API Request params:', params.toString());
+    console.log('Full request object:', request);
 
     return this.http.get<any>(`${this.baseUrl}Reports/list`, { params })
       .pipe(

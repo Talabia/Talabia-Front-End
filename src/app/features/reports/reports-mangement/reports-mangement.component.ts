@@ -37,7 +37,8 @@ import {
   StatusFilterOption,
   TypeFilterOption
 } from '../models/reports.models';
-import { Subject, takeUntil, timeout, distinctUntilChanged } from 'rxjs';
+import { Subject, takeUntil, timeout, distinctUntilChanged, debounceTime } from 'rxjs';
+import { Divider } from "primeng/divider";
 @Component({
   selector: 'app-reports-mangement',
   imports: [
@@ -60,7 +61,8 @@ import { Subject, takeUntil, timeout, distinctUntilChanged } from 'rxjs';
     ConfirmPopupModule,
     DatePicker,
     Checkbox,
-  ],
+    Divider
+],
   providers: [MessageService, ConfirmationService],
   templateUrl: './reports-mangement.component.html',
   styleUrl: './reports-mangement.component.scss',
@@ -129,12 +131,12 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {
-    this.setupSearchDebounce();
     this.statusForm = this.fb.group({
       status: [null, Validators.required],
       adminNotes: ['', Validators.required],
       actionTaken: ['', Validators.required]
     });
+    this.setupSearchDebounce();
   }
 
   ngOnInit(): void {
@@ -160,10 +162,12 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
     this.searchSubject
       .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((searchTerm) => {
+        console.log('Search debounce triggered:', searchTerm);
         const trimmedTerm = searchTerm.trim();
 
         // If search is empty, load immediately without debounce
         if (!trimmedTerm) {
+          console.log('Empty search, loading all reports');
           this.searchKeyword = '';
           this.first = 0;
           this.currentPage = 1;
@@ -172,12 +176,14 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
         }
 
         // For non-empty search, use minimal debounce
+        console.log('Non-empty search, setting keyword:', trimmedTerm);
         this.searchKeyword = trimmedTerm;
         this.first = 0;
         this.currentPage = 1;
 
         setTimeout(() => {
           if (this.searchKeyword === trimmedTerm) {
+            console.log('Executing search after timeout:', this.searchKeyword);
             this.loadReports();
           }
         }, 300);
@@ -270,6 +276,7 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
    */
   onSearch(event: any): void {
     const searchTerm = event.target.value || '';
+    console.log('Search input:', searchTerm);
     this.searchSubject.next(searchTerm);
   }
 

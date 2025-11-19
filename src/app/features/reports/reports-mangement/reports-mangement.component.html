@@ -11,7 +11,7 @@
 
             <!-- Date Range Filter -->
             <p-datepicker [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" showIcon
-                iconDisplay="input" [showClear]="true" placeholder="Select date range"
+                iconDisplay="input" [showClear]="true" placeholder="Select date range" style="min-width: 300px;"
                 (onSelect)="onDateRangeChange($event)" (onClear)="onFilterChange()" [disabled]="loading" />
 
             <!-- Report Type Filter -->
@@ -27,15 +27,14 @@
             <!-- Report Reason Filter -->
             <p-select [options]="reportReasons" [(ngModel)]="selectedReportReasonId" optionLabel="name" optionValue="id"
                 placeholder="Filter by Reason" (onChange)="onFilterChange()" [disabled]="loading" [showClear]="true" />
+            <!-- Bulk Actions -->
+            @if (selectedReports.length > 0) {
+            <p-divider layout="vertical" />
+            <p-button label="Change Status ({{selectedReports.length}} selected)" severity="primary"
+                (click)="showBulkStatusDialog()" [disabled]="loading" />
+            }
         </div>
 
-        <!-- Bulk Actions -->
-        @if (selectedReports.length > 0) {
-        <div class="action-container" style="justify-content: flex-start; margin-bottom: 1rem;">
-            <p-button label="Change Status ({{selectedReports.length}} selected)" severity="info"
-                (click)="showBulkStatusDialog()" [disabled]="loading" />
-        </div>
-        }
 
         <p-table [value]="reports" [(selection)]="selectedReports" [scrollable]="true" [paginator]="true" [rows]="rows"
             [first]="first" [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
@@ -68,11 +67,10 @@
                             [severity]="getTypeSeverity(report.reportType)" />
                     </td>
                     <td>
-                        <div>
-                            <div><strong>{{report.reporterName}}</strong></div>
-                            <div style="font-size: 0.875rem; color: var(--p-text-muted-color);">{{report.reporterEmail}}
-                            </div>
-                        </div>
+                        <strong>{{report.reporterName}}</strong>
+                        <span style="display: block; font-size: 0.875rem; color: var(--p-text-muted-color);">
+                            {{report.reporterEmail}}
+                        </span>
                     </td>
                     <td>{{report.reportReasonName}}</td>
                     <td>{{truncateText(report.description, 100)}}</td>
@@ -82,8 +80,9 @@
                     <td>{{report.createdAt | date:'short'}}</td>
                     <td>
                         <div class="table-actions">
-                            <p-button label="View" [disabled]="loading" (click)="showViewDialog(report)" />
-                            <p-button label="Change Status" severity="info" [disabled]="loading"
+                            <p-button label="View" severity="primary" [disabled]="loading"
+                                (click)="showViewDialog(report)" />
+                            <p-button label="Change Status" severity="primary" [disabled]="loading"
                                 (click)="showStatusDialog(report)" />
                             <p-button label="Delete" severity="danger" [disabled]="loading"
                                 (click)="confirmDelete($event, report)" />
@@ -190,8 +189,7 @@
         <div class="input-container">
             <label for="status" class="font-semibold w-24">Status <span>*</span></label>
             <p-select [options]="statusFilterOptions.slice(1)" formControlName="status" optionLabel="label"
-                optionValue="value" placeholder="Select Status" class="flex-auto" [disabled]="loading"
-                [invalid]="hasError('status')" />
+                optionValue="value" placeholder="Select Status" [disabled]="loading" [invalid]="hasError('status')" />
 
             @if (hasError('status') || statusForm.get('status')?.dirty || statusForm.get('status')?.touched) {
             <p-message severity="error" size="small" variant="simple">
@@ -203,7 +201,7 @@
         <div class="input-container">
             <label for="adminNotes" class="font-semibold w-24">Admin Notes <span>*</span></label>
             <textarea pTextarea id="adminNotes" formControlName="adminNotes" rows="3" placeholder="Enter admin notes..."
-                class="flex-auto" [disabled]="loading" [invalid]="hasError('adminNotes')"></textarea>
+                [disabled]="loading" [invalid]="hasError('adminNotes')"></textarea>
 
             @if (hasError('adminNotes') || statusForm.get('adminNotes')?.dirty || statusForm.get('adminNotes')?.touched)
             {
@@ -216,7 +214,7 @@
         <div class="input-container">
             <label for="actionTaken" class="font-semibold w-24">Action Taken <span>*</span></label>
             <textarea pTextarea id="actionTaken" formControlName="actionTaken" rows="3"
-                placeholder="Describe the action taken..." class="flex-auto" [disabled]="loading"
+                placeholder="Describe the action taken..." [disabled]="loading"
                 [invalid]="hasError('actionTaken')"></textarea>
 
             @if (hasError('actionTaken') || statusForm.get('actionTaken')?.dirty ||
