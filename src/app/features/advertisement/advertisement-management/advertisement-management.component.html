@@ -1,31 +1,32 @@
-<p-card header="Advertisement Management">
+<p-card [header]="'advertisement.header' | translate">
     <div class="card">
         <div class="action-container">
             <p-iconfield>
                 <p-inputicon class="pi pi-search" />
-                <input type="text" pInputText placeholder="Search by title..." (input)="onSearch($event)"
-                    (keyup)="onSearchKeyup($event)" [value]="searchKeyword" />
+                <input type="text" pInputText [placeholder]="'advertisement.searchPlaceholder' | translate"
+                    (input)="onSearch($event)" (keyup)="onSearchKeyup($event)" [value]="searchKeyword" />
             </p-iconfield>
 
             <p-select [options]="statusOptions" [(ngModel)]="statusFilter" optionLabel="label" optionValue="value"
-                placeholder="Filter by status" (onChange)="onStatusFilterChange()" [style]="{ width: '200px' }"
-                [disabled]="loading" />
+                [placeholder]="'advertisement.filterStatusPlaceholder' | translate" (onChange)="onStatusFilterChange()"
+                [style]="{ width: '200px' }" [disabled]="loading" />
 
             <p-divider layout="vertical" />
-            <p-button (click)="showCreateDialog()" label="Create" icon="pi pi-plus" [disabled]="loading" />
+            <p-button (click)="showCreateDialog()" [label]="'common.create' | translate" icon="pi pi-plus"
+                [disabled]="loading" />
         </div>
         <p-table [value]="advertisements" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
             [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading"
-            [showCurrentPageReport]="true" paginatorPosition="bottom">
+            [currentPageReportTemplate]="pageReportTemplate" (onPage)="pageChange($event)"
+            [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading" [showCurrentPageReport]="true"
+            paginatorPosition="bottom">
 
             <ng-template #header>
                 <tr>
-                    <th style="min-width:200px">Title</th>
-                    <th style="min-width:150px">Image</th>
-                    <th style="min-width:100px">Status</th>
-                    <th style="min-width:150px">Actions</th>
+                    <th style="min-width:200px">{{'advertisement.table.title' | translate}}</th>
+                    <th style="min-width:150px">{{'advertisement.table.image' | translate}}</th>
+                    <th style="min-width:100px">{{'advertisement.table.status' | translate}}</th>
+                    <th style="min-width:150px">{{'advertisement.table.actions' | translate}}</th>
                 </tr>
             </ng-template>
 
@@ -41,22 +42,22 @@
                         } @else {
                         <div class="no-image-container">
                             <i class="pi pi-image"></i>
-                            <span>No Image</span>
+                            <span>{{'common.noImage' | translate}}</span>
                         </div>
                         }
                     </td>
                     <td>
                         @if (advertisement.isActive) {
-                        <p-tag severity="success" value="Active" />
+                        <p-tag severity="success" [value]="'common.active' | translate" />
                         } @else {
-                        <p-tag severity="warn" value="Inactive" />
+                        <p-tag severity="warn" [value]="'common.inactive' | translate" />
                         }
                     </td>
                     <td>
                         <div class="table-actions">
-                            <p-button label="Edit" severity="success" [disabled]="loading"
+                            <p-button [label]="'common.edit' | translate" severity="success" [disabled]="loading"
                                 (click)="showEditDialog(advertisement)" />
-                            <p-button label="Delete" severity="danger" [disabled]="loading"
+                            <p-button [label]="'common.delete' | translate" severity="danger" [disabled]="loading"
                                 (click)="confirmDelete($event, advertisement)" />
                         </div>
                     </td>
@@ -69,12 +70,12 @@
                         @if (searchKeyword && searchKeyword.trim()) {
                         <div class="empty-container">
                             <i class="pi pi-search"></i>
-                            <h4>No advertisements found matching <strong>"{{searchKeyword}}"</strong></h4>
+                            <h4>{{ 'advertisement.empty.search' | translate : { keyword: searchKeyword } }}</h4>
                         </div>
                         } @else {
                         <div class="empty-container">
                             <i class="pi pi-info-circle"></i>
-                            <h4>No advertisements available</h4>
+                            <h4>{{ 'advertisement.empty.default' | translate }}</h4>
                         </div>
                         }
                     </td>
@@ -90,7 +91,8 @@
 
     <form [formGroup]="advertisementForm" (ngSubmit)="saveAdvertisement()">
         <div class="input-container">
-            <label for="title" class="font-semibold w-24">Title <span>*</span></label>
+            <label for="title" class="font-semibold w-24">{{'advertisement.form.title' | translate}}
+                <span>*</span></label>
             <input pInputText id="title" formControlName="title" class="flex-auto" autocomplete="off"
                 [disabled]="loading" [invalid]="hasError('title')" />
 
@@ -104,17 +106,20 @@
 
         <!-- Status Toggle -->
         <div class="input-container">
-            <label for="isActive" class="font-semibold w-24">Status <span>*</span></label>
-            <p-select [options]="[{label: 'Active', value: true}, {label: 'Inactive', value: false}]"
-                formControlName="isActive" optionLabel="label" placeholder="Select status" [disabled]="loading" />
+            <label for="isActive" class="font-semibold w-24">{{'advertisement.form.status' | translate}}
+                <span>*</span></label>
+            <p-select
+                [options]="[{label: ('common.active' | translate), value: true}, {label: ('common.inactive' | translate), value: false}]"
+                formControlName="isActive" optionLabel="label" [placeholder]="'advertisement.form.status' | translate"
+                [disabled]="loading" />
         </div>
 
         <!-- Image Upload Section -->
         <div class="input-container">
-            <label class="font-semibold w-24">Image <span>*</span></label>
+            <label class="font-semibold w-24">{{'advertisement.form.image' | translate}} <span>*</span></label>
             <p-fileupload mode="basic" name="imageUrl" chooseIcon="pi pi-upload" accept="image/*" maxFileSize="5000000"
-                (onSelect)="onImageUpload($event)" [auto]="false" chooseLabel="Upload image"
-                [disabled]="loading || isImageUploading" />
+                (onSelect)="onImageUpload($event)" [auto]="false"
+                [chooseLabel]="'advertisement.form.uploadLabel' | translate" [disabled]="loading || isImageUploading" />
 
             @if (uploadedImageUrl) {
             <div class="uploaded-image-container">
@@ -136,9 +141,10 @@
         </div>
 
         <div class="dialog-footer">
-            <p-button label="Cancel" severity="secondary" type="button" [disabled]="loading" (click)="cancelDialog()" />
-            <p-button [label]="isEditMode ? 'Update' : 'Create'" type="submit" [loading]="loading"
-                [disabled]="advertisementForm.invalid && submitted" />
+            <p-button [label]="'common.cancel' | translate" severity="secondary" type="button" [disabled]="loading"
+                (click)="cancelDialog()" />
+            <p-button [label]="isEditMode ? ('common.update' | translate) : ('common.create' | translate)" type="submit"
+                [loading]="loading" [disabled]="advertisementForm.invalid && submitted" />
         </div>
     </form>
 </p-dialog>

@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Toolbar } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
-import { SharedModule } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { LanguageService } from '../../shared/services/language.service';
 @Component({
   selector: 'app-header',
-  imports: [Toolbar, AvatarModule, ButtonModule, TooltipModule],
+  imports: [Toolbar, AvatarModule, ButtonModule, TooltipModule, TranslatePipe],
   standalone: true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -18,10 +19,11 @@ export class HeaderComponent implements OnInit {
   hideSideBarBtn: boolean = false;
   currentLang: 'ar' | 'en' = 'ar';
 
+  constructor(private languageService: LanguageService) {}
+
   ngOnInit() {
     const savedDarkMode = localStorage.getItem('darkMode');
     const savedSideBar = localStorage.getItem('hideSideBar');
-    const savedLang = localStorage.getItem('lang');
     if (savedDarkMode) {
       this.darkModeBtn = savedDarkMode === 'true';
       this.applyTheme();
@@ -29,10 +31,7 @@ export class HeaderComponent implements OnInit {
     if (savedSideBar) {
       this.hideSideBarBtn = savedSideBar === 'true';
     }
-    if (savedLang === 'en' || savedLang === 'ar') {
-      this.currentLang = savedLang;
-    }
-    this.applyLanguage();
+    this.currentLang = this.languageService.getCurrentLanguage();
   }
 
   toggleDarkMode() {
@@ -58,17 +57,6 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleLanguage() {
-    this.currentLang = this.currentLang === 'ar' ? 'en' : 'ar';
-    localStorage.setItem('lang', this.currentLang);
-    this.applyLanguage();
-  }
-
-  private applyLanguage() {
-    const htmlEl = document.querySelector('html');
-    if (htmlEl) {
-      htmlEl.setAttribute('dir', this.currentLang === 'ar' ? 'rtl' : 'ltr');
-      htmlEl.setAttribute('lang', this.currentLang);
-    }
-    document.body.classList.toggle('rtl', this.currentLang === 'ar');
+    this.currentLang = this.languageService.toggleLanguage();
   }
 }
