@@ -71,12 +71,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     plugins: {
       legend: {
         position: 'bottom',
-        display: true
+        display: true,
       }
     }
   };
 
-  barChartOptions: ChartOptions = {
+  barChartOptions: any = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -93,6 +93,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
       x: {
         display: true
       }
+    },
+    elements: {
+      bar: {
+        borderRadius: {
+          topLeft: 8,
+          topRight: 8,
+          bottomLeft: 0,
+          bottomRight: 0
+        },
+        borderSkipped: false
+      }
+    },
+    datasets: {
+      bar: {
+        categoryPercentage: 0.6,
+        barPercentage: 0.7
+      }
     }
   };
 
@@ -102,7 +119,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     plugins: {
       legend: {
         display: true,
-        position: 'top'
+        position: 'bottom'
       }
     },
     scales: {
@@ -125,9 +142,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   };
 
   // Color palettes
-  private statusColors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7'];
-  private typeColors = ['#6C5CE7', '#A29BFE', '#FD79A8'];
-  private reasonColors = ['#00B894', '#00CEC9', '#81ECEC', '#74B9FF', '#0984E3'];
+  private statusColors = [ '#22D3EE', '#38BDF8', '#60A5FA', '#818CF8','#2DD4BF'];
+  private typeColors = ['#38BDF8', '#60A5FA', '#818CF8'];
+  private reasonColors = [ '#22D3EE', '#38BDF8', '#60A5FA', '#818CF8','#2DD4BF'];
 
   private destroy$ = new Subject<void>();
 
@@ -229,8 +246,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         label: 'Reports by Reason',
         data: reasonData,
         backgroundColor: this.reasonColors.slice(0, reasonLabels.length),
-        borderWidth: 1
-      }]
+        borderWidth: 1      }]
     };
 
     // Timeline Chart (Line Chart)
@@ -242,8 +258,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       datasets: [{
         label: 'Reports Last 7 Days',
         data: timelineData,
-        borderColor: ['#4ECDC4'],
-        backgroundColor: ['rgba(78, 205, 196, 0.1)'],
+        borderColor: ['#22D3EE'],
         borderWidth: 3,
         fill: true
       }]

@@ -21,8 +21,8 @@
         <!-- Dashboard Content -->
         @if (!loading && statistics) {
         <!-- Summary Cards -->
-        <div class="summary-cards">
-            <div class="summary-card total">
+        <div class="summary-container">
+            <div class="summary-card">
                 <div class="card-content">
                     <div class="card-icon">
                         <i class="pi pi-chart-bar"></i>
@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            <div class="summary-card pending">
+            <div class="summary-card">
                 <div class="card-content">
                     <div class="card-icon">
                         <i class="pi pi-clock"></i>
@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="summary-card under-review">
+            <div class="summary-card">
                 <div class="card-content">
                     <div class="card-icon">
                         <i class="pi pi-eye"></i>
@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <div class="summary-card resolved">
+            <div class="summary-card">
                 <div class="card-content">
                     <div class="card-icon">
                         <i class="pi pi-check-circle"></i>
@@ -73,7 +73,7 @@
                 </div>
             </div>
 
-            <div class="summary-card rejected">
+            <div class="summary-card">
                 <div class="card-content">
                     <div class="card-icon">
                         <i class="pi pi-times-circle"></i>
@@ -91,53 +91,34 @@
         <div class="charts-container">
             <!-- Status Distribution Chart -->
             <div class="chart-card">
-                <div class="chart-header">
-                    <h4>Reports by Status</h4>
-                    <p-tag value="Pie Chart" severity="info" />
-                </div>
+                <h4 class="chart-title">Reports by Status</h4>
                 @if (statusChartData) {
-                <div class="chart-wrapper">
-                    <p-chart type="pie" [data]="statusChartData" [options]="pieChartOptions" height="300px" />
-                </div>
+
+                <p-chart type="pie" [data]="statusChartData" [options]="pieChartOptions" height="300px" />
                 }
             </div>
 
             <!-- Type Distribution Chart -->
             <div class="chart-card">
-                <div class="chart-header">
-                    <h4>Reports by Type</h4>
-                    <p-tag value="Doughnut Chart" severity="success" />
-                </div>
+                <h4 class="chart-title">Reports by Type</h4>
                 @if (typeChartData) {
-                <div class="chart-wrapper">
-                    <p-chart type="doughnut" [data]="typeChartData" [options]="pieChartOptions" height="300px" />
-                </div>
+                <p-chart type="doughnut" [data]="typeChartData" [options]="pieChartOptions" height="300px" />
                 }
             </div>
 
             <!-- Reason Distribution Chart -->
-            <div class="chart-card full-width">
-                <div class="chart-header">
-                    <h4>Reports by Reason</h4>
-                    <p-tag value="Bar Chart" severity="warn" />
-                </div>
+            <div class="chart-card">
+                <h4 class="chart-title">Reports by Reason</h4>
                 @if (reasonChartData) {
-                <div class="chart-wrapper">
-                    <p-chart type="bar" [data]="reasonChartData" [options]="barChartOptions" height="400px" />
-                </div>
+                <p-chart type="bar" [data]="reasonChartData" [options]="barChartOptions" height="400px" />
                 }
             </div>
 
             <!-- Timeline Chart -->
-            <div class="chart-card full-width">
-                <div class="chart-header">
-                    <h4>Reports Timeline (Last 7 Days)</h4>
-                    <p-tag value="Line Chart" severity="secondary" />
-                </div>
+            <div class="chart-card">
+                <h4 class="chart-title">Reports Timeline (Last 7 Days)</h4>
                 @if (timelineChartData) {
-                <div class="chart-wrapper">
-                    <p-chart type="line" [data]="timelineChartData" [options]="lineChartOptions" height="400px" />
-                </div>
+                <p-chart type="line" [data]="timelineChartData" [options]="lineChartOptions" height="400px" />
                 }
             </div>
         </div>
@@ -154,5 +135,4 @@
         }
     </div>
 </p-card>
-
 <p-toast />
