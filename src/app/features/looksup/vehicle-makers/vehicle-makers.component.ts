@@ -18,6 +18,8 @@ import { FileUpload, FileUploadEvent, FileUploadModule, FileSelectEvent } from '
 import { ImageModule } from 'primeng/image';
 import { VehicleMakersService } from '../services/vehicle-makers.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LanguageService } from '../../../shared/services/language.service';
 import { 
   VehicleMaker, 
   CreateVehicleMakerRequest, 
@@ -45,7 +47,8 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
     MessageModule,
     ProgressSpinnerModule,
     FileUploadModule,
-    ImageModule
+    ImageModule,
+    TranslatePipe
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './vehicle-makers.component.html',
@@ -72,7 +75,8 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
   // Dialog properties
   visible: boolean = false;
   isEditMode: boolean = false;
-  dialogTitle: string = 'Create Vehicle Maker';
+  dialogTitle: string = '';
+  pageReportTemplate: string = '';
   
   // Form properties
   vehicleMakerForm!: FormGroup;
@@ -93,10 +97,26 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private confirmationService: ConfirmationService, 
     private messageService: MessageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private languageService: LanguageService
   ) {
     this.initializeForm();
     this.setupSearchDebounce();
+    this.pageReportTemplate = this.t('table.currentPageReport');
+    this.dialogTitle = this.t('vehicleMakers.dialog.createTitle');
+    this.observeLanguageChanges();
+  }
+
+  private observeLanguageChanges(): void {
+    this.languageService.languageChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.pageReportTemplate = this.t('table.currentPageReport');
+        this.dialogTitle = this.isEditMode
+          ? this.t('vehicleMakers.dialog.editTitle')
+          : this.t('vehicleMakers.dialog.createTitle');
+        this.cdr.markForCheck();
+      });
   }
 
   ngOnInit(): void {
@@ -200,8 +220,8 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
           this.currentSearchRequest = undefined;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to load vehicle makers',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('vehicleMakers.notification.loadError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -251,7 +271,7 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
    */
   showCreateDialog(): void {
     this.isEditMode = false;
-    this.dialogTitle = 'Create Vehicle Maker';
+    this.dialogTitle = this.t('vehicleMakers.dialog.createTitle');
     this.vehicleMakerForm.reset({ id: 0, logo: '' });
     this.uploadedImageUrl = '';
     this.submitted = false;
@@ -263,7 +283,7 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
    */
   showEditDialog(vehicleMaker: VehicleMaker): void {
     this.isEditMode = true;
-    this.dialogTitle = 'Edit Vehicle Maker';
+    this.dialogTitle = this.t('vehicleMakers.dialog.editTitle');
     this.vehicleMakerForm.patchValue(vehicleMaker);
     this.uploadedImageUrl = vehicleMaker.logo || '';
     this.submitted = false;
@@ -288,8 +308,8 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
           this.isImageUploading = false;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Image uploaded successfully',
+            summary: this.t('common.success'),
+            detail: this.t('vehicleMakers.notification.imageUploadSuccess'),
             life: 3000
           });
           this.cdr.detectChanges();
@@ -298,8 +318,8 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
           this.isImageUploading = false;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to upload image',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('vehicleMakers.notification.imageUploadError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -348,8 +368,8 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
             this.visible = false;
             this.messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: 'Vehicle maker updated successfully',
+              summary: this.t('common.success'),
+              detail: this.t('vehicleMakers.notification.updateSuccess'),
               life: 3000
             });
             this.loadVehicleMakers();
@@ -358,8 +378,8 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Failed to update vehicle maker',
+              summary: this.t('common.error'),
+              detail: error.message || this.t('vehicleMakers.notification.updateError'),
               life: 5000
             });
             this.cdr.detectChanges();
@@ -380,8 +400,8 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
             this.visible = false;
             this.messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: 'Vehicle maker created successfully',
+              summary: this.t('common.success'),
+              detail: this.t('vehicleMakers.notification.createSuccess'),
               life: 3000
             });
             this.loadVehicleMakers();
@@ -390,8 +410,8 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Failed to create vehicle maker',
+              summary: this.t('common.error'),
+              detail: error.message || this.t('vehicleMakers.notification.createError'),
               life: 5000
             });
             this.cdr.detectChanges();
@@ -406,15 +426,15 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
   confirmDelete(event: Event, vehicleMaker: VehicleMaker): void {
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
-      message: `Are you sure you want to delete "${vehicleMaker.nameEn}" (${vehicleMaker.nameAr})?`,
+      message: this.t('vehicleMakers.confirm.deleteMessage', { nameEn: vehicleMaker.nameEn, nameAr: vehicleMaker.nameAr }),
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
-        label: 'Cancel',
+        label: this.t('vehicleMakers.button.cancel'),
         severity: 'secondary',
         outlined: true
       },
       acceptButtonProps: {
-        label: 'Delete',
+        label: this.t('vehicleMakers.button.delete'),
         severity: 'danger'
       },
       accept: () => {
@@ -436,8 +456,8 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Vehicle maker deleted successfully',
+            summary: this.t('common.success'),
+            detail: this.t('vehicleMakers.notification.deleteSuccess'),
             life: 3000
           });
           this.loadVehicleMakers();
@@ -446,8 +466,8 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to delete vehicle maker',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('vehicleMakers.notification.deleteError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -505,18 +525,20 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
     if (!control || !control.errors) return '';
 
     if (control.errors['required']) {
-      return `${controlName === 'nameAr' ? 'Arabic name' : 'English name'} is required`;
+      return controlName === 'nameAr'
+        ? this.t('vehicleMakers.validation.nameArRequired')
+        : this.t('vehicleMakers.validation.nameEnRequired');
     }
     
     if (control.errors['pattern']) {
       if (controlName === 'nameAr') {
-        return 'Arabic name must contain at least one Arabic character and be properly formatted';
+        return this.t('vehicleMakers.validation.nameArPattern');
       } else {
-        return 'English name must contain at least one English letter and be properly formatted';
+        return this.t('vehicleMakers.validation.nameEnPattern');
       }
     }
 
-    return 'Invalid input';
+    return this.t('vehicleMakers.validation.invalid');
   }
 
   /**
@@ -529,5 +551,9 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
       this.currentSearchRequest = undefined;
     }
     this.cdr.detectChanges();
+  }
+
+  private t(key: string, params?: Record<string, unknown>): string {
+    return this.languageService.translate(key, params);
   }
 }
