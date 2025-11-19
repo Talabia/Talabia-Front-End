@@ -1,1 +1,138 @@
-<p>dashboard works!</p>,
+<p-card header="Reports Analytics Dashboard">
+    <div class="card">
+        <!-- Filters Section -->
+        <div class="action-container">
+            <p-select [options]="filterOptions" [(ngModel)]="selectedFilter" optionLabel="label" optionValue="value"
+                placeholder="Filter by Time Period" [disabled]="loading" [showClear]="false"
+                (onChange)="onFilterChange()" />
+
+            <p-button label="Refresh" icon="pi pi-refresh" severity="secondary" [loading]="loading"
+                (click)="loadDashboardData()" />
+        </div>
+
+        <!-- Loading Spinner -->
+        @if (loading) {
+        <div class="loading-container">
+            <p-progressSpinner />
+            <p>Loading dashboard data...</p>
+        </div>
+        }
+
+        <!-- Dashboard Content -->
+        @if (!loading && statistics) {
+        <!-- Summary Cards -->
+        <div class="summary-container">
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-chart-bar"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{getTotalReports()}}</h3>
+                        <p>Total Reports</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-clock"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{statistics.pendingReports}}</h3>
+                        <p>Pending</p>
+                        <small>{{getStatusPercentage('pending')}}% of total</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-eye"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{statistics.underReviewReports}}</h3>
+                        <p>Under Review</p>
+                        <small>{{getStatusPercentage('underReview')}}% of total</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-check-circle"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{statistics.resolvedReports}}</h3>
+                        <p>Resolved</p>
+                        <small>{{getStatusPercentage('resolved')}}% of total</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-times-circle"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{statistics.rejectedReports}}</h3>
+                        <p>Rejected</p>
+                        <small>{{getStatusPercentage('rejected')}}% of total</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-container">
+            <!-- Status Distribution Chart -->
+            <div class="chart-card">
+                <h4 class="chart-title">Reports by Status</h4>
+                @if (statusChartData) {
+
+                <p-chart type="pie" [data]="statusChartData" [options]="pieChartOptions" height="300px" />
+                }
+            </div>
+
+            <!-- Type Distribution Chart -->
+            <div class="chart-card">
+                <h4 class="chart-title">Reports by Type</h4>
+                @if (typeChartData) {
+                <p-chart type="doughnut" [data]="typeChartData" [options]="pieChartOptions" height="300px" />
+                }
+            </div>
+
+            <!-- Reason Distribution Chart -->
+            <div class="chart-card">
+                <h4 class="chart-title">Reports by Reason</h4>
+                @if (reasonChartData) {
+                <p-chart type="bar" [data]="reasonChartData" [options]="barChartOptions" height="400px" />
+                }
+            </div>
+
+            <!-- Timeline Chart -->
+            <div class="chart-card">
+                <h4 class="chart-title">Reports Timeline (Last 7 Days)</h4>
+                @if (timelineChartData) {
+                <p-chart type="line" [data]="timelineChartData" [options]="lineChartOptions" height="400px" />
+                }
+            </div>
+        </div>
+        }
+
+        <!-- Empty State -->
+        @if (!loading && !statistics) {
+        <div class="empty-container">
+            <i class="pi pi-chart-bar"></i>
+            <h4>No Data Available</h4>
+            <p>Unable to load dashboard statistics. Please try refreshing the page.</p>
+            <p-button label="Retry" icon="pi pi-refresh" severity="primary" (click)="loadDashboardData()" />
+        </div>
+        }
+    </div>
+</p-card>
+<p-toast />
