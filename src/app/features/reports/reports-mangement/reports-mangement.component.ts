@@ -23,6 +23,8 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
 import { CommonModule } from '@angular/common';
 import { DatePicker } from 'primeng/datepicker';
 import { Checkbox } from 'primeng/checkbox';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LanguageService } from '../../../shared/services/language.service';
 import { ReportsService } from '../services/reports.service';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import {
@@ -61,7 +63,8 @@ import { Divider } from "primeng/divider";
     ConfirmPopupModule,
     DatePicker,
     Checkbox,
-    Divider
+    Divider,
+    TranslatePipe
 ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './reports-mangement.component.html',
@@ -88,21 +91,9 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
   reportReasons: ReportReason[] = [];
   
   // Filter options
-  typeFilterOptions: TypeFilterOption[] = [
-    { label: 'All Types', value: null },
-    { label: 'Offer', value: ReportTypeEnum.Offer },
-    { label: 'Order', value: ReportTypeEnum.Order },
-    { label: 'Chat', value: ReportTypeEnum.Chat }
-  ];
+  typeFilterOptions: TypeFilterOption[] = [];
 
-  statusFilterOptions: StatusFilterOption[] = [
-    { label: 'All Status', value: null },
-    { label: 'Pending', value: ReportStatusEnum.Pending },
-    { label: 'Under Review', value: ReportStatusEnum.UnderReview },
-    { label: 'Resolved', value: ReportStatusEnum.Resolved },
-    { label: 'Rejected', value: ReportStatusEnum.Rejected },
-    { label: 'Dismissed', value: ReportStatusEnum.Dismissed }
-  ];
+  statusFilterOptions: StatusFilterOption[] = [];
 
   // Dialog properties
   viewDialogVisible: boolean = false;
@@ -110,6 +101,8 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
   selectedReport: Report | null = null;
   selectedReports: Report[] = [];
   selectAll: boolean = false;
+
+  pageReportTemplate: string = '';
 
   // Status change form
   statusForm: FormGroup;
@@ -124,12 +117,29 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
   ReportStatusEnum = ReportStatusEnum;
   ReportTypeEnum = ReportTypeEnum;
 
+  private readonly typeFilterOptionConfigs = [
+    { labelKey: 'reports.filters.type.all', value: null },
+    { labelKey: 'reports.filters.type.offer', value: ReportTypeEnum.Offer },
+    { labelKey: 'reports.filters.type.order', value: ReportTypeEnum.Order },
+    { labelKey: 'reports.filters.type.chat', value: ReportTypeEnum.Chat },
+  ];
+
+  private readonly statusFilterOptionConfigs = [
+    { labelKey: 'reports.filters.status.all', value: null },
+    { labelKey: 'reports.filters.status.pending', value: ReportStatusEnum.Pending },
+    { labelKey: 'reports.filters.status.underReview', value: ReportStatusEnum.UnderReview },
+    { labelKey: 'reports.filters.status.resolved', value: ReportStatusEnum.Resolved },
+    { labelKey: 'reports.filters.status.rejected', value: ReportStatusEnum.Rejected },
+    { labelKey: 'reports.filters.status.dismissed', value: ReportStatusEnum.Dismissed },
+  ];
+
   constructor(
     private reportsService: ReportsService,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private languageService: LanguageService
   ) {
     this.statusForm = this.fb.group({
       status: [null, Validators.required],
@@ -137,6 +147,31 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
       actionTaken: ['', Validators.required]
     });
     this.setupSearchDebounce();
+    this.buildFilterOptions();
+    this.pageReportTemplate = this.t('table.currentPageReport');
+    this.observeLanguageChanges();
+  }
+
+  private observeLanguageChanges(): void {
+    this.languageService.languageChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.buildFilterOptions();
+        this.pageReportTemplate = this.t('table.currentPageReport');
+        this.cdr.markForCheck();
+      });
+  }
+
+  private buildFilterOptions(): void {
+    this.typeFilterOptions = this.typeFilterOptionConfigs.map(option => ({
+      label: this.t(option.labelKey),
+      value: option.value
+    }));
+
+    this.statusFilterOptions = this.statusFilterOptionConfigs.map(option => ({
+      label: this.t(option.labelKey),
+      value: option.value
+    }));
   }
 
   ngOnInit(): void {
@@ -262,8 +297,8 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
           this.currentRequest = undefined;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to load reports',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('reports.notification.loadError'),
             life: 5000,
           });
           this.cdr.detectChanges();
@@ -348,8 +383,8 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
           this.viewDialogVisible = false;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to load report details',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('reports.notification.detailsError'),
             life: 5000,
           });
           this.cdr.detectChanges();
@@ -373,8 +408,8 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
     if (this.selectedReports.length === 0) {
       this.messageService.add({
         severity: 'warn',
-        summary: 'Warning',
-        detail: 'Please select at least one report',
+        summary: this.t('common.error'),
+        detail: this.t('reports.notification.noSelection'),
         life: 3000,
       });
       return;
@@ -410,8 +445,8 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
           next: () => {
             this.messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: 'Report status updated successfully',
+              summary: this.t('common.success'),
+              detail: this.t('reports.notification.statusUpdateSuccess'),
               life: 3000,
             });
             this.statusDialogVisible = false;
@@ -420,8 +455,8 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
           error: (error: any) => {
             this.messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Failed to update report status',
+              summary: this.t('common.error'),
+              detail: error.message || this.t('reports.notification.statusUpdateError'),
               life: 5000,
             });
           },
@@ -442,8 +477,8 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
           next: () => {
             this.messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: `${this.selectedReports.length} reports updated successfully`,
+              summary: this.t('common.success'),
+              detail: this.t('reports.notification.bulkStatusSuccess', { count: this.selectedReports.length }),
               life: 3000,
             });
             this.statusDialogVisible = false;
@@ -453,8 +488,8 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
           error: (error: any) => {
             this.messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Failed to update reports status',
+              summary: this.t('common.error'),
+              detail: error.message || this.t('reports.notification.bulkStatusError'),
               life: 5000,
             });
           },
@@ -468,15 +503,15 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
   confirmDelete(event: Event, report: Report): void {
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
-      message: `Are you sure you want to delete this report?`,
+      message: this.t('reports.confirm.deleteMessage'),
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
-        label: 'Cancel',
+        label: this.t('reports.button.cancel'),
         severity: 'secondary',
         outlined: true
       },
       acceptButtonProps: {
-        label: 'Delete',
+        label: this.t('reports.button.delete'),
         severity: 'danger'
       },
       accept: () => {
@@ -496,8 +531,8 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
         next: () => {
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Report deleted successfully',
+            summary: this.t('common.success'),
+            detail: this.t('reports.notification.deleteSuccess'),
             life: 3000,
           });
           this.loadReports();
@@ -505,8 +540,8 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
         error: (error: any) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to delete report',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('reports.notification.deleteError'),
             life: 5000,
           });
         },
@@ -539,11 +574,11 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
   getTypeDisplayName(reportType: string): string {
     switch (reportType.toLowerCase()) {
       case 'offer':
-        return 'Offer';
+        return this.t('reports.type.offer');
       case 'order':
-        return 'Order';
+        return this.t('reports.type.order');
       case 'chat':
-        return 'Chat';
+        return this.t('reports.type.chat');
       default:
         return reportType;
     }
@@ -606,10 +641,23 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
     const field = this.statusForm.get(fieldName);
     if (field && field.errors) {
       if (field.errors['required']) {
-        return `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`;
+        switch (fieldName) {
+          case 'status':
+            return this.t('reports.validation.statusRequired');
+          case 'adminNotes':
+            return this.t('reports.validation.adminNotesRequired');
+          case 'actionTaken':
+            return this.t('reports.validation.actionTakenRequired');
+          default:
+            return this.t('common.error');
+        }
       }
     }
     return '';
+  }
+
+  private t(key: string, params?: Record<string, unknown>): string {
+    return this.languageService.translate(key, params);
   }
 }
 

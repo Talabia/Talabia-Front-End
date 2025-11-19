@@ -1,59 +1,60 @@
-<p-card header="Reports Management">
+<p-card [header]="'reports.header' | translate">
     <div class="card">
         <!-- Filters Section -->
         <div class="action-container">
             <!-- Search -->
             <p-iconfield>
                 <p-inputicon class="pi pi-search" />
-                <input type="text" pInputText placeholder="Search by reporter name or email..."
+                <input type="text" pInputText [placeholder]="'reports.filters.searchPlaceholder' | translate"
                     [(ngModel)]="searchKeyword" (input)="onSearch($event)" [disabled]="loading" />
             </p-iconfield>
 
             <!-- Date Range Filter -->
             <p-datepicker [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" showIcon
-                iconDisplay="input" [showClear]="true" placeholder="Select date range" style="min-width: 300px;"
-                (onSelect)="onDateRangeChange($event)" (onClear)="onFilterChange()" [disabled]="loading" />
+                iconDisplay="input" [showClear]="true" [placeholder]="'reports.filters.datePlaceholder' | translate"
+                style="min-width: 300px;" (onSelect)="onDateRangeChange($event)" (onClear)="onFilterChange()"
+                [disabled]="loading" />
 
             <!-- Report Type Filter -->
             <p-select [options]="typeFilterOptions" [(ngModel)]="selectedReportType" optionLabel="label"
-                optionValue="value" placeholder="Filter by Type" (onChange)="onFilterChange()" [disabled]="loading"
-                [showClear]="true" />
+                optionValue="value" [placeholder]="'reports.filters.typePlaceholder' | translate"
+                (onChange)="onFilterChange()" [disabled]="loading" [showClear]="true" />
 
             <!-- Status Filter -->
             <p-select [options]="statusFilterOptions" [(ngModel)]="selectedStatus" optionLabel="label"
-                optionValue="value" placeholder="Filter by Status" (onChange)="onFilterChange()" [disabled]="loading"
-                [showClear]="true" />
+                optionValue="value" [placeholder]="'reports.filters.statusPlaceholder' | translate"
+                (onChange)="onFilterChange()" [disabled]="loading" [showClear]="true" />
 
             <!-- Report Reason Filter -->
             <p-select [options]="reportReasons" [(ngModel)]="selectedReportReasonId" optionLabel="name" optionValue="id"
-                placeholder="Filter by Reason" (onChange)="onFilterChange()" [disabled]="loading" [showClear]="true" />
+                [placeholder]="'reports.filters.reasonPlaceholder' | translate" (onChange)="onFilterChange()"
+                [disabled]="loading" [showClear]="true" />
             <!-- Bulk Actions -->
             @if (selectedReports.length > 0) {
             <p-divider layout="vertical" />
-            <p-button label="Change Status ({{selectedReports.length}} selected)" severity="primary"
-                (click)="showBulkStatusDialog()" [disabled]="loading" />
+            <p-button [label]="'reports.bulk.changeStatus' | translate:{ count: selectedReports.length }"
+                severity="primary" (click)="showBulkStatusDialog()" [disabled]="loading" />
             }
         </div>
 
-
         <p-table [value]="reports" [(selection)]="selectedReports" [scrollable]="true" [paginator]="true" [rows]="rows"
             [first]="first" [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading"
-            [showCurrentPageReport]="true" paginatorPosition="bottom" dataKey="id">
+            [currentPageReportTemplate]="'table.currentPageReport' | translate" (onPage)="pageChange($event)"
+            [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading" [showCurrentPageReport]="true"
+            paginatorPosition="bottom" dataKey="id">
 
             <ng-template #header>
                 <tr>
                     <th style="width:50px">
                         <p-checkbox [(ngModel)]="selectAll" [binary]="true" (onChange)="onSelectAllChange($event)" />
                     </th>
-                    <th style="min-width:120px">Type</th>
-                    <th style="min-width:200px">Reporter</th>
-                    <th style="min-width:150px">Reason</th>
-                    <th style="min-width:250px">Description</th>
-                    <th style="min-width:120px">Status</th>
-                    <th style="min-width:120px">Created At</th>
-                    <th style="min-width:300px">Actions</th>
+                    <th style="min-width:120px">{{'reports.table.type' | translate}}</th>
+                    <th style="min-width:200px">{{'reports.table.reporter' | translate}}</th>
+                    <th style="min-width:150px">{{'reports.table.reason' | translate}}</th>
+                    <th style="min-width:250px">{{'reports.table.description' | translate}}</th>
+                    <th style="min-width:120px">{{'reports.table.status' | translate}}</th>
+                    <th style="min-width:120px">{{'reports.table.createdAt' | translate}}</th>
+                    <th style="min-width:300px">{{'reports.table.actions' | translate}}</th>
                 </tr>
             </ng-template>
 
@@ -80,12 +81,12 @@
                     <td>{{report.createdAt | date:'short'}}</td>
                     <td>
                         <div class="table-actions">
-                            <p-button label="View" severity="primary" [disabled]="loading"
-                                (click)="showViewDialog(report)" />
-                            <p-button label="Change Status" severity="primary" [disabled]="loading"
-                                (click)="showStatusDialog(report)" />
-                            <p-button label="Delete" severity="danger" [disabled]="loading"
-                                (click)="confirmDelete($event, report)" />
+                            <p-button [label]="'reports.button.view' | translate" severity="primary"
+                                [disabled]="loading" (click)="showViewDialog(report)" />
+                            <p-button [label]="'reports.button.changeStatus' | translate" severity="primary"
+                                [disabled]="loading" (click)="showStatusDialog(report)" />
+                            <p-button [label]="'reports.button.delete' | translate" severity="danger"
+                                [disabled]="loading" (click)="confirmDelete($event, report)" />
                         </div>
                     </td>
                 </tr>
@@ -97,12 +98,12 @@
                         @if (searchKeyword && searchKeyword.trim()) {
                         <div class="empty-container">
                             <i class="pi pi-search"></i>
-                            <h4>No reports found matching <strong>"{{searchKeyword}}"</strong></h4>
+                            <h4>{{'reports.empty.search' | translate:{ keyword: searchKeyword } }}</h4>
                         </div>
                         } @else {
                         <div class="empty-container">
                             <i class="pi pi-info-circle"></i>
-                            <h4>No reports available</h4>
+                            <h4>{{'reports.empty.default' | translate}}</h4>
                         </div>
                         }
                     </td>
@@ -113,61 +114,72 @@
 </p-card>
 
 <!-- View Report Details Dialog -->
-<p-dialog header="Report Details" [modal]="true" [(visible)]="viewDialogVisible" [style]="{ width: '50rem' }"
-    [closable]="!loading" [draggable]="false" [resizable]="false">
+<p-dialog [header]="'reports.dialog.view.title' | translate" [modal]="true" [(visible)]="viewDialogVisible"
+    [style]="{ width: '50rem' }" [closable]="!loading" [draggable]="false" [resizable]="false">
     @if (selectedReport) {
     <div class="details-container">
         <div class="detail-row">
-            <label class="detail-label">Report Type:</label>
+            <label class="detail-label">{{'reports.dialog.fields.reportType' | translate}}:</label>
+
             <p-tag [value]="getTypeDisplayName(selectedReport.reportType)"
                 [severity]="getTypeSeverity(selectedReport.reportType)" />
         </div>
         <div class="detail-row">
-            <label class="detail-label">Status:</label>
+            <label class="detail-label">{{'reports.dialog.fields.status' | translate}}:</label>
+
             <p-tag [value]="selectedReport.status" [severity]="getStatusSeverity(selectedReport.status)" />
         </div>
         <div class="detail-row">
-            <label class="detail-label">Reporter Name:</label>
+            <label class="detail-label">{{'reports.dialog.fields.reporterName' | translate}}:</label>
+
             <span class="detail-value">{{selectedReport.reporterName}}</span>
         </div>
         <div class="detail-row">
-            <label class="detail-label">Reporter Email:</label>
+            <label class="detail-label">{{'reports.dialog.fields.reporterEmail' | translate}}:</label>
+
             <span class="detail-value">{{selectedReport.reporterEmail}}</span>
         </div>
         <div class="detail-row">
-            <label class="detail-label">Report Reason:</label>
+            <label class="detail-label">{{'reports.dialog.fields.reportReason' | translate}}:</label>
+
             <span class="detail-value">{{selectedReport.reportReasonName}}</span>
         </div>
         <div class="detail-row">
-            <label class="detail-label">Description:</label>
+            <label class="detail-label">{{'reports.dialog.fields.description' | translate}}:</label>
+
             <div class="detail-value" style="white-space: pre-wrap; max-width: 400px;">{{selectedReport.description}}
             </div>
         </div>
         <div class="detail-row">
-            <label class="detail-label">Created At:</label>
+            <label class="detail-label">{{'reports.dialog.fields.createdAt' | translate}}:</label>
+
             <span class="detail-value">{{selectedReport.createdAt | date:'medium'}}</span>
         </div>
         <div class="detail-row">
-            <label class="detail-label">Updated At:</label>
+            <label class="detail-label">{{'reports.dialog.fields.updatedAt' | translate}}:</label>
+
             <span class="detail-value">{{selectedReport.updatedAt | date:'medium'}}</span>
         </div>
         @if (selectedReport.adminNotes) {
         <div class="detail-row">
-            <label class="detail-label">Admin Notes:</label>
+            <label class="detail-label">{{'reports.dialog.fields.adminNotes' | translate}}:</label>
+
             <div class="detail-value" style="white-space: pre-wrap; max-width: 400px;">{{selectedReport.adminNotes}}
             </div>
         </div>
         }
         @if (selectedReport.actionTaken) {
         <div class="detail-row">
-            <label class="detail-label">Action Taken:</label>
+            <label class="detail-label">{{'reports.dialog.fields.actionTaken' | translate}}:</label>
+
             <div class="detail-value" style="white-space: pre-wrap; max-width: 400px;">{{selectedReport.actionTaken}}
             </div>
         </div>
         }
         @if (selectedReport.reviewerName) {
         <div class="detail-row">
-            <label class="detail-label">Reviewer:</label>
+            <label class="detail-label">{{'reports.dialog.fields.reviewer' | translate}}:</label>
+
             <span class="detail-value">{{selectedReport.reviewerName}}</span>
         </div>
         }
@@ -175,21 +187,24 @@
 
     <div class="dialog-footer">
         @if (selectedReport.status === 'Pending' || selectedReport.status === 'Under Review') {
-        <p-button label="Change Status" severity="info" (click)="showStatusDialog(selectedReport)" />
+        <p-button [label]="'reports.button.changeStatus' | translate" severity="info"
+            (click)="showStatusDialog(selectedReport)" />
         }
-        <p-button label="Close" severity="secondary" (click)="closeViewDialog()" />
+        <p-button [label]="'reports.button.cancel' | translate" severity="secondary" (click)="closeViewDialog()" />
+
     </div>
     }
 </p-dialog>
 
 <!-- Status Change Dialog -->
-<p-dialog header="Change Report Status" [modal]="true" [(visible)]="statusDialogVisible" [style]="{ width: '30rem' }"
-    [closable]="!loading" [draggable]="false" [resizable]="false">
+<p-dialog [header]="'reports.dialog.status.title' | translate" [modal]="true" [(visible)]="statusDialogVisible"
+    [style]="{ width: '30rem' }" [closable]="!loading" [draggable]="false" [resizable]="false">
     <form [formGroup]="statusForm" (ngSubmit)="submitStatusChange()">
         <div class="input-container">
-            <label for="status" class="font-semibold w-24">Status <span>*</span></label>
+            <label for="status" class="font-semibold w-24">{{'reports.table.status' | translate}} <span>*</span></label>
             <p-select [options]="statusFilterOptions.slice(1)" formControlName="status" optionLabel="label"
-                optionValue="value" placeholder="Select Status" [disabled]="loading" [invalid]="hasError('status')" />
+                optionValue="value" [placeholder]="'reports.filters.statusPlaceholder' | translate" [disabled]="loading"
+                [invalid]="hasError('status')" />
 
             @if (hasError('status') || statusForm.get('status')?.dirty || statusForm.get('status')?.touched) {
             <p-message severity="error" size="small" variant="simple">
@@ -199,9 +214,11 @@
         </div>
 
         <div class="input-container">
-            <label for="adminNotes" class="font-semibold w-24">Admin Notes <span>*</span></label>
-            <textarea pTextarea id="adminNotes" formControlName="adminNotes" rows="3" placeholder="Enter admin notes..."
-                [disabled]="loading" [invalid]="hasError('adminNotes')"></textarea>
+            <label for="adminNotes" class="font-semibold w-24">{{'reports.dialog.fields.adminNotes' | translate}}
+                <span>*</span></label>
+            <textarea pTextarea id="adminNotes" formControlName="adminNotes" rows="3"
+                [placeholder]="'reports.dialog.fields.adminNotes' | translate" [disabled]="loading"
+                [invalid]="hasError('adminNotes')"></textarea>
 
             @if (hasError('adminNotes') || statusForm.get('adminNotes')?.dirty || statusForm.get('adminNotes')?.touched)
             {
@@ -212,9 +229,10 @@
         </div>
 
         <div class="input-container">
-            <label for="actionTaken" class="font-semibold w-24">Action Taken <span>*</span></label>
+            <label for="actionTaken" class="font-semibold w-24">{{'reports.dialog.fields.actionTaken' | translate}}
+                <span>*</span></label>
             <textarea pTextarea id="actionTaken" formControlName="actionTaken" rows="3"
-                placeholder="Describe the action taken..." [disabled]="loading"
+                [placeholder]="'reports.dialog.fields.actionTaken' | translate" [disabled]="loading"
                 [invalid]="hasError('actionTaken')"></textarea>
 
             @if (hasError('actionTaken') || statusForm.get('actionTaken')?.dirty ||
@@ -226,9 +244,9 @@
         </div>
 
         <div class="dialog-footer">
-            <p-button label="Cancel" severity="secondary" type="button" [disabled]="loading"
-                (click)="closeStatusDialog()" />
-            <p-button label="Update Status" type="submit" [loading]="loading"
+            <p-button [label]="'reports.button.cancel' | translate" severity="secondary" type="button"
+                [disabled]="loading" (click)="closeStatusDialog()" />
+            <p-button [label]="'reports.button.updateStatus' | translate" type="submit" [loading]="loading"
                 [disabled]="statusForm.invalid && submitted" />
         </div>
     </form>
