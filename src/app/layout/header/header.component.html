@@ -8,9 +8,9 @@
         <p-button severity="secondary" [icon]="darkModeBtn ? 'pi pi-sun' : 'pi pi-moon'" (onClick)="toggleDarkMode()"
           [pTooltip]="'header.toggleTheme' | translate" tooltipPosition="left" />
         <!-- language toggle -->
-        <p-button severity="secondary" [icon]="currentLang === 'ar' ? 'pi pi-globe' : 'pi pi-language'"
+        <p-button severity="secondary" [icon]="currentLang === 'en' ? 'pi pi-globe' : 'pi pi-language'"
           (onClick)="toggleLanguage()"
-          [label]="currentLang === 'ar' ? ('language.ar' | translate) : ('language.en' | translate)"
+          [label]="currentLang === 'en' ? ('language.ar' | translate) : ('language.en' | translate)"
           [pTooltip]="'header.toggleLanguage' | translate" tooltipPosition="left"></p-button>
         <!-- sidebar hide -->
         <p-button [icon]="hideSideBarBtn ? 'pi pi-bars' : 'pi pi-arrow-down-left-and-arrow-up-right-to-center'"

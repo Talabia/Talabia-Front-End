@@ -14,6 +14,8 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TagModule } from 'primeng/tag';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LanguageService } from '../../../shared/services/language.service';
 import { CustomerSupportService } from '../services/customer-support.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import {
@@ -34,6 +36,7 @@ import { Subject, takeUntil, timeout } from 'rxjs';
     ProgressSpinnerModule,
     TagModule,
     CommonModule,
+    TranslatePipe,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './customer-support-mangement.component.html',
@@ -54,6 +57,7 @@ export class CustomerSupportMangementComponent implements OnInit, OnDestroy {
   // Dialog properties
   viewDialogVisible: boolean = false;
   selectedContact: ContactUs | null = null;
+  pageReportTemplate: string = '';
 
   private destroy$ = new Subject<void>();
   private currentRequest?: any;
@@ -62,8 +66,12 @@ export class CustomerSupportMangementComponent implements OnInit, OnDestroy {
     private customerSupportService: CustomerSupportService,
     private cdr: ChangeDetectorRef,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private languageService: LanguageService
+  ) {
+    this.pageReportTemplate = this.t('table.currentPageReport');
+    this.observeLanguageChanges();
+  }
 
   ngOnInit(): void {
     this.loadContacts();
@@ -78,6 +86,15 @@ export class CustomerSupportMangementComponent implements OnInit, OnDestroy {
       this.currentRequest.unsubscribe();
     }
     this.loading = false;
+  }
+
+  private observeLanguageChanges(): void {
+    this.languageService.languageChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.pageReportTemplate = this.t('table.currentPageReport');
+        this.cdr.markForCheck();
+      });
   }
 
   /**
@@ -125,8 +142,8 @@ export class CustomerSupportMangementComponent implements OnInit, OnDestroy {
           this.currentRequest = undefined;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to load customer messages',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('customerSupport.notification.loadError'),
             life: 5000,
           });
           this.cdr.detectChanges();
@@ -172,8 +189,8 @@ export class CustomerSupportMangementComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to load contact details',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('customerSupport.notification.detailsError'),
             life: 5000,
           });
           this.cdr.detectChanges();
@@ -193,8 +210,8 @@ export class CustomerSupportMangementComponent implements OnInit, OnDestroy {
           contact.isRead = true;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Message marked as read',
+            summary: this.t('common.success'),
+            detail: this.t('customerSupport.notification.markReadSuccess'),
             life: 3000,
           });
           this.cdr.detectChanges();
@@ -202,8 +219,8 @@ export class CustomerSupportMangementComponent implements OnInit, OnDestroy {
         error: (error: any) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to mark message as read',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('customerSupport.notification.markReadError'),
             life: 5000,
           });
           this.cdr.detectChanges();
@@ -217,15 +234,15 @@ export class CustomerSupportMangementComponent implements OnInit, OnDestroy {
   confirmDelete(event: Event, contact: ContactUs): void {
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
-      message: `Are you sure you want to delete this message from "${contact.name}"?`,
+      message: this.t('customerSupport.confirm.deleteMessage', { name: contact.name }),
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
-        label: 'Cancel',
+        label: this.t('theme.button.cancel'),
         severity: 'secondary',
         outlined: true,
       },
       acceptButtonProps: {
-        label: 'Delete',
+        label: this.t('customerSupport.button.delete'),
         severity: 'danger',
       },
       accept: () => {
@@ -248,8 +265,8 @@ export class CustomerSupportMangementComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Message deleted successfully',
+            summary: this.t('common.success'),
+            detail: this.t('customerSupport.notification.deleteSuccess'),
             life: 3000,
           });
           this.loadContacts();
@@ -258,8 +275,8 @@ export class CustomerSupportMangementComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to delete message',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('customerSupport.notification.deleteError'),
             life: 5000,
           });
           this.cdr.detectChanges();
@@ -273,5 +290,9 @@ export class CustomerSupportMangementComponent implements OnInit, OnDestroy {
   closeViewDialog(): void {
     this.viewDialogVisible = false;
     this.selectedContact = null;
+  }
+
+  private t(key: string, params?: Record<string, unknown>): string {
+    return this.languageService.translate(key, params);
   }
 }
