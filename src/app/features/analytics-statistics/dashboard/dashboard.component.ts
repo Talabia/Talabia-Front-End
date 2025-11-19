@@ -141,10 +141,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   };
 
-  // Color palettes
-  private statusColors = [ '#22D3EE', '#38BDF8', '#60A5FA', '#818CF8','#2DD4BF'];
-  private typeColors = ['#38BDF8', '#60A5FA', '#818CF8'];
-  private reasonColors = [ '#22D3EE', '#38BDF8', '#60A5FA', '#818CF8','#2DD4BF'];
+  // Color palettes with gradients and 70% opacity
+  private statusColors = [
+    'rgba(34, 211, 238, 0.7)',   // Cyan
+    'rgba(56, 189, 248, 0.7)',   // Sky Blue
+    'rgba(96, 165, 250, 0.7)',   // Blue
+    'rgba(129, 140, 248, 0.7)',  // Indigo
+    'rgba(45, 212, 191, 0.7)'    // Teal
+  ];
+  
+  private typeColors = [
+    'rgba(56, 189, 248, 0.7)',   // Sky Blue
+    'rgba(96, 165, 250, 0.7)',   // Blue
+    'rgba(129, 140, 248, 0.7)'   // Indigo
+  ];
+  
+  private reasonColors = [
+    'rgba(34, 211, 238, 0.7)',   // Cyan
+    'rgba(56, 189, 248, 0.7)',   // Sky Blue
+    'rgba(96, 165, 250, 0.7)',   // Blue
+    'rgba(129, 140, 248, 0.7)',  // Indigo
+    'rgba(45, 212, 191, 0.7)'    // Teal
+  ];
 
   private destroy$ = new Subject<void>();
 
@@ -258,9 +276,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
       datasets: [{
         label: 'Reports Last 7 Days',
         data: timelineData,
-        borderColor: ['#22D3EE'],
+        borderColor: ['rgba(34, 211, 238, 1)'],
+        backgroundColor: ['rgba(34, 211, 238, 0.1)'],
         borderWidth: 3,
-        fill: true
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: ['rgba(34, 211, 238, 0.7)'],
+        pointBorderColor: ['rgba(34, 211, 238, 1)'],
+        pointRadius: 6,
+        pointHoverRadius: 8
       }]
     };
   }

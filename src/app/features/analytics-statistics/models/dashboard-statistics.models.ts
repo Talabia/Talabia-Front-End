@@ -29,6 +29,11 @@ export interface ChartDataset {
   borderColor?: string[];
   borderWidth?: number;
   fill?: boolean;
+  tension?: number;
+  pointBackgroundColor?: string[];
+  pointBorderColor?: string[];
+  pointRadius?: number;
+  pointHoverRadius?: number;
 }
 
 // Chart options interface
