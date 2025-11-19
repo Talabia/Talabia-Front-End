@@ -16,6 +16,8 @@ import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { VehicleTypesService } from '../services/vehicle-types.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LanguageService } from '../../../shared/services/language.service';
 import { 
   VehicleType, 
   CreateVehicleTypeRequest, 
@@ -42,7 +44,8 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil, timeout } from 
     ToastModule, 
     ConfirmPopupModule,
     MessageModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    TranslatePipe
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './vehicle-types.component.html',
@@ -68,7 +71,8 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
   // Dialog properties
   visible: boolean = false;
   isEditMode: boolean = false;
-  dialogTitle: string = 'Create Vehicle Type';
+  dialogTitle: string = '';
+  pageReportTemplate: string = '';
   
   // Form properties
   vehicleTypeForm!: FormGroup;
@@ -85,10 +89,26 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private confirmationService: ConfirmationService, 
     private messageService: MessageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private languageService: LanguageService
   ) {
     this.initializeForm();
     this.setupSearchDebounce();
+    this.pageReportTemplate = this.t('table.currentPageReport');
+    this.dialogTitle = this.t('vehicleTypes.dialog.createTitle');
+    this.observeLanguageChanges();
+  }
+
+  private observeLanguageChanges(): void {
+    this.languageService.languageChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.pageReportTemplate = this.t('table.currentPageReport');
+        this.dialogTitle = this.isEditMode
+          ? this.t('vehicleTypes.dialog.editTitle')
+          : this.t('vehicleTypes.dialog.createTitle');
+        this.cdr.markForCheck();
+      });
   }
 
   ngOnInit(): void {
@@ -191,8 +211,8 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
           this.currentSearchRequest = undefined;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to load vehicle types',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('vehicleTypes.notification.loadError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -242,7 +262,7 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
    */
   showCreateDialog(): void {
     this.isEditMode = false;
-    this.dialogTitle = 'Create Vehicle Type';
+    this.dialogTitle = this.t('vehicleTypes.dialog.createTitle');
     this.vehicleTypeForm.reset({ id: 0 });
     this.submitted = false;
     this.visible = true;
@@ -253,7 +273,7 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
    */
   showEditDialog(vehicleType: VehicleType): void {
     this.isEditMode = true;
-    this.dialogTitle = 'Edit Vehicle Type';
+    this.dialogTitle = this.t('vehicleTypes.dialog.editTitle');
     this.vehicleTypeForm.patchValue(vehicleType);
     this.submitted = false;
     this.visible = true;
@@ -288,8 +308,8 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
             this.visible = false;
             this.messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: 'Vehicle type updated successfully',
+              summary: this.t('common.success'),
+              detail: this.t('vehicleTypes.notification.updateSuccess'),
               life: 3000
             });
             this.loadVehicleTypes();
@@ -298,8 +318,8 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Failed to update vehicle type',
+              summary: this.t('common.error'),
+              detail: error.message || this.t('vehicleTypes.notification.updateError'),
               life: 5000
             });
             this.cdr.detectChanges();
@@ -319,8 +339,8 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
             this.visible = false;
             this.messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: 'Vehicle type created successfully',
+              summary: this.t('common.success'),
+              detail: this.t('vehicleTypes.notification.createSuccess'),
               life: 3000
             });
             this.loadVehicleTypes();
@@ -329,8 +349,8 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Failed to create vehicle type',
+              summary: this.t('common.error'),
+              detail: error.message || this.t('vehicleTypes.notification.createError'),
               life: 5000
             });
             this.cdr.detectChanges();
@@ -345,15 +365,15 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
   confirmDelete(event: Event, vehicleType: VehicleType): void {
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
-      message: `Are you sure you want to delete "${vehicleType.nameEn}" (${vehicleType.nameAr})?`,
+      message: this.t('vehicleTypes.confirm.deleteMessage', { nameEn: vehicleType.nameEn, nameAr: vehicleType.nameAr }),
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
-        label: 'Cancel',
+        label: this.t('vehicleTypes.button.cancel'),
         severity: 'secondary',
         outlined: true
       },
       acceptButtonProps: {
-        label: 'Delete',
+        label: this.t('vehicleTypes.button.delete'),
         severity: 'danger'
       },
       accept: () => {
@@ -375,8 +395,8 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Vehicle type deleted successfully',
+            summary: this.t('common.success'),
+            detail: this.t('vehicleTypes.notification.deleteSuccess'),
             life: 3000
           });
           this.loadVehicleTypes();
@@ -385,8 +405,8 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to delete vehicle type',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('vehicleTypes.notification.deleteError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -443,18 +463,20 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
     if (!control || !control.errors) return '';
 
     if (control.errors['required']) {
-      return `${controlName === 'nameAr' ? 'Arabic name' : 'English name'} is required`;
+      return controlName === 'nameAr'
+        ? this.t('vehicleTypes.validation.nameArRequired')
+        : this.t('vehicleTypes.validation.nameEnRequired');
     }
     
     if (control.errors['pattern']) {
       if (controlName === 'nameAr') {
-        return 'Arabic name must contain at least one Arabic character and be properly formatted';
+        return this.t('vehicleTypes.validation.nameArPattern');
       } else {
-        return 'English name must contain at least one English letter and be properly formatted';
+        return this.t('vehicleTypes.validation.nameEnPattern');
       }
     }
 
-    return 'Invalid input';
+    return this.t('vehicleTypes.validation.invalid');
   }
 
   /**
@@ -467,5 +489,9 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
       this.currentSearchRequest = undefined;
     }
     this.cdr.detectChanges();
+  }
+
+  private t(key: string, params?: Record<string, unknown>): string {
+    return this.languageService.translate(key, params);
   }
 }
