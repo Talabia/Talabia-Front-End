@@ -1,21 +1,22 @@
-<p-card header="Theme Management">
+<p-card [header]="'theme.header' | translate">
     <div class="card">
         <div class="action-container">
-            <p-button (click)="showCreateDialog()" label="Add Theme" icon="pi pi-plus" [disabled]="loading" />
+            <p-button (click)="showCreateDialog()" [label]="'theme.addButton' | translate" icon="pi pi-plus"
+                [disabled]="loading" />
         </div>
         <p-table [value]="themes" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
             [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading"
-            [showCurrentPageReport]="true" paginatorPosition="bottom">
+            [currentPageReportTemplate]="pageReportTemplate" (onPage)="pageChange($event)"
+            [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading" [showCurrentPageReport]="true"
+            paginatorPosition="bottom">
 
             <ng-template #header>
                 <tr>
-                    <th style="min-width:200px">Name</th>
-                    <th style="min-width:250px">Colors</th>
-                    <th style="min-width:120px">Status</th>
-                    <th style="min-width:120px">Default</th>
-                    <th style="min-width:200px">Actions</th>
+                    <th style="min-width:200px">{{'theme.table.name' | translate}}</th>
+                    <th style="min-width:250px">{{'theme.table.colors' | translate}}</th>
+                    <th style="min-width:120px">{{'theme.table.status' | translate}}</th>
+                    <th style="min-width:120px">{{'theme.table.default' | translate}}</th>
+                    <th style="min-width:200px">{{'theme.table.actions' | translate}}</th>
                 </tr>
             </ng-template>
 
@@ -26,47 +27,48 @@
                         <div class="color-display">
                             <div class="color-item">
                                 <span class="color-square" [style.background-color]="theme.primaryColor"></span>
-                                <span class="color-label">Primary</span>
+                                <span class="color-label">{{'theme.color.primary' | translate}}</span>
                             </div>
                             <div class="color-item">
                                 <span class="color-square" [style.background-color]="theme.secondaryColor"></span>
-                                <span class="color-label">Secondary</span>
+                                <span class="color-label">{{'theme.color.secondary' | translate}}</span>
                             </div>
                             <div class="color-item">
                                 <span class="color-square" [style.background-color]="theme.backgroundColor"></span>
-                                <span class="color-label">Background</span>
+                                <span class="color-label">{{'theme.color.background' | translate}}</span>
                             </div>
                             <div class="color-item">
                                 <span class="color-square" [style.background-color]="theme.textColor"></span>
-                                <span class="color-label">Text</span>
+                                <span class="color-label">{{'theme.color.text' | translate}}</span>
                             </div>
                         </div>
                     </td>
                     <td>
                         @if (theme.isActive) {
-                        <p-tag severity="success" value="Active" />
+                        <p-tag severity="success" [value]="'theme.status.active' | translate" />
                         } @else {
-                        <p-tag severity="danger" value="Inactive" />
+                        <p-tag severity="danger" [value]="'theme.status.inactive' | translate" />
                         }
                     </td>
                     <td>
                         @if (theme.isDefault) {
-                        <p-tag severity="info" value="Default" />
+                        <p-tag severity="info" [value]="'theme.status.default' | translate" />
                         } @else {
-                        <span>-</span>
+                        <span>{{'common.none' | translate}}</span>
                         }
                     </td>
                     <td>
                         <div class="table-actions">
-                            <p-button [label]="theme.isActive ? 'Inactive' : 'Active'"
+                            <p-button
+                                [label]="theme.isActive ? ('theme.button.deactivate' | translate) : ('theme.button.activate' | translate)"
                                 [icon]="theme.isActive ? 'pi pi-times' : 'pi pi-check'"
                                 [severity]="theme.isActive ? 'danger' : 'success'" [disabled]="loading"
                                 (click)="toggleActiveStatus(theme, { checked: !theme.isActive })" />
-                            <p-button label="Set Default" [disabled]="loading || theme.isDefault"
-                                (click)="setAsDefault(theme)" />
-                            <p-button label="Edit" severity="success" [disabled]="loading"
+                            <p-button [label]="'theme.button.setDefault' | translate"
+                                [disabled]="loading || theme.isDefault" (click)="setAsDefault(theme)" />
+                            <p-button [label]="'theme.button.edit' | translate" severity="success" [disabled]="loading"
                                 (click)="showEditDialog(theme)" />
-                            <p-button label="Delete" severity="danger" [disabled]="loading"
+                            <p-button [label]="'theme.button.delete' | translate" severity="danger" [disabled]="loading"
                                 (click)="confirmDelete($event, theme)" />
                         </div>
                     </td>
@@ -79,12 +81,12 @@
                         @if (searchKeyword && searchKeyword.trim()) {
                         <div class="empty-container">
                             <i class="pi pi-search"></i>
-                            <h4>No themes found matching <strong>"{{searchKeyword}}"</strong></h4>
+                            <h4>{{'theme.empty.search' | translate:{ keyword: searchKeyword } }}</h4>
                         </div>
                         } @else {
                         <div class="empty-container">
                             <i class="pi pi-info-circle"></i>
-                            <h4>No themes available</h4>
+                            <h4>{{'theme.empty.default' | translate}}</h4>
                         </div>
                         }
                     </td>
@@ -101,7 +103,8 @@
         <div class="color-container">
             <div class="color-item">
                 <p-colorpicker formControlName="primaryColor" inputId="primaryColor" [disabled]="loading" />
-                <label for="primaryColor" class="font-semibold w-24">Primary Color <span>*</span></label>
+                <label for="primaryColor" class="font-semibold w-24">{{'theme.form.primaryColor' | translate}}
+                    <span>*</span></label>
 
                 @if (hasError('primaryColor')) {
                 <p-message severity="error" size="small" variant="simple">
@@ -112,7 +115,8 @@
 
             <div class="color-item">
                 <p-colorpicker formControlName="secondaryColor" inputId="secondaryColor" [disabled]="loading" />
-                <label for="secondaryColor" class="font-semibold w-24">Secondary Color <span>*</span></label>
+                <label for="secondaryColor" class="font-semibold w-24">{{'theme.form.secondaryColor' | translate}}
+                    <span>*</span></label>
 
                 @if (hasError('secondaryColor')) {
                 <p-message severity="error" size="small" variant="simple">
@@ -123,7 +127,8 @@
 
             <div class="color-item">
                 <p-colorpicker formControlName="backgroundColor" inputId="backgroundColor" [disabled]="loading" />
-                <label for="backgroundColor" class="font-semibold w-24">Background Color <span>*</span></label>
+                <label for="backgroundColor" class="font-semibold w-24">{{'theme.form.backgroundColor' | translate}}
+                    <span>*</span></label>
 
                 @if (hasError('backgroundColor')) {
                 <p-message severity="error" size="small" variant="simple">
@@ -134,7 +139,8 @@
 
             <div class="color-item">
                 <p-colorpicker formControlName="textColor" inputId="textColor" [disabled]="loading" />
-                <label for="textColor" class="font-semibold w-24">Text Color <span>*</span></label>
+                <label for="textColor" class="font-semibold w-24">{{'theme.form.textColor' | translate}}
+                    <span>*</span></label>
 
                 @if (hasError('textColor')) {
                 <p-message severity="error" size="small" variant="simple">
@@ -144,7 +150,7 @@
             </div>
         </div>
         <div class="input-container">
-            <label for="name" class="font-semibold w-24">Theme Name <span>*</span></label>
+            <label for="name" class="font-semibold w-24">{{'theme.form.name' | translate}} <span>*</span></label>
             <input pInputText id="name" formControlName="name" class="flex-auto" autocomplete="off" [disabled]="loading"
                 [invalid]="hasError('name')" />
 
@@ -156,9 +162,10 @@
             }
         </div>
         <div class="dialog-footer">
-            <p-button label="Cancel" severity="secondary" type="button" [disabled]="loading" (click)="cancelDialog()" />
-            <p-button [label]="isEditMode ? 'Update' : 'Create'" type="submit" [loading]="loading"
-                [disabled]="themeForm.invalid && submitted" />
+            <p-button [label]="'theme.button.cancel' | translate" severity="secondary" type="button"
+                [disabled]="loading" (click)="cancelDialog()" />
+            <p-button [label]="isEditMode ? ('theme.button.update' | translate) : ('theme.button.create' | translate)"
+                type="submit" [loading]="loading" [disabled]="themeForm.invalid && submitted" />
         </div>
     </form>
 </p-dialog>

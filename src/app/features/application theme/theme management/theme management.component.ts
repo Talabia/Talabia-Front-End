@@ -16,6 +16,8 @@ import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TagModule } from 'primeng/tag';
 import { ColorPicker } from 'primeng/colorpicker';
+import { LanguageService } from '../../../shared/services/language.service';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { ThemeService } from '../services/theme.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { 
@@ -43,7 +45,8 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
     MessageModule,
     ProgressSpinnerModule,
     TagModule,
-    ColorPicker
+    ColorPicker,
+    TranslatePipe
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './theme management.component.html',
@@ -70,7 +73,8 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
   // Dialog properties
   visible: boolean = false;
   isEditMode: boolean = false;
-  dialogTitle: string = 'Create Theme';
+  dialogTitle: string = '';
+  pageReportTemplate: string = '';
   
   // Form properties
   themeForm!: FormGroup;
@@ -83,10 +87,14 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private confirmationService: ConfirmationService, 
     private messageService: MessageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private languageService: LanguageService
   ) {
     this.initializeForm();
     this.setupSearchDebounce();
+    this.updateDialogTitle();
+    this.pageReportTemplate = this.languageService.translate('table.currentPageReport');
+    this.observeLanguageChanges();
   }
 
   ngOnInit(): void {
@@ -102,6 +110,16 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
       this.currentSearchRequest.unsubscribe();
     }
     this.loading = false;
+  }
+
+  private observeLanguageChanges(): void {
+    this.languageService.languageChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.updateDialogTitle();
+        this.pageReportTemplate = this.languageService.translate('table.currentPageReport');
+        this.cdr.markForCheck();
+      });
   }
 
   private initializeForm(): void {
@@ -192,8 +210,8 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
           this.currentSearchRequest = undefined;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to load themes',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('theme.notification.loadError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -243,7 +261,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
    */
   showCreateDialog(): void {
     this.isEditMode = false;
-    this.dialogTitle = 'Create Theme';
+    this.updateDialogTitle();
     this.themeForm.reset({ 
       id: 0, 
       name: '',
@@ -261,7 +279,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
    */
   showEditDialog(theme: Theme): void {
     this.isEditMode = true;
-    this.dialogTitle = 'Edit Theme';
+    this.updateDialogTitle();
     this.themeForm.patchValue({
       id: theme.id,
       name: theme.name,
@@ -306,8 +324,8 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
             this.visible = false;
             this.messageService.add({       
               severity: 'success',
-              summary: 'Success',
-              detail: 'Theme updated successfully',
+              summary: this.t('common.success'),
+              detail: this.t('theme.notification.updateSuccess'),
               life: 3000
             });
             this.loadThemes();
@@ -316,8 +334,8 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Failed to update theme',
+              summary: this.t('common.error'),
+              detail: error.message || this.t('theme.notification.updateError'),
               life: 5000
             });
             this.cdr.detectChanges();
@@ -340,8 +358,8 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
             this.visible = false;
             this.messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: 'Theme created successfully',
+              summary: this.t('common.success'),
+              detail: this.t('theme.notification.createSuccess'),
               life: 3000
             });
             this.loadThemes();
@@ -350,8 +368,8 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Failed to create theme',
+              summary: this.t('common.error'),
+              detail: error.message || this.t('theme.notification.createError'),
               life: 5000
             });
             this.cdr.detectChanges();
@@ -373,8 +391,10 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
           theme.isActive = newStatus;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: `Theme ${newStatus ? 'activated' : 'deactivated'} successfully`,
+            summary: this.t('common.success'),
+            detail: newStatus
+              ? this.t('theme.notification.activateSuccess')
+              : this.t('theme.notification.deactivateSuccess'),
             life: 3000
           });
           this.cdr.detectChanges();
@@ -382,8 +402,10 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
         error: (error: any) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to update theme status',
+            summary: this.t('common.error'),
+            detail: error.message || (newStatus
+              ? this.t('theme.notification.activateError')
+              : this.t('theme.notification.deactivateError')),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -403,8 +425,8 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
           this.themes.forEach(t => t.isDefault = t.id === theme.id);
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Default theme updated successfully',
+            summary: this.t('common.success'),
+            detail: this.t('theme.notification.setDefaultSuccess'),
             life: 3000
           });
           this.cdr.detectChanges();
@@ -412,8 +434,8 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
         error: (error: any) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to set default theme',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('theme.notification.setDefaultError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -427,15 +449,15 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
   confirmDelete(event: Event, theme: Theme): void {
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
-      message: `Are you sure you want to delete "${theme.name}"?`,
+      message: this.t('theme.confirm.deleteMessage', { name: theme.name }),
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
-        label: 'Cancel',
+        label: this.t('theme.button.cancel'),
         severity: 'secondary',
         outlined: true
       },
       acceptButtonProps: {
-        label: 'Delete',
+        label: this.t('theme.button.delete'),
         severity: 'danger'
       },
       accept: () => {
@@ -457,8 +479,8 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Theme deleted successfully',
+            summary: this.t('common.success'),
+            detail: this.t('theme.notification.deleteSuccess'),
             life: 3000
           });
           this.loadThemes();
@@ -467,8 +489,8 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to delete theme',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('theme.notification.deleteError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -533,20 +555,25 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
 
     if (control.errors['required']) {
       const fieldNames: { [key: string]: string } = {
-        'name': 'Theme name',
-        'primaryColor': 'Primary color',
-        'secondaryColor': 'Secondary color',
-        'backgroundColor': 'Background color',
-        'textColor': 'Text color'
+        'name': this.t('theme.form.name'),
+        'primaryColor': this.t('theme.form.primaryColor'),
+        'secondaryColor': this.t('theme.form.secondaryColor'),
+        'backgroundColor': this.t('theme.form.backgroundColor'),
+        'textColor': this.t('theme.form.textColor')
       };
-      return `${fieldNames[controlName] || 'Field'} is required`;
+      if (controlName === 'name') {
+        return this.t('theme.validation.nameRequired');
+      }
+      return `${fieldNames[controlName] || this.t('theme.validation.colorRequired')} ${this.t('theme.validation.colorRequired')}`;
     }
     
     if (control.errors['minlength']) {
-      return `Theme name must be at least ${control.errors['minlength'].requiredLength} characters`;
+      return this.t('theme.validation.nameMinLength', {
+        requiredLength: control.errors['minlength'].requiredLength,
+      });
     }
 
-    return 'Invalid input';
+    return this.t('common.error');
   }
 
   /**
@@ -559,6 +586,16 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
       this.currentSearchRequest = undefined;
     }
     this.cdr.detectChanges();
+  }
+
+  private updateDialogTitle(): void {
+    this.dialogTitle = this.isEditMode
+      ? this.t('theme.dialog.editTitle')
+      : this.t('theme.dialog.createTitle');
+  }
+
+  private t(key: string, params?: Record<string, unknown>): string {
+    return this.languageService.translate(key, params);
   }
 }
 
