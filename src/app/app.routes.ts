@@ -9,6 +9,8 @@ import { AdvertisementManagementComponent } from './features/advertisement/adver
 import { ThemeManagementComponent } from './features/application theme/theme management/theme management.component';
 import { CustomerSupportMangementComponent } from './features/customer-support/customer-support-mangement/customer-support-mangement.component';
 import { UserAccountManagementComponent } from './features/users/user-account-management/user-account-management.component';
+import {DashboardComponent} from './features/analytics-statistics/dashboard/dashboard.component';
+import {ReportsMangementComponent} from './features/reports/reports-mangement/reports-mangement.component';
 
 export const routes: Routes = [
   {
@@ -77,6 +79,24 @@ export const routes: Routes = [
       {
         path: 'customer-support-mangement',
         component: CustomerSupportMangementComponent,
+      },
+    ],
+  },
+  {
+    path: 'analytics-statistics',
+    children: [
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+      },
+    ],
+  },
+  {
+    path: 'reports',
+    children: [
+      {
+        path: 'reports-mangement',
+        component: ReportsMangementComponent,
       },
     ],
   },

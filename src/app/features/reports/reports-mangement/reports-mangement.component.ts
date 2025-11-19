@@ -3,8 +3,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'app-reports-mangement',
   imports: [],
-  templateUrl: './reports-mangement.html',
-  styleUrl: './reports-mangement.scss',
+  templateUrl: './reports-mangement.component.html',
+  styleUrl: './reports-mangement.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReportsMangement { }
+export class ReportsMangementComponent { }

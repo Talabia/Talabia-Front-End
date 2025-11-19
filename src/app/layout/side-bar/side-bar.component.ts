@@ -79,7 +79,29 @@ export class SideBarComponent implements OnInit {
             routerLink: '/users/user-management',
           }
         ],
-      }
+      },
+      { 
+        label: 'analytics-statistics',
+        icon: 'pi pi-chart-bar',
+        items: [
+          {
+            label: 'Dashboard',
+            icon: 'pi pi-chart-line',
+            routerLink: '/analytics-statistics/dashboard',
+          }
+        ],
+      },
+      { 
+        label: 'reports',
+        icon: 'pi pi-flag',
+        items: [
+          {
+            label: 'Reports Management',
+            icon: 'pi pi-file',
+            routerLink: '/reports/reports-mangement',
+          }
+        ],
+      },
     ];
   }
 }
