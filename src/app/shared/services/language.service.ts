@@ -1,4 +1,4 @@
-import { ApplicationRef, Injectable } from '@angular/core';
+import { ApplicationRef, Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 type SupportedLanguage = 'ar' | 'en';
@@ -982,7 +982,7 @@ export class LanguageService {
   private readonly languageChange$ = new BehaviorSubject<SupportedLanguage>('ar');
   readonly languageChanged$ = this.languageChange$.asObservable();
 
-  constructor(private appRef: ApplicationRef) {
+  constructor(private appRef: ApplicationRef, private ngZone: NgZone) {
     this.currentLang = this.loadInitialLanguage();
     this.applyDocumentSettings(this.currentLang);
     this.languageChange$.next(this.currentLang);
@@ -1065,7 +1065,7 @@ export class LanguageService {
 
   private requestUiRefresh(): void {
     queueMicrotask(() => {
-      this.appRef.tick();
+      this.ngZone.run(() => this.appRef.tick());
     });
   }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenuItem, MessageService } from 'primeng/api';
 import { PanelMenu } from 'primeng/panelmenu';
@@ -22,7 +22,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private languageService: LanguageService) {}
+  constructor(private languageService: LanguageService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.buildMenu();
@@ -128,6 +128,8 @@ export class SideBarComponent implements OnInit, OnDestroy {
         ],
       },
     ];
+
+    this.cdr.markForCheck();
   }
 
   private t(key: string): string {
