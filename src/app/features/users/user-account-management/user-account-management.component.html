@@ -1,40 +1,42 @@
-<p-card header="User Management">
+<p-card [header]="'users.header' | translate">
     <div class="card">
         <!-- Filters Section -->
         <div class="action-container">
             <!-- Search -->
             <p-iconfield>
                 <p-inputicon class="pi pi-search" />
-                <input type="text" pInputText placeholder="Search users..." [(ngModel)]="searchKeyword"
-                    (input)="onSearch($event)" [disabled]="loading" />
+                <input type="text" pInputText [placeholder]="'users.filters.searchPlaceholder' | translate"
+                    [(ngModel)]="searchKeyword" (input)="onSearch($event)" [disabled]="loading" />
             </p-iconfield>
 
             <!-- City Filter -->
-            <p-select [options]="cities" [(ngModel)]="selectedCityId" optionLabel="nameEn" optionValue="id"
-                placeholder="Filter by City" (onChange)="onFilterChange()" [disabled]="loading" [showClear]="true" />
+            <p-select [options]="cities" [(ngModel)]="selectedCityId" [optionLabel]="cityOptionLabel" optionValue="id"
+                [placeholder]="'users.filters.cityPlaceholder' | translate" (onChange)="onFilterChange()"
+                [disabled]="loading" [showClear]="true" />
 
             <!-- User Type Filter -->
             <p-select [options]="filterOptions" [(ngModel)]="selectedFilter" optionLabel="label" optionValue="value"
-                placeholder="Filter by Type" (onChange)="onFilterChange()" [disabled]="loading" [showClear]="true" />
+                [placeholder]="'users.filters.typePlaceholder' | translate" (onChange)="onFilterChange()"
+                [disabled]="loading" [showClear]="true" />
         </div>
 
         <p-table [value]="users" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
             [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading"
-            [showCurrentPageReport]="true" paginatorPosition="bottom">
+            [currentPageReportTemplate]="pageReportTemplate" (onPage)="pageChange($event)"
+            [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading" [showCurrentPageReport]="true"
+            paginatorPosition="bottom">
 
             <ng-template #header>
                 <tr>
-                    <th style="min-width:200px">User Name</th>
-                    <th style="min-width:200px">Company Name</th>
-                    <th style="min-width:150px">Phone</th>
-                    <th style="min-width:200px">Email</th>
-                    <th style="min-width:150px">City</th>
-                    <th style="min-width:120px">Join Date</th>
-                    <th style="min-width:120px">Premium</th>
-                    <th style="min-width:120px">Ban Status</th>
-                    <th style="min-width:300px">Actions</th>
+                    <th style="min-width:200px">{{'users.table.userName' | translate}}</th>
+                    <th style="min-width:200px">{{'users.table.companyName' | translate}}</th>
+                    <th style="min-width:150px">{{'users.table.phone' | translate}}</th>
+                    <th style="min-width:200px">{{'users.table.email' | translate}}</th>
+                    <th style="min-width:150px">{{'users.table.city' | translate}}</th>
+                    <th style="min-width:120px">{{'users.table.joinDate' | translate}}</th>
+                    <th style="min-width:120px">{{'users.table.premium' | translate}}</th>
+                    <th style="min-width:120px">{{'users.table.banStatus' | translate}}</th>
+                    <th style="min-width:300px">{{'users.table.actions' | translate}}</th>
                 </tr>
             </ng-template>
 
@@ -48,25 +50,27 @@
                     <td>{{user.joinDate}}</td>
                     <td>
                         @if (user.isPremium) {
-                        <p-tag severity="primary" value="Premium" />
+                        <p-tag severity="primary" [value]="'users.tag.premium' | translate" />
                         } @else {
-                        <p-tag severity="secondary" value="Regular" />
+                        <p-tag severity="secondary" [value]="'users.tag.regular' | translate" />
                         }
                     </td>
                     <td>
                         @if (user.isBlocked) {
-                        <p-tag severity="danger" value="Banned" />
+                        <p-tag severity="danger" [value]="'users.tag.banned' | translate" />
                         } @else {
-                        <p-tag severity="success" value="Active" />
+                        <p-tag severity="success" [value]="'users.tag.active' | translate" />
                         }
                     </td>
                     <td>
                         <div class="table-actions">
-                            <p-button label="View" [disabled]="loading" (click)="showViewDialog(user)" />
-                            <p-button [label]="user.isBlocked ? 'Unban' : 'Ban'"
+                            <p-button [label]="'users.button.view' | translate" [disabled]="loading"
+                                (click)="showViewDialog(user)" />
+                            <p-button [label]="(user.isBlocked ? 'users.button.unban' : 'users.button.ban') | translate"
                                 [severity]="user.isBlocked ? 'success' : 'danger'" [disabled]="loading"
                                 (click)="confirmBanToggle($event, user)" />
-                            <p-button [label]="user.isPremium ? 'Regular' : 'Premium'"
+                            <p-button
+                                [label]="(user.isPremium ? 'users.button.makeRegular' : 'users.button.makePremium') | translate"
                                 [severity]="user.isPremium ? 'secondary' : 'primary'" [disabled]="loading"
                                 (click)="confirmPremiumToggle($event, user)" />
                         </div>
@@ -80,12 +84,12 @@
                         @if (searchKeyword && searchKeyword.trim()) {
                         <div class="empty-container">
                             <i class="pi pi-search"></i>
-                            <h4>No users found matching <strong>"{{searchKeyword}}"</strong></h4>
+                            <h4>{{'users.empty.search' | translate:{ keyword: searchKeyword } }}</h4>
                         </div>
                         } @else {
                         <div class="empty-container">
                             <i class="pi pi-info-circle"></i>
-                            <h4>No users available</h4>
+                            <h4>{{'users.empty.default' | translate}}</h4>
                         </div>
                         }
                     </td>
@@ -96,54 +100,54 @@
 </p-card>
 
 <!-- View User Details Dialog -->
-<p-dialog header="User Details" [modal]="true" [(visible)]="viewDialogVisible" [style]="{ width: '45rem' }"
-    [closable]="!loading" [draggable]="false" [resizable]="false">
+<p-dialog [header]="'users.dialog.title' | translate" [modal]="true" [(visible)]="viewDialogVisible"
+    [style]="{ width: '45rem' }" [closable]="!loading" [draggable]="false" [resizable]="false">
     @if (selectedUser) {
     <div class="details-container">
         <div class="detail-row">
-            <label class="detail-label">User Name:</label>
+            <label class="detail-label">{{'users.dialog.fields.userName' | translate}}:</label>
             <span class="detail-value">{{selectedUser.userName}}</span>
         </div>
         <div class="detail-row">
-            <label class="detail-label">Company Name:</label>
+            <label class="detail-label">{{'users.dialog.fields.companyName' | translate}}:</label>
             <span class="detail-value">{{selectedUser.companyName || '-'}}</span>
         </div>
         <div class="detail-row">
-            <label class="detail-label">Phone:</label>
+            <label class="detail-label">{{'users.dialog.fields.phone' | translate}}:</label>
             <span class="detail-value">{{selectedUser.phone}}</span>
         </div>
         <div class="detail-row">
-            <label class="detail-label">Email:</label>
+            <label class="detail-label">{{'users.dialog.fields.email' | translate}}:</label>
             <span class="detail-value">{{selectedUser.email}}</span>
         </div>
         <div class="detail-row">
-            <label class="detail-label">Profile Image:</label>
-            <span class="detail-value">{{selectedUser.profileImage || 'No image'}}</span>
+            <label class="detail-label">{{'users.dialog.fields.profileImage' | translate}}:</label>
+            <span class="detail-value">{{selectedUser.profileImage || ('users.dialog.noImage' | translate)}}</span>
         </div>
         <div class="detail-row">
-            <label class="detail-label">Following Status:</label>
+            <label class="detail-label">{{'users.dialog.fields.followingStatus' | translate}}:</label>
             @if (selectedUser.isFollowing) {
-            <p-tag severity="success" value="Following" />
+            <p-tag severity="success" [value]="'users.tag.following' | translate" />
             } @else {
-            <p-tag severity="secondary" value="Not Following" />
+            <p-tag severity="secondary" [value]="'users.tag.notFollowing' | translate" />
             }
         </div>
         <div class="detail-row">
-            <label class="detail-label">Followers Count:</label>
+            <label class="detail-label">{{'users.dialog.fields.followersCount' | translate}}:</label>
             <span class="detail-value">{{selectedUser.metaData.followersCount}}</span>
         </div>
         <div class="detail-row">
-            <label class="detail-label">Following Count:</label>
+            <label class="detail-label">{{'users.dialog.fields.followingCount' | translate}}:</label>
             <span class="detail-value">{{selectedUser.metaData.followingCount}}</span>
         </div>
         <div class="detail-row">
-            <label class="detail-label">Average Rating:</label>
+            <label class="detail-label">{{'users.dialog.fields.averageRating' | translate}}:</label>
             <span class="detail-value">{{selectedUser.metaData.averageRating}}</span>
         </div>
     </div>
 
     <div class="dialog-footer">
-        <p-button label="Close" severity="secondary" (click)="closeViewDialog()" />
+        <p-button [label]="'users.button.close' | translate" severity="secondary" (click)="closeViewDialog()" />
     </div>
     }
 </p-dialog>
