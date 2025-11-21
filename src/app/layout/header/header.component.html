@@ -6,10 +6,15 @@
       <div class="header-action">
         <!-- dark theme btn -->
         <p-button severity="secondary" [icon]="darkModeBtn ? 'pi pi-sun' : 'pi pi-moon'" (onClick)="toggleDarkMode()"
-          pTooltip="Toggle Theme" tooltipPosition="left" />
+          [pTooltip]="'header.toggleTheme' | translate" tooltipPosition="left" />
+        <!-- language toggle -->
+        <p-button severity="secondary" [icon]="currentLang === 'en' ? 'pi pi-globe' : 'pi pi-language'"
+          (onClick)="toggleLanguage()"
+          [label]="currentLang === 'en' ? ('language.ar' | translate) : ('language.en' | translate)"
+          [pTooltip]="'header.toggleLanguage' | translate" tooltipPosition="left"></p-button>
         <!-- sidebar hide -->
         <p-button [icon]="hideSideBarBtn ? 'pi pi-bars' : 'pi pi-arrow-down-left-and-arrow-up-right-to-center'"
-          severity="secondary" (click)="onToggleHideClick()" pTooltip="Toggle Sidebar"
+          severity="secondary" (click)="onToggleHideClick()" [pTooltip]="'header.toggleSidebar' | translate"
           tooltipPosition="left"></p-button>
       </div>
     </ng-template>

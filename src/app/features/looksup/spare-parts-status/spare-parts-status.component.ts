@@ -16,6 +16,8 @@ import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SparePartsService } from '../services/spare-parts.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LanguageService } from '../../../shared/services/language.service';
 import { 
   SparePartsStatus, 
   CreateSparePartsStatusRequest, 
@@ -42,7 +44,8 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil, timeout } from 
     ToastModule, 
     ConfirmPopupModule,
     MessageModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    TranslatePipe
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './spare-parts-status.component.html',
@@ -68,7 +71,8 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
   // Dialog properties
   visible: boolean = false;
   isEditMode: boolean = false;
-  dialogTitle: string = 'Create Spare Parts Status';
+  dialogTitle: string = '';
+  pageReportTemplate: string = '';
   
   // Form properties
   sparePartsStatusForm!: FormGroup;
@@ -85,10 +89,26 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private confirmationService: ConfirmationService, 
     private messageService: MessageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private languageService: LanguageService
   ) {
     this.initializeForm();
     this.setupSearchDebounce();
+    this.pageReportTemplate = this.t('table.currentPageReport');
+    this.dialogTitle = this.t('sparePartsStatus.dialog.createTitle');
+    this.observeLanguageChanges();
+  }
+
+  private observeLanguageChanges(): void {
+    this.languageService.languageChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.pageReportTemplate = this.t('table.currentPageReport');
+        this.dialogTitle = this.isEditMode
+          ? this.t('sparePartsStatus.dialog.editTitle')
+          : this.t('sparePartsStatus.dialog.createTitle');
+        this.cdr.markForCheck();
+      });
   }
 
   ngOnInit(): void {
@@ -191,8 +211,8 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
           this.currentSearchRequest = undefined;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to load spare parts statuses',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('sparePartsStatus.notification.loadError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -242,7 +262,7 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
    */
   showCreateDialog(): void {
     this.isEditMode = false;
-    this.dialogTitle = 'Create Spare Parts Status';
+    this.dialogTitle = this.t('sparePartsStatus.dialog.createTitle');
     this.sparePartsStatusForm.reset({ id: 0 });
     this.submitted = false;
     this.visible = true;
@@ -253,7 +273,7 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
    */
   showEditDialog(sparePartsStatus: SparePartsStatus): void {
     this.isEditMode = true;
-    this.dialogTitle = 'Edit Spare Parts Status';
+    this.dialogTitle = this.t('sparePartsStatus.dialog.editTitle');
     this.sparePartsStatusForm.patchValue(sparePartsStatus);
     this.submitted = false;
     this.visible = true;
@@ -288,8 +308,8 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
             this.visible = false;
             this.messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: 'Spare parts status updated successfully',
+              summary: this.t('common.success'),
+              detail: this.t('sparePartsStatus.notification.updateSuccess'),
               life: 3000
             });
             this.loadSparePartsStatuses();
@@ -298,8 +318,8 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Failed to update spare parts status',
+              summary: this.t('common.error'),
+              detail: error.message || this.t('sparePartsStatus.notification.updateError'),
               life: 5000
             });
             this.cdr.detectChanges();
@@ -319,8 +339,8 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
             this.visible = false;
             this.messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: 'Spare parts status created successfully',
+              summary: this.t('common.success'),
+              detail: this.t('sparePartsStatus.notification.createSuccess'),
               life: 3000
             });
             this.loadSparePartsStatuses();
@@ -329,8 +349,8 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Failed to create spare parts status',
+              summary: this.t('common.error'),
+              detail: error.message || this.t('sparePartsStatus.notification.createError'),
               life: 5000
             });
             this.cdr.detectChanges();
@@ -345,15 +365,15 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
   confirmDelete(event: Event, sparePartsStatus: SparePartsStatus): void {
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
-      message: `Are you sure you want to delete "${sparePartsStatus.nameEn}" (${sparePartsStatus.nameAr})?`,
+      message: this.t('sparePartsStatus.confirm.deleteMessage', { nameEn: sparePartsStatus.nameEn, nameAr: sparePartsStatus.nameAr }),
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
-        label: 'Cancel',
+        label: this.t('sparePartsStatus.button.cancel'),
         severity: 'secondary',
         outlined: true
       },
       acceptButtonProps: {
-        label: 'Delete',
+        label: this.t('sparePartsStatus.button.delete'),
         severity: 'danger'
       },
       accept: () => {
@@ -375,8 +395,8 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Spare parts status deleted successfully',
+            summary: this.t('common.success'),
+            detail: this.t('sparePartsStatus.notification.deleteSuccess'),
             life: 3000
           });
           this.loadSparePartsStatuses();
@@ -385,8 +405,8 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to delete spare parts status',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('sparePartsStatus.notification.deleteError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -443,18 +463,20 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
     if (!control || !control.errors) return '';
 
     if (control.errors['required']) {
-      return `${controlName === 'nameAr' ? 'Arabic name' : 'English name'} is required`;
+      return controlName === 'nameAr'
+        ? this.t('sparePartsStatus.validation.nameArRequired')
+        : this.t('sparePartsStatus.validation.nameEnRequired');
     }
     
     if (control.errors['pattern']) {
       if (controlName === 'nameAr') {
-        return 'Arabic name must contain at least one Arabic character and be properly formatted';
+        return this.t('sparePartsStatus.validation.nameArPattern');
       } else {
-        return 'English name must contain at least one English letter and be properly formatted';
+        return this.t('sparePartsStatus.validation.nameEnPattern');
       }
     }
 
-    return 'Invalid input';
+    return this.t('sparePartsStatus.validation.invalid');
   }
 
   /**
@@ -467,5 +489,9 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
       this.currentSearchRequest = undefined;
     }
     this.cdr.detectChanges();
+  }
+
+  private t(key: string, params?: Record<string, unknown>): string {
+    return this.languageService.translate(key, params);
   }
 }

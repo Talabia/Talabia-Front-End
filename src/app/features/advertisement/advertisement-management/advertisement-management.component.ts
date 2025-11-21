@@ -18,6 +18,8 @@ import { FileUploadModule, FileSelectEvent } from 'primeng/fileupload';
 import { ImageModule } from 'primeng/image';
 import { TagModule } from 'primeng/tag';
 import { Select } from 'primeng/select';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LanguageService } from '../../../shared/services/language.service';
 import { AdvertisementService } from '../services/advertisement.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { 
@@ -50,7 +52,8 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
     FileUploadModule,
     ImageModule,
     TagModule,
-    Select
+    Select,
+    TranslatePipe
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './advertisement-management.component.html',
@@ -72,18 +75,14 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
   // Search and filter properties
   searchKeyword: string = '';
   statusFilter: any = null;
-  statusOptions = [
-    { label: 'All', value: null },
-    { label: 'Active', value: true },
-    { label: 'Inactive', value: false }
-  ];
+  statusOptions: { label: string; value: boolean | null }[] = [];
   private searchSubject = new Subject<string>();
   private currentSearchRequest?: any;
   
   // Dialog properties
   visible: boolean = false;
   isEditMode: boolean = false;
-  dialogTitle: string = 'Create Advertisement';
+  dialogTitle: string = '';
   
   // Form properties
   advertisementForm!: FormGroup;
@@ -92,18 +91,24 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
   // Image upload properties
   uploadedImageUrl: string = '';
   isImageUploading: boolean = false;
-  
+
   private destroy$ = new Subject<void>();
+  pageReportTemplate: string = '';
 
   constructor(
     private advertisementService: AdvertisementService, 
     private cdr: ChangeDetectorRef,
     private confirmationService: ConfirmationService, 
     private messageService: MessageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private languageService: LanguageService
   ) {
     this.initializeForm();
     this.setupSearchDebounce();
+    this.buildStatusOptions();
+    this.updateDialogTitle();
+    this.updatePageReportTemplate();
+    this.observeLanguageChanges();
   }
 
   ngOnInit(): void {
@@ -119,6 +124,25 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
       this.currentSearchRequest.unsubscribe();
     }
     this.loading = false;
+  }
+
+  private observeLanguageChanges(): void {
+    this.languageService.languageChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.buildStatusOptions();
+        this.updateDialogTitle();
+        this.updatePageReportTemplate();
+        this.cdr.markForCheck();
+      });
+  }
+
+  private buildStatusOptions(): void {
+    this.statusOptions = [
+      { label: this.t('common.all'), value: null },
+      { label: this.t('common.active'), value: true },
+      { label: this.t('common.inactive'), value: false },
+    ];
   }
 
   private initializeForm(): void {
@@ -208,8 +232,8 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
           this.currentSearchRequest = undefined;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to load advertisements',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('advertisement.notification.loadError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -268,7 +292,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
    */
   showCreateDialog(): void {
     this.isEditMode = false;
-    this.dialogTitle = 'Create Advertisement';
+    this.updateDialogTitle();
     this.advertisementForm.reset({ id: '', isActive: true, imageUrl: '' });
     this.uploadedImageUrl = '';
     this.submitted = false;
@@ -280,7 +304,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
    */
   showEditDialog(advertisement: Advertisement): void {
     this.isEditMode = true;
-    this.dialogTitle = 'Edit Advertisement';
+    this.updateDialogTitle();
     this.advertisementForm.patchValue(advertisement);
     this.uploadedImageUrl = advertisement.imageUrl || '';
     this.submitted = false;
@@ -305,8 +329,8 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
           this.isImageUploading = false;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Image uploaded successfully',
+            summary: this.t('common.success'),
+            detail: this.t('advertisement.notification.imageUploadSuccess'),
             life: 3000
           });
           this.cdr.detectChanges();
@@ -315,8 +339,8 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
           this.isImageUploading = false;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to upload image',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('advertisement.notification.imageUploadError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -365,8 +389,8 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
             this.visible = false;
             this.messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: 'Advertisement updated successfully',
+              summary: this.t('common.success'),
+              detail: this.t('advertisement.notification.updateSuccess'),
               life: 3000
             });
             this.loadAdvertisements();
@@ -375,8 +399,8 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Failed to update advertisement',
+              summary: this.t('common.error'),
+              detail: error.message || this.t('advertisement.notification.updateError'),
               life: 5000
             });
             this.cdr.detectChanges();
@@ -397,8 +421,8 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
             this.visible = false;
             this.messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: 'Advertisement created successfully',
+              summary: this.t('common.success'),
+              detail: this.t('advertisement.notification.createSuccess'),
               life: 3000
             });
             this.loadAdvertisements();
@@ -407,8 +431,8 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Failed to create advertisement',
+              summary: this.t('common.error'),
+              detail: error.message || this.t('advertisement.notification.createError'),
               life: 5000
             });
             this.cdr.detectChanges();
@@ -423,15 +447,15 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
   confirmDelete(event: Event, advertisement: Advertisement): void {
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
-      message: `Are you sure you want to delete "${advertisement.title}"?`,
+      message: this.t('advertisement.confirm.deleteMessage', { title: advertisement.title }),
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
-        label: 'Cancel',
+        label: this.t('common.cancel'),
         severity: 'secondary',
         outlined: true
       },
       acceptButtonProps: {
-        label: 'Delete',
+        label: this.t('common.delete'),
         severity: 'danger'
       },
       accept: () => {
@@ -453,8 +477,8 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'Advertisement deleted successfully',
+            summary: this.t('common.success'),
+            detail: this.t('advertisement.notification.deleteSuccess'),
             life: 3000
           });
           this.loadAdvertisements();
@@ -463,8 +487,8 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to delete advertisement',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('advertisement.notification.deleteError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -522,14 +546,22 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
     if (!control || !control.errors) return '';
 
     if (control.errors['required']) {
-      return `${controlName === 'title' ? 'Title' : controlName === 'imageUrl' ? 'Image' : 'Field'} is required`;
+      if (controlName === 'title') {
+        return this.t('advertisement.validation.titleRequired');
+      }
+      if (controlName === 'imageUrl') {
+        return this.t('advertisement.validation.imageRequired');
+      }
+      return this.t('common.error');
     }
     
     if (control.errors['minlength']) {
-      return `Title must be at least ${control.errors['minlength'].requiredLength} characters`;
+      return this.t('advertisement.validation.titleMinLength', {
+        requiredLength: control.errors['minlength'].requiredLength,
+      });
     }
 
-    return 'Invalid input';
+    return this.t('common.error');
   }
 
   /**
@@ -542,5 +574,19 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
       this.currentSearchRequest = undefined;
     }
     this.cdr.detectChanges();
+  }
+
+  private updateDialogTitle(): void {
+    this.dialogTitle = this.isEditMode
+      ? this.t('advertisement.dialog.editTitle')
+      : this.t('advertisement.dialog.createTitle');
+  }
+
+  private updatePageReportTemplate(): void {
+    this.pageReportTemplate = this.t('table.currentPageReport');
+  }
+
+  private t(key: string, params?: Record<string, unknown>): string {
+    return this.languageService.translate(key, params);
   }
 }

@@ -1,27 +1,28 @@
-<p-card header="Vehicle Makers">
+<p-card [header]="'vehicleMakers.header' | translate">
     <div class="card">
         <div class="action-container">
             <p-iconfield>
                 <p-inputicon class="pi pi-search" />
-                <input type="text" pInputText placeholder="Search vehicle makers..." (input)="onSearch($event)"
-                    (keyup)="onSearchKeyup($event)" [value]="searchKeyword" />
+                <input type="text" pInputText [placeholder]="'vehicleMakers.searchPlaceholder' | translate"
+                    (input)="onSearch($event)" (keyup)="onSearchKeyup($event)" [value]="searchKeyword" />
 
             </p-iconfield>
             <p-divider layout="vertical" />
-            <p-button (click)="showCreateDialog()" label="Create" icon="pi pi-plus" [disabled]="loading" />
+            <p-button (click)="showCreateDialog()" [label]="'vehicleMakers.button.create' | translate" icon="pi pi-plus"
+                [disabled]="loading" />
         </div>
         <p-table [value]="vehicleMakers" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
             [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading"
-            [showCurrentPageReport]="true" paginatorPosition="bottom">
+            [currentPageReportTemplate]="pageReportTemplate" (onPage)="pageChange($event)"
+            [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading" [showCurrentPageReport]="true"
+            paginatorPosition="bottom">
 
             <ng-template #header>
                 <tr>
-                    <th style="min-width:120px">Name AR</th>
-                    <th style="min-width:120px">Name EN</th>
-                    <th style="min-width:120px">Logo</th>
-                    <th style="min-width:120px">Actions</th>
+                    <th style="min-width:120px">{{'vehicleMakers.table.nameAr' | translate}}</th>
+                    <th style="min-width:120px">{{'vehicleMakers.table.nameEn' | translate}}</th>
+                    <th style="min-width:120px">{{'vehicleMakers.table.logo' | translate}}</th>
+                    <th style="min-width:120px">{{'vehicleMakers.table.actions' | translate}}</th>
                 </tr>
             </ng-template>
 
@@ -37,16 +38,16 @@
                         } @else {
                         <div class="no-logo-container">
                             <i class="pi pi-image"></i>
-                            <span>No Logo</span>
+                            <span>{{'vehicleMakers.field.logo' | translate}}</span>
                         </div>
                         }
                     </td>
                     <td>
                         <div class="table-actions">
-                            <p-button label="Edit" severity="success" [disabled]="loading"
-                                (click)="showEditDialog(vehicleMaker)" />
-                            <p-button label="Delete" severity="danger" [disabled]="loading"
-                                (click)="confirmDelete($event, vehicleMaker)" />
+                            <p-button [label]="'vehicleMakers.button.edit' | translate" severity="success"
+                                [disabled]="loading" (click)="showEditDialog(vehicleMaker)" />
+                            <p-button [label]="'vehicleMakers.button.delete' | translate" severity="danger"
+                                [disabled]="loading" (click)="confirmDelete($event, vehicleMaker)" />
                         </div>
                     </td>
                 </tr>
@@ -58,12 +59,12 @@
                         @if (searchKeyword && searchKeyword.trim()) {
                         <div class="empty-container">
                             <i class="pi pi-search"></i>
-                            <h4>No vehicle makers found matching <strong>"{{searchKeyword}}"</strong></h4>
+                            <h4>{{'vehicleMakers.empty.search' | translate:{ keyword: searchKeyword } }}</h4>
                         </div>
                         } @else {
                         <div class="empty-container">
                             <i class="pi pi-info-circle"></i>
-                            <h4>No vehicle makers available</h4>
+                            <h4>{{'vehicleMakers.empty.default' | translate}}</h4>
                         </div>
                         }
                     </td>
@@ -79,7 +80,8 @@
 
     <form [formGroup]="vehicleMakerForm" (ngSubmit)="saveVehicleMaker()">
         <div class="input-container">
-            <label for="nameAr" class="font-semibold w-24">Name AR <span>*</span></label>
+            <label for="nameAr" class="font-semibold w-24">{{'vehicleMakers.field.nameAr' | translate}}
+                <span>*</span></label>
             <input pInputText id="nameAr" formControlName="nameAr" class="flex-auto" autocomplete="off"
                 [disabled]="loading" [invalid]="hasError('nameAr')" />
 
@@ -92,7 +94,8 @@
         </div>
 
         <div class="input-container">
-            <label for="nameEn" class="font-semibold w-24">Name EN <span>*</span></label>
+            <label for="nameEn" class="font-semibold w-24">{{'vehicleMakers.field.nameEn' | translate}}
+                <span>*</span></label>
             <input pInputText id="nameEn" formControlName="nameEn" class="flex-auto" autocomplete="off"
                 [disabled]="loading" [invalid]="hasError('nameEn')" />
 
@@ -107,7 +110,8 @@
         <!-- Logo Upload Section -->
         <div class="input-container">
             <p-fileupload mode="basic" name="logo" chooseIcon="pi pi-upload" accept="image/*" maxFileSize="5000000"
-                (onSelect)="onImageUpload($event)" [auto]="false" chooseLabel="Upload image"
+                (onSelect)="onImageUpload($event)" [auto]="false"
+                [chooseLabel]="'vehicleMakers.button.uploadImage' | translate"
                 [disabled]="loading || isImageUploading" />
             @if (uploadedImageUrl) {
             <div class="uploaded-image-container">
@@ -123,9 +127,10 @@
         </div>
 
         <div class="dialog-footer">
-            <p-button label="Cancel" severity="secondary" type="button" [disabled]="loading" (click)="cancelDialog()" />
-            <p-button [label]="isEditMode ? 'Update' : 'Create'" type="submit" [loading]="loading"
-                [disabled]="vehicleMakerForm.invalid && submitted" />
+            <p-button [label]="'vehicleMakers.button.cancel' | translate" severity="secondary" type="button"
+                [disabled]="loading" (click)="cancelDialog()" />
+            <p-button [label]="(isEditMode ? 'vehicleMakers.button.update' : 'vehicleMakers.button.create') | translate"
+                type="submit" [loading]="loading" [disabled]="vehicleMakerForm.invalid && submitted" />
         </div>
     </form>
 </p-dialog>

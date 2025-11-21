@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenuItem, MessageService } from 'primeng/api';
 import { PanelMenu } from 'primeng/panelmenu';
-import { Router } from '@angular/router';
+import { LanguageService } from '../../shared/services/language.service';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-side-bar',
   standalone: true,
@@ -13,95 +14,125 @@ import { Router } from '@angular/router';
   styleUrl: './side-bar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SideBarComponent implements OnInit {
+export class SideBarComponent implements OnInit, OnDestroy {
   @Input() hidden: boolean | undefined;
 
-  menuItems = [
-    { label: 'advertisement', icon: 'pi pi-bullseye',
-      routerLink: ['/advertisement/advertisement-management']
-     },
-     { label: 'theme', icon: 'pi pi-palette',
-      routerLink: ['/application-theme/theme-management']
-     } ,
-     { label: 'customer support', icon: 'pi pi-megaphone',
-      routerLink: ['/customer-support/customer-support-mangement']
-     } 
-     ];
-  items: MenuItem[] | undefined;
+  menuItems: MenuItem[] = [];
+  items: MenuItem[] = [];
 
-  constructor(private router: Router) {}
+  private readonly destroy$ = new Subject<void>();
+
+  constructor(private languageService: LanguageService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
+    this.buildMenu();
+    this.languageService.languageChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.buildMenu();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private buildMenu(): void {
+    this.menuItems = [
+      {
+        label: this.t('sidebar.advertisement'),
+        icon: 'pi pi-bullseye',
+        routerLink: ['/advertisement/advertisement-management'],
+      },
+      {
+        label: this.t('sidebar.theme'),
+        icon: 'pi pi-palette',
+        routerLink: ['/application-theme/theme-management'],
+      },
+      {
+        label: this.t('sidebar.customerSupport'),
+        icon: 'pi pi-megaphone',
+        routerLink: ['/customer-support/customer-support-mangement'],
+      },
+    ];
+
     this.items = [
-      { 
-        label: 'Lookups',
+      {
+        label: this.t('sidebar.lookups'),
         icon: 'pi pi-book',
         items: [
           {
-            label: 'Cities',
+            label: this.t('lookups.cities'),
             icon: 'pi pi-file',
             routerLink: '/looksup/cities',
           },
           {
-            label: 'Conditions',
+            label: this.t('lookups.conditions'),
             icon: 'pi pi-file',
             routerLink: '/looksup/conditions',
           },
           {
-            label: 'Spare Parts Status',
+            label: this.t('lookups.sparePartsStatus'),
             icon: 'pi pi-file',
             routerLink: '/looksup/spare-parts-status',
           },
           {
-            label: 'Vehicle Types',
+            label: this.t('lookups.vehicleTypes'),
             icon: 'pi pi-file',
             routerLink: '/looksup/vehicle-types',
           },
           {
-            label: 'Vehicle Makers',
+            label: this.t('lookups.vehicleMakers'),
             icon: 'pi pi-file',
             routerLink: '/looksup/vehicle-makers',
           },
           {
-            label: 'Vehicle Models',
+            label: this.t('lookups.vehicleModels'),
             icon: 'pi pi-file',
             routerLink: '/looksup/vehicle-models',
-          }
+          },
         ],
       },
-      { 
-        label: 'users',
+      {
+        label: this.t('sidebar.users'),
         icon: 'pi pi-users',
         items: [
           {
-            label: 'User Management',
+            label: this.t('users.management'),
             icon: 'pi pi-user',
             routerLink: '/users/user-management',
-          }
+          },
         ],
       },
-      { 
-        label: 'analytics-statistics',
+      {
+        label: this.t('sidebar.analytics'),
         icon: 'pi pi-chart-bar',
         items: [
           {
-            label: 'Dashboard',
+            label: this.t('sidebar.dashboard'),
             icon: 'pi pi-chart-line',
             routerLink: '/analytics-statistics/dashboard',
-          }
+          },
         ],
       },
-      { 
-        label: 'reports',
+      {
+        label: this.t('sidebar.reports'),
         icon: 'pi pi-flag',
         items: [
           {
-            label: 'Reports Management',
+            label: this.t('sidebar.reportsManagement'),
             icon: 'pi pi-file',
             routerLink: '/reports/reports-mangement',
-          }
+          },
         ],
       },
     ];
+
+    this.cdr.markForCheck();
+  }
+
+  private t(key: string): string {
+    return this.languageService.translate(key);
   }
 }

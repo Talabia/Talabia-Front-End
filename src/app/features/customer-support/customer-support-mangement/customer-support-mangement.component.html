@@ -1,19 +1,18 @@
-<p-card header="Customer Support Messages">
+<p-card [header]="'customerSupport.header' | translate">
   <div class="card">
     <p-table [value]="contacts" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
       [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" (onPage)="pageChange($event)"
-      [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading" [showCurrentPageReport]="true"
-      paginatorPosition="bottom">
+      [currentPageReportTemplate]="pageReportTemplate" (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]"
+      scrollHeight="600px" [loading]="loading" [showCurrentPageReport]="true" paginatorPosition="bottom">
 
       <ng-template #header>
         <tr>
-          <th style="min-width:200px">Name</th>
-          <th style="min-width:150px">Phone</th>
-          <th style="min-width:250px">Message</th>
-          <th style="min-width:200px">Created At</th>
-          <th style="min-width:120px">Status</th>
-          <th style="min-width:250px">Actions</th>
+          <th style="min-width:200px">{{'customerSupport.table.name' | translate}}</th>
+          <th style="min-width:150px">{{'customerSupport.table.phone' | translate}}</th>
+          <th style="min-width:250px">{{'customerSupport.table.message' | translate}}</th>
+          <th style="min-width:200px">{{'customerSupport.table.createdAt' | translate}}</th>
+          <th style="min-width:120px">{{'customerSupport.table.status' | translate}}</th>
+          <th style="min-width:250px">{{'customerSupport.table.actions' | translate}}</th>
         </tr>
       </ng-template>
 
@@ -29,17 +28,18 @@
           <td>{{contact.createdAt}}</td>
           <td>
             @if (contact.isRead) {
-            <p-tag severity="primary" value="Read" />
+            <p-tag severity="primary" [value]="'customerSupport.status.read' | translate" />
             } @else {
-            <p-tag severity="warn" value="Unread" />
+            <p-tag severity="warn" [value]="'customerSupport.status.unread' | translate" />
             }
           </td>
           <td>
             <div class="table-actions">
-              <p-button label="View" [disabled]="loading" (click)="showViewDialog(contact)" />
-              <p-button label="Resolve" severity="success" [disabled]="loading || contact.isRead"
-                (click)="markAsRead(contact)" />
-              <p-button label="Delete" severity="danger" [disabled]="loading"
+              <p-button [label]="'customerSupport.button.view' | translate" [disabled]="loading"
+                (click)="showViewDialog(contact)" />
+              <p-button [label]="'customerSupport.button.resolve' | translate" severity="success"
+                [disabled]="loading || contact.isRead" (click)="markAsRead(contact)" />
+              <p-button [label]="'customerSupport.button.delete' | translate" severity="danger" [disabled]="loading"
                 (click)="confirmDelete($event, contact)" />
             </div>
           </td>
@@ -51,7 +51,7 @@
           <td colspan="6">
             <div class="empty-container">
               <i class="pi pi-info-circle"></i>
-              <h4>No customer messages available</h4>
+              <h4>{{'customerSupport.empty.default' | translate}}</h4>
             </div>
           </td>
         </tr>
@@ -61,40 +61,40 @@
 </p-card>
 
 <!-- View Details Dialog -->
-<p-dialog header="Customer Message Details" [modal]="true" [(visible)]="viewDialogVisible" [style]="{ width: '40rem' }"
-  [closable]="!loading" [draggable]="false" [resizable]="false">
+<p-dialog [header]="'customerSupport.dialog.header' | translate" [modal]="true" [(visible)]="viewDialogVisible"
+  [style]="{ width: '40rem' }" [closable]="!loading" [draggable]="false" [resizable]="false">
   @if (selectedContact) {
   <div class="details-container">
     <div class="detail-row">
-      <label class="detail-label">Name:</label>
+      <label class="detail-label">{{'customerSupport.dialog.name' | translate}}:</label>
       <span class="detail-value">{{selectedContact.name}}</span>
     </div>
     <div class="detail-row">
-      <label class="detail-label">Phone:</label>
+      <label class="detail-label">{{'customerSupport.dialog.phone' | translate}}:</label>
       <span class="detail-value">{{selectedContact.phone}}</span>
     </div>
     <div class="detail-row">
-      <label class="detail-label">Created At:</label>
+      <label class="detail-label">{{'customerSupport.dialog.createdAt' | translate}}:</label>
       <span class="detail-value">{{selectedContact.createdAt}}</span>
     </div>
     <div class="detail-row">
-      <label class="detail-label">Status:</label>
+      <label class="detail-label">{{'customerSupport.dialog.status' | translate}}:</label>
       @if (selectedContact.isRead) {
-      <p-tag severity="primary" value="Read" />
+      <p-tag severity="primary" [value]="'customerSupport.status.read' | translate" />
       } @else {
-      <p-tag severity="warn" value="Unread" />
+      <p-tag severity="warn" [value]="'customerSupport.status.unread' | translate" />
       }
     </div>
     <div class="detail-row message-row">
-      <label class="detail-label">Message:</label>
+      <label class="detail-label">{{'customerSupport.dialog.message' | translate}}:</label>
       <p class="detail-message">{{selectedContact.message}}</p>
     </div>
   </div>
 
   <div class="dialog-footer">
-    <p-button label="Close" severity="secondary" (click)="closeViewDialog()" />
+    <p-button [label]="'customerSupport.button.close' | translate" severity="secondary" (click)="closeViewDialog()" />
     @if (!selectedContact.isRead) {
-    <p-button label="Mark as Read" icon="pi pi-check" severity="success"
+    <p-button [label]="'customerSupport.button.markAsRead' | translate" icon="pi pi-check" severity="success"
       (click)="markAsRead(selectedContact); closeViewDialog()" />
     }
   </div>

@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Toolbar } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
-import { SharedModule } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { LanguageService } from '../../shared/services/language.service';
 @Component({
   selector: 'app-header',
-  imports: [Toolbar, AvatarModule, ButtonModule, TooltipModule],
+  imports: [Toolbar, AvatarModule, ButtonModule, TooltipModule, TranslatePipe],
   standalone: true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -16,6 +17,9 @@ export class HeaderComponent implements OnInit {
   @Output() toggleHideSidebar = new EventEmitter<void>();
   darkModeBtn: boolean = false;
   hideSideBarBtn: boolean = false;
+  currentLang: 'ar' | 'en' = 'ar';
+
+  constructor(private languageService: LanguageService) {}
 
   ngOnInit() {
     const savedDarkMode = localStorage.getItem('darkMode');
@@ -27,6 +31,7 @@ export class HeaderComponent implements OnInit {
     if (savedSideBar) {
       this.hideSideBarBtn = savedSideBar === 'true';
     }
+    this.currentLang = this.languageService.getCurrentLanguage();
   }
 
   toggleDarkMode() {
@@ -49,5 +54,9 @@ export class HeaderComponent implements OnInit {
     this.hideSideBarBtn = !this.hideSideBarBtn;
     localStorage.setItem('hideSideBar', this.hideSideBarBtn.toString());
     this.toggleHideSidebar.emit();
+  }
+
+  toggleLanguage() {
+    this.currentLang = this.languageService.toggleLanguage();
   }
 }

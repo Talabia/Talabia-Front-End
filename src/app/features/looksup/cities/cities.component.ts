@@ -16,6 +16,8 @@ import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CitiesService } from '../services/cities.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LanguageService } from '../../../shared/services/language.service';
 import { 
   City, 
   CreateCityRequest, 
@@ -42,7 +44,8 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
     ToastModule, 
     ConfirmPopupModule,
     MessageModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    TranslatePipe
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './cities.component.html',
@@ -68,8 +71,10 @@ export class CitiesComponent implements OnInit, OnDestroy {
   // Dialog properties
   visible: boolean = false;
   isEditMode: boolean = false;
-  dialogTitle: string = 'Create City';
+  dialogTitle: string = '';
   
+  pageReportTemplate: string = '';
+
   // Form properties
   cityForm!: FormGroup;
   submitted: boolean = false;
@@ -85,10 +90,26 @@ export class CitiesComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private confirmationService: ConfirmationService, 
     private messageService: MessageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private languageService: LanguageService
   ) {
     this.initializeForm();
     this.setupSearchDebounce();
+    this.pageReportTemplate = this.t('table.currentPageReport');
+    this.dialogTitle = this.t('cities.dialog.createTitle');
+    this.observeLanguageChanges();
+  }
+
+  private observeLanguageChanges(): void {
+    this.languageService.languageChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.pageReportTemplate = this.t('table.currentPageReport');
+        this.dialogTitle = this.isEditMode
+          ? this.t('cities.dialog.editTitle')
+          : this.t('cities.dialog.createTitle');
+        this.cdr.markForCheck();
+      });
   }
 
   ngOnInit(): void {
@@ -191,8 +212,8 @@ export class CitiesComponent implements OnInit, OnDestroy {
           this.currentSearchRequest = undefined;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to load cities',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('cities.notification.loadError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -242,7 +263,7 @@ export class CitiesComponent implements OnInit, OnDestroy {
    */
   showCreateDialog(): void {
     this.isEditMode = false;
-    this.dialogTitle = 'Create City';
+    this.dialogTitle = this.t('cities.dialog.createTitle');
     this.cityForm.reset({ id: 0 });
     this.submitted = false;
     this.visible = true;
@@ -253,7 +274,7 @@ export class CitiesComponent implements OnInit, OnDestroy {
    */
   showEditDialog(city: City): void {
     this.isEditMode = true;
-    this.dialogTitle = 'Edit City';
+    this.dialogTitle = this.t('cities.dialog.editTitle');
     this.cityForm.patchValue(city);
     this.submitted = false;
     this.visible = true;
@@ -288,8 +309,8 @@ export class CitiesComponent implements OnInit, OnDestroy {
             this.visible = false;
             this.messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: 'City updated successfully',
+              summary: this.t('common.success'),
+              detail: this.t('cities.notification.updateSuccess'),
               life: 3000
             });
             this.loadCities();
@@ -298,8 +319,8 @@ export class CitiesComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Failed to update city',
+              summary: this.t('common.error'),
+              detail: error.message || this.t('cities.notification.updateError'),
               life: 5000
             });
             this.cdr.detectChanges();
@@ -319,8 +340,8 @@ export class CitiesComponent implements OnInit, OnDestroy {
             this.visible = false;
             this.messageService.add({
               severity: 'success',
-              summary: 'Success',
-              detail: 'City created successfully',
+              summary: this.t('common.success'),
+              detail: this.t('cities.notification.createSuccess'),
               life: 3000
             });
             this.loadCities();
@@ -329,8 +350,8 @@ export class CitiesComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.messageService.add({
               severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Failed to create city',
+              summary: this.t('common.error'),
+              detail: error.message || this.t('cities.notification.createError'),
               life: 5000
             });
             this.cdr.detectChanges();
@@ -345,15 +366,15 @@ export class CitiesComponent implements OnInit, OnDestroy {
   confirmDelete(event: Event, city: City): void {
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
-      message: `Are you sure you want to delete "${city.nameEn}" (${city.nameAr})?`,
+      message: this.t('cities.confirm.deleteMessage', { nameEn: city.nameEn, nameAr: city.nameAr }),
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
-        label: 'Cancel',
+        label: this.t('cities.button.cancel'),
         severity: 'secondary',
         outlined: true
       },
       acceptButtonProps: {
-        label: 'Delete',
+        label: this.t('cities.button.delete'),
         severity: 'danger'
       },
       accept: () => {
@@ -375,8 +396,8 @@ export class CitiesComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: 'City deleted successfully',
+            summary: this.t('common.success'),
+            detail: this.t('cities.notification.deleteSuccess'),
             life: 3000
           });
           this.loadCities();
@@ -385,8 +406,8 @@ export class CitiesComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to delete city',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('cities.notification.deleteError'),
             life: 5000
           });
           this.cdr.detectChanges();
@@ -443,18 +464,20 @@ export class CitiesComponent implements OnInit, OnDestroy {
     if (!control || !control.errors) return '';
 
     if (control.errors['required']) {
-      return `${controlName === 'nameAr' ? 'Arabic name' : 'English name'} is required`;
+      return controlName === 'nameAr'
+        ? this.t('cities.validation.nameArRequired')
+        : this.t('cities.validation.nameEnRequired');
     }
     
     if (control.errors['pattern']) {
       if (controlName === 'nameAr') {
-        return 'Arabic name must contain at least one Arabic character and be properly formatted';
+        return this.t('cities.validation.nameArPattern');
       } else {
-        return 'English name must contain at least one English letter and be properly formatted';
+        return this.t('cities.validation.nameEnPattern');
       }
     }
 
-    return 'Invalid input';
+    return this.t('cities.validation.invalid');
   }
 
   /**
@@ -467,5 +490,9 @@ export class CitiesComponent implements OnInit, OnDestroy {
       this.currentSearchRequest = undefined;
     }
     this.cdr.detectChanges();
+  }
+
+  private t(key: string, params?: Record<string, unknown>): string {
+    return this.languageService.translate(key, params);
   }
 }

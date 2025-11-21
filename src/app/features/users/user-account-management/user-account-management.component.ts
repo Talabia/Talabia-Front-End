@@ -22,6 +22,8 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from '../services/users.service';
 import { CitiesService } from '../../looksup/services/cities.service';
 import { MessageService, ConfirmationService } from 'primeng/api';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LanguageService } from '../../../shared/services/language.service';
 import {
   AdminUser,
   AdminUserDetails,
@@ -48,6 +50,7 @@ import { Subject, takeUntil, timeout, distinctUntilChanged } from 'rxjs';
     FormsModule,
     CommonModule,
     ConfirmPopupModule,
+    TranslatePipe,
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './user-account-management.component.html',
@@ -70,15 +73,13 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
   selectedCityId: number | null = null;
   selectedFilter: UserTypeFilterEnum | null = null;
   cities: City[] = [];
-  filterOptions: { label: string; value: UserTypeFilterEnum | null }[] = [
-    { label: 'All Users', value: null },
-    { label: 'Premium Users', value: UserTypeFilterEnum.Premium },
-    { label: 'Banned Users', value: UserTypeFilterEnum.Banned }
-  ];
+  filterOptions: { label: string; value: UserTypeFilterEnum | null }[] = [];
+  cityOptionLabel: keyof City = 'nameEn';
 
   // Dialog properties
   viewDialogVisible: boolean = false;
   selectedUser: AdminUserDetails | null = null;
+  pageReportTemplate: string = '';
 
   // Search debounce
   private searchSubject = new Subject<string>();
@@ -88,14 +89,48 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
   // Expose enum for template
   UserTypeFilterEnum = UserTypeFilterEnum;
 
+  private readonly filterOptionConfigs = [
+    { labelKey: 'users.filters.type.all', value: null },
+    { labelKey: 'users.filters.type.premium', value: UserTypeFilterEnum.Premium },
+    { labelKey: 'users.filters.type.banned', value: UserTypeFilterEnum.Banned },
+  ];
+
   constructor(
     private usersService: UsersService,
     private citiesService: CitiesService,
     private cdr: ChangeDetectorRef,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private languageService: LanguageService
   ) {
     this.setupSearchDebounce();
+    this.buildFilterOptions();
+    this.pageReportTemplate = this.t('table.currentPageReport');
+    this.updateCityOptionLabel();
+    this.observeLanguageChanges();
+  }
+
+  private observeLanguageChanges(): void {
+    this.languageService.languageChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.buildFilterOptions();
+        this.pageReportTemplate = this.t('table.currentPageReport');
+        this.updateCityOptionLabel();
+        this.cdr.markForCheck();
+      });
+  }
+
+  private buildFilterOptions(): void {
+    this.filterOptions = this.filterOptionConfigs.map((option) => ({
+      label: this.t(option.labelKey),
+      value: option.value,
+    }));
+  }
+
+  private updateCityOptionLabel(): void {
+    const currentLang = this.languageService.getCurrentLanguage();
+    this.cityOptionLabel = currentLang === 'ar' ? 'nameAr' : 'nameEn';
   }
 
   ngOnInit(): void {
@@ -219,8 +254,8 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
           this.currentRequest = undefined;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to load users',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('users.notification.loadError'),
             life: 5000,
           });
           this.cdr.detectChanges();
@@ -283,8 +318,8 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
           this.viewDialogVisible = false;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to load user details',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('users.notification.detailsError'),
             life: 5000,
           });
           this.cdr.detectChanges();
@@ -296,20 +331,20 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
    * Confirm and toggle ban status
    */
   confirmBanToggle(event: Event, user: AdminUser): void {
-    const action = user.isBlocked ? 'unban' : 'ban';
-    const actionCapitalized = user.isBlocked ? 'Unban' : 'Ban';
+    const action = user.isBlocked ? 'users.confirm.unban' : 'users.confirm.ban';
+    const acceptLabel = user.isBlocked ? 'users.button.unban' : 'users.button.ban';
     
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
-      message: `Are you sure you want to ${action} "${user.userName}"?`,
+      message: this.t(action, { name: user.userName }),
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
-        label: 'Cancel',
+        label: this.t('theme.button.cancel'),
         severity: 'secondary',
         outlined: true
       },
       acceptButtonProps: {
-        label: actionCapitalized,
+        label: this.t(acceptLabel),
         severity: user.isBlocked ? 'success' : 'danger'
       },
       accept: () => {
@@ -332,8 +367,8 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
           user.isBlocked = newStatus;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: `User ${newStatus ? 'banned' : 'unbanned'} successfully`,
+            summary: this.t('common.success'),
+            detail: this.t('users.notification.banSuccess'),
             life: 3000,
           });
           this.cdr.detectChanges();
@@ -341,8 +376,8 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
         error: (error: any) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to update ban status',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('users.notification.banError'),
             life: 5000,
           });
           this.cdr.detectChanges();
@@ -354,20 +389,20 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
    * Confirm and toggle premium status
    */
   confirmPremiumToggle(event: Event, user: AdminUser): void {
-    const action = user.isPremium ? 'remove premium status from' : 'make premium';
-    const actionCapitalized = user.isPremium ? 'Remove Premium' : 'Make Premium';
+    const action = user.isPremium ? 'users.confirm.removePremium' : 'users.confirm.makePremium';
+    const acceptLabel = user.isPremium ? 'users.button.makeRegular' : 'users.button.makePremium';
     
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
-      message: `Are you sure you want to ${action} "${user.userName}"?`,
+      message: this.t(action, { name: user.userName }),
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
-        label: 'Cancel',
+        label: this.t('theme.button.cancel'),
         severity: 'secondary',
         outlined: true
       },
       acceptButtonProps: {
-        label: actionCapitalized,
+        label: this.t(acceptLabel),
         severity: user.isPremium ? 'secondary' : 'primary'
       },
       accept: () => {
@@ -390,8 +425,8 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
           user.isPremium = newStatus;
           this.messageService.add({
             severity: 'success',
-            summary: 'Success',
-            detail: `Premium status ${newStatus ? 'activated' : 'deactivated'} successfully`,
+            summary: this.t('common.success'),
+            detail: this.t('users.notification.premiumSuccess'),
             life: 3000,
           });
           this.cdr.detectChanges();
@@ -399,8 +434,8 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
         error: (error: any) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: error.message || 'Failed to update premium status',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('users.notification.premiumError'),
             life: 5000,
           });
           this.cdr.detectChanges();
@@ -414,5 +449,9 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
   closeViewDialog(): void {
     this.viewDialogVisible = false;
     this.selectedUser = null;
+  }
+
+  private t(key: string, params?: Record<string, unknown>): string {
+    return this.languageService.translate(key, params);
   }
 }

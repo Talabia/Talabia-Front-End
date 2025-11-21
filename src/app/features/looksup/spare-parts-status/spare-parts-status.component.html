@@ -1,26 +1,27 @@
-<p-card header="Spare Parts Status">
+<p-card [header]="'sparePartsStatus.header' | translate">
     <div class="card">
         <div class="action-container">
             <p-iconfield>
                 <p-inputicon class="pi pi-search" />
-                <input type="text" pInputText placeholder="Search spare parts status..." (input)="onSearch($event)"
-                    (keyup)="onSearchKeyup($event)" [value]="searchKeyword" />
+                <input type="text" pInputText [placeholder]="'sparePartsStatus.searchPlaceholder' | translate"
+                    (input)="onSearch($event)" (keyup)="onSearchKeyup($event)" [value]="searchKeyword" />
 
             </p-iconfield>
             <p-divider layout="vertical" />
-            <p-button (click)="showCreateDialog()" label="Create" icon="pi pi-plus" [disabled]="loading" />
+            <p-button (click)="showCreateDialog()" [label]="'sparePartsStatus.button.create' | translate"
+                icon="pi pi-plus" [disabled]="loading" />
         </div>
         <p-table [value]="sparePartsStatuses" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
             [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading"
-            [showCurrentPageReport]="true" paginatorPosition="bottom">
+            [currentPageReportTemplate]="pageReportTemplate" (onPage)="pageChange($event)"
+            [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading" [showCurrentPageReport]="true"
+            paginatorPosition="bottom">
 
             <ng-template #header>
                 <tr>
-                    <th style="min-width:120px">Name AR</th>
-                    <th style="min-width:120px">Name EN</th>
-                    <th style="min-width:120px">Actions</th>
+                    <th style="min-width:120px">{{'sparePartsStatus.table.nameAr' | translate}}</th>
+                    <th style="min-width:120px">{{'sparePartsStatus.table.nameEn' | translate}}</th>
+                    <th style="min-width:120px">{{'sparePartsStatus.table.actions' | translate}}</th>
                 </tr>
             </ng-template>
 
@@ -30,10 +31,10 @@
                     <td>{{sparePartsStatus.nameEn}}</td>
                     <td>
                         <div class="table-actions">
-                            <p-button label="Edit" severity="success" [disabled]="loading"
-                                (click)="showEditDialog(sparePartsStatus)" />
-                            <p-button label="Delete" severity="danger" [disabled]="loading"
-                                (click)="confirmDelete($event, sparePartsStatus)" />
+                            <p-button [label]="'sparePartsStatus.button.edit' | translate" severity="success"
+                                [disabled]="loading" (click)="showEditDialog(sparePartsStatus)" />
+                            <p-button [label]="'sparePartsStatus.button.delete' | translate" severity="danger"
+                                [disabled]="loading" (click)="confirmDelete($event, sparePartsStatus)" />
                         </div>
                     </td>
                 </tr>
@@ -45,12 +46,12 @@
                         @if (searchKeyword && searchKeyword.trim()) {
                         <div class="empty-container">
                             <i class="pi pi-search"></i>
-                            <h4>No spare parts status found matching <strong>"{{searchKeyword}}"</strong></h4>
+                            <h4>{{'sparePartsStatus.empty.search' | translate:{ keyword: searchKeyword } }}</h4>
                         </div>
                         } @else {
                         <div class="empty-container">
                             <i class="pi pi-info-circle"></i>
-                            <h4>No spare parts status available</h4>
+                            <h4>{{'sparePartsStatus.empty.default' | translate}}</h4>
                         </div>
                         }
                     </td>
@@ -66,7 +67,8 @@
 
     <form [formGroup]="sparePartsStatusForm" (ngSubmit)="saveSparePartsStatus()">
         <div class="input-container">
-            <label for="nameAr" class="font-semibold w-24">Name AR <span>*</span></label>
+            <label for="nameAr" class="font-semibold w-24">{{'sparePartsStatus.field.nameAr' | translate}}
+                <span>*</span></label>
             <input pInputText id="nameAr" formControlName="nameAr" class="flex-auto" autocomplete="off"
                 [disabled]="loading" [invalid]="hasError('nameAr')" />
 
@@ -79,7 +81,8 @@
         </div>
 
         <div class="input-container">
-            <label for="nameEn" class="font-semibold w-24">Name EN <span>*</span></label>
+            <label for="nameEn" class="font-semibold w-24">{{'sparePartsStatus.field.nameEn' | translate}}
+                <span>*</span></label>
             <input pInputText id="nameEn" formControlName="nameEn" class="flex-auto" autocomplete="off"
                 [disabled]="loading" [invalid]="hasError('nameEn')" />
 
@@ -92,9 +95,11 @@
         </div>
 
         <div class="dialog-footer">
-            <p-button label="Cancel" severity="secondary" type="button" [disabled]="loading" (click)="cancelDialog()" />
-            <p-button [label]="isEditMode ? 'Update' : 'Create'" type="submit" [loading]="loading"
-                [disabled]="sparePartsStatusForm.invalid && submitted" />
+            <p-button [label]="'sparePartsStatus.button.cancel' | translate" severity="secondary" type="button"
+                [disabled]="loading" (click)="cancelDialog()" />
+            <p-button
+                [label]="(isEditMode ? 'sparePartsStatus.button.update' : 'sparePartsStatus.button.create') | translate"
+                type="submit" [loading]="loading" [disabled]="sparePartsStatusForm.invalid && submitted" />
         </div>
     </form>
 </p-dialog>
