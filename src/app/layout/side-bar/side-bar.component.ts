@@ -67,11 +67,11 @@ export class SideBarComponent implements OnInit, OnDestroy {
             icon: 'pi pi-file',
             routerLink: '/looksup/cities',
           },
-          {
-            label: this.t('lookups.conditions'),
-            icon: 'pi pi-file',
-            routerLink: '/looksup/conditions',
-          },
+          // {
+          //   label: this.t('lookups.conditions'),
+          //   icon: 'pi pi-file',
+          //   routerLink: '/looksup/conditions',
+          // },
           {
             label: this.t('lookups.sparePartsStatus'),
             icon: 'pi pi-file',
