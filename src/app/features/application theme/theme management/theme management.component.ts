@@ -5,6 +5,8 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputIcon } from 'primeng/inputicon';
 import { IconField } from 'primeng/iconfield';
+import { TextareaModule } from 'primeng/textarea';
+import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
@@ -25,7 +27,9 @@ import {
   CreateThemeRequest, 
   EditThemeRequest, 
   ThemesListRequest, 
-  ThemesListResponse 
+  ThemesListResponse,
+  ThemePalette,
+  ThemeDetailsResponse
 } from '../models/theme.models';
 import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
 @Component({
@@ -46,6 +50,7 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
     ProgressSpinnerModule,
     TagModule,
     ColorPicker,
+    TextareaModule,
     TranslatePipe
   ],
   providers: [ConfirmationService, MessageService],
@@ -75,11 +80,68 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
   isEditMode: boolean = false;
   dialogTitle: string = '';
   pageReportTemplate: string = '';
-  
+  dialogLoading: boolean = false;
+
   // Form properties
   themeForm!: FormGroup;
   submitted: boolean = false;
-  
+
+  palettePreviewKeys: (keyof ThemePalette)[] = ['primary', 'secondary', 'surface', 'onSurface'];
+
+  paletteFields: { key: keyof ThemePalette; labelKey: string }[] = [
+    { key: 'primary', labelKey: 'theme.palette.primary' },
+    { key: 'onPrimary', labelKey: 'theme.palette.onPrimary' },
+    { key: 'secondary', labelKey: 'theme.palette.secondary' },
+    { key: 'onSecondary', labelKey: 'theme.palette.onSecondary' },
+    { key: 'onSecondaryContainer', labelKey: 'theme.palette.onSecondaryContainer' },
+    { key: 'surface', labelKey: 'theme.palette.surface' },
+    { key: 'surfaceContainer', labelKey: 'theme.palette.surfaceContainer' },
+    { key: 'surfaceContainerLow', labelKey: 'theme.palette.surfaceContainerLow' },
+    { key: 'onSurface', labelKey: 'theme.palette.onSurface' },
+    { key: 'onSurfaceVariant', labelKey: 'theme.palette.onSurfaceVariant' },
+    { key: 'outline', labelKey: 'theme.palette.outline' },
+    { key: 'primaryFixed', labelKey: 'theme.palette.primaryFixed' },
+    { key: 'secondaryFixed', labelKey: 'theme.palette.secondaryFixed' },
+    { key: 'error', labelKey: 'theme.palette.error' },
+    { key: 'onError', labelKey: 'theme.palette.onError' }
+  ];
+
+  private readonly defaultLightPalette: ThemePalette = {
+    primary: '#1976d2',
+    onPrimary: '#ffffff',
+    outline: '#8d9199',
+    surfaceContainer: '#f5f5f5',
+    onSecondary: '#ffffff',
+    surface: '#ffffff',
+    onSurface: '#1f1f1f',
+    onSurfaceVariant: '#45464f',
+    surfaceContainerLow: '#f1f1f1',
+    secondary: '#424242',
+    primaryFixed: '#d0e2ff',
+    error: '#b3261e',
+    onError: '#ffffff',
+    onSecondaryContainer: '#1f1f1f',
+    secondaryFixed: '#e3e3e3'
+  };
+
+  private readonly defaultDarkPalette: ThemePalette = {
+    primary: '#90caf9',
+    onPrimary: '#003152',
+    outline: '#9199a2',
+    surfaceContainer: '#1f1f1f',
+    onSecondary: '#1f1f1f',
+    surface: '#121212',
+    onSurface: '#e0e0e0',
+    onSurfaceVariant: '#c4c6cf',
+    surfaceContainerLow: '#171717',
+    secondary: '#b0bec5',
+    primaryFixed: '#003152',
+    error: '#f2b8b5',
+    onError: '#601410',
+    onSecondaryContainer: '#f4f4f4',
+    secondaryFixed: '#2c2c2c'
+  };
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -125,12 +187,21 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
   private initializeForm(): void {
     this.themeForm = this.fb.group({
       id: [0],
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      primaryColor: ['#1976d2', Validators.required],
-      secondaryColor: ['#424242', Validators.required],
-      backgroundColor: ['#ffffff', Validators.required],
-      textColor: ['#000000', Validators.required]
+      nameEn: ['', [Validators.required, Validators.minLength(3)]],
+      nameAr: ['', [Validators.required, Validators.minLength(3)]],
+      descriptionEn: ['', [Validators.required, Validators.minLength(5)]],
+      descriptionAr: ['', [Validators.required, Validators.minLength(5)]],
+      light: this.createPaletteGroup(this.defaultLightPalette),
+      dark: this.createPaletteGroup(this.defaultDarkPalette)
     });
+  }
+
+  private createPaletteGroup(defaults: ThemePalette): FormGroup {
+    const group: Record<string, any> = {};
+    this.paletteFields.forEach(field => {
+      group[field.key] = [defaults[field.key], Validators.required];
+    });
+    return this.fb.group(group);
   }
 
   private setupSearchDebounce(): void {
@@ -264,11 +335,12 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
     this.updateDialogTitle();
     this.themeForm.reset({ 
       id: 0, 
-      name: '',
-      primaryColor: '#1976d2',
-      secondaryColor: '#424242',
-      backgroundColor: '#ffffff',
-      textColor: '#000000'
+      nameEn: '',
+      nameAr: '',
+      descriptionEn: '',
+      descriptionAr: '',
+      light: this.defaultLightPalette,
+      dark: this.defaultDarkPalette
     });
     this.submitted = false;
     this.visible = true;
@@ -280,16 +352,36 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
   showEditDialog(theme: Theme): void {
     this.isEditMode = true;
     this.updateDialogTitle();
-    this.themeForm.patchValue({
-      id: theme.id,
-      name: theme.name,
-      primaryColor: theme.primaryColor,
-      secondaryColor: theme.secondaryColor,
-      backgroundColor: theme.backgroundColor,
-      textColor: theme.textColor
-    });
-    this.submitted = false;
-    this.visible = true;
+    this.dialogLoading = true;
+    this.themeService.getThemeById(theme.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (details: ThemeDetailsResponse) => {
+          this.themeForm.patchValue({
+            id: details.id,
+            nameEn: details.nameEn,
+            nameAr: details.nameAr,
+            descriptionEn: details.descriptionEn,
+            descriptionAr: details.descriptionAr,
+            light: details.lightTheme,
+            dark: details.darkTheme
+          });
+          this.dialogLoading = false;
+          this.submitted = false;
+          this.visible = true;
+          this.cdr.detectChanges();
+        },
+        error: (error: any) => {
+          this.dialogLoading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('theme.notification.loadError'),
+            life: 5000
+          });
+          this.cdr.detectChanges();
+        }
+      });
   }
 
   /**
@@ -309,11 +401,12 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
     if (this.isEditMode) {
       const editRequest: EditThemeRequest = {
         id: formValue.id,
-        name: formValue.name.trim(),
-        primaryColor: formValue.primaryColor,
-        secondaryColor: formValue.secondaryColor,
-        backgroundColor: formValue.backgroundColor,
-        textColor: formValue.textColor
+        nameEn: formValue.nameEn.trim(),
+        nameAr: formValue.nameAr.trim(),
+        descriptionEn: formValue.descriptionEn.trim(),
+        descriptionAr: formValue.descriptionAr.trim(),
+        light: formValue.light,
+        dark: formValue.dark
       };
 
       this.themeService.editTheme(editRequest)
@@ -343,11 +436,12 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
         });
     } else {
       const createRequest: CreateThemeRequest = {
-        name: formValue.name.trim(),
-        primaryColor: formValue.primaryColor,
-        secondaryColor: formValue.secondaryColor,
-        backgroundColor: formValue.backgroundColor,
-        textColor: formValue.textColor
+        nameEn: formValue.nameEn.trim(),
+        nameAr: formValue.nameAr.trim(),
+        descriptionEn: formValue.descriptionEn.trim(),
+        descriptionAr: formValue.descriptionAr.trim(),
+        light: formValue.light,
+        dark: formValue.dark
       };
 
       this.themeService.createTheme(createRequest)
@@ -506,11 +600,12 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
     this.submitted = false;
     this.themeForm.reset({ 
       id: 0, 
-      name: '',
-      primaryColor: '#1976d2',
-      secondaryColor: '#424242',
-      backgroundColor: '#9e9d9dff',
-      textColor: '#000000'
+      nameEn: '',
+      nameAr: '',
+      descriptionEn: '',
+      descriptionAr: '',
+      light: this.defaultLightPalette,
+      dark: this.defaultDarkPalette
     });
   }
 
@@ -555,20 +650,26 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
 
     if (control.errors['required']) {
       const fieldNames: { [key: string]: string } = {
-        'name': this.t('theme.form.name'),
-        'primaryColor': this.t('theme.form.primaryColor'),
-        'secondaryColor': this.t('theme.form.secondaryColor'),
-        'backgroundColor': this.t('theme.form.backgroundColor'),
-        'textColor': this.t('theme.form.textColor')
+        'nameEn': this.t('theme.form.nameEn'),
+        'nameAr': this.t('theme.form.nameAr'),
+        'descriptionEn': this.t('theme.form.descriptionEn'),
+        'descriptionAr': this.t('theme.form.descriptionAr')
       };
-      if (controlName === 'name') {
-        return this.t('theme.validation.nameRequired');
+      
+      if (fieldNames[controlName]) {
+        return `${fieldNames[controlName]} ${this.t('theme.validation.required')}`;
       }
-      return `${fieldNames[controlName] || this.t('theme.validation.colorRequired')} ${this.t('theme.validation.colorRequired')}`;
+      
+      // Handle nested palette fields
+      if (controlName.includes('.')) {
+        return this.t('theme.validation.colorRequired');
+      }
+      
+      return this.t('theme.validation.required');
     }
     
     if (control.errors['minlength']) {
-      return this.t('theme.validation.nameMinLength', {
+      return this.t('theme.validation.minLength', {
         requiredLength: control.errors['minlength'].requiredLength,
       });
     }

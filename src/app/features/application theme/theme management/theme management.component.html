@@ -25,21 +25,23 @@
                     <td>{{theme.name}}</td>
                     <td>
                         <div class="color-display">
-                            <div class="color-item">
-                                <span class="color-square" [style.background-color]="theme.primaryColor"></span>
-                                <span class="color-label">{{'theme.color.primary' | translate}}</span>
+                            <div class="palette-section">
+                                <span class="palette-title">{{'theme.palette.light' | translate}}</span>
+                                <div class="color-preview">
+                                    @for (key of palettePreviewKeys; track key) {
+                                    <span class="color-square" [style.background-color]="theme.lightTheme[key]"
+                                        [title]="key"></span>
+                                    }
+                                </div>
                             </div>
-                            <div class="color-item">
-                                <span class="color-square" [style.background-color]="theme.secondaryColor"></span>
-                                <span class="color-label">{{'theme.color.secondary' | translate}}</span>
-                            </div>
-                            <div class="color-item">
-                                <span class="color-square" [style.background-color]="theme.backgroundColor"></span>
-                                <span class="color-label">{{'theme.color.background' | translate}}</span>
-                            </div>
-                            <div class="color-item">
-                                <span class="color-square" [style.background-color]="theme.textColor"></span>
-                                <span class="color-label">{{'theme.color.text' | translate}}</span>
+                            <div class="palette-section">
+                                <span class="palette-title">{{'theme.palette.dark' | translate}}</span>
+                                <div class="color-preview">
+                                    @for (key of palettePreviewKeys; track key) {
+                                    <span class="color-square" [style.background-color]="theme.darkTheme[key]"
+                                        [title]="key"></span>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </td>
@@ -54,7 +56,7 @@
                         @if (theme.isDefault) {
                         <p-tag severity="info" [value]="'theme.status.default' | translate" />
                         } @else {
-                        <span>{{'common.none' | translate}}</span>
+                        <p-tag severity="secondary" [value]="'common.none' | translate" />
                         }
                     </td>
                     <td>
@@ -97,70 +99,104 @@
 </p-card>
 
 <!-- Create/Edit Dialog -->
-<p-dialog [header]="dialogTitle" [modal]="true" [(visible)]="visible" [style]="{ width: '40rem' }" [closable]="!loading"
+<p-dialog [header]="dialogTitle" [modal]="true" [(visible)]="visible" [style]="{ width: '70rem' }" [closable]="!loading"
     [draggable]="false" [resizable]="false">
+    @if (dialogLoading) {
+    <div class="dialog-loading">
+        <p-progressSpinner />
+        <span>{{'common.loading' | translate}}</span>
+    </div>
+    } @else {
     <form [formGroup]="themeForm" (ngSubmit)="saveTheme()">
-        <div class="color-container">
-            <div class="color-item">
-                <p-colorpicker formControlName="primaryColor" inputId="primaryColor" [disabled]="loading" />
-                <label for="primaryColor" class="font-semibold w-24">{{'theme.form.primaryColor' | translate}}
-                    <span>*</span></label>
+        <!-- Name and Description Fields -->
+        <div class="form-section">
+            <h4>{{'theme.form.basicInfo' | translate}}</h4>
+            <div class="input-grid">
+                <div class="input-container">
+                    <label for="nameEn" class="font-semibold">{{'theme.form.nameEn' | translate}} <span>*</span></label>
+                    <input pInputText id="nameEn" formControlName="nameEn" class="flex-auto" autocomplete="off"
+                        [disabled]="loading" [invalid]="hasError('nameEn')" />
+                    @if (hasError('nameEn')) {
+                    <p-message severity="error" size="small" variant="simple">
+                        {{getErrorMessage('nameEn')}}
+                    </p-message>
+                    }
+                </div>
 
-                @if (hasError('primaryColor')) {
-                <p-message severity="error" size="small" variant="simple">
-                    {{getErrorMessage('primaryColor')}}
-                </p-message>
-                }
+                <div class="input-container">
+                    <label for="nameAr" class="font-semibold">{{'theme.form.nameAr' | translate}} <span>*</span></label>
+                    <input pInputText id="nameAr" formControlName="nameAr" class="flex-auto" autocomplete="off"
+                        [disabled]="loading" [invalid]="hasError('nameAr')" />
+                    @if (hasError('nameAr')) {
+                    <p-message severity="error" size="small" variant="simple">
+                        {{getErrorMessage('nameAr')}}
+                    </p-message>
+                    }
+                </div>
+
+                <div class="input-container">
+                    <label for="descriptionEn" class="font-semibold">{{'theme.form.descriptionEn' | translate}}
+                        <span>*</span></label>
+                    <textarea pTextarea id="descriptionEn" formControlName="descriptionEn" rows="2" [disabled]="loading"
+                        [class.p-invalid]="hasError('descriptionEn')"></textarea>
+                    @if (hasError('descriptionEn')) {
+                    <p-message severity="error" size="small" variant="simple">
+                        {{getErrorMessage('descriptionEn')}}
+                    </p-message>
+                    }
+                </div>
+
+                <div class="input-container">
+                    <label for="descriptionAr" class="font-semibold">{{'theme.form.descriptionAr' | translate}}
+                        <span>*</span></label>
+                    <textarea pTextarea id="descriptionAr" formControlName="descriptionAr" rows="2" [disabled]="loading"
+                        [class.p-invalid]="hasError('descriptionAr')"></textarea>
+                    @if (hasError('descriptionAr')) {
+                    <p-message severity="error" size="small" variant="simple">
+                        {{getErrorMessage('descriptionAr')}}
+                    </p-message>
+                    }
+                </div>
             </div>
+        </div>
 
-            <div class="color-item">
-                <p-colorpicker formControlName="secondaryColor" inputId="secondaryColor" [disabled]="loading" />
-                <label for="secondaryColor" class="font-semibold w-24">{{'theme.form.secondaryColor' | translate}}
-                    <span>*</span></label>
-
-                @if (hasError('secondaryColor')) {
-                <p-message severity="error" size="small" variant="simple">
-                    {{getErrorMessage('secondaryColor')}}
-                </p-message>
-                }
-            </div>
-
-            <div class="color-item">
-                <p-colorpicker formControlName="backgroundColor" inputId="backgroundColor" [disabled]="loading" />
-                <label for="backgroundColor" class="font-semibold w-24">{{'theme.form.backgroundColor' | translate}}
-                    <span>*</span></label>
-
-                @if (hasError('backgroundColor')) {
-                <p-message severity="error" size="small" variant="simple">
-                    {{getErrorMessage('backgroundColor')}}
-                </p-message>
-                }
-            </div>
-
-            <div class="color-item">
-                <p-colorpicker formControlName="textColor" inputId="textColor" [disabled]="loading" />
-                <label for="textColor" class="font-semibold w-24">{{'theme.form.textColor' | translate}}
-                    <span>*</span></label>
-
-                @if (hasError('textColor')) {
-                <p-message severity="error" size="small" variant="simple">
-                    {{getErrorMessage('textColor')}}
-                </p-message>
+        <!-- Light Theme Palette -->
+        <div class="form-section">
+            <h4>{{'theme.palette.light' | translate}}</h4>
+            <div class="palette-grid" formGroupName="light">
+                @for (field of paletteFields; track field.key) {
+                <div class="color-field">
+                    <label [for]="'light-' + field.key" class="color-label">{{field.labelKey | translate}}</label>
+                    <p-colorpicker [formControlName]="field.key" [inputId]="'light-' + field.key"
+                        [disabled]="loading" />
+                    @if (hasError('light.' + field.key)) {
+                    <p-message severity="error" size="small" variant="simple">
+                        {{getErrorMessage('light.' + field.key)}}
+                    </p-message>
+                    }
+                </div>
                 }
             </div>
         </div>
-        <div class="input-container">
-            <label for="name" class="font-semibold w-24">{{'theme.form.name' | translate}} <span>*</span></label>
-            <input pInputText id="name" formControlName="name" class="flex-auto" autocomplete="off" [disabled]="loading"
-                [invalid]="hasError('name')" />
 
-            @if (hasError('name') || themeForm.get('name')?.dirty
-            || themeForm.get('name')?.touched ) {
-            <p-message severity="error" size="small" variant="simple">
-                {{getErrorMessage('name')}}
-            </p-message>
-            }
+        <!-- Dark Theme Palette -->
+        <div class="form-section">
+            <h4>{{'theme.palette.dark' | translate}}</h4>
+            <div class="palette-grid" formGroupName="dark">
+                @for (field of paletteFields; track field.key) {
+                <div class="color-field">
+                    <label [for]="'dark-' + field.key" class="color-label">{{field.labelKey | translate}}</label>
+                    <p-colorpicker [formControlName]="field.key" [inputId]="'dark-' + field.key" [disabled]="loading" />
+                    @if (hasError('dark.' + field.key)) {
+                    <p-message severity="error" size="small" variant="simple">
+                        {{getErrorMessage('dark.' + field.key)}}
+                    </p-message>
+                    }
+                </div>
+                }
+            </div>
         </div>
+
         <div class="dialog-footer">
             <p-button [label]="'theme.button.cancel' | translate" severity="secondary" type="button"
                 [disabled]="loading" (click)="cancelDialog()" />
@@ -168,6 +204,7 @@
                 type="submit" [loading]="loading" [disabled]="themeForm.invalid && submitted" />
         </div>
     </form>
+    }
 </p-dialog>
 
 <p-toast />

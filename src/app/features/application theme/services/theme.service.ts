@@ -11,7 +11,9 @@ import {
   ThemesListResponse, 
   ApiResponse,
   SetActiveRequest,
-  SetDefaultRequest
+  SetDefaultRequest,
+  ThemeDetailsResponse,
+  ActiveThemeResponse
 } from '../models/theme.models';
 
 @Injectable({
@@ -58,12 +60,24 @@ export class ThemeService {
    * Get single Theme by ID
    * GET /api/Themes/get?Id=1
    */
-  getThemeById(id: number): Observable<Theme> {
+  getThemeById(id: number): Observable<ThemeDetailsResponse> {
     const params = new HttpParams().set('Id', id.toString());
     
-    return this.http.get<ApiResponse<Theme>>(`${this.baseUrl}Themes/get`, { params })
+    return this.http.get<ApiResponse<ThemeDetailsResponse> | ThemeDetailsResponse>(`${this.baseUrl}Themes/get`, { params })
       .pipe(
-        map(response => response.data),
+        map(response => (response as ApiResponse<ThemeDetailsResponse>)?.data ?? response as ThemeDetailsResponse),
+        catchError(this.handleError)
+      );
+  }
+
+  /**
+   * Get active theme palettes
+   * GET /api/Themes/get/active
+   */
+  getActiveTheme(): Observable<ActiveThemeResponse> {
+    return this.http.get<ApiResponse<ActiveThemeResponse> | ActiveThemeResponse>(`${this.baseUrl}Themes/get/active`)
+      .pipe(
+        map(response => (response as ApiResponse<ActiveThemeResponse>)?.data ?? response as ActiveThemeResponse),
         catchError(this.handleError)
       );
   }
@@ -72,10 +86,10 @@ export class ThemeService {
    * Create a new Theme
    * POST /api/Themes/create
    */
-  createTheme(request: CreateThemeRequest): Observable<Theme> {
-    return this.http.post<ApiResponse<Theme>>(`${this.baseUrl}Themes/create`, request)
+  createTheme(request: CreateThemeRequest): Observable<ThemeDetailsResponse> {
+    return this.http.post<ApiResponse<ThemeDetailsResponse> | ThemeDetailsResponse>(`${this.baseUrl}Themes/create`, request)
       .pipe(
-        map(response => response.data),
+        map(response => (response as ApiResponse<ThemeDetailsResponse>)?.data ?? response as ThemeDetailsResponse),
         catchError(this.handleError)
       );
   }
@@ -84,10 +98,10 @@ export class ThemeService {
    * Edit existing Theme
    * PUT /api/Themes/edit
    */
-  editTheme(request: EditThemeRequest): Observable<Theme> {
-    return this.http.put<ApiResponse<Theme>>(`${this.baseUrl}Themes/edit`, request)
+  editTheme(request: EditThemeRequest): Observable<ThemeDetailsResponse> {
+    return this.http.put<ApiResponse<ThemeDetailsResponse> | ThemeDetailsResponse>(`${this.baseUrl}Themes/edit`, request)
       .pipe(
-        map(response => response.data),
+        map(response => (response as ApiResponse<ThemeDetailsResponse>)?.data ?? response as ThemeDetailsResponse),
         catchError(this.handleError)
       );
   }
@@ -99,9 +113,9 @@ export class ThemeService {
   deleteTheme(id: number): Observable<boolean> {
     const params = new HttpParams().set('Id', id.toString());
     
-    return this.http.delete<ApiResponse<boolean>>(`${this.baseUrl}Themes/delete`, { params })
+    return this.http.delete<ApiResponse<boolean> | { success: boolean }>(`${this.baseUrl}Themes/delete`, { params })
       .pipe(
-        map(response => response.success),
+        map(response => (response as ApiResponse<boolean>)?.success ?? (response as { success: boolean })?.success ?? false),
         catchError(this.handleError)
       );
   }
@@ -111,9 +125,9 @@ export class ThemeService {
    * PUT /api/Themes/set/active
    */
   setActiveStatus(request: SetActiveRequest): Observable<boolean> {
-    return this.http.put<ApiResponse<boolean>>(`${this.baseUrl}Themes/set/active`, request)
+    return this.http.put<ApiResponse<boolean> | { success: boolean }>(`${this.baseUrl}Themes/set/active`, request)
       .pipe(
-        map(response => response.success),
+        map(response => (response as ApiResponse<boolean>)?.success ?? (response as { success: boolean })?.success ?? false),
         catchError(this.handleError)
       );
   }
@@ -123,9 +137,9 @@ export class ThemeService {
    * PUT /api/Themes/set/default
    */
   setDefaultTheme(request: SetDefaultRequest): Observable<boolean> {
-    return this.http.put<ApiResponse<boolean>>(`${this.baseUrl}Themes/set/default`, request)
+    return this.http.put<ApiResponse<boolean> | { success: boolean }>(`${this.baseUrl}Themes/set/default`, request)
       .pipe(
-        map(response => response.success),
+        map(response => (response as ApiResponse<boolean>)?.success ?? (response as { success: boolean })?.success ?? false),
         catchError(this.handleError)
       );
   }
