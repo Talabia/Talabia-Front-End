@@ -1,1 +1,140 @@
-<p>verifications-statistics works!</p>
+<p-card [header]="'analytics.verifications.header' | translate">
+    <div class="card">
+        <!-- Refresh Button -->
+        <div class="action-container">
+            <p-button [label]="'analytics.verifications.refresh' | translate" icon="pi pi-refresh" severity="secondary"
+                [loading]="loading" (click)="loadVerificationsData()" />
+        </div>
+
+        <!-- Loading Spinner -->
+        @if (loading) {
+        <div class="loading-container">
+            <p-progressSpinner />
+            <p>{{ loadingMessage }}</p>
+        </div>
+        }
+
+        <!-- Summary Cards -->
+        @if (!loading && statistics) {
+        <div class="summary-container">
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-chart-bar"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{getTotalVerifications()}}</h3>
+                        <p>{{'analytics.verifications.totalVerifications' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-clock"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{statistics.totalPending}}</h3>
+                        <p>{{'analytics.verifications.pending' | translate}}</p>
+                        <small>{{getStatusPercentage('pending')}}{{'analytics.verifications.ofTotal' |
+                            translate}}</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-eye"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{statistics.totalUnderReview}}</h3>
+                        <p>{{'analytics.verifications.underReview' | translate}}</p>
+                        <small>{{getStatusPercentage('underReview')}}{{'analytics.verifications.ofTotal' |
+                            translate}}</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-check-circle"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{statistics.totalApproved}}</h3>
+                        <p>{{'analytics.verifications.approved' | translate}}</p>
+                        <small>{{getStatusPercentage('approved')}}{{'analytics.verifications.ofTotal' |
+                            translate}}</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-times-circle"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{statistics.totalRejected}}</h3>
+                        <p>{{'analytics.verifications.rejected' | translate}}</p>
+                        <small>{{getStatusPercentage('rejected')}}{{'analytics.verifications.ofTotal' |
+                            translate}}</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-exclamation-triangle"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{statistics.totalRequiresUpdate}}</h3>
+                        <p>{{'analytics.verifications.requiresUpdate' | translate}}</p>
+                        <small>{{getStatusPercentage('requiresUpdate')}}{{'analytics.verifications.ofTotal' |
+                            translate}}</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-calendar"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{statistics.todaySubmissions}}</h3>
+                        <p>{{'analytics.verifications.todaySubmissions' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-calendar-plus"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{statistics.thisWeekSubmissions}}</h3>
+                        <p>{{'analytics.verifications.thisWeekSubmissions' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+        <!-- Empty State -->
+        @if (!loading && !statistics) {
+        <div class="empty-container">
+            <i class="pi pi-chart-bar"></i>
+            <h4>{{'analytics.verifications.emptyTitle' | translate}}</h4>
+            <p>{{'analytics.verifications.emptyDescription' | translate}}</p>
+            <p-button [label]="'analytics.verifications.retry' | translate" icon="pi pi-refresh" severity="primary"
+                (click)="loadVerificationsData()" />
+        </div>
+        }
+    </div>
+</p-card>
+<p-toast />
