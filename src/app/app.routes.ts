@@ -12,6 +12,7 @@ import { UserAccountManagementComponent } from './features/users/user-account-ma
 import {DashboardComponent} from './features/analytics-statistics/dashboard/dashboard.component';
 import {ReportsMangementComponent} from './features/reports/reports-mangement/reports-mangement.component';
 import { UserVerificationsComponent } from './features/users/user-verifications/user-verifications.component';
+import { VerificationsStatisticsComponent } from './features/analytics-statistics/verifications-statistics/verifications-statistics.component';
 
 export const routes: Routes = [
   {
@@ -94,6 +95,10 @@ export const routes: Routes = [
         path: 'dashboard',
         component: DashboardComponent,
       },
+      {
+        path: 'verifications-statistics',
+        component: VerificationsStatisticsComponent,
+      },
     ],
   },
   {
@@ -103,6 +108,7 @@ export const routes: Routes = [
         path: 'reports-mangement',
         component: ReportsMangementComponent,
       },
+
     ],
   },
 ];

@@ -119,6 +119,11 @@ export class SideBarComponent implements OnInit, OnDestroy {
             icon: 'pi pi-chart-line',
             routerLink: '/analytics-statistics/dashboard',
           },
+          {
+            label: this.t('sidebar.verificationsStatistics'),
+            icon: 'pi pi-chart-line',
+            routerLink: '/analytics-statistics/verifications-statistics',
+          },
         ],
       },
       {
