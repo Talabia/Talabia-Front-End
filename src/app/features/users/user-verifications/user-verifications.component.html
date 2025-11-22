@@ -1,1 +1,225 @@
-<p>user-verifications works!</p>
+<p-card [header]="'verifications.header' | translate">
+    <div class="card">
+        <!-- Filters Section -->
+        <div class="action-container">
+            <!-- Search -->
+            <p-iconfield>
+                <p-inputicon class="pi pi-search" />
+                <input type="text" pInputText [placeholder]="'verifications.filters.searchPlaceholder' | translate"
+                    [(ngModel)]="searchKeyword" (input)="onSearch($event)" [disabled]="loading" />
+            </p-iconfield>
+
+            <!-- Date Range Filter -->
+            <p-datepicker [(ngModel)]="dateRange" selectionMode="range" [readonlyInput]="true" showIcon
+                iconDisplay="input" [showClear]="true"
+                [placeholder]="'verifications.filters.dateRangePlaceholder' | translate" style="min-width: 300px;"
+                dateFormat="yy-mm-dd" (onSelect)="onDateRangeChange()" (onClear)="onFilterChange()"
+                [disabled]="loading" />
+
+            <!-- Status Filter -->
+            <p-select [options]="statusOptions" [(ngModel)]="selectedStatus" optionLabel="label" optionValue="value"
+                [placeholder]="'verifications.filters.statusPlaceholder' | translate" (onChange)="onFilterChange()"
+                [disabled]="loading" [showClear]="true" />
+        </div>
+
+        <p-table [value]="verifications" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
+            [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
+            [currentPageReportTemplate]="pageReportTemplate" (onPage)="pageChange($event)"
+            [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="600px" [loading]="loading" [showCurrentPageReport]="true"
+            paginatorPosition="bottom">
+
+            <ng-template #header>
+                <tr>
+                    <th style="min-width:200px">{{'verifications.table.userName' | translate}}</th>
+                    <th style="min-width:180px">{{'verifications.table.commercialNumber' | translate}}</th>
+                    <th style="min-width:150px">{{'verifications.table.phone' | translate}}</th>
+                    <th style="min-width:200px">{{'verifications.table.email' | translate}}</th>
+                    <th style="min-width:150px">{{'verifications.table.city' | translate}}</th>
+                    <th style="min-width:150px">{{'verifications.table.submittedAt' | translate}}</th>
+                    <th style="min-width:120px">{{'verifications.table.status' | translate}}</th>
+                    <th style="min-width:300px">{{'verifications.table.actions' | translate}}</th>
+                </tr>
+            </ng-template>
+
+            <ng-template #body let-verification>
+                <tr>
+                    <td>{{verification.userName}}</td>
+                    <td>{{verification.commercialRegistrationNumber || '-'}}</td>
+                    <td>{{verification.phone}}</td>
+                    <td>{{verification.email}}</td>
+                    <td>{{verification.city}}</td>
+                    <td>{{verification.submittedAt | date:'short'}}</td>
+                    <td>
+                        <p-tag [severity]="getStatusSeverity(verification.status)" [value]="verification.status" />
+                    </td>
+                    <td>
+                        <div class="table-actions">
+                            <p-button [label]="'verifications.button.details' | translate" [disabled]="loading"
+                                (click)="showViewDialog(verification)" />
+                            <p-button [label]="'verifications.button.review' | translate" severity="info"
+                                [disabled]="loading" (click)="showReviewDialog(verification)" />
+                            <p-button [label]="'verifications.button.approve' | translate" severity="success"
+                                [disabled]="loading" (click)="confirmApprove($event, verification)" />
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">
+                        @if (searchKeyword && searchKeyword.trim()) {
+                        <div class="empty-container">
+                            <i class="pi pi-search"></i>
+                            <h4>{{'verifications.empty.search' | translate:{ keyword: searchKeyword } }}</h4>
+                        </div>
+                        } @else {
+                        <div class="empty-container">
+                            <i class="pi pi-info-circle"></i>
+                            <h4>{{'verifications.empty.default' | translate}}</h4>
+                        </div>
+                        }
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</p-card>
+
+<!-- View Verification Details Dialog -->
+<p-dialog [header]="'verifications.detailsDialog.title' | translate" [modal]="true" [(visible)]="viewDialogVisible"
+    [style]="{ width: '60rem' }" [closable]="!loading" [draggable]="false" [resizable]="false">
+    @if (selectedVerificationDetails) {
+    <div class="details-container">
+        <div class="detail-row">
+            <label class="detail-label">{{'verifications.detailsDialog.fields.userName' | translate}}:</label>
+            <span class="detail-value">{{selectedVerificationDetails.userName}}</span>
+        </div>
+        <div class="detail-row">
+            <label class="detail-label">{{'verifications.detailsDialog.fields.userEmail' | translate}}:</label>
+            <span class="detail-value">{{selectedVerificationDetails.userEmail}}</span>
+        </div>
+        <div class="detail-row">
+            <label class="detail-label">{{'verifications.detailsDialog.fields.userPhone' | translate}}:</label>
+            <span class="detail-value">{{selectedVerificationDetails.userPhone}}</span>
+        </div>
+        <div class="detail-row">
+            <label class="detail-label">{{'verifications.detailsDialog.fields.city' | translate}}:</label>
+            <span class="detail-value">{{selectedVerificationDetails.city}}</span>
+        </div>
+        <div class="detail-row">
+            <label class="detail-label">{{'verifications.detailsDialog.fields.commercialNumber' | translate}}:</label>
+            <span class="detail-value">{{selectedVerificationDetails.commercialRegistrationNumber}}</span>
+        </div>
+        <div class="detail-row">
+            <label class="detail-label">{{'verifications.detailsDialog.fields.location' | translate}}:</label>
+            <span class="detail-value">{{selectedVerificationDetails.location}}</span>
+        </div>
+        <div class="detail-row">
+            <label class="detail-label">{{'verifications.detailsDialog.fields.taxCertificate' | translate}}:</label>
+            @if (selectedVerificationDetails.taxCertificateUrl) {
+            <a [href]="selectedVerificationDetails.taxCertificateUrl" target="_blank" class="detail-value">
+                {{'verifications.detailsDialog.viewDocument' | translate}}
+            </a>
+            } @else {
+            <span class="detail-value">-</span>
+            }
+        </div>
+        <div class="detail-row">
+            <label class="detail-label">{{'verifications.detailsDialog.fields.storeImage' | translate}}:</label>
+            @if (selectedVerificationDetails.storeImageUrl) {
+            <a [href]="selectedVerificationDetails.storeImageUrl" target="_blank" class="detail-value">
+                {{'verifications.detailsDialog.viewImage' | translate}}
+            </a>
+            } @else {
+            <span class="detail-value">-</span>
+            }
+        </div>
+        <div class="detail-row">
+            <label class="detail-label">{{'verifications.detailsDialog.fields.status' | translate}}:</label>
+            <p-tag [severity]="getStatusSeverity(selectedVerificationDetails.status)"
+                [value]="selectedVerificationDetails.status" />
+        </div>
+        @if (selectedVerificationDetails.rejectionReason) {
+        <div class="detail-row">
+            <label class="detail-label">{{'verifications.detailsDialog.fields.rejectionReason' | translate}}:</label>
+            <span class="detail-value">{{selectedVerificationDetails.rejectionReason}}</span>
+        </div>
+        }
+        @if (selectedVerificationDetails.adminNotes) {
+        <div class="detail-row">
+            <label class="detail-label">{{'verifications.detailsDialog.fields.adminNotes' | translate}}:</label>
+            <span class="detail-value">{{selectedVerificationDetails.adminNotes}}</span>
+        </div>
+        }
+
+        <!-- Recent Logs Table -->
+        @if (selectedVerificationDetails.recentLogs && selectedVerificationDetails.recentLogs.length > 0) {
+        <div class="logs-section">
+            <h4>{{'verifications.detailsDialog.logs.title' | translate}}</h4>
+            <p-table [value]="selectedVerificationDetails.recentLogs" [scrollable]="true" scrollHeight="200px">
+                <ng-template #header>
+                    <tr>
+                        <th>{{'verifications.detailsDialog.logs.fieldName' | translate}}</th>
+                        <th>{{'verifications.detailsDialog.logs.oldValue' | translate}}</th>
+                        <th>{{'verifications.detailsDialog.logs.newValue' | translate}}</th>
+                        <th>{{'verifications.detailsDialog.logs.createdAt' | translate}}</th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-log>
+                    <tr>
+                        <td>{{log.fieldName}}</td>
+                        <td>{{log.oldValue || '-'}}</td>
+                        <td>{{log.newValue || '-'}}</td>
+                        <td>{{log.createdAt | date:'short'}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        }
+    </div>
+
+    <div class="dialog-footer">
+        <p-button [label]="'verifications.button.close' | translate" severity="secondary" (click)="closeViewDialog()" />
+    </div>
+    }
+</p-dialog>
+
+<!-- Review Verification Dialog -->
+<p-dialog [header]="'verifications.reviewDialog.title' | translate" [modal]="true" [(visible)]="reviewDialogVisible"
+    [style]="{ width: '40rem' }" [closable]="!loading" [draggable]="false" [resizable]="false">
+    <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+        <div class="details-container">
+            <div class="detail-row">
+                <label class="detail-label">{{'verifications.reviewDialog.fields.status' | translate}}:</label>
+                <p-select [options]="statusOptions" formControlName="status" optionLabel="label" optionValue="value"
+                    [placeholder]="'verifications.reviewDialog.fields.statusPlaceholder' | translate"
+                    [class.p-invalid]="reviewForm.get('status')?.invalid && reviewForm.get('status')?.touched" />
+            </div>
+
+            <div class="detail-row">
+                <label class="detail-label">{{'verifications.reviewDialog.fields.rejectionReason' | translate}}:</label>
+                <textarea pTextarea formControlName="rejectionReason" rows="3"
+                    [placeholder]="'verifications.reviewDialog.fields.rejectionReasonPlaceholder' | translate"
+                    [class.p-invalid]="reviewForm.get('rejectionReason')?.invalid && reviewForm.get('rejectionReason')?.touched"></textarea>
+            </div>
+
+            <div class="detail-row">
+                <label class="detail-label">{{'verifications.reviewDialog.fields.adminNotes' | translate}}:</label>
+                <textarea pTextarea formControlName="adminNotes" rows="3"
+                    [placeholder]="'verifications.reviewDialog.fields.adminNotesPlaceholder' | translate"
+                    [class.p-invalid]="reviewForm.get('adminNotes')?.invalid && reviewForm.get('adminNotes')?.touched"></textarea>
+            </div>
+        </div>
+
+        <div class="dialog-footer">
+            <p-button [label]="'verifications.button.cancel' | translate" severity="secondary" type="button"
+                (click)="closeReviewDialog()" [disabled]="loading" />
+            <p-button [label]="'verifications.button.submit' | translate" severity="primary" type="submit"
+                [disabled]="loading || reviewForm.invalid" [loading]="loading" />
+        </div>
+    </form>
+</p-dialog>
+
+<p-toast />
+<p-confirmpopup />

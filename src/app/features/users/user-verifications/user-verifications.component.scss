@@ -1,0 +1,86 @@
+.action-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-block: 0.5rem;
+}
+
+.empty-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.details-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.detail-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    textarea {
+        width: 100%;
+        resize: vertical;
+    }
+
+    p-select {
+        width: 100%;
+    }
+
+    a.detail-value {
+        color: var(--p-primary-color);
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+            color: var(--p-primary-hover-color);
+        }
+    }
+}
+
+.detail-label {
+    font-weight: 600;
+    color: var(--p-text-color);
+    min-width: 140px;
+}
+
+.detail-value {
+    color: var(--p-text-muted-color);
+}
+
+.dialog-footer {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-block-start: 1.5rem;
+    padding-top: 1rem;
+}
+
+.logs-section {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--p-divider-border-color);
+
+    h4 {
+        margin-bottom: 1rem;
+        color: var(--p-text-color);
+        font-weight: 600;
+    }
+}
