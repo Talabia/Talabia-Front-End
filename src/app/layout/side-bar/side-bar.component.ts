@@ -4,6 +4,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenuItem, MessageService } from 'primeng/api';
 import { PanelMenu } from 'primeng/panelmenu';
 import { LanguageService } from '../../shared/services/language.service';
+import { NavigationService } from '../../shared/services/navigation.service';
 import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-side-bar',
@@ -22,7 +23,11 @@ export class SideBarComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private languageService: LanguageService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private languageService: LanguageService, 
+    private navigationService: NavigationService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.buildMenu();
@@ -43,17 +48,17 @@ export class SideBarComponent implements OnInit, OnDestroy {
       {
         label: this.t('sidebar.advertisement'),
         icon: 'pi pi-bullseye',
-        routerLink: ['/advertisement/advertisement-management'],
+        routerLink: this.navigationService.getRouterLink('/advertisement/advertisement-management'),
       },
       {
         label: this.t('sidebar.theme'),
         icon: 'pi pi-palette',
-        routerLink: ['/application-theme/theme-management'],
+        routerLink: this.navigationService.getRouterLink('/application-theme/theme-management'),
       },
       {
         label: this.t('sidebar.customerSupport'),
         icon: 'pi pi-megaphone',
-        routerLink: ['/customer-support/customer-support-mangement'],
+        routerLink: this.navigationService.getRouterLink('/customer-support/customer-support-mangement'),
       },
     ];
 
@@ -65,32 +70,32 @@ export class SideBarComponent implements OnInit, OnDestroy {
           {
             label: this.t('lookups.cities'),
             icon: 'pi pi-file',
-            routerLink: '/looksup/cities',
+            routerLink: this.navigationService.getRouterLink('/looksup/cities'),
           },
           // {
           //   label: this.t('lookups.conditions'),
           //   icon: 'pi pi-file',
-          //   routerLink: '/looksup/conditions',
+          //   routerLink: this.navigationService.getRouterLink('/looksup/conditions'),
           // },
           {
             label: this.t('lookups.sparePartsStatus'),
             icon: 'pi pi-file',
-            routerLink: '/looksup/spare-parts-status',
+            routerLink: this.navigationService.getRouterLink('/looksup/spare-parts-status'),
           },
           {
             label: this.t('lookups.vehicleTypes'),
             icon: 'pi pi-file',
-            routerLink: '/looksup/vehicle-types',
+            routerLink: this.navigationService.getRouterLink('/looksup/vehicle-types'),
           },
           {
             label: this.t('lookups.vehicleMakers'),
             icon: 'pi pi-file',
-            routerLink: '/looksup/vehicle-makers',
+            routerLink: this.navigationService.getRouterLink('/looksup/vehicle-makers'),
           },
           {
             label: this.t('lookups.vehicleModels'),
             icon: 'pi pi-file',
-            routerLink: '/looksup/vehicle-models',
+            routerLink: this.navigationService.getRouterLink('/looksup/vehicle-models'),
           },
         ],
       },
@@ -101,12 +106,12 @@ export class SideBarComponent implements OnInit, OnDestroy {
           {
             label: this.t('users.management'),
             icon: 'pi pi-user',
-            routerLink: '/users/user-management',
+            routerLink: this.navigationService.getRouterLink('/users/user-management'),
           },
           {
             label: this.t('users.verifications'),
             icon: 'pi pi-verified',
-            routerLink: '/users/user-verifications',
+            routerLink: this.navigationService.getRouterLink('/users/user-verifications'),
           },
         ],
       },
@@ -117,12 +122,12 @@ export class SideBarComponent implements OnInit, OnDestroy {
           {
             label: this.t('sidebar.dashboard'),
             icon: 'pi pi-chart-line',
-            routerLink: '/analytics-statistics/dashboard',
+            routerLink: this.navigationService.getRouterLink('/analytics-statistics/dashboard'),
           },
           {
             label: this.t('sidebar.verificationsStatistics'),
             icon: 'pi pi-chart-line',
-            routerLink: '/analytics-statistics/verifications-statistics',
+            routerLink: this.navigationService.getRouterLink('/analytics-statistics/verifications-statistics'),
           },
         ],
       },
@@ -133,7 +138,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
           {
             label: this.t('sidebar.reportsManagement'),
             icon: 'pi pi-file',
-            routerLink: '/reports/reports-mangement',
+            routerLink: this.navigationService.getRouterLink('/reports/reports-mangement'),
           },
         ],
       },

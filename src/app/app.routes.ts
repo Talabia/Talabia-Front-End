@@ -13,8 +13,10 @@ import {DashboardComponent} from './features/analytics-statistics/dashboard/dash
 import {ReportsMangementComponent} from './features/reports/reports-mangement/reports-mangement.component';
 import { UserVerificationsComponent } from './features/users/user-verifications/user-verifications.component';
 import { VerificationsStatisticsComponent } from './features/analytics-statistics/verifications-statistics/verifications-statistics.component';
+import { languageGuard } from './shared/guards/language.guard';
 
-export const routes: Routes = [
+// Define the main routes without language prefix
+const mainRoutes: Routes = [
   {
     path: '',
     component: AdvertisementManagementComponent,
@@ -48,7 +50,7 @@ export const routes: Routes = [
       },
     ],
   },
-    {
+  {
     path: 'users',
     children: [
       {
@@ -108,7 +110,26 @@ export const routes: Routes = [
         path: 'reports-mangement',
         component: ReportsMangementComponent,
       },
-
     ],
+  },
+];
+
+export const routes: Routes = [
+  // Language-prefixed routes
+  {
+    path: ':lang',
+    canActivate: [languageGuard],
+    children: mainRoutes,
+  },
+  // Default redirect to Arabic (or preferred default language)
+  {
+    path: '',
+    redirectTo: '/ar',
+    pathMatch: 'full',
+  },
+  // Fallback for any unmatched routes - redirect to default language
+  {
+    path: '**',
+    redirectTo: '/ar',
   },
 ];

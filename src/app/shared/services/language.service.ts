@@ -1,4 +1,5 @@
-import { ApplicationRef, Injectable, NgZone } from '@angular/core';
+import { ApplicationRef, Injectable, NgZone, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 type SupportedLanguage = 'ar' | 'en';
@@ -1178,6 +1179,8 @@ export class LanguageService {
   private readonly languageChange$ = new BehaviorSubject<SupportedLanguage>('ar');
   readonly languageChanged$ = this.languageChange$.asObservable();
 
+  private router = inject(Router);
+
   constructor(private appRef: ApplicationRef, private ngZone: NgZone) {
     this.currentLang = this.loadInitialLanguage();
     this.applyDocumentSettings(this.currentLang);
@@ -1202,7 +1205,23 @@ export class LanguageService {
   }
 
   toggleLanguage(): SupportedLanguage {
-    return this.setLanguage(this.currentLang === 'ar' ? 'en' : 'ar');
+    const newLang = this.currentLang === 'ar' ? 'en' : 'ar';
+    this.navigateWithLanguage(newLang);
+    return newLang;
+  }
+
+  /**
+   * Navigate to the current route with a different language prefix
+   */
+  private navigateWithLanguage(lang: SupportedLanguage): void {
+    const currentUrl = this.router.url;
+    
+    // Remove the current language prefix if it exists
+    const urlWithoutLang = currentUrl.replace(/^\/(ar|en)/, '') || '/';
+    
+    // Navigate to the new URL with the new language prefix
+    const newUrl = `/${lang}${urlWithoutLang}`;
+    this.router.navigateByUrl(newUrl);
   }
 
   translate(key: string, params?: Record<string, unknown>): string {
@@ -1224,6 +1243,13 @@ export class LanguageService {
       return this.defaultLang;
     }
 
+    // First, try to get language from URL
+    const urlLang = this.getLanguageFromUrl();
+    if (urlLang) {
+      return urlLang;
+    }
+
+    // Then try localStorage
     try {
       const stored = window.localStorage.getItem(this.storageKey) as SupportedLanguage | null;
       if (stored === 'en' || stored === 'ar') {
@@ -1234,6 +1260,24 @@ export class LanguageService {
     }
 
     return this.defaultLang;
+  }
+
+  /**
+   * Extract language from current URL
+   */
+  private getLanguageFromUrl(): SupportedLanguage | null {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
+    const path = window.location.pathname;
+    const langMatch = path.match(/^\/(ar|en)/);
+    
+    if (langMatch && (langMatch[1] === 'ar' || langMatch[1] === 'en')) {
+      return langMatch[1] as SupportedLanguage;
+    }
+
+    return null;
   }
 
   private persistLanguage(lang: SupportedLanguage): void {
