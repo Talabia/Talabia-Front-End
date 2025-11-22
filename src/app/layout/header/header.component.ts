@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Toolbar } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { LanguageService } from '../../shared/services/language.service';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-header',
   imports: [Toolbar, AvatarModule, ButtonModule, TooltipModule, TranslatePipe],
@@ -13,13 +14,18 @@ import { LanguageService } from '../../shared/services/language.service';
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   @Output() toggleHideSidebar = new EventEmitter<void>();
   darkModeBtn: boolean = false;
   hideSideBarBtn: boolean = false;
   currentLang: 'ar' | 'en' = 'ar';
 
-  constructor(private languageService: LanguageService) {}
+  private readonly destroy$ = new Subject<void>();
+
+  constructor(
+    private languageService: LanguageService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     const savedDarkMode = localStorage.getItem('darkMode');
@@ -31,7 +37,22 @@ export class HeaderComponent implements OnInit {
     if (savedSideBar) {
       this.hideSideBarBtn = savedSideBar === 'true';
     }
+    
+    // Initialize current language
     this.currentLang = this.languageService.getCurrentLanguage();
+    
+    // Subscribe to language changes
+    this.languageService.languageChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((newLang) => {
+        this.currentLang = newLang;
+        this.cdr.markForCheck();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   toggleDarkMode() {
@@ -57,6 +78,6 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleLanguage() {
-    this.currentLang = this.languageService.toggleLanguage();
+    this.languageService.toggleLanguage();
   }
 }

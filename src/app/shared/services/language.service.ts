@@ -1206,7 +1206,13 @@ export class LanguageService {
 
   toggleLanguage(): SupportedLanguage {
     const newLang = this.currentLang === 'ar' ? 'en' : 'ar';
+    
+    // Update the current language immediately
+    this.setLanguage(newLang);
+    
+    // Navigate to the new URL with the new language prefix
     this.navigateWithLanguage(newLang);
+    
     return newLang;
   }
 
