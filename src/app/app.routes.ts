@@ -11,6 +11,7 @@ import { CustomerSupportMangementComponent } from './features/customer-support/c
 import { UserAccountManagementComponent } from './features/users/user-account-management/user-account-management.component';
 import {DashboardComponent} from './features/analytics-statistics/dashboard/dashboard.component';
 import {ReportsMangementComponent} from './features/reports/reports-mangement/reports-mangement.component';
+import { UserVerificationsComponent } from './features/users/user-verifications/user-verifications.component';
 
 export const routes: Routes = [
   {
@@ -52,7 +53,11 @@ export const routes: Routes = [
       {
         path: 'user-management',
         component: UserAccountManagementComponent,
-      }
+      },
+      {
+        path: 'user-verifications',
+        component: UserVerificationsComponent,
+      },
     ],
   },
   {

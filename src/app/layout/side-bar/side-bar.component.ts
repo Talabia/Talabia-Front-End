@@ -103,6 +103,11 @@ export class SideBarComponent implements OnInit, OnDestroy {
             icon: 'pi pi-user',
             routerLink: '/users/user-management',
           },
+          {
+            label: this.t('users.verifications'),
+            icon: 'pi pi-verified',
+            routerLink: '/users/user-verifications',
+          },
         ],
       },
       {
