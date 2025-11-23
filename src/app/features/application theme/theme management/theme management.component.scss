@@ -105,14 +105,22 @@
 
 .palette-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, minmax(200px, 1fr));
   gap: 1rem;
 }
 
 .color-field {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  align-items: flex-start;
+  background: linear-gradient(45deg, var(--p-neutral-200) 0%, var(--p-neutral-100) 50%, var(--p-neutral-50) 100%);
+  border: 2px dashed var(--p-neutral-300);
+  border-radius: 4px;
+  padding: 0.5rem;
+
+  :host-context(.my-app-dark) & {
+    background: linear-gradient(45deg, var(--p-neutral-900) 0%, var(--p-neutral-800) 100%);
+    border: 2px dashed var(--p-neutral-800);
+  }
 
   .color-label {
     font-size: 0.875rem;
@@ -148,34 +156,5 @@
 
   span {
     color: var(--p-text-muted-color);
-  }
-}
-
-.color-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-block: 1rem;
-
-  .color-item {
-    display: flex;
-    align-items: flex-start;
-    background-color: var(--p-surface-100);
-    border: 2px dashed var(--p-surface-200);
-    border-radius: 4px;
-    padding: 0.5rem;
-
-    :host-context(.my-app-dark) & {
-      background-color: var(--p-surface-900);
-      border: 2px dashed var(--p-surface-800);
-    }
-
-    label {
-      span {
-        color: var(--p-red-700);
-      }
-    }
   }
 }
