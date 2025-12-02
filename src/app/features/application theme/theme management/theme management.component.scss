@@ -112,6 +112,7 @@
 .color-field {
   display: flex;
   align-items: flex-start;
+  flex-direction: column;
   background: linear-gradient(45deg, var(--p-neutral-200) 0%, var(--p-neutral-100) 50%, var(--p-neutral-50) 100%);
   border: 2px dashed var(--p-neutral-300);
   border-radius: 4px;
