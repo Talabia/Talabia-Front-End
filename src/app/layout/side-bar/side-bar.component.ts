@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenuItem, MessageService } from 'primeng/api';
 import { PanelMenu } from 'primeng/panelmenu';
@@ -24,18 +31,16 @@ export class SideBarComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   constructor(
-    private languageService: LanguageService, 
+    private languageService: LanguageService,
     private navigationService: NavigationService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.buildMenu();
-    this.languageService.languageChanged$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.buildMenu();
-      });
+    this.languageService.languageChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.buildMenu();
+    });
   }
 
   ngOnDestroy(): void {
@@ -58,7 +63,14 @@ export class SideBarComponent implements OnInit, OnDestroy {
       {
         label: this.t('sidebar.customerSupport'),
         icon: 'pi pi-megaphone',
-        routerLink: this.navigationService.getRouterLink('/customer-support/customer-support-mangement'),
+        routerLink: this.navigationService.getRouterLink(
+          '/customer-support/customer-support-mangement'
+        ),
+      },
+      {
+        label: this.t('sidebar.notifications'),
+        icon: 'pi pi-bell',
+        routerLink: this.navigationService.getRouterLink('/notifications/notifications-center'),
       },
     ];
 
@@ -127,7 +139,9 @@ export class SideBarComponent implements OnInit, OnDestroy {
           {
             label: this.t('sidebar.verificationsStatistics'),
             icon: 'pi pi-chart-line',
-            routerLink: this.navigationService.getRouterLink('/analytics-statistics/verifications-statistics'),
+            routerLink: this.navigationService.getRouterLink(
+              '/analytics-statistics/verifications-statistics'
+            ),
           },
         ],
       },
