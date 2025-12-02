@@ -9,10 +9,11 @@ import { AdvertisementManagementComponent } from './features/advertisement/adver
 import { ThemeManagementComponent } from './features/application theme/theme management/theme management.component';
 import { CustomerSupportMangementComponent } from './features/customer-support/customer-support-mangement/customer-support-mangement.component';
 import { UserAccountManagementComponent } from './features/users/user-account-management/user-account-management.component';
-import {DashboardComponent} from './features/analytics-statistics/dashboard/dashboard.component';
-import {ReportsMangementComponent} from './features/reports/reports-mangement/reports-mangement.component';
+import { DashboardComponent } from './features/analytics-statistics/dashboard/dashboard.component';
+import { ReportsMangementComponent } from './features/reports/reports-mangement/reports-mangement.component';
 import { UserVerificationsComponent } from './features/users/user-verifications/user-verifications.component';
 import { VerificationsStatisticsComponent } from './features/analytics-statistics/verifications-statistics/verifications-statistics.component';
+import { NotificationsCenterComponent } from './features/notifications/notifications-center/notifications-center.component';
 import { languageGuard } from './shared/guards/language.guard';
 
 // Define the main routes without language prefix
@@ -109,6 +110,15 @@ const mainRoutes: Routes = [
       {
         path: 'reports-mangement',
         component: ReportsMangementComponent,
+      },
+    ],
+  },
+  {
+    path: 'notifications',
+    children: [
+      {
+        path: 'notifications-center',
+        component: NotificationsCenterComponent,
       },
     ],
   },
