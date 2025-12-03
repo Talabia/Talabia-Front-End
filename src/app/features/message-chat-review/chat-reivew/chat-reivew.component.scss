@@ -175,15 +175,17 @@
             }
 
             .message-text {
-              background-color: var(--p-primary-color) !important;
-              color: var(--p-primary-contrast-color);
+              background: linear-gradient(-135deg, #cffafe 0%, rgb(176, 251, 255) 35%, rgb(51, 231, 255) 100%) !important;
+              color: var(--p-gray-950);
               border-start-start-radius: 1rem;
               border-start-end-radius: 0.25rem;
+              box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
               :host-context(.my-app-dark) & {
-                background-color: var(--p-primary-color);
-                color: var(--p-primary-contrast-color);
+                background: linear-gradient(-135deg, #cffafe 0%, rgb(176, 251, 255) 35%, rgb(51, 231, 255) 100%) !important;
+                color: var(--p-gray-950);
                 box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.1);
               }
             }
           }
