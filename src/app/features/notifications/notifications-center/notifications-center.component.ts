@@ -139,10 +139,22 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
 
   private buildTargetAudienceOptions(): void {
     this.targetAudienceOptions = [
-      { label: this.t('notificationsCenter.targetAudience.allUsers'), value: AdminNotificationTargetAudience.AllUsers },
-      { label: this.t('notificationsCenter.targetAudience.verifiedAccounts'), value: AdminNotificationTargetAudience.VerifiedAccounts },
-      { label: this.t('notificationsCenter.targetAudience.premiumAccounts'), value: AdminNotificationTargetAudience.PremiumAccounts },
-      { label: this.t('notificationsCenter.targetAudience.specificCity'), value: AdminNotificationTargetAudience.SpecificCity },
+      {
+        label: this.t('notificationsCenter.targetAudience.allUsers'),
+        value: AdminNotificationTargetAudience.AllUsers,
+      },
+      {
+        label: this.t('notificationsCenter.targetAudience.verifiedAccounts'),
+        value: AdminNotificationTargetAudience.VerifiedAccounts,
+      },
+      {
+        label: this.t('notificationsCenter.targetAudience.premiumAccounts'),
+        value: AdminNotificationTargetAudience.PremiumAccounts,
+      },
+      {
+        label: this.t('notificationsCenter.targetAudience.specificCity'),
+        value: AdminNotificationTargetAudience.SpecificCity,
+      },
     ];
   }
 
@@ -173,7 +185,7 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
     });
 
     // Watch target audience changes to show/hide city field
-    this.notificationForm.get('targetAudience')?.valueChanges.subscribe(value => {
+    this.notificationForm.get('targetAudience')?.valueChanges.subscribe((value) => {
       const cityControl = this.notificationForm.get('cityId');
       if (value === AdminNotificationTargetAudience.SpecificCity) {
         cityControl?.setValidators([Validators.required]);
@@ -284,7 +296,6 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (cities: City[]) => {
-          console.log('Cities loaded:', cities);
           this.cities = cities || [];
           this.cdr.detectChanges();
         },
@@ -349,7 +360,12 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
    */
   onDateRangeChange(): void {
     // Only trigger filter when both start and end dates are selected
-    if (this.rangeDates && this.rangeDates.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
+    if (
+      this.rangeDates &&
+      this.rangeDates.length === 2 &&
+      this.rangeDates[0] &&
+      this.rangeDates[1]
+    ) {
       this.first = 0;
       this.currentPage = 1;
       this.loadNotifications();
@@ -376,7 +392,10 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
       descriptionEn: formValue.descriptionEn.trim(),
       descriptionAr: formValue.descriptionAr.trim(),
       targetAudience: formValue.targetAudience,
-      cityId: formValue.targetAudience === AdminNotificationTargetAudience.SpecificCity ? formValue.cityId : undefined,
+      cityId:
+        formValue.targetAudience === AdminNotificationTargetAudience.SpecificCity
+          ? formValue.cityId
+          : undefined,
     };
 
     this.notificationsService
@@ -406,7 +425,6 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
         },
       });
   }
-
 
   /**
    * Cancel dialog
