@@ -1,0 +1,176 @@
+<p-card [header]="'notificationsCenter.header' | translate">
+  <div class="card">
+    <!-- Filters Section -->
+    <div class="action-container">
+      <p-iconfield>
+        <p-inputicon class="pi pi-search" />
+        <input type="text" pInputText [placeholder]="'notificationsCenter.searchPlaceholder' | translate"
+          (input)="onSearch($event)" (keyup)="onSearchKeyup($event)" [value]="searchKeyword" [disabled]="loading" />
+      </p-iconfield>
+
+      <!-- Date Range Filter -->
+      <p-datepicker [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" showIcon iconDisplay="input"
+        [showClear]="true" [placeholder]="'notificationsCenter.dateRangePlaceholder' | translate"
+        style="min-width: 300px;" (onSelect)="onDateRangeChange()" (onClear)="onDateRangeChange()"
+        [disabled]="loading" />
+
+      <p-divider layout="vertical" />
+      <p-button (click)="showCreateDialog()" [label]="'notificationsCenter.button.send' | translate" severity="primary"
+        [disabled]="loading" />
+    </div>
+
+    <p-table [value]="notifications" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
+      [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
+      [currentPageReportTemplate]="pageReportTemplate" (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]"
+      scrollHeight="600px" [loading]="loading" [showCurrentPageReport]="true" paginatorPosition="bottom">
+
+      <ng-template #header>
+        <tr>
+          <th style="min-width:200px">{{'notificationsCenter.table.title' | translate}}</th>
+          <th style="min-width:250px">{{'notificationsCenter.table.body' | translate}}</th>
+          <th style="min-width:120px">{{'notificationsCenter.table.targetAudience' | translate}}</th>
+          <th style="min-width:100px">{{'notificationsCenter.table.totalDevices' | translate}}</th>
+          <th style="min-width:100px">{{'notificationsCenter.table.successCount' | translate}}</th>
+          <th style="min-width:100px">{{'notificationsCenter.table.failureCount' | translate}}</th>
+          <th style="min-width:200px">{{'notificationsCenter.table.sentAt' | translate}}</th>
+        </tr>
+      </ng-template>
+
+      <ng-template #body let-notification>
+        <tr>
+          <td>{{notification.title}}</td>
+          <td>{{notification.body}}</td>
+          <td>
+            <p-tag [value]="getTargetAudienceDisplayName(notification.targetAudience)"
+              [severity]="getTargetAudienceSeverity(notification.targetAudience)" />
+          </td>
+          <td>{{notification.totalDevices}}</td>
+          <td>{{notification.successCount}}</td>
+          <td>{{notification.failureCount}}</td>
+          <td>{{notification.sentAt | date:'short'}}</td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7">
+            @if (searchKeyword && searchKeyword.trim()) {
+            <div class="empty-container">
+              <i class="pi pi-search"></i>
+              <h4>{{'notificationsCenter.empty.search' | translate:{ keyword: searchKeyword } }}</h4>
+            </div>
+            } @else {
+            <div class="empty-container">
+              <i class="pi pi-bell"></i>
+              <h4>{{'notificationsCenter.empty.default' | translate}}</h4>
+            </div>
+            }
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-card>
+
+<!-- Send Notification Dialog -->
+<p-dialog [header]="dialogTitle" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }" [closable]="!loading"
+  [draggable]="false" [resizable]="false">
+
+  <form [formGroup]="notificationForm" (ngSubmit)="sendNotification()">
+    <!-- Target Audience -->
+    <div class="input-container">
+      <label for="targetAudience" class="font-semibold">{{'notificationsCenter.form.targetAudience' | translate}}
+        <span>*</span></label>
+      <p-select [options]="targetAudienceOptions" formControlName="targetAudience" optionLabel="label"
+        optionValue="value" [placeholder]="'notificationsCenter.form.targetAudiencePlaceholder' | translate"
+        class="flex-auto" [disabled]="loading" [invalid]="hasError('targetAudience')" />
+
+      @if (hasError('targetAudience')) {
+      <p-message severity="error" size="small" variant="simple">
+        {{getErrorMessage('targetAudience')}}
+      </p-message>
+      }
+    </div>
+
+    <!-- City Selection (only when SpecificCity is selected) -->
+    @if (notificationForm.get('targetAudience')?.value === AdminNotificationTargetAudience.SpecificCity) {
+    <div class="input-container">
+      <label for="cityId" class="font-semibold">{{'notificationsCenter.form.city' | translate}} <span>*</span></label>
+      <p-select [options]="cities" formControlName="cityId" optionLabel="nameEn" optionValue="id"
+        [placeholder]="'notificationsCenter.form.cityPlaceholder' | translate" class="flex-auto" [disabled]="loading"
+        [invalid]="hasError('cityId')" />
+
+      @if (hasError('cityId')) {
+      <p-message severity="error" size="small" variant="simple">
+        {{getErrorMessage('cityId')}}
+      </p-message>
+      }
+    </div>
+    }
+    <!-- Title Fields -->
+    <div class="input-container">
+      <label for="titleEn" class="font-semibold">{{'notificationsCenter.form.titleEn' | translate}}
+        <span>*</span></label>
+      <input pInputText id="titleEn" formControlName="titleEn" class="flex-auto" autocomplete="off" [disabled]="loading"
+        [invalid]="hasError('titleEn')" />
+
+      @if (hasError('titleEn')) {
+      <p-message severity="error" size="small" variant="simple">
+        {{getErrorMessage('titleEn')}}
+      </p-message>
+      }
+    </div>
+
+    <div class="input-container">
+      <label for="titleAr" class="font-semibold">{{'notificationsCenter.form.titleAr' | translate}}
+        <span>*</span></label>
+      <input pInputText id="titleAr" formControlName="titleAr" class="flex-auto" autocomplete="off" [disabled]="loading"
+        [invalid]="hasError('titleAr')" />
+
+      @if (hasError('titleAr')) {
+      <p-message severity="error" size="small" variant="simple">
+        {{getErrorMessage('titleAr')}}
+      </p-message>
+      }
+    </div>
+
+    <!-- Description Fields -->
+    <div class="input-container">
+      <label for="descriptionEn" class="font-semibold">{{'notificationsCenter.form.descriptionEn' | translate}}
+        <span>*</span></label>
+      <textarea pTextarea id="descriptionEn" formControlName="descriptionEn" rows="3" class="flex-auto"
+        [disabled]="loading" [invalid]="hasError('descriptionEn')" autocomplete="off"></textarea>
+
+      @if (hasError('descriptionEn')) {
+      <p-message severity="error" size="small" variant="simple">
+        {{getErrorMessage('descriptionEn')}}
+      </p-message>
+      }
+    </div>
+
+    <div class="input-container">
+      <label for="descriptionAr" class="font-semibold">{{'notificationsCenter.form.descriptionAr' | translate}}
+        <span>*</span></label>
+      <textarea pTextarea id="descriptionAr" formControlName="descriptionAr" rows="3" class="flex-auto"
+        [disabled]="loading" [invalid]="hasError('descriptionAr')" autocomplete="off"></textarea>
+
+      @if (hasError('descriptionAr')) {
+      <p-message severity="error" size="small" variant="simple">
+        {{getErrorMessage('descriptionAr')}}
+      </p-message>
+      }
+    </div>
+
+
+
+    <div class="dialog-footer">
+      <p-button [label]="'common.cancel' | translate" severity="secondary" type="button" [disabled]="loading"
+        (click)="cancelDialog()" />
+      <p-button [label]="'notificationsCenter.button.send' | translate" type="submit" [loading]="loading"
+        [disabled]="notificationForm.invalid && submitted" severity="primary" />
+    </div>
+  </form>
+</p-dialog>
+
+<p-toast />
+<p-confirmpopup />
