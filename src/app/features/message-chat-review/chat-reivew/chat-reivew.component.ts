@@ -390,29 +390,30 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Get color for participant messages
+   * Get gradient background for participant messages
    */
   getParticipantColor(senderId: string): string {
-    // Check if we already assigned a color to this participant
+    // Check if we already assigned a gradient to this participant
     if (this.participantColors.has(senderId)) {
       return this.participantColors.get(senderId)!;
     }
 
-    // Assign next available color
-    const colors = [
-      'var(--p-teal-100)',
-      'var(--p-cyan-100)',
-      'var(--p-sky-100)',
-      'var(--p-indigo-100)',
-      'var(--p-violet-100)',
-      'var(--p-emerald-100)',
+    // Define gradient combinations using available shades
+    const gradients = [
+      'linear-gradient(135deg, #f0fdfa 0%, #50e3c2 35%, #5eead4 100%)', // teal
+      'linear-gradient(135deg, #ecfeff 0%, #cffafe 35% , #67e8f9 100%)', // cyan
+      'linear-gradient(135deg, #f0f9ff 0%, #93c5fd 35%, #7dd3fc 100%)', // sky
+      'linear-gradient(135deg, #eef2ff 0%, #a5b4fc 35%, #93a7fc 100%)', // indigo
+      'linear-gradient(135deg, #faf5ff 0%, #c4b5fd 35%, #b3a4fd 100%)', // violet
+      'linear-gradient(135deg, #f0fdf4 0%, #6ee7b7 35%, #6ee7b7 100%)', // emerald
     ];
 
-    const assignedColors = Array.from(this.participantColors.values());
-    const availableColor = colors.find((color) => !assignedColors.includes(color)) || colors[0];
+    const assignedGradients = Array.from(this.participantColors.values());
+    const availableGradient =
+      gradients.find((gradient) => !assignedGradients.includes(gradient)) || gradients[0];
 
-    this.participantColors.set(senderId, availableColor);
-    return availableColor;
+    this.participantColors.set(senderId, availableGradient);
+    return availableGradient;
   }
 
   /**

@@ -150,28 +150,12 @@
             border-start-start-radius: 0.25rem;
             font-size: 0.875rem;
             line-height: 1.4;
-            color: var(--p-text-color);
+            color: var(--p-gray-950);
             word-wrap: break-word;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
             :host-context(.my-app-dark) & {
               background-color: var(--p-surface-800);
-              color: var(--p-text-muted-color);
-              box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-            }
-
-            // Dark mode adjustments for colored participant messages
-            :host-context(.my-app-dark) & {
-
-              &[style*="--p-teal-100"],
-              &[style*="--p-cyan-100"],
-              &[style*="--p-sky-100"],
-              &[style*="--p-indigo-100"],
-              &[style*="--p-violet-100"],
-              &[style*="--p-emerald-100"] {
-                color: var(--p-text-muted-color);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-              }
             }
           }
         }
