@@ -1,1 +1,157 @@
-<p>content-mangement works!</p>,
+<p-card [header]="'contentManagement.header' | translate">
+  <div class="card">
+    <!-- Filters Section -->
+    <div class="action-container">
+      <!-- Search -->
+      <p-iconfield>
+        <p-inputicon class="pi pi-search" />
+        <input type="text" pInputText [placeholder]="'contentManagement.filters.searchPlaceholder' | translate"
+          [(ngModel)]="searchKeyword" (input)="onSearch($event)" [disabled]="loading" />
+      </p-iconfield>
+
+      <!-- Date Range Filter -->
+      <p-datepicker [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" showIcon iconDisplay="input"
+        [showClear]="true" [placeholder]="'contentManagement.filters.datePlaceholder' | translate"
+        style="min-width: 300px;" (onSelect)="onDateRangeChange($event)" (onClear)="onFilterChange()"
+        [disabled]="loading" />
+
+      <!-- Duration Filter -->
+      <p-select [options]="durationFilterOptions" [(ngModel)]="selectedDuration" optionLabel="label" optionValue="value"
+        [placeholder]="'contentManagement.filters.durationPlaceholder' | translate" (onChange)="onFilterChange()"
+        [disabled]="loading" [showClear]="true" />
+
+      <!-- Active Status Filter -->
+      <p-select [options]="activeFilterOptions" [(ngModel)]="selectedIsActive" optionLabel="label" optionValue="value"
+        [placeholder]="'contentManagement.filters.statusPlaceholder' | translate" (onChange)="onFilterChange()"
+        [disabled]="loading" [showClear]="true" />
+
+      <!-- Promoted Filter -->
+      <p-select [options]="promotedFilterOptions" [(ngModel)]="selectedIsPromoted" optionLabel="label"
+        optionValue="value" [placeholder]="'contentManagement.filters.promotedPlaceholder' | translate"
+        (onChange)="onFilterChange()" [disabled]="loading" [showClear]="true" />
+    </div>
+
+    <p-table [value]="offers" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
+      [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
+      [currentPageReportTemplate]="pageReportTemplate" (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]"
+      scrollHeight="600px" [loading]="loading" [showCurrentPageReport]="true" paginatorPosition="bottom">
+
+      <ng-template #header>
+        <tr>
+          <th style="min-width:200px">{{'contentManagement.table.title' | translate}}</th>
+          <th style="min-width:120px">{{'contentManagement.table.price' | translate}}</th>
+          <th style="min-width:150px">{{'contentManagement.table.vehicleMaker' | translate}}</th>
+          <th style="min-width:150px">{{'contentManagement.table.category' | translate}}</th>
+          <th style="min-width:150px">{{'contentManagement.table.city' | translate}}</th>
+          <th style="min-width:150px">{{'contentManagement.table.companyOrUserName' | translate}}</th>
+          <th style="min-width:120px">{{'contentManagement.table.status' | translate}}</th>
+          <th style="min-width:150px">{{'contentManagement.table.promoted' | translate}}</th>
+          <th style="min-width:120px">{{'contentManagement.table.createdFrom' | translate}}</th>
+          <th style="min-width:300px">{{'contentManagement.table.actions' | translate}}</th>
+        </tr>
+      </ng-template>
+
+      <ng-template #body let-offer>
+        <tr>
+          <td>{{offer.title}}</td>
+          <td>{{offer.price | number:'1.2-2'}}</td>
+          <td>{{offer.vehicleMaker}}</td>
+          <td>{{offer.category}}</td>
+          <td>{{offer.city}}</td>
+          <td>{{offer.companyOrUserName}}</td>
+          <td>
+            <p-tag [severity]="getActiveSeverity(offer.isActive)" [value]="getActiveText(offer.isActive)" />
+          </td>
+          <td>
+            <p-tag [severity]="getPromotedSeverity(offer.isPromoted)" [value]="getPromotedText(offer.isPromoted)" />
+          </td>
+          <td>{{offer.createdFrom}}</td>
+          <td>
+            <div class="table-actions">
+              <p-button [label]="'contentManagement.button.view' | translate" [disabled]="loading"
+                (click)="showViewDialog(offer)" />
+              <p-button
+                [label]="offer.isPromoted ? ('contentManagement.button.unpromote' | translate) : ('contentManagement.button.promote' | translate)"
+                [severity]="offer.isPromoted ? 'secondary' : 'success'" [disabled]="loading"
+                (click)="togglePromote(offer)" />
+              <p-button [label]="'contentManagement.button.delete' | translate" severity="danger" [disabled]="loading"
+                (click)="confirmDelete($event, offer)" />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="10">
+            <div class="empty-container">
+              <i class="pi pi-info-circle"></i>
+              <h4>{{'contentManagement.empty.default' | translate}}</h4>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-card>
+
+<!-- View Details Dialog -->
+<p-dialog [header]="'contentManagement.dialog.header' | translate" [modal]="true" [(visible)]="viewDialogVisible"
+  [style]="{ width: '50rem' }" [closable]="!loading" [draggable]="false" [resizable]="false">
+  @if (selectedOffer) {
+  <div class="details-container">
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.title' | translate}}:</label>
+      <span class="detail-value">{{selectedOffer.title}}</span>
+    </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.price' | translate}}:</label>
+      <span class="detail-value">{{selectedOffer.price | number:'1.2-2'}}</span>
+    </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.vehicleMaker' | translate}}:</label>
+      <span class="detail-value">{{selectedOffer.vehicleMaker}}</span>
+    </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.category' | translate}}:</label>
+      <span class="detail-value">{{selectedOffer.category}}</span>
+    </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.city' | translate}}:</label>
+      <span class="detail-value">{{selectedOffer.city}}</span>
+    </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.companyOrUserName' | translate}}:</label>
+      <span class="detail-value">{{selectedOffer.companyOrUserName}}</span>
+    </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.userEmail' | translate}}:</label>
+      <span class="detail-value">{{selectedOffer.userEmail}}</span>
+    </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.createdFrom' | translate}}:</label>
+      <span class="detail-value">{{selectedOffer.createdFrom}}</span>
+    </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.status' | translate}}:</label>
+      <p-tag [severity]="getActiveSeverity(selectedOffer.isActive)" [value]="getActiveText(selectedOffer.isActive)" />
+    </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.promoted' | translate}}:</label>
+      <p-tag [severity]="getPromotedSeverity(selectedOffer.isPromoted)"
+        [value]="getPromotedText(selectedOffer.isPromoted)" />
+    </div>
+  </div>
+
+  <div class="dialog-footer">
+    <p-button [label]="'contentManagement.button.close' | translate" severity="secondary" (click)="closeViewDialog()" />
+    <p-button
+      [label]="selectedOffer.isPromoted ? ('contentManagement.button.unpromote' | translate) : ('contentManagement.button.promote' | translate)"
+      [severity]="selectedOffer.isPromoted ? 'secondary' : 'success'" [disabled]="loading"
+      (click)="togglePromote(selectedOffer); closeViewDialog()" />
+  </div>
+  }
+</p-dialog>
+
+<p-toast />
+<p-confirmpopup />
