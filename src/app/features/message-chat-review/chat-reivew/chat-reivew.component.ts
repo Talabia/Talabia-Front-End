@@ -69,6 +69,9 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   loadingMessages: boolean = false;
 
+  // Color tracking for participants
+  private participantColors = new Map<string, string>();
+
   // Pagination properties
   first: number = 0;
   rows: number = 10;
@@ -257,6 +260,8 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
     this.messagesCurrentPage = 1;
     this.messagesTotalRecords = 0;
     this.messages = [];
+    // Clear color assignments for new chat
+    this.participantColors.clear();
     this.loadChatMessages();
   }
 
@@ -338,6 +343,7 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
     this.selectedChat = null;
     this.messages = [];
     this.selectedChatParticipants = [];
+    this.participantColors.clear();
   }
 
   /**
@@ -381,6 +387,32 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
    */
   isMessageFromAdmin(message: LastMessage): boolean {
     return message.isOwn;
+  }
+
+  /**
+   * Get color for participant messages
+   */
+  getParticipantColor(senderId: string): string {
+    // Check if we already assigned a color to this participant
+    if (this.participantColors.has(senderId)) {
+      return this.participantColors.get(senderId)!;
+    }
+
+    // Assign next available color
+    const colors = [
+      'var(--p-teal-100)',
+      'var(--p-cyan-100)',
+      'var(--p-sky-100)',
+      'var(--p-indigo-100)',
+      'var(--p-violet-100)',
+      'var(--p-emerald-100)',
+    ];
+
+    const assignedColors = Array.from(this.participantColors.values());
+    const availableColor = colors.find((color) => !assignedColors.includes(color)) || colors[0];
+
+    this.participantColors.set(senderId, availableColor);
+    return availableColor;
   }
 
   /**

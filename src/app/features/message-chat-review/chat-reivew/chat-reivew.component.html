@@ -126,7 +126,7 @@
               <span class="sender-name">{{getMessageSenderName(message)}}</span>
               <span class="message-time">{{formatMessageTime(message.sentAt)}}</span>
             </div>
-            <div class="message-text">
+            <div class="message-text" [style.background-color]="getParticipantColor(message.senderId)">
               {{message.content}}
             </div>
           </div>

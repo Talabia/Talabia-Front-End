@@ -156,7 +156,22 @@
 
             :host-context(.my-app-dark) & {
               background-color: var(--p-surface-800);
+              color: var(--p-text-muted-color);
               box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            }
+
+            // Dark mode adjustments for colored participant messages
+            :host-context(.my-app-dark) & {
+
+              &[style*="--p-teal-100"],
+              &[style*="--p-cyan-100"],
+              &[style*="--p-sky-100"],
+              &[style*="--p-indigo-100"],
+              &[style*="--p-violet-100"],
+              &[style*="--p-emerald-100"] {
+                color: var(--p-text-muted-color);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+              }
             }
           }
         }
@@ -176,7 +191,7 @@
             }
 
             .message-text {
-              background-color: var(--p-primary-color);
+              background-color: var(--p-primary-color) !important;
               color: var(--p-primary-contrast-color);
               border-start-start-radius: 1rem;
               border-start-end-radius: 0.25rem;
