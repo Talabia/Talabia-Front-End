@@ -34,6 +34,7 @@ import {
 } from '../models/chat-review.models';
 import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
 import { DatePipe, CommonModule } from '@angular/common';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-chat-reivew',
@@ -53,6 +54,7 @@ import { DatePipe, CommonModule } from '@angular/common';
     TooltipModule,
     CommonModule,
     TranslatePipe,
+    TagModule,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './chat-reivew.component.html',
@@ -79,8 +81,19 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
   messagesTotalRecords: number = 0;
 
   // Filter properties
-  timeFilter: ChatTimeFilter = ChatTimeFilter.All;
+  private _timeFilter: ChatTimeFilter = ChatTimeFilter.All;
   timeFilterOptions: { label: string; value: ChatTimeFilter }[] = [];
+
+  get timeFilter(): ChatTimeFilter {
+    return this._timeFilter;
+  }
+
+  set timeFilter(value: ChatTimeFilter) {
+    if (this._timeFilter !== value) {
+      this._timeFilter = value;
+      this.onTimeFilterChange();
+    }
+  }
 
   // Selected chat for viewing
   selectedChat: Chat | null = null;
@@ -209,10 +222,11 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
    * Handle time filter change
    */
   onTimeFilterChange(): void {
-    this.timeFilter = this.filterForm.value.timeFilter;
+    // timeFilter is already updated by ngModel binding
     this.first = 0;
     this.currentPage = 1;
     this.loadChats();
+    this.cdr.markForCheck();
   }
 
   /**
