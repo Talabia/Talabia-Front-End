@@ -674,6 +674,65 @@ const TRANSLATIONS: Translations = {
     'chatReview.viewer.noMessages': 'No messages in this chat',
     'chatReview.notification.loadError': 'Failed to load chat list',
     'chatReview.notification.messagesLoadError': 'Failed to load chat messages',
+    'sidebar.contentManagement': 'Content Management',
+    'contentManagement.header': 'Content Management',
+    'contentManagement.filters.searchPlaceholder': 'Search by title, maker, or city...',
+    'contentManagement.filters.datePlaceholder': 'Select date range',
+    'contentManagement.filters.durationPlaceholder': 'Filter by duration',
+    'contentManagement.filters.statusPlaceholder': 'Filter by status',
+    'contentManagement.filters.promotedPlaceholder': 'Filter by promoted',
+    'contentManagement.filters.duration.all': 'All',
+    'contentManagement.filters.duration.last24Hours': 'Last 24 Hours',
+    'contentManagement.filters.duration.lastWeek': 'Last Week',
+    'contentManagement.filters.duration.lastMonth': 'Last Month',
+    'contentManagement.filters.status.all': 'All',
+    'contentManagement.filters.status.active': 'Active',
+    'contentManagement.filters.status.inactive': 'Inactive',
+    'contentManagement.filters.promoted.all': 'All',
+    'contentManagement.filters.promoted.promoted': 'Promoted',
+    'contentManagement.filters.promoted.notPromoted': 'Not Promoted',
+    'contentManagement.table.title': 'Title',
+    'contentManagement.table.price': 'Price',
+    'contentManagement.table.vehicleMaker': 'Vehicle Maker',
+    'contentManagement.table.category': 'Category',
+    'contentManagement.table.city': 'City',
+    'contentManagement.table.companyOrUserName': 'Company/User',
+    'contentManagement.table.status': 'Status',
+    'contentManagement.table.promoted': 'Promoted',
+    'contentManagement.table.createdFrom': 'Created Date',
+    'contentManagement.table.actions': 'Actions',
+    'contentManagement.button.view': 'View',
+    'contentManagement.button.promote': 'Promote',
+    'contentManagement.button.unpromote': 'Unpromote',
+    'contentManagement.button.delete': 'Delete',
+    'contentManagement.button.close': 'Close',
+    'contentManagement.status.active': 'Active',
+    'contentManagement.status.inactive': 'Inactive',
+    'contentManagement.status.promoted': 'Promoted',
+    'contentManagement.status.notPromoted': 'Not Promoted',
+    'contentManagement.empty.default': 'No offers available',
+    'contentManagement.dialog.header': 'Offer Details',
+    'contentManagement.dialog.title': 'Title',
+    'contentManagement.dialog.price': 'Price',
+    'contentManagement.dialog.vehicleMaker': 'Vehicle Maker',
+    'contentManagement.dialog.category': 'Category',
+    'contentManagement.dialog.city': 'City',
+    'contentManagement.dialog.companyOrUserName': 'Company/User Name',
+    'contentManagement.dialog.userEmail': 'User Email',
+    'contentManagement.dialog.createdFrom': 'Created Date',
+    'contentManagement.dialog.status': 'Status',
+    'contentManagement.dialog.promoted': 'Promoted',
+    'contentManagement.confirm.deleteMessage':
+      'Are you sure you want to delete the offer "{{title}}"?',
+    'contentManagement.confirm.togglePromote':
+      'Are you sure you want to {{action}} the offer "{{title}}"?',
+    'contentManagement.notification.loadError': 'Failed to load offers',
+    'contentManagement.notification.detailsError': 'Failed to load offer details',
+    'contentManagement.notification.deleteSuccess': 'Offer deleted successfully',
+    'contentManagement.notification.deleteError': 'Failed to delete offer',
+    'contentManagement.notification.promoteSuccess': 'Offer promoted successfully',
+    'contentManagement.notification.unpromoteSuccess': 'Offer unpromoted successfully',
+    'contentManagement.notification.promoteError': 'Failed to update promotion status',
   },
   ar: {
     'language.ar': 'العربية',
@@ -1332,6 +1391,63 @@ const TRANSLATIONS: Translations = {
     'chatReview.viewer.noMessages': 'لا توجد رسائل في هذه الدردشة',
     'chatReview.notification.loadError': 'فشل في تحميل قائمة الدردشات',
     'chatReview.notification.messagesLoadError': 'فشل في تحميل رسائل الدردشة',
+    'sidebar.contentManagement': 'إدارة المحتوى',
+    'contentManagement.header': 'إدارة المحتوى',
+    'contentManagement.filters.searchPlaceholder': 'البحث بالعنوان أو الشركة المصنعة أو المدينة...',
+    'contentManagement.filters.datePlaceholder': 'اختر نطاق التاريخ',
+    'contentManagement.filters.durationPlaceholder': 'تصفية بالمدة',
+    'contentManagement.filters.statusPlaceholder': 'تصفية بالحالة',
+    'contentManagement.filters.promotedPlaceholder': 'تصفية بالترويج',
+    'contentManagement.filters.duration.all': 'الكل',
+    'contentManagement.filters.duration.last24Hours': 'آخر 24 ساعة',
+    'contentManagement.filters.duration.lastWeek': 'الأسبوع الماضي',
+    'contentManagement.filters.duration.lastMonth': 'الشهر الماضي',
+    'contentManagement.filters.status.all': 'الكل',
+    'contentManagement.filters.status.active': 'نشط',
+    'contentManagement.filters.status.inactive': 'غير نشط',
+    'contentManagement.filters.promoted.all': 'الكل',
+    'contentManagement.filters.promoted.promoted': 'مروج',
+    'contentManagement.filters.promoted.notPromoted': 'غير مروج',
+    'contentManagement.table.title': 'العنوان',
+    'contentManagement.table.price': 'السعر',
+    'contentManagement.table.vehicleMaker': 'الشركة المصنعة',
+    'contentManagement.table.category': 'الفئة',
+    'contentManagement.table.city': 'المدينة',
+    'contentManagement.table.companyOrUserName': 'الشركة/المستخدم',
+    'contentManagement.table.status': 'الحالة',
+    'contentManagement.table.promoted': 'مروج',
+    'contentManagement.table.createdFrom': 'تاريخ الإنشاء',
+    'contentManagement.table.actions': 'الإجراءات',
+    'contentManagement.button.view': 'عرض',
+    'contentManagement.button.promote': 'ترويج',
+    'contentManagement.button.unpromote': 'إلغاء التّرويج',
+    'contentManagement.button.delete': 'حذف',
+    'contentManagement.button.close': 'إغلاق',
+    'contentManagement.status.active': 'نشط',
+    'contentManagement.status.inactive': 'غير نشط',
+    'contentManagement.status.promoted': 'مروج',
+    'contentManagement.status.notPromoted': 'غير مروج',
+    'contentManagement.empty.default': 'لا توجد عروض متاحة',
+    'contentManagement.dialog.header': 'تفاصيل العرض',
+    'contentManagement.dialog.title': 'العنوان',
+    'contentManagement.dialog.price': 'السعر',
+    'contentManagement.dialog.vehicleMaker': 'الشركة المصنعة',
+    'contentManagement.dialog.category': 'الفئة',
+    'contentManagement.dialog.city': 'المدينة',
+    'contentManagement.dialog.companyOrUserName': 'اسم الشركة/المستخدم',
+    'contentManagement.dialog.userEmail': 'بريد المستخدم',
+    'contentManagement.dialog.createdFrom': 'تاريخ الإنشاء',
+    'contentManagement.dialog.status': 'الحالة',
+    'contentManagement.dialog.promoted': 'مروج',
+    'contentManagement.confirm.deleteMessage': 'هل أنت متأكد من حذف العرض "{{title}}؟',
+    'contentManagement.confirm.togglePromote': 'هل أنت متأكد من {{action}} العرض "{{title}}؟',
+    'contentManagement.notification.loadError': 'فشل في تحميل العروض',
+    'contentManagement.notification.detailsError': 'فشل في تحميل تفاصيل العرض',
+    'contentManagement.notification.deleteSuccess': 'تم حذف العرض بنجاح',
+    'contentManagement.notification.deleteError': 'فشل في حذف العرض',
+    'contentManagement.notification.promoteSuccess': 'تم ترويج العرض بنجاح',
+    'contentManagement.notification.unpromoteSuccess': 'تم إلغاء ترويج العرض بنجاح',
+    'contentManagement.notification.promoteError': 'فشل في تحديث حالة التّرويج',
   },
 };
 
@@ -1343,9 +1459,7 @@ export class LanguageService {
   private readonly languageChange$ = new BehaviorSubject<SupportedLanguage>('ar');
   readonly languageChanged$ = this.languageChange$.asObservable();
 
-  private router = inject(Router);
-
-  constructor(private appRef: ApplicationRef, private ngZone: NgZone) {
+  constructor(private appRef: ApplicationRef, private ngZone: NgZone, private router: Router) {
     this.currentLang = this.loadInitialLanguage();
     this.applyDocumentSettings(this.currentLang);
     this.languageChange$.next(this.currentLang);
@@ -1371,27 +1485,18 @@ export class LanguageService {
   toggleLanguage(): SupportedLanguage {
     const newLang = this.currentLang === 'ar' ? 'en' : 'ar';
 
-    // Update the current language immediately
+    // Update the current language and persist it
     this.setLanguage(newLang);
 
-    // Navigate to the new URL with the new language prefix
-    this.navigateWithLanguage(newLang);
-
-    return newLang;
-  }
-
-  /**
-   * Navigate to the current route with a different language prefix
-   */
-  private navigateWithLanguage(lang: SupportedLanguage): void {
+    // Get the current URL path without the language prefix
     const currentUrl = this.router.url;
-
-    // Remove the current language prefix if it exists
     const urlWithoutLang = currentUrl.replace(/^\/(ar|en)/, '') || '/';
 
-    // Navigate to the new URL with the new language prefix
-    const newUrl = `/${lang}${urlWithoutLang}`;
-    this.router.navigateByUrl(newUrl);
+    // Reload the page with the new language prefix
+    const newUrl = `/${newLang}${urlWithoutLang}`;
+    window.location.href = newUrl;
+
+    return newLang;
   }
 
   translate(key: string, params?: Record<string, unknown>): string {

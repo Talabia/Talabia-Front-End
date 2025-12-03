@@ -78,7 +78,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
         routerLink: this.navigationService.getRouterLink('/message-chat-review/chat-reivew'),
       },
       {
-        label: this.t('sidebar.messageChatReview'),
+        label: this.t('sidebar.contentManagement'),
         icon: 'pi pi-box',
         routerLink: this.navigationService.getRouterLink('/content-management/content-offers'),
       },
