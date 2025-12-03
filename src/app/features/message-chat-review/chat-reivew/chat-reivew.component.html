@@ -1,0 +1,156 @@
+<div class="chat-review-container">
+  <!-- Chat List Section -->
+  <p-card [header]="'chatReview.header' | translate">
+    <div class="card">
+      <div class="action-container">
+        <p-select [options]="timeFilterOptions" [(ngModel)]="timeFilter" optionLabel="label" optionValue="value"
+          [placeholder]="'chatReview.filters.placeholder' | translate" [style]="{ width: '250px' }"
+          [disabled]="loading" />
+
+        <p-divider layout="vertical" />
+        <p-button (click)="loadChats()" [label]="'common.refresh' | translate" icon="pi pi-refresh"
+          [disabled]="loading" />
+      </div>
+
+      <p-table [value]="chats" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
+        [totalRecords]="totalRecords" [lazy]="true" showGridlines stripedRows
+        [currentPageReportTemplate]="pageReportTemplate" (onPage)="pageChange($event)"
+        [rowsPerPageOptions]="[10, 25, 50]" scrollHeight="500px" [loading]="loading" [showCurrentPageReport]="true"
+        paginatorPosition="bottom">
+
+        <ng-template #header>
+          <tr>
+            <th style="min-width:200px">{{'chatReview.table.participants' | translate}}</th>
+            <th style="min-width:150px">{{'chatReview.table.lastMessage' | translate}}</th>
+            <th style="min-width:100px">{{'chatReview.table.messageCount' | translate}}</th>
+            <th style="min-width:150px">{{'chatReview.table.lastActivity' | translate}}</th>
+            <th style="min-width:120px">{{'chatReview.table.actions' | translate}}</th>
+          </tr>
+        </ng-template>
+
+        <ng-template #body let-chat>
+          <tr>
+            <td>
+              <div class="participants-container">
+                <div class="participants-names">
+                  @for (participant of chat.participants; track participant.userId; let i = $index) {
+                  <span class="participant-name" [title]="participant.username">
+                    {{getParticipantDisplayName(participant)}}
+                    @if (!participant.isAdmin) {
+                    <small class="text-muted">({{participant.username}})</small>
+                    }
+                  </span>
+                  }
+                </div>
+              </div>
+            </td>
+            <td>
+              @if (chat.lastMessage) {
+              <div class="last-message-container">
+                <div class="message-content">
+                  <p-tag severity="primary" [value]="getMessageSenderName(chat.lastMessage)" />
+                  : {{chat.lastMessage.content}}
+                </div>
+                <div class="message-time">
+                  {{formatMessageTime(chat.lastMessage.sentAt)}}
+                </div>
+              </div>
+              } @else {
+              <div class="no-messages">
+                <i class="pi pi-info-circle"></i>
+                <strong>{{'chatReview.table.noMessages' | translate}}</strong>
+              </div>
+              }
+            </td>
+            <td>
+              <p-tag severity="primary" [value]="chat.totalMessages" />
+            </td>
+            <td>
+              @if (chat.lastMessageAt) {
+              <div class="activity-time">
+                {{formatMessageTime(chat.lastMessageAt)}}
+              </div>
+              } @else {
+              <div class="activity-time">
+                {{formatMessageTime(chat.createdAt)}}
+              </div>
+              }
+            </td>
+            <td>
+              <div class="table-actions">
+                <p-button [label]="'chatReview.table.viewChat' | translate" severity="primary" [disabled]="loading"
+                  (click)="viewChat(chat)" />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="5">
+              <div class="empty-container">
+                <i class="pi pi-comments"></i>
+                <h4>{{ 'chatReview.empty.default' | translate }}</h4>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </p-card>
+
+  <!-- Chat Viewer Section -->
+  @if (selectedChat) {
+  <p-card [header]="'chatReview.viewer.header' | translate" class="chat-viewer-card">
+    <div class="chat-viewer-container">
+      <p-button class="close-chat" icon="pi pi-times" [text]="true" severity="secondary" (click)="closeChat()" />
+
+      <!-- Messages Container -->
+      <div class="messages-container" (scroll)="onChatScroll($event)">
+        @if (loadingMessages && messagesCurrentPage === 1) {
+        <div class="loading-messages">
+          <p-progressSpinner strokeWidth="3" [style]="{ width: '24px', height: '24px'}" />
+          <span>{{'common.loading' | translate}}</span>
+        </div>
+        }
+
+        @for (message of messages; track message.id) {
+        <div class="message-item" [ngClass]="{'own-message': isMessageFromAdmin(message)}">
+          @if (!isMessageFromAdmin(message)) {
+          <p-avatar [image]="message.senderAvatar || ''" [label]="getMessageSenderName(message).charAt(0).toUpperCase()"
+            size="normal" [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }">
+          </p-avatar>
+          }
+          <div class="message-content">
+            <div class="message-header">
+              <span class="sender-name">{{getMessageSenderName(message)}}</span>
+              <span class="message-time">{{formatMessageTime(message.sentAt)}}</span>
+            </div>
+            <div class="message-text" [style.background]="getParticipantColor(message.senderId)">
+              {{message.content}}
+            </div>
+          </div>
+        </div>
+        }
+
+        @if (loadingMessages && messagesCurrentPage > 1) {
+        <div class="loading-more">
+          <p-progressSpinner strokeWidth="2" [style]="{ width: '16px', height: '16px'}" />
+          <small>{{'chatReview.viewer.loadingMore' | translate}}</small>
+        </div>
+        }
+
+        @if (messages.length === 0 && !loadingMessages) {
+        <div class="no-messages-in-chat">
+          <i class="pi pi-comments"></i>
+          <span>{{'chatReview.viewer.noMessages' | translate}}</span>
+        </div>
+        }
+      </div>
+    </div>
+  </p-card>
+  }
+</div>
+
+<p-toast />
+<p-confirmpopup />
