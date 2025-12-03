@@ -9,16 +9,16 @@ import {
   NotificationsListRequest,
   NotificationsListResponse,
   City,
-  CitiesListResponse
+  CitiesListResponse,
 } from '../models/notifications-center';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationsCenterService {
   private readonly baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Get paginated list of notifications with optional search and date range filter
@@ -41,9 +41,10 @@ export class NotificationsCenterService {
       params = params.set('EndDate', request.endDate);
     }
 
-    return this.http.get<NotificationsListResponse>(`${this.baseUrl}Notifications/admin/list`, { params })
+    return this.http
+      .get<NotificationsListResponse>(`${this.baseUrl}Notifications/admin/list`, { params })
       .pipe(
-        map(response => response),
+        map((response) => response),
         catchError(this.handleError)
       );
   }
@@ -53,11 +54,10 @@ export class NotificationsCenterService {
    * POST /api/Notifications/admin/send
    */
   sendNotification(request: SendNotificationRequest): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}Notifications/admin/send`, request)
-      .pipe(
-        map(response => response),
-        catchError(this.handleError)
-      );
+    return this.http.post<any>(`${this.baseUrl}Notifications/admin/send`, request).pipe(
+      map((response) => response),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -65,11 +65,20 @@ export class NotificationsCenterService {
    * GET /api/Lookups/cities
    */
   getCities(): Observable<City[]> {
-    return this.http.get<CitiesListResponse>(`${this.baseUrl}Lookups/cities`)
-      .pipe(
-        map(response => response.data || []),
-        catchError(this.handleError)
-      );
+    return this.http.get<any>(`${this.baseUrl}Lookups/cities`).pipe(
+      map((response) => {
+        console.log('Cities API response:', response);
+        // Try different response structures
+        if (response && response.data && Array.isArray(response.data)) {
+          return response.data;
+        }
+        if (Array.isArray(response)) {
+          return response;
+        }
+        return [];
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**

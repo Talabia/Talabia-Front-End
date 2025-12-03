@@ -24,6 +24,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DatePicker } from 'primeng/datepicker';
 import { Select } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
+import { TagModule } from 'primeng/tag';
 import { NotificationsCenterService } from '../services/notifications-center.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
@@ -59,6 +60,7 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
     DatePicker,
     Select,
     TextareaModule,
+    TagModule,
     DatePipe,
     TranslatePipe,
   ],
@@ -282,7 +284,8 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (cities: City[]) => {
-          this.cities = cities;
+          console.log('Cities loaded:', cities);
+          this.cities = cities || [];
           this.cdr.detectChanges();
         },
         error: (error) => {
@@ -342,12 +345,15 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Handle date range change
+   * Handle date range change - only filter when both dates are selected
    */
   onDateRangeChange(): void {
-    this.first = 0;
-    this.currentPage = 1;
-    this.loadNotifications();
+    // Only trigger filter when both start and end dates are selected
+    if (this.rangeDates && this.rangeDates.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
+      this.first = 0;
+      this.currentPage = 1;
+      this.loadNotifications();
+    }
   }
 
   /**
@@ -514,6 +520,26 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
         return this.t('notificationsCenter.targetAudience.specificCity');
       default:
         return targetAudience;
+    }
+  }
+
+  /**
+   * Get target audience severity for tags
+   */
+  getTargetAudienceSeverity(targetAudience: string | null): string {
+    if (!targetAudience) return 'secondary';
+
+    switch (targetAudience) {
+      case 'AllUsers':
+        return 'success';
+      case 'VerifiedAccounts':
+        return 'info';
+      case 'PremiumAccounts':
+        return 'warn';
+      case 'SpecificCity':
+        return 'danger';
+      default:
+        return 'secondary';
     }
   }
 
