@@ -1459,9 +1459,7 @@ export class LanguageService {
   private readonly languageChange$ = new BehaviorSubject<SupportedLanguage>('ar');
   readonly languageChanged$ = this.languageChange$.asObservable();
 
-  private router = inject(Router);
-
-  constructor(private appRef: ApplicationRef, private ngZone: NgZone) {
+  constructor(private appRef: ApplicationRef, private ngZone: NgZone, private router: Router) {
     this.currentLang = this.loadInitialLanguage();
     this.applyDocumentSettings(this.currentLang);
     this.languageChange$.next(this.currentLang);
@@ -1487,27 +1485,18 @@ export class LanguageService {
   toggleLanguage(): SupportedLanguage {
     const newLang = this.currentLang === 'ar' ? 'en' : 'ar';
 
-    // Update the current language immediately
+    // Update the current language and persist it
     this.setLanguage(newLang);
 
-    // Navigate to the new URL with the new language prefix
-    this.navigateWithLanguage(newLang);
-
-    return newLang;
-  }
-
-  /**
-   * Navigate to the current route with a different language prefix
-   */
-  private navigateWithLanguage(lang: SupportedLanguage): void {
+    // Get the current URL path without the language prefix
     const currentUrl = this.router.url;
-
-    // Remove the current language prefix if it exists
     const urlWithoutLang = currentUrl.replace(/^\/(ar|en)/, '') || '/';
 
-    // Navigate to the new URL with the new language prefix
-    const newUrl = `/${lang}${urlWithoutLang}`;
-    this.router.navigateByUrl(newUrl);
+    // Reload the page with the new language prefix
+    const newUrl = `/${newLang}${urlWithoutLang}`;
+    window.location.href = newUrl;
+
+    return newLang;
   }
 
   translate(key: string, params?: Record<string, unknown>): string {
