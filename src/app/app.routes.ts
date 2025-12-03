@@ -15,6 +15,7 @@ import { UserVerificationsComponent } from './features/users/user-verifications/
 import { VerificationsStatisticsComponent } from './features/analytics-statistics/verifications-statistics/verifications-statistics.component';
 import { NotificationsCenterComponent } from './features/notifications/notifications-center/notifications-center.component';
 import { languageGuard } from './shared/guards/language.guard';
+import { ChatReivewComponent } from './features/message-chat-review/chat-reivew/chat-reivew.component';
 
 // Define the main routes without language prefix
 const mainRoutes: Routes = [
@@ -119,6 +120,15 @@ const mainRoutes: Routes = [
       {
         path: 'notifications-center',
         component: NotificationsCenterComponent,
+      },
+    ],
+  },
+  {
+    path: 'message-chat-review',
+    children: [
+      {
+        path: 'chat-reivew',
+        component: ChatReivewComponent,
       },
     ],
   },
