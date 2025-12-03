@@ -77,6 +77,11 @@ export class SideBarComponent implements OnInit, OnDestroy {
         icon: 'pi pi-comments',
         routerLink: this.navigationService.getRouterLink('/message-chat-review/chat-reivew'),
       },
+      {
+        label: this.t('sidebar.messageChatReview'),
+        icon: 'pi pi-box',
+        routerLink: this.navigationService.getRouterLink('/content-management/content-offers'),
+      },
     ];
 
     this.items = [
