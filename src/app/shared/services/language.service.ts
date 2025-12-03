@@ -23,6 +23,7 @@ const TRANSLATIONS: Translations = {
     'sidebar.theme': 'Application Theme',
     'sidebar.customerSupport': 'Customer Support',
     'sidebar.notifications': 'Notifications',
+    'sidebar.messageChatReview': 'Message Chat Review',
     'sidebar.dashboard': 'Dashboard',
     'sidebar.verificationsStatistics': 'Verifications Statistics',
     'sidebar.reportsManagement': 'Reports Management',
@@ -75,7 +76,8 @@ const TRANSLATIONS: Translations = {
     'analytics.dashboard.axis.reports': 'Number of Reports',
     'analytics.dashboard.axis.days': 'Days',
     'analytics.dashboard.emptyTitle': 'No Data Available',
-    'analytics.dashboard.emptyDescription': 'Unable to load dashboard statistics. Please try refreshing the page.',
+    'analytics.dashboard.emptyDescription':
+      'Unable to load dashboard statistics. Please try refreshing the page.',
     'analytics.dashboard.retry': 'Retry',
     'analytics.dashboard.filter.all': 'All Time',
     'analytics.dashboard.filter.7': 'Last 7 Days',
@@ -113,7 +115,8 @@ const TRANSLATIONS: Translations = {
     'advertisement.notification.loadError': 'Failed to load advertisements',
     'advertisement.confirm.deleteMessage': 'Are you sure you want to delete "{{title}}"?',
     'advertisement.validation.titleRequired': 'Title is required',
-    'advertisement.validation.titleMinLength': 'Title must be at least {{requiredLength}} characters',
+    'advertisement.validation.titleMinLength':
+      'Title must be at least {{requiredLength}} characters',
     'advertisement.validation.imageRequired': 'Image is required',
     'theme.header': 'Theme Management',
     'theme.addButton': 'Add Theme',
@@ -215,7 +218,8 @@ const TRANSLATIONS: Translations = {
     'customerSupport.notification.markReadError': 'Failed to mark message as read',
     'customerSupport.notification.deleteSuccess': 'Message deleted successfully',
     'customerSupport.notification.deleteError': 'Failed to delete message',
-    'customerSupport.confirm.deleteMessage': 'Are you sure you want to delete this message from "{{name}}"?',
+    'customerSupport.confirm.deleteMessage':
+      'Are you sure you want to delete this message from "{{name}}"?',
     'reports.header': 'Reports Management',
     'reports.filters.searchPlaceholder': 'Search by reporter name or email...',
     'reports.filters.datePlaceholder': 'Select date range',
@@ -358,8 +362,10 @@ const TRANSLATIONS: Translations = {
     'cities.confirm.deleteMessage': 'Are you sure you want to delete "{{nameEn}}" ({{nameAr}})?',
     'cities.validation.nameArRequired': 'Arabic name is required',
     'cities.validation.nameEnRequired': 'English name is required',
-    'cities.validation.nameArPattern': 'Arabic name must contain at least one Arabic character and be properly formatted',
-    'cities.validation.nameEnPattern': 'English name must contain at least one English letter and be properly formatted',
+    'cities.validation.nameArPattern':
+      'Arabic name must contain at least one Arabic character and be properly formatted',
+    'cities.validation.nameEnPattern':
+      'English name must contain at least one English letter and be properly formatted',
     'cities.validation.invalid': 'Invalid input',
     'conditions.header': 'Conditions',
     'conditions.searchPlaceholder': 'Search conditions...',
@@ -384,11 +390,14 @@ const TRANSLATIONS: Translations = {
     'conditions.notification.updateError': 'Failed to update condition',
     'conditions.notification.deleteSuccess': 'Condition deleted successfully',
     'conditions.notification.deleteError': 'Failed to delete condition',
-    'conditions.confirm.deleteMessage': 'Are you sure you want to delete "{{nameEn}}" ({{nameAr}})?',
+    'conditions.confirm.deleteMessage':
+      'Are you sure you want to delete "{{nameEn}}" ({{nameAr}})?',
     'conditions.validation.nameArRequired': 'Arabic name is required',
     'conditions.validation.nameEnRequired': 'English name is required',
-    'conditions.validation.nameArPattern': 'Arabic name must contain at least one Arabic character and be properly formatted',
-    'conditions.validation.nameEnPattern': 'English name must contain at least one English letter and be properly formatted',
+    'conditions.validation.nameArPattern':
+      'Arabic name must contain at least one Arabic character and be properly formatted',
+    'conditions.validation.nameEnPattern':
+      'English name must contain at least one English letter and be properly formatted',
     'conditions.validation.invalid': 'Invalid input',
     'sparePartsStatus.header': 'Spare Parts Statuses',
     'sparePartsStatus.searchPlaceholder': 'Search spare parts statuses...',
@@ -413,11 +422,14 @@ const TRANSLATIONS: Translations = {
     'sparePartsStatus.notification.updateError': 'Failed to update spare parts status',
     'sparePartsStatus.notification.deleteSuccess': 'Spare parts status deleted successfully',
     'sparePartsStatus.notification.deleteError': 'Failed to delete spare parts status',
-    'sparePartsStatus.confirm.deleteMessage': 'Are you sure you want to delete "{{nameEn}}" ({{nameAr}})?',
+    'sparePartsStatus.confirm.deleteMessage':
+      'Are you sure you want to delete "{{nameEn}}" ({{nameAr}})?',
     'sparePartsStatus.validation.nameArRequired': 'Arabic name is required',
     'sparePartsStatus.validation.nameEnRequired': 'English name is required',
-    'sparePartsStatus.validation.nameArPattern': 'Arabic name must contain at least one Arabic character and be properly formatted',
-    'sparePartsStatus.validation.nameEnPattern': 'English name must contain at least one English letter and be properly formatted',
+    'sparePartsStatus.validation.nameArPattern':
+      'Arabic name must contain at least one Arabic character and be properly formatted',
+    'sparePartsStatus.validation.nameEnPattern':
+      'English name must contain at least one English letter and be properly formatted',
     'sparePartsStatus.validation.invalid': 'Invalid input',
     'vehicleMakers.header': 'Vehicle Makers',
     'vehicleMakers.searchPlaceholder': 'Search vehicle makers...',
@@ -447,11 +459,14 @@ const TRANSLATIONS: Translations = {
     'vehicleMakers.notification.deleteError': 'Failed to delete vehicle maker',
     'vehicleMakers.notification.imageUploadSuccess': 'Image uploaded successfully',
     'vehicleMakers.notification.imageUploadError': 'Failed to upload image',
-    'vehicleMakers.confirm.deleteMessage': 'Are you sure you want to delete "{{nameEn}}" ({{nameAr}})?',
+    'vehicleMakers.confirm.deleteMessage':
+      'Are you sure you want to delete "{{nameEn}}" ({{nameAr}})?',
     'vehicleMakers.validation.nameArRequired': 'Arabic name is required',
     'vehicleMakers.validation.nameEnRequired': 'English name is required',
-    'vehicleMakers.validation.nameArPattern': 'Arabic name must contain at least one Arabic character and be properly formatted',
-    'vehicleMakers.validation.nameEnPattern': 'English name must contain at least one English letter and be properly formatted',
+    'vehicleMakers.validation.nameArPattern':
+      'Arabic name must contain at least one Arabic character and be properly formatted',
+    'vehicleMakers.validation.nameEnPattern':
+      'English name must contain at least one English letter and be properly formatted',
     'vehicleMakers.validation.invalid': 'Invalid input',
     'vehicleModels.header': 'Vehicle Models',
     'vehicleModels.searchPlaceholder': 'Search vehicle models...',
@@ -481,12 +496,15 @@ const TRANSLATIONS: Translations = {
     'vehicleModels.notification.deleteError': 'Failed to delete vehicle model',
     'vehicleModels.notification.detailsError': 'Failed to load vehicle model details',
     'vehicleModels.notification.makersLoadError': 'Failed to load vehicle makers',
-    'vehicleModels.confirm.deleteMessage': 'Are you sure you want to delete "{{nameEn}}" ({{nameAr}})?',
+    'vehicleModels.confirm.deleteMessage':
+      'Are you sure you want to delete "{{nameEn}}" ({{nameAr}})?',
     'vehicleModels.validation.nameArRequired': 'Arabic name is required',
     'vehicleModels.validation.nameEnRequired': 'English name is required',
     'vehicleModels.validation.makerRequired': 'Vehicle maker is required',
-    'vehicleModels.validation.nameArPattern': 'Arabic name must contain at least one Arabic character and be properly formatted',
-    'vehicleModels.validation.nameEnPattern': 'English name must contain at least one English letter and be properly formatted',
+    'vehicleModels.validation.nameArPattern':
+      'Arabic name must contain at least one Arabic character and be properly formatted',
+    'vehicleModels.validation.nameEnPattern':
+      'English name must contain at least one English letter and be properly formatted',
     'vehicleModels.validation.invalid': 'Invalid input',
     'vehicleTypes.header': 'Vehicle Types',
     'vehicleTypes.searchPlaceholder': 'Search vehicle types...',
@@ -511,11 +529,14 @@ const TRANSLATIONS: Translations = {
     'vehicleTypes.notification.updateError': 'Failed to update vehicle type',
     'vehicleTypes.notification.deleteSuccess': 'Vehicle type deleted successfully',
     'vehicleTypes.notification.deleteError': 'Failed to delete vehicle type',
-    'vehicleTypes.confirm.deleteMessage': 'Are you sure you want to delete "{{nameEn}}" ({{nameAr}})?',
+    'vehicleTypes.confirm.deleteMessage':
+      'Are you sure you want to delete "{{nameEn}}" ({{nameAr}})?',
     'vehicleTypes.validation.nameArRequired': 'Arabic name is required',
     'vehicleTypes.validation.nameEnRequired': 'English name is required',
-    'vehicleTypes.validation.nameArPattern': 'Arabic name must contain at least one Arabic character and be properly formatted',
-    'vehicleTypes.validation.nameEnPattern': 'English name must contain at least one English letter and be properly formatted',
+    'vehicleTypes.validation.nameArPattern':
+      'Arabic name must contain at least one Arabic character and be properly formatted',
+    'vehicleTypes.validation.nameEnPattern':
+      'English name must contain at least one English letter and be properly formatted',
     'vehicleTypes.validation.invalid': 'Invalid input',
     'verifications.header': 'User Verifications',
     'verifications.filters.searchPlaceholder': 'Search by name, email, or commercial number...',
@@ -566,10 +587,13 @@ const TRANSLATIONS: Translations = {
     'verifications.reviewDialog.fields.status': 'Status',
     'verifications.reviewDialog.fields.statusPlaceholder': 'Select status...',
     'verifications.reviewDialog.fields.rejectionReason': 'Rejection Reason',
-    'verifications.reviewDialog.fields.rejectionReasonPlaceholder': 'Enter rejection reason (required for rejected/under review)',
+    'verifications.reviewDialog.fields.rejectionReasonPlaceholder':
+      'Enter rejection reason (required for rejected/under review)',
     'verifications.reviewDialog.fields.adminNotes': 'Admin Notes',
-    'verifications.reviewDialog.fields.adminNotesPlaceholder': 'Enter admin notes (required for rejected/under review)',
-    'verifications.confirm.approve': 'Are you sure you want to approve verification for "{{name}}"?',
+    'verifications.reviewDialog.fields.adminNotesPlaceholder':
+      'Enter admin notes (required for rejected/under review)',
+    'verifications.confirm.approve':
+      'Are you sure you want to approve verification for "{{name}}"?',
     'verifications.notification.loadError': 'Failed to load verifications',
     'verifications.notification.detailsError': 'Failed to load verification details',
     'verifications.notification.reviewSuccess': 'Verification status updated successfully',
@@ -587,7 +611,8 @@ const TRANSLATIONS: Translations = {
     'analytics.verifications.thisWeekSubmissions': 'This Week Submissions',
     'analytics.verifications.ofTotal': '% of total',
     'analytics.verifications.emptyTitle': 'No Data Available',
-    'analytics.verifications.emptyDescription': 'Unable to load verifications statistics. Please try refreshing the page.',
+    'analytics.verifications.emptyDescription':
+      'Unable to load verifications statistics. Please try refreshing the page.',
     'analytics.verifications.retry': 'Retry',
     'notificationsCenter.header': 'Notifications Center',
     'notificationsCenter.searchPlaceholder': 'Search notifications...',
@@ -624,9 +649,31 @@ const TRANSLATIONS: Translations = {
     'notificationsCenter.validation.descriptionArRequired': 'Arabic description is required',
     'notificationsCenter.validation.targetAudienceRequired': 'Target audience is required',
     'notificationsCenter.validation.cityRequired': 'City is required',
-    'notificationsCenter.validation.titleMinLength': 'Title must be at least {{requiredLength}} characters',
-    'notificationsCenter.validation.descriptionMinLength': 'Description must be at least {{requiredLength}} characters',
-    'notificationsCenter.validation.arabicPattern': 'Text must contain at least one Arabic character',
+    'notificationsCenter.validation.titleMinLength':
+      'Title must be at least {{requiredLength}} characters',
+    'notificationsCenter.validation.descriptionMinLength':
+      'Description must be at least {{requiredLength}} characters',
+    'notificationsCenter.validation.arabicPattern':
+      'Text must contain at least one Arabic character',
+    'chatReview.header': 'Chat Review',
+    'chatReview.filters.placeholder': 'Filter by time period',
+    'chatReview.filters.all': 'All Chats',
+    'chatReview.filters.last24Hours': 'Last 24 Hours',
+    'chatReview.filters.lastWeek': 'Last Week',
+    'chatReview.filters.lastMonth': 'Last Month',
+    'chatReview.table.participants': 'Participants',
+    'chatReview.table.lastMessage': 'Last Message',
+    'chatReview.table.messageCount': 'Message Count',
+    'chatReview.table.lastActivity': 'Last Activity',
+    'chatReview.table.actions': 'Actions',
+    'chatReview.table.viewChat': 'View Chat',
+    'chatReview.table.noMessages': 'No messages',
+    'chatReview.empty.default': 'No chats available',
+    'chatReview.viewer.header': 'Chat Viewer',
+    'chatReview.viewer.loadingMore': 'Loading more messages...',
+    'chatReview.viewer.noMessages': 'No messages in this chat',
+    'chatReview.notification.loadError': 'Failed to load chat list',
+    'chatReview.notification.messagesLoadError': 'Failed to load chat messages',
   },
   ar: {
     'language.ar': 'العربية',
@@ -642,6 +689,7 @@ const TRANSLATIONS: Translations = {
     'sidebar.theme': 'سمة التطبيق',
     'sidebar.customerSupport': 'دعم العملاء',
     'sidebar.notifications': 'الإشعارات',
+    'sidebar.messageChatReview': 'مراجعة رسائل الدردشة',
     'sidebar.dashboard': 'لوحة المعلومات',
     'sidebar.verificationsStatistics': 'إحصائيات التوثيق',
     'sidebar.reportsManagement': 'إدارة التقارير',
@@ -952,7 +1000,8 @@ const TRANSLATIONS: Translations = {
     'users.notification.premiumSuccess': 'تم تحديث حالة التمييز بنجاح',
     'users.notification.premiumError': 'فشل تحديث حالة التمييز',
     'verifications.header': 'توثيق المستخدمين',
-    'verifications.filters.searchPlaceholder': 'ابحث بالاسم أو البريد الإلكتروني أو الرقم التجاري...',
+    'verifications.filters.searchPlaceholder':
+      'ابحث بالاسم أو البريد الإلكتروني أو الرقم التجاري...',
     'verifications.filters.dateRangePlaceholder': 'اختر نطاق التاريخ',
     'verifications.filters.statusPlaceholder': 'تصفية حسب الحالة',
     'verifications.filters.status.all': 'كل الحالات',
@@ -1000,9 +1049,11 @@ const TRANSLATIONS: Translations = {
     'verifications.reviewDialog.fields.status': 'الحالة',
     'verifications.reviewDialog.fields.statusPlaceholder': 'اختر الحالة...',
     'verifications.reviewDialog.fields.rejectionReason': 'سبب الرفض',
-    'verifications.reviewDialog.fields.rejectionReasonPlaceholder': 'أدخل سبب الرفض (مطلوب للحالات: مرفوض/قيد المراجعة)',
+    'verifications.reviewDialog.fields.rejectionReasonPlaceholder':
+      'أدخل سبب الرفض (مطلوب للحالات: مرفوض/قيد المراجعة)',
     'verifications.reviewDialog.fields.adminNotes': 'ملاحظات المسؤول',
-    'verifications.reviewDialog.fields.adminNotesPlaceholder': 'أدخل ملاحظات المسؤول (مطلوب للحالات: مرفوض/قيد المراجعة)',
+    'verifications.reviewDialog.fields.adminNotesPlaceholder':
+      'أدخل ملاحظات المسؤول (مطلوب للحالات: مرفوض/قيد المراجعة)',
     'verifications.confirm.approve': 'هل أنت متأكد من اعتماد التوثيق لـ "{{name}}"؟',
     'verifications.notification.loadError': 'فشل تحميل طلبات التوثيق',
     'verifications.notification.detailsError': 'فشل تحميل تفاصيل التوثيق',
@@ -1021,7 +1072,8 @@ const TRANSLATIONS: Translations = {
     'analytics.verifications.thisWeekSubmissions': 'طلبات هذا الأسبوع',
     'analytics.verifications.ofTotal': '% من الإجمالي',
     'analytics.verifications.emptyTitle': 'لا توجد بيانات متاحة',
-    'analytics.verifications.emptyDescription': 'تعذر تحميل إحصائيات التوثيق. يرجى المحاولة مرة أخرى.',
+    'analytics.verifications.emptyDescription':
+      'تعذر تحميل إحصائيات التوثيق. يرجى المحاولة مرة أخرى.',
     'analytics.verifications.retry': 'إعادة المحاولة',
     'cities.header': 'المدن',
     'cities.searchPlaceholder': 'ابحث عن المدن...',
@@ -1049,8 +1101,10 @@ const TRANSLATIONS: Translations = {
     'cities.confirm.deleteMessage': 'هل أنت متأكد أنك تريد حذف "{{nameEn}}" ({{nameAr}})؟',
     'cities.validation.nameArRequired': 'الاسم العربي مطلوب',
     'cities.validation.nameEnRequired': 'الاسم الإنجليزي مطلوب',
-    'cities.validation.nameArPattern': 'يجب أن يحتوي الاسم العربي على حرف عربي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
-    'cities.validation.nameEnPattern': 'يجب أن يحتوي الاسم الإنجليزي على حرف إنجليزي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
+    'cities.validation.nameArPattern':
+      'يجب أن يحتوي الاسم العربي على حرف عربي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
+    'cities.validation.nameEnPattern':
+      'يجب أن يحتوي الاسم الإنجليزي على حرف إنجليزي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
     'cities.validation.invalid': 'إدخال غير صالح',
     'conditions.header': 'الحالات',
     'conditions.searchPlaceholder': 'ابحث عن الحالات...',
@@ -1078,8 +1132,10 @@ const TRANSLATIONS: Translations = {
     'conditions.confirm.deleteMessage': 'هل أنت متأكد أنك تريد حذف "{{nameEn}}" ({{nameAr}})؟',
     'conditions.validation.nameArRequired': 'الاسم العربي مطلوب',
     'conditions.validation.nameEnRequired': 'الاسم الإنجليزي مطلوب',
-    'conditions.validation.nameArPattern': 'يجب أن يحتوي الاسم العربي على حرف عربي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
-    'conditions.validation.nameEnPattern': 'يجب أن يحتوي الاسم الإنجليزي على حرف إنجليزي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
+    'conditions.validation.nameArPattern':
+      'يجب أن يحتوي الاسم العربي على حرف عربي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
+    'conditions.validation.nameEnPattern':
+      'يجب أن يحتوي الاسم الإنجليزي على حرف إنجليزي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
     'conditions.validation.invalid': 'إدخال غير صالح',
     'sparePartsStatus.header': 'حالات قطع الغيار',
     'sparePartsStatus.searchPlaceholder': 'ابحث عن حالات قطع الغيار...',
@@ -1104,11 +1160,14 @@ const TRANSLATIONS: Translations = {
     'sparePartsStatus.notification.updateError': 'فشل تحديث حالة قطع الغيار',
     'sparePartsStatus.notification.deleteSuccess': 'تم حذف حالة قطع الغيار بنجاح',
     'sparePartsStatus.notification.deleteError': 'فشل حذف حالة قطع الغيار',
-    'sparePartsStatus.confirm.deleteMessage': 'هل أنت متأكد أنك تريد حذف "{{nameEn}}" ({{nameAr}})؟',
+    'sparePartsStatus.confirm.deleteMessage':
+      'هل أنت متأكد أنك تريد حذف "{{nameEn}}" ({{nameAr}})؟',
     'sparePartsStatus.validation.nameArRequired': 'الاسم العربي مطلوب',
     'sparePartsStatus.validation.nameEnRequired': 'الاسم الإنجليزي مطلوب',
-    'sparePartsStatus.validation.nameArPattern': 'يجب أن يحتوي الاسم العربي على حرف عربي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
-    'sparePartsStatus.validation.nameEnPattern': 'يجب أن يحتوي الاسم الإنجليزي على حرف إنجليزي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
+    'sparePartsStatus.validation.nameArPattern':
+      'يجب أن يحتوي الاسم العربي على حرف عربي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
+    'sparePartsStatus.validation.nameEnPattern':
+      'يجب أن يحتوي الاسم الإنجليزي على حرف إنجليزي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
     'sparePartsStatus.validation.invalid': 'إدخال غير صالح',
     'vehicleMakers.header': 'مصنّعو المركبات',
     'vehicleMakers.searchPlaceholder': 'ابحث عن مصنّعي المركبات...',
@@ -1141,8 +1200,10 @@ const TRANSLATIONS: Translations = {
     'vehicleMakers.confirm.deleteMessage': 'هل أنت متأكد أنك تريد حذف "{{nameEn}}" ({{nameAr}})؟',
     'vehicleMakers.validation.nameArRequired': 'الاسم العربي مطلوب',
     'vehicleMakers.validation.nameEnRequired': 'الاسم الإنجليزي مطلوب',
-    'vehicleMakers.validation.nameArPattern': 'يجب أن يحتوي الاسم العربي على حرف عربي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
-    'vehicleMakers.validation.nameEnPattern': 'يجب أن يحتوي الاسم الإنجليزي على حرف إنجليزي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
+    'vehicleMakers.validation.nameArPattern':
+      'يجب أن يحتوي الاسم العربي على حرف عربي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
+    'vehicleMakers.validation.nameEnPattern':
+      'يجب أن يحتوي الاسم الإنجليزي على حرف إنجليزي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
     'vehicleMakers.validation.invalid': 'إدخال غير صالح',
     'vehicleModels.header': 'طرازات المركبات',
     'vehicleModels.searchPlaceholder': 'ابحث عن طرازات المركبات...',
@@ -1176,8 +1237,10 @@ const TRANSLATIONS: Translations = {
     'vehicleModels.validation.nameArRequired': 'الاسم العربي مطلوب',
     'vehicleModels.validation.nameEnRequired': 'الاسم الإنجليزي مطلوب',
     'vehicleModels.validation.makerRequired': 'مصنّع المركبة مطلوب',
-    'vehicleModels.validation.nameArPattern': 'يجب أن يحتوي الاسم العربي على حرف عربي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
-    'vehicleModels.validation.nameEnPattern': 'يجب أن يحتوي الاسم الإنجليزي على حرف إنجليزي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
+    'vehicleModels.validation.nameArPattern':
+      'يجب أن يحتوي الاسم العربي على حرف عربي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
+    'vehicleModels.validation.nameEnPattern':
+      'يجب أن يحتوي الاسم الإنجليزي على حرف إنجليزي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
     'vehicleModels.validation.invalid': 'إدخال غير صالح',
     'vehicleTypes.header': 'أنواع المركبات',
     'vehicleTypes.searchPlaceholder': 'ابحث عن أنواع المركبات...',
@@ -1205,8 +1268,10 @@ const TRANSLATIONS: Translations = {
     'vehicleTypes.confirm.deleteMessage': 'هل أنت متأكد أنك تريد حذف "{{nameEn}}" ({{nameAr}})؟',
     'vehicleTypes.validation.nameArRequired': 'الاسم العربي مطلوب',
     'vehicleTypes.validation.nameEnRequired': 'الاسم الإنجليزي مطلوب',
-    'vehicleTypes.validation.nameArPattern': 'يجب أن يحتوي الاسم العربي على حرف عربي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
-    'vehicleTypes.validation.nameEnPattern': 'يجب أن يحتوي الاسم الإنجليزي على حرف إنجليزي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
+    'vehicleTypes.validation.nameArPattern':
+      'يجب أن يحتوي الاسم العربي على حرف عربي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
+    'vehicleTypes.validation.nameEnPattern':
+      'يجب أن يحتوي الاسم الإنجليزي على حرف إنجليزي واحد على الأقل وأن يكون منسقًا بشكل صحيح',
     'vehicleTypes.validation.invalid': 'إدخال غير صالح',
     'notificationsCenter.header': 'مركز الإشعارات',
     'notificationsCenter.searchPlaceholder': 'ابحث في الإشعارات...',
@@ -1243,9 +1308,30 @@ const TRANSLATIONS: Translations = {
     'notificationsCenter.validation.descriptionArRequired': 'الوصف بالعربية مطلوب',
     'notificationsCenter.validation.targetAudienceRequired': 'الجمهور المستهدف مطلوب',
     'notificationsCenter.validation.cityRequired': 'المدينة مطلوبة',
-    'notificationsCenter.validation.titleMinLength': 'يجب ألا يقل العنوان عن {{requiredLength}} أحرف',
-    'notificationsCenter.validation.descriptionMinLength': 'يجب ألا يقل الوصف عن {{requiredLength}} أحرف',
+    'notificationsCenter.validation.titleMinLength':
+      'يجب ألا يقل العنوان عن {{requiredLength}} أحرف',
+    'notificationsCenter.validation.descriptionMinLength':
+      'يجب ألا يقل الوصف عن {{requiredLength}} أحرف',
     'notificationsCenter.validation.arabicPattern': 'يجب أن يحتوي النص على حرف عربي واحد على الأقل',
+    'chatReview.header': 'مراجعة الدردشات',
+    'chatReview.filters.placeholder': 'تصفية حسب الفترة الزمنية',
+    'chatReview.filters.all': 'جميع الدردشات',
+    'chatReview.filters.last24Hours': 'آخر 24 ساعة',
+    'chatReview.filters.lastWeek': 'آخر أسبوع',
+    'chatReview.filters.lastMonth': 'آخر شهر',
+    'chatReview.table.participants': 'المشاركون',
+    'chatReview.table.lastMessage': 'آخر رسالة',
+    'chatReview.table.messageCount': 'عدد الرسائل',
+    'chatReview.table.lastActivity': 'آخر نشاط',
+    'chatReview.table.actions': 'الإجراءات',
+    'chatReview.table.viewChat': 'عرض الدردشة',
+    'chatReview.table.noMessages': 'لا توجد رسائل',
+    'chatReview.empty.default': 'لا توجد دردشات متاحة',
+    'chatReview.viewer.header': 'عارض الدردشة',
+    'chatReview.viewer.loadingMore': 'جاري تحميل المزيد من الرسائل...',
+    'chatReview.viewer.noMessages': 'لا توجد رسائل في هذه الدردشة',
+    'chatReview.notification.loadError': 'فشل في تحميل قائمة الدردشات',
+    'chatReview.notification.messagesLoadError': 'فشل في تحميل رسائل الدردشة',
   },
 };
 
@@ -1284,13 +1370,13 @@ export class LanguageService {
 
   toggleLanguage(): SupportedLanguage {
     const newLang = this.currentLang === 'ar' ? 'en' : 'ar';
-    
+
     // Update the current language immediately
     this.setLanguage(newLang);
-    
+
     // Navigate to the new URL with the new language prefix
     this.navigateWithLanguage(newLang);
-    
+
     return newLang;
   }
 
@@ -1299,10 +1385,10 @@ export class LanguageService {
    */
   private navigateWithLanguage(lang: SupportedLanguage): void {
     const currentUrl = this.router.url;
-    
+
     // Remove the current language prefix if it exists
     const urlWithoutLang = currentUrl.replace(/^\/(ar|en)/, '') || '/';
-    
+
     // Navigate to the new URL with the new language prefix
     const newUrl = `/${lang}${urlWithoutLang}`;
     this.router.navigateByUrl(newUrl);
@@ -1356,7 +1442,7 @@ export class LanguageService {
 
     const path = window.location.pathname;
     const langMatch = path.match(/^\/(ar|en)/);
-    
+
     if (langMatch && (langMatch[1] === 'ar' || langMatch[1] === 'en')) {
       return langMatch[1] as SupportedLanguage;
     }
