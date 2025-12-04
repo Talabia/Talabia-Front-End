@@ -8,6 +8,7 @@ import {
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
+import { Select } from 'primeng/select';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
@@ -34,6 +35,7 @@ import {
     CardModule,
     ChartModule,
     ButtonModule,
+    Select,
     ToastModule,
     ProgressSpinnerModule,
     TableModule,
@@ -54,6 +56,14 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
   engagementData?: UserEngagementResponse;
   activeUsersData?: UserStatsResponse;
   reviewData?: ReviewAnalyticsResponse;
+
+  // Filter properties
+  selectedFilter: number = 30;
+  filterOptions = [
+    { label: '', value: 7 },
+    { label: '', value: 30 },
+    { label: '', value: 90 }
+  ];
 
   // Chart data
   registrationsChartData?: ChartData;
@@ -86,6 +96,7 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
     private languageService: LanguageService
   ) {
     this.loadingMessage = this.t('analytics.user.loading');
+    this.buildFilterOptions();
     this.initializeChartOptions();
     this.observeLanguageChanges();
   }
@@ -104,19 +115,28 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.loadingMessage = this.t('analytics.user.loading');
+        this.buildFilterOptions();
         this.initializeChartOptions();
         this.prepareChartData();
         this.cdr.markForCheck();
       });
   }
 
+  private buildFilterOptions(): void {
+    this.filterOptions = [
+      { label: this.t('analytics.dashboard.filter.7'), value: 7 },
+      { label: this.t('analytics.dashboard.filter.30'), value: 30 },
+      { label: this.t('analytics.dashboard.filter.90'), value: 90 }
+    ];
+  }
+
   loadData(): void {
     this.loading = true;
 
     forkJoin({
-      engagement: this.statisticsService.getUserEngagement(30),
+      engagement: this.statisticsService.getUserEngagement(this.selectedFilter),
       activeUsers: this.statisticsService.getMostActiveUsers(10),
-      reviews: this.statisticsService.getReviewAnalytics(30, 10)
+      reviews: this.statisticsService.getReviewAnalytics(this.selectedFilter, 10)
     })
     .pipe(takeUntil(this.destroy$))
     .subscribe({
@@ -139,6 +159,10 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
         this.cdr.markForCheck();
       }
     });
+  }
+
+  onFilterChange(): void {
+    this.loadData();
   }
 
   private prepareChartData(): void {
@@ -250,11 +274,11 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
         y: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: 'var(--p-text-muted-color)' }
+          ticks: { color: '#6b7280' }
         },
         x: {
           grid: { display: false },
-          ticks: { color: 'var(--p-text-muted-color)', maxRotation: 0 }
+          ticks: { color: '#6b7280', maxRotation: 0 }
         }
       }
     };
@@ -266,7 +290,8 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
       plugins: {
         legend: { 
           display: true,
-          position: 'bottom'
+          position: 'bottom',
+          labels: { color: '#6b7280' }
         },
         tooltip: {
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -278,11 +303,11 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
         y: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: 'var(--p-text-muted-color)' }
+          ticks: { color: '#6b7280' }
         },
         x: {
           grid: { display: false },
-          ticks: { color: 'var(--p-text-muted-color)', maxRotation: 0 }
+          ticks: { color: '#6b7280', maxRotation: 0 }
         }
       }
     };
@@ -298,16 +323,17 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
         x: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: 'var(--p-text-muted-color)' }
+          ticks: { color: '#6b7280' }
         },
         y: {
           grid: { display: false },
-          ticks: { color: 'var(--p-text-muted-color)' }
+          ticks: { color: '#6b7280' }
         }
       },
       elements: {
         bar: {
-          borderRadius: { topRight: 8, bottomRight: 8 }
+          borderRadius: { topRight: 8, bottomRight: 8 },
+          borderSkipped: false
         }
       }
     };

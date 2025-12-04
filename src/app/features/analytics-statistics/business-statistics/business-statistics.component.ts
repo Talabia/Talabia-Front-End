@@ -310,7 +310,10 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: false },
+        legend: { 
+          display: false,
+          labels: { color: '#6b7280' }
+        },
         tooltip: {
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           padding: 12,
@@ -321,11 +324,11 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
         y: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: 'var(--p-text-muted-color)' }
+          ticks: { color: '#6b7280' }
         },
         x: {
           grid: { display: false },
-          ticks: { color: 'var(--p-text-muted-color)', maxRotation: 0 }
+          ticks: { color: '#6b7280', maxRotation: 0 }
         }
       }
     };
@@ -335,22 +338,26 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: false }
+        legend: { 
+          display: false,
+          labels: { color: '#6b7280' }
+        }
       },
       scales: {
         x: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: 'var(--p-text-muted-color)' }
+          ticks: { color: '#6b7280' }
         },
         y: {
           grid: { display: false },
-          ticks: { color: 'var(--p-text-muted-color)' }
+          ticks: { color: '#6b7280' }
         }
       },
       elements: {
         bar: {
-          borderRadius: { topRight: 8, bottomRight: 8 }
+          borderRadius: { topRight: 8, bottomRight: 8 },
+          borderSkipped: false
         }
       }
     };
@@ -363,23 +370,25 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
         legend: { 
           display: true,
           position: 'top',
-          align: 'end'
+          align: 'end',
+          labels: { color: '#6b7280' }
         }
       },
       scales: {
         y: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: 'var(--p-text-muted-color)' }
+          ticks: { color: '#6b7280' }
         },
         x: {
           grid: { display: false },
-          ticks: { color: 'var(--p-text-muted-color)' }
+          ticks: { color: '#6b7280' }
         }
       },
       elements: {
         bar: {
-          borderRadius: { topLeft: 8, topRight: 8 }
+          borderRadius: { topLeft: 8, topRight: 8 },
+          borderSkipped: false
         }
       }
     };

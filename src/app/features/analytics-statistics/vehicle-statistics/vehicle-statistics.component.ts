@@ -184,7 +184,7 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
           labels: {
             padding: 15,
             font: { size: 12 },
-            color: 'var(--p-text-muted-color)'
+            color: '#6b7280'
           }
         },
         tooltip: {
@@ -206,16 +206,17 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
         x: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: 'var(--p-text-muted-color)' }
+          ticks: { color: '#6b7280' }
         },
         y: {
           grid: { display: false },
-          ticks: { color: 'var(--p-text-muted-color)' }
+          ticks: { color: '#6b7280' }
         }
       },
       elements: {
         bar: {
-          borderRadius: { topRight: 8, bottomRight: 8 }
+          borderRadius: { topRight: 8, bottomRight: 8 },
+          borderSkipped: false
         }
       }
     };
@@ -243,12 +244,12 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
         y: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: 'var(--p-text-muted-color)' }
+          ticks: { color: '#6b7280' }
         },
         x: {
           grid: { display: false },
           ticks: { 
-            color: 'var(--p-text-muted-color)',
+            color: '#6b7280',
             maxRotation: 45,
             minRotation: 45
           }
@@ -256,7 +257,8 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
       },
       elements: {
         bar: {
-          borderRadius: { topLeft: 8, topRight: 8 }
+          borderRadius: { topLeft: 8, topRight: 8 },
+          borderSkipped: false
         }
       }
     };
