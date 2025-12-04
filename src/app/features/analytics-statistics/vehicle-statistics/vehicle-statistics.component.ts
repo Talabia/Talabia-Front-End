@@ -167,7 +167,7 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
       datasets: [{
         label: 'Average Price (SAR)',
         data: priceValues,
-        backgroundColor: 'rgba(6, 182, 212, 0.7)',
+        backgroundColor: 'rgba(52, 211, 153, 0.7)',
         borderWidth: 0
       }]
     };
