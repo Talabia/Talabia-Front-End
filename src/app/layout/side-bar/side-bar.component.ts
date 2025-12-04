@@ -153,6 +153,27 @@ export class SideBarComponent implements OnInit, OnDestroy {
               '/analytics-statistics/verifications-statistics'
             ),
           },
+          {
+            label: this.t('sidebar.businessStatistics'),
+            icon: 'pi pi-chart-bar',
+            routerLink: this.navigationService.getRouterLink(
+              '/analytics-statistics/business-statistics'
+            ),
+          },
+          {
+            label: this.t('sidebar.userStatistics'),
+            icon: 'pi pi-users',
+            routerLink: this.navigationService.getRouterLink(
+              '/analytics-statistics/user-statistics'
+            ),
+          },
+          {
+            label: this.t('sidebar.vehicleStatistics'),
+            icon: 'pi pi-car',
+            routerLink: this.navigationService.getRouterLink(
+              '/analytics-statistics/vehicle-statistics'
+            ),
+          },
         ],
       },
       {

@@ -1,0 +1,91 @@
+.action-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-block: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    gap: 1rem;
+
+    p {
+        color: var(--p-text-muted-color);
+        font-size: 1rem;
+    }
+}
+
+// Vehicle Analytics Grid - Using green/emerald color scheme
+.vehicle-analytics-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+// Chart Cards
+.chart-card {
+    background: linear-gradient(45deg, var(--p-emerald-100) 0%, var(--p-emerald-50) 100%);
+    border-radius: 1rem;
+    border: 1px solid var(--p-emerald-200);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+
+    :host-context(.my-app-dark) & {
+        background: linear-gradient(45deg, var(--p-emerald-900) 0%, var(--p-emerald-800) 100%);
+        border-color: var(--p-emerald-700);
+    }
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(16, 185, 129, 0.2);
+    }
+
+    .chart-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--p-text-color);
+        margin: 0 0 1rem 0;
+        line-height: 1.8;
+    }
+}
+
+// Empty State
+.empty-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    gap: 1rem;
+
+    i {
+        font-size: 4rem;
+        color: var(--p-text-muted-color);
+        opacity: 0.5;
+    }
+
+    h4 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: var(--p-text-color);
+    }
+
+    p {
+        margin: 0;
+        color: var(--p-text-muted-color);
+        max-width: 400px;
+        line-height: 1.5;
+    }
+}
