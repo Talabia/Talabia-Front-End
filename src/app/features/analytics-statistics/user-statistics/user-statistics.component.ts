@@ -8,12 +8,13 @@ import {
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
-
+import { Select } from 'primeng/select';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, forkJoin, takeUntil } from 'rxjs';
 import { LanguageService } from '../../../shared/services/language.service';
@@ -26,7 +27,8 @@ import {
   ChartData,
   ChartOptions,
   UserStats,
-  TopRatedUser
+  TopRatedUser,
+  ChartFilter
 } from '../models/statistics.models';
 
 @Component({
@@ -35,11 +37,13 @@ import {
     CardModule,
     ChartModule,
     ButtonModule,
+    Select,
     ToastModule,
     ProgressSpinnerModule,
     TableModule,
     TagModule,
     CommonModule,
+    FormsModule,
     TranslatePipe
   ],
   providers: [MessageService],
@@ -57,11 +61,12 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
   reviewData?: ReviewAnalyticsResponse;
 
   // Filter properties
-  selectedFilter: number = 30;
+  selectedRegistrationsFilter: ChartFilter = ChartFilter.Daily;
+  selectedEngagementFilter: ChartFilter = ChartFilter.Daily;
   filterOptions = [
-    { label: '', value: 7 },
-    { label: '', value: 30 },
-    { label: '', value: 90 }
+    { label: '', value: ChartFilter.Daily },
+    { label: '', value: ChartFilter.Weekly },
+    { label: '', value: ChartFilter.Monthly }
   ];
 
   // Chart data
@@ -123,9 +128,9 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
 
   private buildFilterOptions(): void {
     this.filterOptions = [
-      { label: this.t('analytics.dashboard.filter.7'), value: 7 },
-      { label: this.t('analytics.dashboard.filter.30'), value: 30 },
-      { label: this.t('analytics.dashboard.filter.90'), value: 90 }
+      { label: this.t('analytics.user.filter.daily'), value: ChartFilter.Daily },
+      { label: this.t('analytics.user.filter.weekly'), value: ChartFilter.Weekly },
+      { label: this.t('analytics.user.filter.monthly'), value: ChartFilter.Monthly }
     ];
   }
 
@@ -133,9 +138,9 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     forkJoin({
-      engagement: this.statisticsService.getUserEngagement(this.selectedFilter),
+      engagement: this.statisticsService.getUserEngagement(30),
       activeUsers: this.statisticsService.getMostActiveUsers(10),
-      reviews: this.statisticsService.getReviewAnalytics(this.selectedFilter, 10)
+      reviews: this.statisticsService.getReviewAnalytics(30, 10)
     })
     .pipe(takeUntil(this.destroy$))
     .subscribe({
@@ -160,7 +165,11 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onFilterChange(): void {
+  onRegistrationsFilterChange(): void {
+    this.loadData();
+  }
+
+  onEngagementFilterChange(): void {
     this.loadData();
   }
 
@@ -331,8 +340,10 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
       },
       elements: {
         bar: {
-          borderRadius: { topRight: 8, bottomRight: 8 },
-          borderSkipped: false
+          borderRadius: { topLeft: 8, topRight: 8 },
+          borderSkipped: 'bottom',
+          barThickness: 24,
+          maxBarThickness: 32
         }
       }
     };

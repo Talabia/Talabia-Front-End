@@ -64,7 +64,7 @@
                         <p>{{'analytics.user.onlineNow' | translate}}</p>
                         <small class="online-badge">
                             <span class="pulse-dot"></span>
-                            Online
+                            {{'analytics.user.onlineLabel' | translate}}
                         </small>
                     </div>
                 </div>
@@ -73,7 +73,11 @@
 
         <!-- New Registrations Chart -->
         <div class="chart-card">
-            <h4 class="chart-title">{{'analytics.user.registrationsChartTitle' | translate}}</h4>
+            <div class="chart-header">
+                <h4 class="chart-title">{{'analytics.user.registrationsChartTitle' | translate}}</h4>
+                <p-select [options]="filterOptions" [(ngModel)]="selectedRegistrationsFilter" optionLabel="label"
+                    optionValue="value" [showClear]="false" (onChange)="onRegistrationsFilterChange()" />
+            </div>
             @if (registrationsChartData) {
             <p-chart type="line" [data]="registrationsChartData" [options]="lineChartOptions" height="400px" />
             }
@@ -81,7 +85,11 @@
 
         <!-- Engagement Activities Chart -->
         <div class="chart-card">
-            <h4 class="chart-title">{{'analytics.user.engagementChartTitle' | translate}}</h4>
+            <div class="chart-header">
+                <h4 class="chart-title">{{'analytics.user.engagementChartTitle' | translate}}</h4>
+                <p-select [options]="filterOptions" [(ngModel)]="selectedEngagementFilter" optionLabel="label"
+                    optionValue="value" [showClear]="false" (onChange)="onEngagementFilterChange()" />
+            </div>
             @if (engagementChartData) {
             <p-chart type="line" [data]="engagementChartData" [options]="multiLineChartOptions" height="400px" />
             }
@@ -96,11 +104,11 @@
                 <p-table [value]="activeUsersData.users" styleClass="p-datatable-sm">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th>Rank</th>
-                            <th>User</th>
-                            <th>Offers</th>
-                            <th>Orders</th>
-                            <th>Activity</th>
+                            <th>{{'analytics.user.table.rank' | translate}}</th>
+                            <th>{{'analytics.user.table.user' | translate}}</th>
+                            <th>{{'analytics.user.table.offers' | translate}}</th>
+                            <th>{{'analytics.user.table.orders' | translate}}</th>
+                            <th>{{'analytics.user.table.activity' | translate}}</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-user let-i="rowIndex">
@@ -148,14 +156,14 @@
         <!-- Top Rated Users -->
         @if (reviewData && reviewData.topRatedUsers && reviewData.topRatedUsers.length > 0) {
         <div class="chart-card">
-            <h4 class="chart-title">Top Rated Users</h4>
+            <h4 class="chart-title">{{'analytics.user.topRatedUsersTitle' | translate}}</h4>
             <p-table [value]="reviewData.topRatedUsers" styleClass="p-datatable-sm">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Rank</th>
-                        <th>User</th>
-                        <th>Rating</th>
-                        <th>Reviews</th>
+                        <th>{{'analytics.user.table.rank' | translate}}</th>
+                        <th>{{'analytics.user.table.user' | translate}}</th>
+                        <th>{{'analytics.user.table.rating' | translate}}</th>
+                        <th>{{'analytics.user.table.reviews' | translate}}</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-user let-i="rowIndex">

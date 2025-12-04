@@ -127,6 +127,17 @@
         line-height: 1.8;
     }
 
+    .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+
+        .chart-title {
+            margin: 0;
+        }
+    }
+
     // Rating header
     .rating-header {
         text-align: center;
