@@ -8,9 +8,11 @@ import {
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
+import { Select } from 'primeng/select';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { LanguageService } from '../../../shared/services/language.service';
@@ -19,7 +21,8 @@ import { StatisticsService } from '../services/statistics.service';
 import { 
   VehicleAnalyticsResponse,
   ChartData,
-  ChartOptions
+  ChartOptions,
+  ChartFilter
 } from '../models/statistics.models';
 
 @Component({
@@ -28,9 +31,11 @@ import {
     CardModule,
     ChartModule,
     ButtonModule,
+    Select,
     ToastModule,
     ProgressSpinnerModule,
     CommonModule,
+    FormsModule,
     TranslatePipe
   ],
   providers: [MessageService],
@@ -44,6 +49,14 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
 
   // Data properties
   vehicleData?: VehicleAnalyticsResponse;
+
+  // Filter properties
+  selectedFilter: ChartFilter = ChartFilter.Daily;
+  filterOptions = [
+    { label: '', value: ChartFilter.Daily },
+    { label: '', value: ChartFilter.Weekly },
+    { label: '', value: ChartFilter.Monthly }
+  ];
 
   // Chart data
   typesChartData?: ChartData;
@@ -74,6 +87,7 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
     private languageService: LanguageService
   ) {
     this.loadingMessage = this.t('analytics.vehicle.loading');
+    this.buildFilterOptions();
     this.initializeChartOptions();
     this.observeLanguageChanges();
   }
@@ -92,10 +106,23 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.loadingMessage = this.t('analytics.vehicle.loading');
+        this.buildFilterOptions();
         this.initializeChartOptions();
         this.prepareChartData();
         this.cdr.markForCheck();
       });
+  }
+
+  private buildFilterOptions(): void {
+    this.filterOptions = [
+      { label: this.t('analytics.vehicle.filter.daily'), value: ChartFilter.Daily },
+      { label: this.t('analytics.vehicle.filter.weekly'), value: ChartFilter.Weekly },
+      { label: this.t('analytics.vehicle.filter.monthly'), value: ChartFilter.Monthly }
+    ];
+  }
+
+  onFilterChange(): void {
+    this.loadData();
   }
 
   loadData(): void {
@@ -258,7 +285,9 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
       elements: {
         bar: {
           borderRadius: { topLeft: 8, topRight: 8 },
-          borderSkipped: false
+          borderSkipped: 'bottom',
+          barThickness: 24,
+          maxBarThickness: 32
         }
       }
     };

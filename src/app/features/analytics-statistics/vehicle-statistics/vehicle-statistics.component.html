@@ -2,7 +2,10 @@
     <div class="card">
         <!-- Action Container -->
         <div class="action-container">
-            <p-button [label]="'common.refresh' | translate" icon="pi pi-refresh" severity="secondary"
+            <p-select [options]="filterOptions" [(ngModel)]="selectedFilter" optionLabel="label" optionValue="value"
+                [showClear]="false" (onChange)="onFilterChange()" />
+
+            <p-button [label]="'analytics.vehicle.refresh' | translate" icon="pi pi-refresh" severity="secondary"
                 [loading]="loading" (click)="loadData()" />
         </div>
 
@@ -30,7 +33,7 @@
             <div class="chart-card">
                 <h4 class="chart-title">{{'analytics.vehicle.makersChartTitle' | translate}}</h4>
                 @if (makersChartData) {
-                <p-chart type="bar" [data]="makersChartData" [options]="horizontalBarChartOptions" height="300px"
+                <p-chart type="bar" [data]="makersChartData" [options]="barChartOptions" height="300px"
                     [style]="{'direction': 'ltr'}" />
                 }
             </div>
