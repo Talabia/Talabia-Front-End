@@ -388,7 +388,9 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
       elements: {
         bar: {
           borderRadius: { topLeft: 8, topRight: 8 },
-          borderSkipped: false
+          borderSkipped: 'bottom',
+          barThickness: 24,
+          maxBarThickness: 32
         }
       }
     };
