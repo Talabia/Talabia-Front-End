@@ -1,0 +1,183 @@
+<p-card [header]="'analytics.business.header' | translate">
+    <div class="card">
+        <!-- Action Container -->
+        <div class="action-container">
+            <p-button [label]="'analytics.business.refresh' | translate" icon="pi pi-refresh" severity="secondary"
+                [loading]="loading" (click)="loadData()" />
+        </div>
+
+        <!-- Loading Spinner -->
+        @if (loading) {
+        <div class="loading-container">
+            <p-progressSpinner />
+            <p>{{ loadingMessage }}</p>
+        </div>
+        }
+
+        <!-- Dashboard Content -->
+        @if (!loading && dashboardData) {
+        <!-- KPI Cards -->
+        <div class="summary-container">
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-shopping-bag"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{dashboardData.newOffersToday}}</h3>
+                        <p>{{'analytics.business.newOffersToday' | translate}}</p>
+                        <small [ngClass]="{
+                            'trend-positive': dashboardData.newOffersTodayChangePercent > 0,
+                            'trend-negative': dashboardData.newOffersTodayChangePercent < 0,
+                            'trend-neutral': dashboardData.newOffersTodayChangePercent === 0
+                        }">
+                            {{ dashboardData.newOffersTodayChangePercent > 0 ? '↑' :
+                            dashboardData.newOffersTodayChangePercent < 0 ? '↓' : '→' }}
+                                {{dashboardData.newOffersTodayChangePercent> 0 ? '+' :
+                                ''}}{{dashboardData.newOffersTodayChangePercent}}%
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-shopping-cart"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{dashboardData.newOrdersToday}}</h3>
+                        <p>{{'analytics.business.newOrdersToday' | translate}}</p>
+                        <small [ngClass]="{
+                            'trend-positive': dashboardData.newOrdersTodayChangePercent > 0,
+                            'trend-negative': dashboardData.newOrdersTodayChangePercent < 0,
+                            'trend-neutral': dashboardData.newOrdersTodayChangePercent === 0
+                        }">
+                            {{ dashboardData.newOrdersTodayChangePercent > 0 ? '↑' :
+                            dashboardData.newOrdersTodayChangePercent < 0 ? '↓' : '→' }}
+                                {{dashboardData.newOrdersTodayChangePercent> 0 ? '+' :
+                                ''}}{{dashboardData.newOrdersTodayChangePercent}}%
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-box"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{dashboardData.totalActiveOffers}}</h3>
+                        <p>{{'analytics.business.totalActiveOffers' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-check-circle"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{dashboardData.totalActiveOrders}}</h3>
+                        <p>{{'analytics.business.totalActiveOrders' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Offers Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h4 class="chart-title">{{'analytics.business.offersChartTitle' | translate}}</h4>
+                <p-select [options]="filterOptions" [(ngModel)]="selectedOffersFilter" optionLabel="label"
+                    optionValue="value" [showClear]="false" (onChange)="onOffersFilterChange()" />
+            </div>
+            @if (offersChartData) {
+            <p-chart type="line" [data]="offersChartData" [options]="lineChartOptions" height="400px" />
+            }
+            @if (offersData) {
+            <div class="chart-summary">
+                <div class="summary-item">
+                    <div class="summary-label">{{'analytics.business.totalOffers' | translate}}</div>
+                    <div class="summary-value">{{offersData.totalOffers}}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">{{'analytics.business.activeOffers' | translate}}</div>
+                    <div class="summary-value">{{offersData.activeOffers}}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">{{'analytics.business.inactiveOffers' | translate}}</div>
+                    <div class="summary-value">{{offersData.inactiveOffers}}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">{{'analytics.business.promotedOffers' | translate}}</div>
+                    <div class="summary-value">{{offersData.promotedOffers}}</div>
+                </div>
+            </div>
+            }
+        </div>
+
+        <!-- Orders Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h4 class="chart-title">{{'analytics.business.ordersChartTitle' | translate}}</h4>
+                <p-select [options]="filterOptions" [(ngModel)]="selectedOrdersFilter" optionLabel="label"
+                    optionValue="value" [showClear]="false" (onChange)="onOrdersFilterChange()" />
+            </div>
+            @if (ordersChartData) {
+            <p-chart type="line" [data]="ordersChartData" [options]="lineChartOptions" height="400px" />
+            }
+            @if (ordersData) {
+            <div class="chart-summary">
+                <div class="summary-item">
+                    <div class="summary-label">{{'analytics.business.totalOrders' | translate}}</div>
+                    <div class="summary-value">{{ordersData.totalOrders}}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">{{'analytics.business.activeOrders' | translate}}</div>
+                    <div class="summary-value">{{ordersData.activeOrders}}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">{{'analytics.business.inactiveOrders' | translate}}</div>
+                    <div class="summary-value">{{ordersData.inactiveOrders}}</div>
+                </div>
+            </div>
+            }
+        </div>
+
+        <!-- Two Column Grid -->
+        <div class="two-column-grid">
+            <!-- Most Active Cities -->
+            <div class="chart-card">
+                <h4 class="chart-title">{{'analytics.business.citiesChartTitle' | translate}}</h4>
+                @if (citiesChartData) {
+                <p-chart type="bar" [data]="citiesChartData" [options]="barChartOptions" height="400px"
+                    [style]="{'direction': 'ltr'}" />
+                }
+            </div>
+
+            <!-- Category Performance -->
+            <div class="chart-card">
+                <h4 class="chart-title">{{'analytics.business.categoryChartTitle' | translate}}</h4>
+                @if (categoryChartData) {
+                <p-chart type="bar" [data]="categoryChartData" [options]="barChartOptions" height="400px" />
+                }
+            </div>
+        </div>
+        }
+
+        <!-- Empty State -->
+        @if (!loading && !dashboardData) {
+        <div class="empty-container">
+            <i class="pi pi-chart-bar"></i>
+            <h4>{{'analytics.dashboard.emptyTitle' | translate}}</h4>
+            <p>{{'analytics.dashboard.emptyDescription' | translate}}</p>
+            <p-button [label]="'analytics.dashboard.retry' | translate" icon="pi pi-refresh" severity="primary"
+                (click)="loadData()" />
+        </div>
+        }
+    </div>
+</p-card>
+<p-toast />

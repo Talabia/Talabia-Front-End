@@ -1,0 +1,201 @@
+<p-card [header]="'analytics.user.header' | translate">
+    <div class="card">
+        <!-- Action Container -->
+        <div class="action-container">
+            <p-button [label]="'analytics.user.refresh' | translate" icon="pi pi-refresh" severity="secondary"
+                [loading]="loading" (click)="loadData()" />
+        </div>
+
+        <!-- Loading Spinner -->
+        @if (loading) {
+        <div class="loading-container">
+            <p-progressSpinner />
+            <p>{{ loadingMessage }}</p>
+        </div>
+        }
+
+        <!-- Dashboard Content -->
+        @if (!loading && engagementData) {
+        <!-- Engagement KPI Cards -->
+        <div class="summary-container">
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-calendar"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{engagementData.dailyActiveUsers}}</h3>
+                        <p>{{'analytics.user.dailyActiveUsers' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-chart-line"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{engagementData.weeklyActiveUsers}}</h3>
+                        <p>{{'analytics.user.weeklyActiveUsers' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-chart-bar"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{engagementData.monthlyActiveUsers}}</h3>
+                        <p>{{'analytics.user.monthlyActiveUsers' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-users"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{engagementData.onlineUsers}}</h3>
+                        <p>{{'analytics.user.onlineNow' | translate}}</p>
+                        <small class="online-badge">
+                            <span class="pulse-dot"></span>
+                            {{'analytics.user.onlineLabel' | translate}}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Registrations Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h4 class="chart-title">{{'analytics.user.registrationsChartTitle' | translate}}</h4>
+                <p-select [options]="filterOptions" [(ngModel)]="selectedRegistrationsFilter" optionLabel="label"
+                    optionValue="value" [showClear]="false" (onChange)="onRegistrationsFilterChange()" />
+            </div>
+            @if (registrationsChartData) {
+            <p-chart type="line" [data]="registrationsChartData" [options]="lineChartOptions" height="400px" />
+            }
+        </div>
+
+        <!-- Engagement Activities Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h4 class="chart-title">{{'analytics.user.engagementChartTitle' | translate}}</h4>
+                <p-select [options]="filterOptions" [(ngModel)]="selectedEngagementFilter" optionLabel="label"
+                    optionValue="value" [showClear]="false" (onChange)="onEngagementFilterChange()" />
+            </div>
+            @if (engagementChartData) {
+            <p-chart type="line" [data]="engagementChartData" [options]="multiLineChartOptions" height="400px" />
+            }
+        </div>
+
+        <!-- Two Column Grid -->
+        <div class="two-column-grid">
+            <!-- Most Active Users -->
+            <div class="chart-card">
+                <h4 class="chart-title">{{'analytics.user.topUsersTitle' | translate}}</h4>
+                @if (activeUsersData) {
+                <p-table [value]="activeUsersData.users" styleClass="p-datatable-sm">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{'analytics.user.table.rank' | translate}}</th>
+                            <th>{{'analytics.user.table.user' | translate}}</th>
+                            <th>{{'analytics.user.table.offers' | translate}}</th>
+                            <th>{{'analytics.user.table.orders' | translate}}</th>
+                            <th>{{'analytics.user.table.activity' | translate}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-user let-i="rowIndex">
+                        <tr>
+                            <td>
+                                <span class="rank-badge" [ngClass]="getRankBadgeClass(i)">
+                                    {{ i + 1 }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="user-cell">
+                                    <strong>{{ user.userName }}</strong>
+                                    @if (user.isPremium) {
+                                    <p-tag severity="warning" value="Premium" [style]="{'margin-left': '0.5rem'}" />
+                                    }
+                                </div>
+                            </td>
+                            <td>{{ user.offersCount }}</td>
+                            <td>{{ user.ordersCount }}</td>
+                            <td><strong>{{ user.totalActivity }}</strong></td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                }
+            </div>
+
+            <!-- Review Analytics -->
+            <div class="chart-card">
+                <h4 class="chart-title">{{'analytics.user.reviewsTitle' | translate}}</h4>
+                @if (reviewData) {
+                <div class="rating-header">
+                    <div class="rating-large">{{ reviewData.averageRating }}</div>
+                    <div class="stars-large">{{ getStars(reviewData.averageRating) }}</div>
+                    <div class="review-count">{{ reviewData.totalReviews }} {{'analytics.user.totalReviews' |
+                        translate}}</div>
+                </div>
+                @if (ratingDistributionChartData) {
+                <p-chart type="bar" [data]="ratingDistributionChartData" [options]="horizontalBarChartOptions"
+                    height="250px" [style]="{'direction': 'ltr'}" />
+                }
+                }
+            </div>
+        </div>
+
+        <!-- Top Rated Users -->
+        @if (reviewData && reviewData.topRatedUsers && reviewData.topRatedUsers.length > 0) {
+        <div class="chart-card">
+            <h4 class="chart-title">{{'analytics.user.topRatedUsersTitle' | translate}}</h4>
+            <p-table [value]="reviewData.topRatedUsers" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{'analytics.user.table.rank' | translate}}</th>
+                        <th>{{'analytics.user.table.user' | translate}}</th>
+                        <th>{{'analytics.user.table.rating' | translate}}</th>
+                        <th>{{'analytics.user.table.reviews' | translate}}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user let-i="rowIndex">
+                    <tr>
+                        <td>
+                            <span class="rank-badge" [ngClass]="getRankBadgeClass(i)">
+                                {{ i + 1 }}
+                            </span>
+                        </td>
+                        <td><strong>{{ user.userName }}</strong></td>
+                        <td>
+                            <span class="stars">{{ getStars(user.averageRating) }}</span>
+                            {{ user.averageRating }}
+                        </td>
+                        <td>{{ user.reviewCount }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        }
+        }
+
+        <!-- Empty State -->
+        @if (!loading && !engagementData) {
+        <div class="empty-container">
+            <i class="pi pi-users"></i>
+            <h4>{{'analytics.dashboard.emptyTitle' | translate}}</h4>
+            <p>{{'analytics.dashboard.emptyDescription' | translate}}</p>
+            <p-button [label]="'analytics.dashboard.retry' | translate" icon="pi pi-refresh" severity="primary"
+                (click)="loadData()" />
+        </div>
+        }
+    </div>
+</p-card>
+<p-toast />

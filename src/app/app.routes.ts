@@ -13,6 +13,9 @@ import { DashboardComponent } from './features/analytics-statistics/dashboard/da
 import { ReportsMangementComponent } from './features/reports/reports-mangement/reports-mangement.component';
 import { UserVerificationsComponent } from './features/users/user-verifications/user-verifications.component';
 import { VerificationsStatisticsComponent } from './features/analytics-statistics/verifications-statistics/verifications-statistics.component';
+import { BusinessStatisticsComponent } from './features/analytics-statistics/business-statistics/business-statistics.component';
+import { UserStatisticsComponent } from './features/analytics-statistics/user-statistics/user-statistics.component';
+import { VehicleStatisticsComponent } from './features/analytics-statistics/vehicle-statistics/vehicle-statistics.component';
 import { NotificationsCenterComponent } from './features/notifications/notifications-center/notifications-center.component';
 import { languageGuard } from './shared/guards/language.guard';
 import { ChatReivewComponent } from './features/message-chat-review/chat-reivew/chat-reivew.component';
@@ -103,6 +106,18 @@ const mainRoutes: Routes = [
       {
         path: 'verifications-statistics',
         component: VerificationsStatisticsComponent,
+      },
+      {
+        path: 'business-statistics',
+        component: BusinessStatisticsComponent,
+      },
+      {
+        path: 'user-statistics',
+        component: UserStatisticsComponent,
+      },
+      {
+        path: 'vehicle-statistics',
+        component: VehicleStatisticsComponent,
       },
     ],
   },

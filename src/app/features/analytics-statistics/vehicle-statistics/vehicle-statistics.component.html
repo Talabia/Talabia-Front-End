@@ -1,0 +1,71 @@
+<p-card [header]="'analytics.vehicle.header' | translate">
+    <div class="card">
+        <!-- Action Container -->
+        <div class="action-container">
+            <p-select [options]="filterOptions" [(ngModel)]="selectedFilter" optionLabel="label" optionValue="value"
+                [showClear]="false" (onChange)="onFilterChange()" />
+
+            <p-button [label]="'analytics.vehicle.refresh' | translate" icon="pi pi-refresh" severity="secondary"
+                [loading]="loading" (click)="loadData()" />
+        </div>
+
+        <!-- Loading Spinner -->
+        @if (loading) {
+        <div class="loading-container">
+            <p-progressSpinner />
+            <p>{{ loadingMessage }}</p>
+        </div>
+        }
+
+        <!-- Dashboard Content -->
+        @if (!loading && vehicleData) {
+        <!-- Vehicle Analytics Grid -->
+        <div class="vehicle-analytics-grid">
+            <!-- Vehicle Types -->
+            <div class="chart-card">
+                <h4 class="chart-title">{{'analytics.vehicle.typesChartTitle' | translate}}</h4>
+                @if (typesChartData) {
+                <p-chart type="doughnut" [data]="typesChartData" [options]="donutChartOptions" height="300px" />
+                }
+            </div>
+
+            <!-- Top Vehicle Makers -->
+            <div class="chart-card">
+                <h4 class="chart-title">{{'analytics.vehicle.makersChartTitle' | translate}}</h4>
+                @if (makersChartData) {
+                <p-chart type="bar" [data]="makersChartData" [options]="barChartOptions" height="300px"
+                    [style]="{'direction': 'ltr'}" />
+                }
+            </div>
+
+            <!-- Top Vehicle Models -->
+            <div class="chart-card">
+                <h4 class="chart-title">{{'analytics.vehicle.modelsChartTitle' | translate}}</h4>
+                @if (modelsChartData) {
+                <p-chart type="bar" [data]="modelsChartData" [options]="barChartOptions" height="300px" />
+                }
+            </div>
+
+            <!-- Average Price by Type -->
+            <div class="chart-card">
+                <h4 class="chart-title">{{'analytics.vehicle.priceChartTitle' | translate}}</h4>
+                @if (priceChartData) {
+                <p-chart type="bar" [data]="priceChartData" [options]="barChartOptions" height="300px" />
+                }
+            </div>
+        </div>
+        }
+
+        <!-- Empty State -->
+        @if (!loading && !vehicleData) {
+        <div class="empty-container">
+            <i class="pi pi-car"></i>
+            <h4>{{'analytics.dashboard.emptyTitle' | translate}}</h4>
+            <p>{{'analytics.dashboard.emptyDescription' | translate}}</p>
+            <p-button [label]="'analytics.dashboard.retry' | translate" icon="pi pi-refresh" severity="primary"
+                (click)="loadData()" />
+        </div>
+        }
+    </div>
+</p-card>
+<p-toast />
