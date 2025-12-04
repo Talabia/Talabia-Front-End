@@ -8,7 +8,7 @@ import {
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
-import { Select } from 'primeng/select';
+
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
@@ -35,7 +35,6 @@ import {
     CardModule,
     ChartModule,
     ButtonModule,
-    Select,
     ToastModule,
     ProgressSpinnerModule,
     TableModule,
