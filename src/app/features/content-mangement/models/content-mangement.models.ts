@@ -3,15 +3,25 @@
 export interface AdminOffer {
   id: string;
   title: string;
+  description: string;
   price: number;
   vehicleMaker: string;
   category: string;
   city: string;
   companyOrUserName: string;
   userId: string;
+  userName: string;
   userEmail: string;
+  profileLogo: string;
+  phone: string;
+  displayPhone: boolean;
   isActive: boolean;
   isPromoted: boolean;
+  isNew: boolean;
+  isFavorite: boolean;
+  offerImages: string[];
+  lastRefreshedAt: string;
+  isRefreshed: boolean;
   createdFrom: string;
 }
 

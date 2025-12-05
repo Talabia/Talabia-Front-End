@@ -105,6 +105,10 @@
       <span class="detail-value">{{selectedOffer.title}}</span>
     </div>
     <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.description' | translate}}:</label>
+      <span class="detail-value">{{selectedOffer.description}}</span>
+    </div>
+    <div class="detail-row">
       <label class="detail-label">{{'contentManagement.dialog.price' | translate}}:</label>
       <span class="detail-value">{{selectedOffer.price | number:'1.2-2'}}</span>
     </div>
@@ -120,13 +124,33 @@
       <label class="detail-label">{{'contentManagement.dialog.city' | translate}}:</label>
       <span class="detail-value">{{selectedOffer.city}}</span>
     </div>
+
     <div class="detail-row">
-      <label class="detail-label">{{'contentManagement.dialog.companyOrUserName' | translate}}:</label>
-      <span class="detail-value">{{selectedOffer.companyOrUserName}}</span>
+      <label class="detail-label">{{'contentManagement.dialog.userName' | translate}}:</label>
+      <span class="detail-value">{{selectedOffer.userName}}</span>
     </div>
     <div class="detail-row">
       <label class="detail-label">{{'contentManagement.dialog.userEmail' | translate}}:</label>
       <span class="detail-value">{{selectedOffer.userEmail}}</span>
+    </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.phone' | translate}}:</label>
+      <span class="detail-value">{{selectedOffer.phone}}</span>
+    </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.displayPhone' | translate}}:</label>
+      <p-tag [severity]="selectedOffer.displayPhone ? 'success' : 'secondary'"
+        [value]="selectedOffer.displayPhone ? ('common.yes' | translate) : ('common.no' | translate)" />
+    </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.profileLogo' | translate}}:</label>
+      @if (selectedOffer.profileLogo) {
+      <div class="offer-images-container" style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <p-image [src]="selectedOffer.profileLogo" alt="Profile Logo" width="100" [preview]="true" />
+      </div>
+      } @else {
+      <span class="detail-value">{{'common.notAvailable' | translate}}</span>
+      }
     </div>
     <div class="detail-row">
       <label class="detail-label">{{'contentManagement.dialog.createdFrom' | translate}}:</label>
@@ -141,6 +165,37 @@
       <p-tag [severity]="getPromotedSeverity(selectedOffer.isPromoted)"
         [value]="getPromotedText(selectedOffer.isPromoted)" />
     </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.isNew' | translate}}:</label>
+      <p-tag [severity]="selectedOffer.isNew ? 'info' : 'secondary'"
+        [value]="selectedOffer.isNew ? ('common.yes' | translate) : ('common.no' | translate)" />
+    </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.isFavorite' | translate}}:</label>
+      <p-tag [severity]="selectedOffer.isFavorite ? 'warning' : 'secondary'"
+        [value]="selectedOffer.isFavorite ? ('common.yes' | translate) : ('common.no' | translate)" />
+    </div>
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.isRefreshed' | translate}}:</label>
+      <p-tag [severity]="selectedOffer.isRefreshed ? 'success' : 'secondary'"
+        [value]="selectedOffer.isRefreshed ? ('common.yes' | translate) : ('common.no' | translate)" />
+    </div>
+    @if (selectedOffer.lastRefreshedAt) {
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.lastRefreshedAt' | translate}}:</label>
+      <span class="detail-value">{{selectedOffer.lastRefreshedAt | date:'medium'}}</span>
+    </div>
+    }
+    @if (selectedOffer.offerImages && selectedOffer.offerImages.length > 0) {
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.offerImages' | translate}}:</label>
+      <div class="offer-images-container" style="display: flex; gap: 8px; flex-wrap: wrap;">
+        @for (image of selectedOffer.offerImages; track image) {
+        <p-image [src]="image" alt="Image" width="100" [preview]="true" />
+        }
+      </div>
+    </div>
+    }
   </div>
 
   <div class="dialog-footer">

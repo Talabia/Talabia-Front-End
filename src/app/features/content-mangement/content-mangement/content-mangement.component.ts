@@ -33,6 +33,7 @@ import {
 } from '../models/content-mangement.models';
 import { Subject, takeUntil, timeout, distinctUntilChanged, debounceTime } from 'rxjs';
 import { TooltipModule } from 'primeng/tooltip';
+import { Image } from 'primeng/image';
 @Component({
   selector: 'app-content-mangement',
   imports: [
@@ -54,6 +55,7 @@ import { TooltipModule } from 'primeng/tooltip';
     FileUploadModule,
     TranslatePipe,
     TooltipModule,
+    Image,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './content-mangement.component.html',
