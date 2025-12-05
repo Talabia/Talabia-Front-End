@@ -191,27 +191,26 @@
 <p-dialog [header]="'verifications.reviewDialog.title' | translate" [modal]="true" [(visible)]="reviewDialogVisible"
     [style]="{ width: '40rem' }" [closable]="!loading" [draggable]="false" [resizable]="false">
     <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
-        <div class="details-container">
-            <div class="detail-row">
-                <label class="detail-label">{{'verifications.reviewDialog.fields.status' | translate}}:</label>
-                <p-select [options]="statusOptions" formControlName="status" optionLabel="label" optionValue="value"
-                    [placeholder]="'verifications.reviewDialog.fields.statusPlaceholder' | translate"
-                    [class.p-invalid]="reviewForm.get('status')?.invalid && reviewForm.get('status')?.touched" />
-            </div>
+        <div class="input-container">
+            <label class="font-semibold w-24">{{'verifications.reviewDialog.fields.status' | translate}}:</label>
+            <p-select [options]="statusOptions" formControlName="status" optionLabel="label" optionValue="value"
+                [placeholder]="'verifications.reviewDialog.fields.statusPlaceholder' | translate"
+                [class.p-invalid]="reviewForm.get('status')?.invalid && reviewForm.get('status')?.touched" />
+        </div>
 
-            <div class="detail-row">
-                <label class="detail-label">{{'verifications.reviewDialog.fields.rejectionReason' | translate}}:</label>
-                <textarea pTextarea formControlName="rejectionReason" rows="3"
-                    [placeholder]="'verifications.reviewDialog.fields.rejectionReasonPlaceholder' | translate"
-                    [class.p-invalid]="reviewForm.get('rejectionReason')?.invalid && reviewForm.get('rejectionReason')?.touched"></textarea>
-            </div>
+        <div class="input-container">
+            <label class="font-semibold w-24">{{'verifications.reviewDialog.fields.rejectionReason' |
+                translate}}:</label>
+            <textarea pTextarea formControlName="rejectionReason" rows="3"
+                [placeholder]="'verifications.reviewDialog.fields.rejectionReasonPlaceholder' | translate"
+                [class.p-invalid]="reviewForm.get('rejectionReason')?.invalid && reviewForm.get('rejectionReason')?.touched"></textarea>
+        </div>
 
-            <div class="detail-row">
-                <label class="detail-label">{{'verifications.reviewDialog.fields.adminNotes' | translate}}:</label>
-                <textarea pTextarea formControlName="adminNotes" rows="3"
-                    [placeholder]="'verifications.reviewDialog.fields.adminNotesPlaceholder' | translate"
-                    [class.p-invalid]="reviewForm.get('adminNotes')?.invalid && reviewForm.get('adminNotes')?.touched"></textarea>
-            </div>
+        <div class="input-container">
+            <label class="font-semibold w-24">{{'verifications.reviewDialog.fields.adminNotes' | translate}}:</label>
+            <textarea pTextarea formControlName="adminNotes" rows="3" class="flex-auto"
+                [placeholder]="'verifications.reviewDialog.fields.adminNotesPlaceholder' | translate"
+                [class.p-invalid]="reviewForm.get('adminNotes')?.invalid && reviewForm.get('adminNotes')?.touched"></textarea>
         </div>
 
         <div class="dialog-footer">
