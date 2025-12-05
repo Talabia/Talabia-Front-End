@@ -34,8 +34,8 @@ export class AdvertisementService {
       .set('PageSize', request.pageSize.toString())
       .set('CurrentPage', request.currentPage.toString());
 
-    if (request.isActive !== undefined && request.isActive !== null) {
-      params = params.set('IsActive', request.isActive.toString());
+    if (request.status !== undefined && request.status !== null) {
+      params = params.set('Status', request.status.toString());
     }
 
     if (request.searchKeyword && request.searchKeyword.trim()) {
@@ -46,8 +46,14 @@ export class AdvertisementService {
       map((response) => {
         // Handle API response structure
         if (response && response.data) {
+          // Ensure status is properly typed as number
+          const data = response.data.map((item: any) => ({
+            ...item,
+            status: typeof item.status === 'string' ? parseInt(item.status, 10) : item.status,
+          }));
+
           return {
-            data: response.data,
+            data: data,
             totalCount: response.totalCount || 0,
             currentPage: response.currentPage || request.currentPage,
             pageSize: response.pageSize || request.pageSize,
@@ -72,7 +78,13 @@ export class AdvertisementService {
     return this.http
       .get<ApiResponse<Advertisement>>(`${this.baseUrl}Advertisements/get`, { params })
       .pipe(
-        map((response) => response.data),
+        map((response) => {
+          const data = response.data;
+          return {
+            ...data,
+            status: typeof data.status === 'string' ? parseInt(data.status, 10) : data.status,
+          };
+        }),
         catchError(this.handleError)
       );
   }

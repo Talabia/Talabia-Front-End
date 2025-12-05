@@ -34,6 +34,7 @@ import {
   EditAdvertisementRequest,
   AdvertisementsListRequest,
   AdvertisementsListResponse,
+  StatusTypeEnum,
 } from '../models/advertisement.models';
 import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
 
@@ -79,8 +80,8 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
 
   // Search and filter properties
   searchKeyword: string = '';
-  statusFilter: any = null;
-  statusOptions: { label: string; value: boolean | null }[] = [];
+  statusFilter: StatusTypeEnum | null = null;
+  statusOptions: { label: string; value: StatusTypeEnum | null }[] = [];
   private searchSubject = new Subject<string>();
   private currentSearchRequest?: any;
 
@@ -142,8 +143,8 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
 
   private buildStatusOptions(): void {
     this.statusOptions = [
-      { label: this.t('common.active'), value: true },
-      { label: this.t('common.inactive'), value: false },
+      { label: this.t('common.active'), value: StatusTypeEnum.Active },
+      { label: this.t('common.inactive'), value: StatusTypeEnum.Inactive },
     ];
   }
 
@@ -152,7 +153,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
       id: [''],
       title: ['', [Validators.required, Validators.minLength(3)]],
       imageUrl: ['', Validators.required],
-      isActive: [true, Validators.required],
+      status: [StatusTypeEnum.Active, Validators.required],
     });
   }
 
@@ -200,7 +201,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
       searchKeyword: this.searchKeyword,
       pageSize: this.rows,
       currentPage: this.currentPage,
-      isActive: this.statusFilter,
+      status: this.statusFilter,
     };
 
     this.currentSearchRequest = this.advertisementService
@@ -293,7 +294,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
   showCreateDialog(): void {
     this.isEditMode = false;
     this.updateDialogTitle();
-    this.advertisementForm.reset({ id: '', isActive: true, imageUrl: '' });
+    this.advertisementForm.reset({ id: '', status: StatusTypeEnum.Active, imageUrl: '' });
     this.uploadedImageUrl = '';
     this.submitted = false;
     this.visible = true;
@@ -379,7 +380,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
         id: formValue.id,
         title: formValue.title.trim(),
         imageUrl: imageUrl,
-        isActive: formValue.isActive,
+        status: formValue.status,
       };
 
       this.advertisementService
@@ -396,6 +397,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
               life: 3000,
             });
             this.loadAdvertisements();
+            this.cdr.detectChanges();
           },
           error: (error: any) => {
             this.loading = false;
@@ -412,7 +414,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
       const createRequest: CreateAdvertisementRequest = {
         title: formValue.title.trim(),
         imageUrl: imageUrl,
-        isActive: formValue.isActive,
+        status: formValue.status,
       };
 
       this.advertisementService
@@ -506,7 +508,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
   cancelDialog(): void {
     this.visible = false;
     this.submitted = false;
-    this.advertisementForm.reset({ id: '', isActive: true, imageUrl: '' });
+    this.advertisementForm.reset({ id: '', status: StatusTypeEnum.Active, imageUrl: '' });
     this.uploadedImageUrl = '';
   }
 

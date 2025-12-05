@@ -1,27 +1,32 @@
 // Advertisement interfaces for API requests and responses
 
+export enum StatusTypeEnum {
+  Active = 1,
+  Inactive = 2,
+}
+
 export interface Advertisement {
   id: string;
   title: string;
   imageUrl: string;
-  isActive: boolean;
+  status: StatusTypeEnum;
 }
 
 export interface CreateAdvertisementRequest {
   title: string;
   imageUrl: string;
-  isActive: boolean;
+  status: StatusTypeEnum;
 }
 
 export interface EditAdvertisementRequest {
   id: string;
   title: string;
   imageUrl: string;
-  isActive: boolean;
+  status: StatusTypeEnum;
 }
 
 export interface AdvertisementsListRequest {
-  isActive?: boolean;
+  status?: StatusTypeEnum | null;
   searchKeyword?: string;
   pageSize: number;
   currentPage: number;

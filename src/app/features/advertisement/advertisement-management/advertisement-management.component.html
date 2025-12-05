@@ -48,7 +48,7 @@
                         }
                     </td>
                     <td>
-                        @if (advertisement.isActive) {
+                        @if (advertisement.status === 1) {
                         <p-tag severity="success" [value]="'common.active' | translate" />
                         } @else {
                         <p-tag severity="warn" [value]="'common.inactive' | translate" />
@@ -107,12 +107,12 @@
 
         <!-- Status Toggle -->
         <div class="input-container">
-            <label for="isActive" class="font-semibold w-24">{{'advertisement.form.status' | translate}}
+            <label for="status" class="font-semibold w-24">{{'advertisement.form.status' | translate}}
                 <span>*</span></label>
             <p-select
-                [options]="[{label: ('common.active' | translate), value: true}, {label: ('common.inactive' | translate), value: false}]"
-                formControlName="isActive" optionLabel="label" [placeholder]="'advertisement.form.status' | translate"
-                [disabled]="loading" />
+                [options]="[{label: ('common.active' | translate), value: 1}, {label: ('common.inactive' | translate), value: 2}]"
+                formControlName="status" optionLabel="label" optionValue="value"
+                [placeholder]="'advertisement.form.status' | translate" [disabled]="loading" />
         </div>
 
         <!-- Image Upload Section -->
