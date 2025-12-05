@@ -13,10 +13,10 @@
             <ng-template #header>
                 <tr>
                     <th style="min-width:200px">{{'theme.table.name' | translate}}</th>
-                    <th style="min-width:250px">{{'theme.table.colors' | translate}}</th>
-                    <th style="min-width:120px">{{'theme.table.status' | translate}}</th>
-                    <th style="min-width:120px">{{'theme.table.default' | translate}}</th>
-                    <th style="min-width:200px">{{'theme.table.actions' | translate}}</th>
+                    <th style="min-width:100px">{{'theme.table.colors' | translate}}</th>
+                    <th style="min-width:100px">{{'theme.table.status' | translate}}</th>
+                    <th style="min-width:100px">{{'theme.table.default' | translate}}</th>
+                    <th style="min-width:100px">{{'theme.table.actions' | translate}}</th>
                 </tr>
             </ng-template>
 
@@ -68,10 +68,10 @@
                                 (click)="toggleActiveStatus(theme, { checked: !theme.isActive })" />
                             <p-button [label]="'theme.button.setDefault' | translate"
                                 [disabled]="loading || theme.isDefault" (click)="setAsDefault(theme)" />
-                            <p-button [label]="'theme.button.edit' | translate" severity="success" [disabled]="loading"
-                                (click)="showEditDialog(theme)" />
-                            <p-button [label]="'theme.button.delete' | translate" severity="danger" [disabled]="loading"
-                                (click)="confirmDelete($event, theme)" />
+                            <p-button severity="success" [pTooltip]="'common.edit' | translate" icon="pi pi-pencil"
+                                [disabled]="loading" (click)="showEditDialog(theme)" />
+                            <p-button severity="danger" [pTooltip]="'common.delete' | translate" icon="pi pi-trash"
+                                [disabled]="loading" (click)="confirmDelete($event, theme)" />
                         </div>
                     </td>
                 </tr>
