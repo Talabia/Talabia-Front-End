@@ -14,8 +14,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TagModule } from 'primeng/tag';
 import { Select } from 'primeng/select';
-import { InputIcon } from 'primeng/inputicon';
-import { IconField } from 'primeng/iconfield';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { MessageModule } from 'primeng/message';
@@ -45,7 +43,7 @@ import {
   StatusFilterOption,
   TypeFilterOption,
 } from '../models/reports.models';
-import { Subject, takeUntil, timeout, distinctUntilChanged, debounceTime } from 'rxjs';
+import { Subject, takeUntil, timeout } from 'rxjs';
 import { Divider } from 'primeng/divider';
 import { Tooltip } from 'primeng/tooltip';
 @Component({
@@ -59,8 +57,6 @@ import { Tooltip } from 'primeng/tooltip';
     ProgressSpinnerModule,
     TagModule,
     Select,
-    InputIcon,
-    IconField,
     InputTextModule,
     TextareaModule,
     MessageModule,
@@ -91,7 +87,6 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
   currentPage: number = 1;
 
   // Filter properties
-  searchKeyword: string = '';
   selectedReportType: ReportTypeEnum | null = null;
   selectedStatus: ReportStatusEnum | null = null;
   selectedReportReasonId: number | null = null;
@@ -116,8 +111,6 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
   statusForm: FormGroup;
   submitted: boolean = false;
 
-  // Search debounce
-  private searchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
   private currentRequest?: any;
 
@@ -152,7 +145,6 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
       adminNotes: ['', Validators.required],
       actionTaken: ['', Validators.required],
     });
-    this.setupSearchDebounce();
     this.buildFilterOptions();
     this.pageReportTemplate = this.t('table.currentPageReport');
     this.observeLanguageChanges();
@@ -195,41 +187,6 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Setup search debounce
-   */
-  private setupSearchDebounce(): void {
-    this.searchSubject
-      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
-      .subscribe((searchTerm) => {
-        console.log('Search debounce triggered:', searchTerm);
-        const trimmedTerm = searchTerm.trim();
-
-        // If search is empty, load immediately without debounce
-        if (!trimmedTerm) {
-          console.log('Empty search, loading all reports');
-          this.searchKeyword = '';
-          this.first = 0;
-          this.currentPage = 1;
-          this.loadReports();
-          return;
-        }
-
-        // For non-empty search, use minimal debounce
-        console.log('Non-empty search, setting keyword:', trimmedTerm);
-        this.searchKeyword = trimmedTerm;
-        this.first = 0;
-        this.currentPage = 1;
-
-        setTimeout(() => {
-          if (this.searchKeyword === trimmedTerm) {
-            console.log('Executing search after timeout:', this.searchKeyword);
-            this.loadReports();
-          }
-        }, 300);
-      });
-  }
-
-  /**
    * Load report reasons for filter dropdown
    */
   loadReportReasons(): void {
@@ -262,13 +219,16 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
     const request: ReportsListRequest = {
       pageSize: this.rows,
       currentPage: this.currentPage,
-      searchKeyword: this.searchKeyword?.trim() || undefined,
       reportType: this.selectedReportType ?? undefined,
       status: this.selectedStatus ?? undefined,
       reportReasonId: this.selectedReportReasonId ?? undefined,
-      fromDate: this.rangeDates?.[0]?.toISOString() || undefined,
-      toDate: this.rangeDates?.[1]?.toISOString() || undefined,
     };
+
+    // Add date range if selected
+    if (this.rangeDates && this.rangeDates.length === 2) {
+      request.fromDate = this.formatDate(this.rangeDates[0]);
+      request.toDate = this.formatDate(this.rangeDates[1]);
+    }
 
     console.log('Loading reports with filters:', request);
 
@@ -308,15 +268,6 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Handle search input
-   */
-  onSearch(event: any): void {
-    const searchTerm = event.target.value || '';
-    console.log('Search input:', searchTerm);
-    this.searchSubject.next(searchTerm);
-  }
-
-  /**
    * Handle filter changes
    */
   onFilterChange(): void {
@@ -326,15 +277,13 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Handle date range changes - only filter when both dates are selected
+   * Handle date range changes - only filter when both dates are selected or when cleared
    */
   onDateRangeChange(event: any): void {
-    // Only trigger filter when both start and end dates are selected
+    // Only trigger filter when both start and end dates are selected, or when cleared
     if (
-      this.rangeDates &&
-      this.rangeDates.length === 2 &&
-      this.rangeDates[0] &&
-      this.rangeDates[1]
+      !this.rangeDates || // Cleared
+      (this.rangeDates.length === 2 && this.rangeDates[0] && this.rangeDates[1]) // Both dates selected
     ) {
       this.onFilterChange();
     }
@@ -662,6 +611,16 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
       }
     }
     return '';
+  }
+
+  /**
+   * Format date for API (using local date to avoid timezone issues)
+   */
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   private t(key: string, params?: Record<string, unknown>): string {

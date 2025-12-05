@@ -2,14 +2,6 @@
     <div class="card">
         <!-- Filters Section -->
         <div class="action-container">
-            <!-- Search -->
-            <p-iconfield>
-                <p-inputicon class="pi pi-search" />
-                <input type="text" pInputText [placeholder]="'reports.filters.searchPlaceholder' | translate"
-                    [style]="{ width: '360px' }" [(ngModel)]="searchKeyword" (input)="onSearch($event)"
-                    [disabled]="loading" />
-            </p-iconfield>
-
             <!-- Date Range Filter -->
             <p-datepicker [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" showIcon
                 iconDisplay="input" [showClear]="true" [placeholder]="'reports.filters.datePlaceholder' | translate"
@@ -95,18 +87,11 @@
 
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="8">
-                        @if (searchKeyword && searchKeyword.trim()) {
+                    <td colspan="9">
                         <div class="empty-container">
-                            <i class="pi pi-search"></i>
-                            <h4>{{'reports.empty.search' | translate:{ keyword: searchKeyword } }}</h4>
-                        </div>
-                        } @else {
-                        <div class="empty-container">
-                            <i class="pi pi-info-circle"></i>
+                            <i class="pi pi-inbox"></i>
                             <h4>{{'reports.empty.default' | translate}}</h4>
                         </div>
-                        }
                     </td>
                 </tr>
             </ng-template>
