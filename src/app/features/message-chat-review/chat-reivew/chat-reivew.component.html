@@ -78,8 +78,8 @@
             </td>
             <td>
               <div class="table-actions">
-                <p-button [label]="'chatReview.table.viewChat' | translate" severity="primary" [disabled]="loading"
-                  (click)="viewChat(chat)" />
+                <p-button pTooltip="{{'chatReview.table.viewChat' | translate}}" icon="pi pi-eye" severity="primary"
+                  [disabled]="loading" (click)="viewChat(chat)" />
               </div>
             </td>
           </tr>

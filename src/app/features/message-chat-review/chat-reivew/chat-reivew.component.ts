@@ -84,14 +84,14 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
   messagesTotalRecords: number = 0;
 
   // Filter properties
-  private _timeFilter: ChatTimeFilter = ChatTimeFilter.All;
+  private _timeFilter: ChatTimeFilter | null = null;
   timeFilterOptions: { label: string; value: ChatTimeFilter }[] = [];
 
-  get timeFilter(): ChatTimeFilter {
+  get timeFilter(): ChatTimeFilter | null {
     return this._timeFilter;
   }
 
-  set timeFilter(value: ChatTimeFilter) {
+  set timeFilter(value: ChatTimeFilter | null) {
     if (this._timeFilter !== value) {
       this._timeFilter = value;
       this.onTimeFilterChange();
@@ -153,7 +153,6 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
 
   private buildTimeFilterOptions(): void {
     this.timeFilterOptions = [
-      { label: this.t('chatReview.filters.all'), value: ChatTimeFilter.All },
       { label: this.t('chatReview.filters.last24Hours'), value: ChatTimeFilter.Last24Hours },
       { label: this.t('chatReview.filters.lastWeek'), value: ChatTimeFilter.LastWeek },
       { label: this.t('chatReview.filters.lastMonth'), value: ChatTimeFilter.LastMonth },
@@ -162,7 +161,7 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
 
   private initializeForm(): void {
     this.filterForm = this.fb.group({
-      timeFilter: [ChatTimeFilter.All],
+      timeFilter: [null],
     });
   }
 
@@ -178,7 +177,7 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     const request: ChatsListRequest = {
-      timeFilter: this.timeFilter,
+      timeFilter: this.timeFilter ?? ChatTimeFilter.All,
       pageSize: this.rows,
       currentPage: this.currentPage,
     };
