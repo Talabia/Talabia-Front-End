@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
@@ -22,36 +28,36 @@ import { LanguageService } from '../../../shared/services/language.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { ThemeService } from '../services/theme.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { 
-  Theme, 
-  CreateThemeRequest, 
-  EditThemeRequest, 
-  ThemesListRequest, 
+import {
+  Theme,
+  CreateThemeRequest,
+  EditThemeRequest,
+  ThemesListRequest,
   ThemesListResponse,
   ThemePalette,
-  ThemeDetailsResponse
+  ThemeDetailsResponse,
 } from '../models/theme.models';
 import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
 @Component({
   selector: 'app-theme-management',
-   imports: [
-    CardModule, 
-    TableModule, 
-    ButtonModule, 
-    InputTextModule, 
-    FormsModule, 
+  imports: [
+    CardModule,
+    TableModule,
+    ButtonModule,
+    InputTextModule,
+    FormsModule,
     ReactiveFormsModule,
-    DividerModule, 
-    DialogModule, 
-    TooltipModule, 
-    ToastModule, 
+    DividerModule,
+    DialogModule,
+    TooltipModule,
+    ToastModule,
     ConfirmPopupModule,
     MessageModule,
     ProgressSpinnerModule,
     TagModule,
     ColorPicker,
     TextareaModule,
-    TranslatePipe
+    TranslatePipe,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './theme management.component.html',
@@ -59,22 +65,21 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemeManagementComponent implements OnInit, OnDestroy {
-
   // Data properties
   themes: Theme[] = [];
   totalRecords: number = 0;
   loading: boolean = false;
-  
+
   // Pagination properties
   first: number = 0;
   rows: number = 10;
   currentPage: number = 1;
-  
+
   // Search properties
   searchKeyword: string = '';
   private searchSubject = new Subject<string>();
   private currentSearchRequest?: any;
-  
+
   // Dialog properties
   visible: boolean = false;
   isEditMode: boolean = false;
@@ -103,7 +108,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
     { key: 'primaryFixed', labelKey: 'theme.palette.primaryFixed' },
     { key: 'secondaryFixed', labelKey: 'theme.palette.secondaryFixed' },
     { key: 'error', labelKey: 'theme.palette.error' },
-    { key: 'onError', labelKey: 'theme.palette.onError' }
+    { key: 'onError', labelKey: 'theme.palette.onError' },
   ];
 
   private readonly defaultLightPalette: ThemePalette = {
@@ -121,7 +126,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
     error: '#b3261e',
     onError: '#ffffff',
     onSecondaryContainer: '#1f1f1f',
-    secondaryFixed: '#e3e3e3'
+    secondaryFixed: '#e3e3e3',
   };
 
   private readonly defaultDarkPalette: ThemePalette = {
@@ -139,15 +144,15 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
     error: '#f2b8b5',
     onError: '#601410',
     onSecondaryContainer: '#f4f4f4',
-    secondaryFixed: '#2c2c2c'
+    secondaryFixed: '#2c2c2c',
   };
 
   private destroy$ = new Subject<void>();
 
   constructor(
-    private themeService: ThemeService, 
+    private themeService: ThemeService,
     private cdr: ChangeDetectorRef,
-    private confirmationService: ConfirmationService, 
+    private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private fb: FormBuilder,
     private languageService: LanguageService
@@ -166,7 +171,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    
+
     // Force stop any pending requests
     if (this.currentSearchRequest) {
       this.currentSearchRequest.unsubscribe();
@@ -175,13 +180,11 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
   }
 
   private observeLanguageChanges(): void {
-    this.languageService.languageChanged$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.updateDialogTitle();
-        this.pageReportTemplate = this.languageService.translate('table.currentPageReport');
-        this.cdr.markForCheck();
-      });
+    this.languageService.languageChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.updateDialogTitle();
+      this.pageReportTemplate = this.languageService.translate('table.currentPageReport');
+      this.cdr.markForCheck();
+    });
   }
 
   private initializeForm(): void {
@@ -192,13 +195,13 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
       descriptionEn: ['', [Validators.required, Validators.minLength(5)]],
       descriptionAr: ['', [Validators.required, Validators.minLength(5)]],
       light: this.createPaletteGroup(this.defaultLightPalette),
-      dark: this.createPaletteGroup(this.defaultDarkPalette)
+      dark: this.createPaletteGroup(this.defaultDarkPalette),
     });
   }
 
   private createPaletteGroup(defaults: ThemePalette): FormGroup {
     const group: Record<string, any> = {};
-    this.paletteFields.forEach(field => {
+    this.paletteFields.forEach((field) => {
       group[field.key] = [defaults[field.key], Validators.required];
     });
     return this.fb.group(group);
@@ -206,13 +209,10 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
 
   private setupSearchDebounce(): void {
     this.searchSubject
-      .pipe(
-        distinctUntilChanged(),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(searchTerm => {
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((searchTerm) => {
         const trimmedTerm = searchTerm.trim();
-        
+
         // If search is empty, load immediately without debounce
         if (!trimmedTerm) {
           this.searchKeyword = '';
@@ -221,12 +221,12 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
           this.loadThemes();
           return;
         }
-        
+
         // For non-empty search, use minimal debounce
         this.searchKeyword = trimmedTerm;
         this.first = 0;
         this.currentPage = 1;
-        
+
         // Use setTimeout for very short debounce only for typed searches
         setTimeout(() => {
           if (this.searchKeyword === trimmedTerm) {
@@ -244,16 +244,17 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
     if (this.currentSearchRequest) {
       this.currentSearchRequest.unsubscribe();
     }
-    
+
     this.loading = true;
-    
+
     const request: ThemesListRequest = {
       searchKeyword: this.searchKeyword,
       pageSize: this.rows,
-      currentPage: this.currentPage
+      currentPage: this.currentPage,
     };
 
-    this.currentSearchRequest = this.themeService.getThemesList(request)
+    this.currentSearchRequest = this.themeService
+      .getThemesList(request)
       .pipe(
         timeout(30000), // 30 second timeout
         takeUntil(this.destroy$)
@@ -283,10 +284,10 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
             severity: 'error',
             summary: this.t('common.error'),
             detail: error.message || this.t('theme.notification.loadError'),
-            life: 5000
+            life: 5000,
           });
           this.cdr.detectChanges();
-        }
+        },
       });
   }
 
@@ -317,13 +318,13 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
     if (this.loading) {
       return;
     }
-    
+
     this.first = event.first || 0;
     this.rows = event.rows || 10;
-    
+
     // Calculate current page (API expects 1-based page numbers)
     this.currentPage = Math.floor(this.first / this.rows) + 1;
-    
+
     this.loadThemes();
   }
 
@@ -333,14 +334,14 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
   showCreateDialog(): void {
     this.isEditMode = false;
     this.updateDialogTitle();
-    this.themeForm.reset({ 
-      id: 0, 
+    this.themeForm.reset({
+      id: 0,
       nameEn: '',
       nameAr: '',
       descriptionEn: '',
       descriptionAr: '',
       light: this.defaultLightPalette,
-      dark: this.defaultDarkPalette
+      dark: this.defaultDarkPalette,
     });
     this.submitted = false;
     this.visible = true;
@@ -353,7 +354,8 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
     this.isEditMode = true;
     this.updateDialogTitle();
     this.dialogLoading = true;
-    this.themeService.getThemeById(theme.id)
+    this.themeService
+      .getThemeById(theme.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (details: ThemeDetailsResponse) => {
@@ -364,7 +366,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
             descriptionEn: details.descriptionEn,
             descriptionAr: details.descriptionAr,
             light: details.lightTheme,
-            dark: details.darkTheme
+            dark: details.darkTheme,
           });
           this.dialogLoading = false;
           this.submitted = false;
@@ -377,10 +379,10 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
             severity: 'error',
             summary: this.t('common.error'),
             detail: error.message || this.t('theme.notification.loadError'),
-            life: 5000
+            life: 5000,
           });
           this.cdr.detectChanges();
-        }
+        },
       });
   }
 
@@ -389,7 +391,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
    */
   saveTheme(): void {
     this.submitted = true;
-    
+
     if (this.themeForm.invalid) {
       this.markFormGroupTouched();
       return;
@@ -406,20 +408,21 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
         descriptionEn: formValue.descriptionEn.trim(),
         descriptionAr: formValue.descriptionAr.trim(),
         light: formValue.light,
-        dark: formValue.dark
+        dark: formValue.dark,
       };
 
-      this.themeService.editTheme(editRequest)
+      this.themeService
+        .editTheme(editRequest)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
             this.loading = false;
             this.visible = false;
-            this.messageService.add({       
+            this.messageService.add({
               severity: 'success',
               summary: this.t('common.success'),
               detail: this.t('theme.notification.updateSuccess'),
-              life: 3000
+              life: 3000,
             });
             this.loadThemes();
           },
@@ -429,10 +432,10 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
               severity: 'error',
               summary: this.t('common.error'),
               detail: error.message || this.t('theme.notification.updateError'),
-              life: 5000
+              life: 5000,
             });
             this.cdr.detectChanges();
-          }
+          },
         });
     } else {
       const createRequest: CreateThemeRequest = {
@@ -441,10 +444,11 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
         descriptionEn: formValue.descriptionEn.trim(),
         descriptionAr: formValue.descriptionAr.trim(),
         light: formValue.light,
-        dark: formValue.dark
+        dark: formValue.dark,
       };
 
-      this.themeService.createTheme(createRequest)
+      this.themeService
+        .createTheme(createRequest)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
@@ -454,7 +458,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
               severity: 'success',
               summary: this.t('common.success'),
               detail: this.t('theme.notification.createSuccess'),
-              life: 3000
+              life: 3000,
             });
             this.loadThemes();
           },
@@ -464,10 +468,10 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
               severity: 'error',
               summary: this.t('common.error'),
               detail: error.message || this.t('theme.notification.createError'),
-              life: 5000
+              life: 5000,
             });
             this.cdr.detectChanges();
-          }
+          },
         });
     }
   }
@@ -477,19 +481,23 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
    */
   toggleActiveStatus(theme: Theme, event: any): void {
     const newStatus = event.checked;
-    
-    this.themeService.setActiveStatus({ id: theme.id, status: newStatus })
+
+    this.themeService
+      .setActiveStatus({ id: theme.id, status: newStatus })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          theme.isActive = newStatus;
+          // Update the theme in the array and create new reference for change detection
+          this.themes = this.themes.map((t) =>
+            t.id === theme.id ? { ...t, isActive: newStatus } : t
+          );
           this.messageService.add({
             severity: 'success',
             summary: this.t('common.success'),
             detail: newStatus
               ? this.t('theme.notification.activateSuccess')
               : this.t('theme.notification.deactivateSuccess'),
-            life: 3000
+            life: 3000,
           });
           this.cdr.detectChanges();
         },
@@ -497,13 +505,15 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
           this.messageService.add({
             severity: 'error',
             summary: this.t('common.error'),
-            detail: error.message || (newStatus
-              ? this.t('theme.notification.activateError')
-              : this.t('theme.notification.deactivateError')),
-            life: 5000
+            detail:
+              error.message ||
+              (newStatus
+                ? this.t('theme.notification.activateError')
+                : this.t('theme.notification.deactivateError')),
+            life: 5000,
           });
           this.cdr.detectChanges();
-        }
+        },
       });
   }
 
@@ -511,17 +521,21 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
    * Set theme as default
    */
   setAsDefault(theme: Theme): void {
-    this.themeService.setDefaultTheme({ id: theme.id })
+    this.themeService
+      .setDefaultTheme({ id: theme.id })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          // Update all themes to mark only this one as default
-          this.themes.forEach(t => t.isDefault = t.id === theme.id);
+          // Update all themes to mark only this one as default and create new array reference
+          this.themes = this.themes.map((t) => ({
+            ...t,
+            isDefault: t.id === theme.id,
+          }));
           this.messageService.add({
             severity: 'success',
             summary: this.t('common.success'),
             detail: this.t('theme.notification.setDefaultSuccess'),
-            life: 3000
+            life: 3000,
           });
           this.cdr.detectChanges();
         },
@@ -530,10 +544,10 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
             severity: 'error',
             summary: this.t('common.error'),
             detail: error.message || this.t('theme.notification.setDefaultError'),
-            life: 5000
+            life: 5000,
           });
           this.cdr.detectChanges();
-        }
+        },
       });
   }
 
@@ -548,15 +562,15 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
       rejectButtonProps: {
         label: this.t('theme.button.cancel'),
         severity: 'secondary',
-        outlined: true
+        outlined: true,
       },
       acceptButtonProps: {
         label: this.t('theme.button.delete'),
-        severity: 'danger'
+        severity: 'danger',
       },
       accept: () => {
         this.deleteTheme(theme.id);
-      }
+      },
     });
   }
 
@@ -565,8 +579,9 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
    */
   private deleteTheme(themeId: number): void {
     this.loading = true;
-    
-    this.themeService.deleteTheme(themeId)
+
+    this.themeService
+      .deleteTheme(themeId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -575,7 +590,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
             severity: 'success',
             summary: this.t('common.success'),
             detail: this.t('theme.notification.deleteSuccess'),
-            life: 3000
+            life: 3000,
           });
           this.loadThemes();
         },
@@ -585,27 +600,27 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
             severity: 'error',
             summary: this.t('common.error'),
             detail: error.message || this.t('theme.notification.deleteError'),
-            life: 5000
+            life: 5000,
           });
           this.cdr.detectChanges();
-        }
+        },
       });
   }
 
   /**
-   * Cancel dialog  
+   * Cancel dialog
    */
   cancelDialog(): void {
     this.visible = false;
     this.submitted = false;
-    this.themeForm.reset({ 
-      id: 0, 
+    this.themeForm.reset({
+      id: 0,
       nameEn: '',
       nameAr: '',
       descriptionEn: '',
       descriptionAr: '',
       light: this.defaultLightPalette,
-      dark: this.defaultDarkPalette
+      dark: this.defaultDarkPalette,
     });
   }
 
@@ -613,7 +628,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
    * Mark all form controls as touched for validation display
    */
   private markFormGroupTouched(): void {
-    Object.keys(this.themeForm.controls).forEach(key => {
+    Object.keys(this.themeForm.controls).forEach((key) => {
       const control = this.themeForm.get(key);
       control?.markAsTouched();
     });
@@ -633,11 +648,9 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
   hasError(controlName: string, errorType?: string): boolean {
     const control = this.getFormControl(controlName);
     if (!control) return false;
-    
-    const hasError = errorType ? 
-      control.hasError(errorType) : 
-      control.invalid;
-    
+
+    const hasError = errorType ? control.hasError(errorType) : control.invalid;
+
     return hasError && (control.touched || this.submitted);
   }
 
@@ -650,24 +663,24 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
 
     if (control.errors['required']) {
       const fieldNames: { [key: string]: string } = {
-        'nameEn': this.t('theme.form.nameEn'),
-        'nameAr': this.t('theme.form.nameAr'),
-        'descriptionEn': this.t('theme.form.descriptionEn'),
-        'descriptionAr': this.t('theme.form.descriptionAr')
+        nameEn: this.t('theme.form.nameEn'),
+        nameAr: this.t('theme.form.nameAr'),
+        descriptionEn: this.t('theme.form.descriptionEn'),
+        descriptionAr: this.t('theme.form.descriptionAr'),
       };
-      
+
       if (fieldNames[controlName]) {
         return `${fieldNames[controlName]} ${this.t('theme.validation.required')}`;
       }
-      
+
       // Handle nested palette fields
       if (controlName.includes('.')) {
         return this.t('theme.validation.colorRequired');
       }
-      
+
       return this.t('theme.validation.required');
     }
-    
+
     if (control.errors['minlength']) {
       return this.t('theme.validation.minLength', {
         requiredLength: control.errors['minlength'].requiredLength,
@@ -699,4 +712,3 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
     return this.languageService.translate(key, params);
   }
 }
-
