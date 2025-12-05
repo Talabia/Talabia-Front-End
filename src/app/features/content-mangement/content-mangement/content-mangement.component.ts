@@ -327,7 +327,6 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
    */
   showViewDialog(offer: AdminOffer): void {
     this.selectedOffer = null; // Clear previous data
-    this.viewDialogVisible = true;
     this.loading = true;
 
     this.contentManagementService
@@ -337,12 +336,12 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
         next: (detailedOffer: AdminOffer) => {
           console.log('Offer details loaded:', detailedOffer);
           this.selectedOffer = detailedOffer;
+          this.viewDialogVisible = true; // Show dialog only after data is loaded
           this.loading = false;
           this.cdr.detectChanges();
         },
         error: (error: any) => {
           this.loading = false;
-          this.viewDialogVisible = false;
           this.messageService.add({
             severity: 'error',
             summary: this.t('common.error'),
