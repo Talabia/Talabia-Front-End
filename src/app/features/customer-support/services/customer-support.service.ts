@@ -3,21 +3,21 @@ import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { 
-  ContactUs, 
-  ContactUsListRequest, 
-  ContactUsListResponse, 
+import {
+  ContactUs,
+  ContactUsListRequest,
+  ContactUsListResponse,
   ApiResponse,
-  MarkReadRequest
+  MarkReadRequest,
 } from '../models/customer-support.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CustomerSupportService {
   private readonly baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Get paginated list of Contact Us messages with optional search
@@ -32,23 +32,24 @@ export class CustomerSupportService {
       params = params.set('SearchKeyword', request.searchKeyword.trim());
     }
 
-    return this.http.get<any>(`${this.baseUrl}ContactUs/list`, { params })
-      .pipe(
-        map(response => {
-          // Handle API response structure
-          if (response && response.data) {
-            return {
-              data: response.data,
-              totalCount: response.totalCount || 0,
-              currentPage: response.currentPage || request.currentPage,
-              pageSize: response.pageSize || request.pageSize,
-              totalPages: response.totalPages || Math.ceil((response.totalCount || 0) / (response.pageSize || request.pageSize))
-            };
-          }
-          return response;
-        }),
-        catchError(this.handleError)
-      );
+    return this.http.get<any>(`${this.baseUrl}ContactUs/list`, { params }).pipe(
+      map((response) => {
+        // Handle API response structure
+        if (response && response.data) {
+          return {
+            data: response.data,
+            totalCount: response.totalCount || 0,
+            currentPage: response.currentPage || request.currentPage,
+            pageSize: response.pageSize || request.pageSize,
+            totalPages:
+              response.totalPages ||
+              Math.ceil((response.totalCount || 0) / (response.pageSize || request.pageSize)),
+          };
+        }
+        return response;
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -57,24 +58,22 @@ export class CustomerSupportService {
    */
   getContactUsById(id: string): Observable<ContactUs> {
     const params = new HttpParams().set('Id', id);
-    
-    return this.http.get<any>(`${this.baseUrl}ContactUs/get`, { params })
-      .pipe(
-        map(response => response.data || response),
-        catchError(this.handleError)
-      );
+
+    return this.http.get<any>(`${this.baseUrl}ContactUs/get`, { params }).pipe(
+      map((response) => response.data || response),
+      catchError(this.handleError)
+    );
   }
 
   /**
    * Mark Contact Us message as read
-   * PUT /api/ContactUs/mark/read
+   * POST /api/ContactUs/mark/read
    */
   markAsRead(request: MarkReadRequest): Observable<boolean> {
-    return this.http.put<ApiResponse<boolean>>(`${this.baseUrl}ContactUs/mark/read`, request)
-      .pipe(
-        map(response => response.success),
-        catchError(this.handleError)
-      );
+    return this.http.post<ApiResponse<boolean>>(`${this.baseUrl}ContactUs/mark/read`, request).pipe(
+      map((response) => response.success),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -83,10 +82,11 @@ export class CustomerSupportService {
    */
   deleteContactUs(id: string): Observable<boolean> {
     const params = new HttpParams().set('Id', id);
-    
-    return this.http.delete<ApiResponse<boolean>>(`${this.baseUrl}ContactUs/delete`, { params })
+
+    return this.http
+      .delete<ApiResponse<boolean>>(`${this.baseUrl}ContactUs/delete`, { params })
       .pipe(
-        map(response => response.success),
+        map((response) => response.success),
         catchError(this.handleError)
       );
   }
@@ -96,7 +96,7 @@ export class CustomerSupportService {
    */
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An unknown error occurred';
-    
+
     if (error.error instanceof ErrorEvent) {
       // Client-side error
       errorMessage = `Client Error: ${error.error.message}`;
