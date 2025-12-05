@@ -3,23 +3,23 @@ import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { 
-  Report, 
-  ReportsListRequest, 
-  ReportsListResponse, 
+import {
+  Report,
+  ReportsListRequest,
+  ReportsListResponse,
   ChangeStatusRequest,
   BulkChangeStatusRequest,
   ReportReason,
-  ApiResponse
+  ApiResponse,
 } from '../models/reports.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ReportsService {
   private readonly baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Get paginated list of reports with filters
@@ -34,7 +34,11 @@ export class ReportsService {
       params = params.set('ReportType', request.reportType.toString());
     }
 
-    if (request.reportReasonId !== undefined && request.reportReasonId !== null && request.reportReasonId > 0) {
+    if (
+      request.reportReasonId !== undefined &&
+      request.reportReasonId !== null &&
+      request.reportReasonId > 0
+    ) {
       params = params.set('ReportReasonId', request.reportReasonId.toString());
     }
 
@@ -63,23 +67,24 @@ export class ReportsService {
     console.log('API Request params:', params.toString());
     console.log('Full request object:', request);
 
-    return this.http.get<any>(`${this.baseUrl}Reports/list`, { params })
-      .pipe(
-        map(response => {
-          // Handle API response structure
-          if (response && response.data) {
-            return {
-              data: response.data,
-              totalCount: response.totalCount || 0,
-              currentPage: response.currentPage || request.currentPage,
-              pageSize: response.pageSize || request.pageSize,
-              totalPages: response.totalPages || Math.ceil((response.totalCount || 0) / (response.pageSize || request.pageSize))
-            };
-          }
-          return response;
-        }),
-        catchError(this.handleError)
-      );
+    return this.http.get<any>(`${this.baseUrl}Reports/list`, { params }).pipe(
+      map((response) => {
+        // Handle API response structure
+        if (response && response.data) {
+          return {
+            data: response.data,
+            totalCount: response.totalCount || 0,
+            currentPage: response.currentPage || request.currentPage,
+            pageSize: response.pageSize || request.pageSize,
+            totalPages:
+              response.totalPages ||
+              Math.ceil((response.totalCount || 0) / (response.pageSize || request.pageSize)),
+          };
+        }
+        return response;
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -88,11 +93,10 @@ export class ReportsService {
    */
   getReportById(reportId: string): Observable<Report> {
     const params = new HttpParams().set('ReportId', reportId);
-    
-    return this.http.get<Report>(`${this.baseUrl}Reports/get`, { params })
-      .pipe(
-        catchError(this.handleError)
-      );
+
+    return this.http
+      .get<Report>(`${this.baseUrl}Reports/get`, { params })
+      .pipe(catchError(this.handleError));
   }
 
   /**
@@ -101,34 +105,35 @@ export class ReportsService {
    */
   deleteReport(reportId: string): Observable<boolean> {
     const params = new HttpParams().set('ReportId', reportId);
-    
-    return this.http.delete<ApiResponse<boolean>>(`${this.baseUrl}Reports/delete`, { params })
-      .pipe(
-        map(response => response?.success ?? true),
-        catchError(this.handleError)
-      );
+
+    return this.http.delete<ApiResponse<boolean>>(`${this.baseUrl}Reports/delete`, { params }).pipe(
+      map((response) => response?.success ?? true),
+      catchError(this.handleError)
+    );
   }
 
   /**
    * Change status of a single report
-   * POST /api/Reports/change-status
+   * PUT /api/Reports/change-status
    */
   changeReportStatus(request: ChangeStatusRequest): Observable<boolean> {
-    return this.http.post<ApiResponse<boolean>>(`${this.baseUrl}Reports/change-status`, request)
+    return this.http
+      .put<ApiResponse<boolean>>(`${this.baseUrl}Reports/change-status`, request)
       .pipe(
-        map(response => response?.success ?? true),
+        map((response) => response?.success ?? true),
         catchError(this.handleError)
       );
   }
 
   /**
    * Change status of multiple reports (bulk operation)
-   * POST /api/Reports/bulk/change-status
+   * PUT /api/Reports/bulk/change-status
    */
   bulkChangeReportStatus(request: BulkChangeStatusRequest): Observable<boolean> {
-    return this.http.post<ApiResponse<boolean>>(`${this.baseUrl}Reports/bulk/change-status`, request)
+    return this.http
+      .put<ApiResponse<boolean>>(`${this.baseUrl}Reports/bulk/change-status`, request)
       .pipe(
-        map(response => response?.success ?? true),
+        map((response) => response?.success ?? true),
         catchError(this.handleError)
       );
   }
@@ -138,10 +143,9 @@ export class ReportsService {
    * GET /api/Lookups/report-reasons
    */
   getReportReasons(): Observable<ReportReason[]> {
-    return this.http.get<ReportReason[]>(`${this.baseUrl}Lookups/report-reasons`)
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http
+      .get<ReportReason[]>(`${this.baseUrl}Lookups/report-reasons`)
+      .pipe(catchError(this.handleError));
   }
 
   /**
@@ -149,7 +153,7 @@ export class ReportsService {
    */
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An unknown error occurred';
-    
+
     if (error.error instanceof ErrorEvent) {
       // Client-side error
       errorMessage = `Client Error: ${error.error.message}`;
