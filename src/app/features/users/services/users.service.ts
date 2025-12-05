@@ -3,23 +3,23 @@ import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { 
+import {
   AdminUser,
-  AdminUserDetails, 
-  UsersListRequest, 
-  UsersListResponse, 
+  AdminUserDetails,
+  UsersListRequest,
+  UsersListResponse,
   ApiResponse,
   BanUserRequest,
-  PremiumUserRequest
+  PremiumUserRequest,
 } from '../models/user.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsersService {
   private readonly baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Get paginated list of admin users with optional filters
@@ -53,27 +53,28 @@ export class UsersService {
         CurrentPage: request.currentPage,
         CityId: request.cityId,
         Filter: request.filter,
-        SearchKeyword: request.searchKeyword
-      }
+        SearchKeyword: request.searchKeyword,
+      },
     });
 
-    return this.http.get<any>(`${this.baseUrl}AdminUsers/list`, { params })
-      .pipe(
-        map(response => {
-          // Handle API response structure
-          if (response && response.data) {
-            return {
-              data: response.data,
-              totalCount: response.totalCount || 0,
-              currentPage: response.currentPage || request.currentPage,
-              pageSize: response.pageSize || request.pageSize,
-              totalPages: response.totalPages || Math.ceil((response.totalCount || 0) / (response.pageSize || request.pageSize))
-            };
-          }
-          return response;
-        }),
-        catchError(this.handleError)
-      );
+    return this.http.get<any>(`${this.baseUrl}AdminUsers/list`, { params }).pipe(
+      map((response) => {
+        // Handle API response structure
+        if (response && response.data) {
+          return {
+            data: response.data,
+            totalCount: response.totalCount || 0,
+            currentPage: response.currentPage || request.currentPage,
+            pageSize: response.pageSize || request.pageSize,
+            totalPages:
+              response.totalPages ||
+              Math.ceil((response.totalCount || 0) / (response.pageSize || request.pageSize)),
+          };
+        }
+        return response;
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -82,15 +83,14 @@ export class UsersService {
    */
   getUserDetails(userId: string): Observable<AdminUserDetails> {
     const params = new HttpParams().set('UserId', userId);
-    
-    return this.http.get<any>(`${this.baseUrl}AdminUsers/details`, { params })
-      .pipe(
-        map(response => {
-          console.log('API Response for user details:', response);
-          return response.data || response;
-        }),
-        catchError(this.handleError)
-      );
+
+    return this.http.get<any>(`${this.baseUrl}AdminUsers/details`, { params }).pipe(
+      map((response) => {
+        console.log('API Response for user details:', response);
+        return response.data || response;
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -98,11 +98,10 @@ export class UsersService {
    * POST /api/AdminUsers/ban
    */
   banUser(request: BanUserRequest): Observable<boolean> {
-    return this.http.post<ApiResponse<boolean>>(`${this.baseUrl}AdminUsers/ban`, request)
-      .pipe(
-        map(response => response.success),
-        catchError(this.handleError)
-      );
+    return this.http.post<ApiResponse<boolean>>(`${this.baseUrl}AdminUsers/ban`, request).pipe(
+      map((response) => response.success),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -110,11 +109,20 @@ export class UsersService {
    * POST /api/AdminUsers/premium
    */
   setPremiumStatus(request: PremiumUserRequest): Observable<boolean> {
-    return this.http.post<ApiResponse<boolean>>(`${this.baseUrl}AdminUsers/premium`, request)
-      .pipe(
-        map(response => response.success),
-        catchError(this.handleError)
-      );
+    return this.http.post<ApiResponse<boolean>>(`${this.baseUrl}AdminUsers/premium`, request).pipe(
+      map((response) => response.success),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Get cities from Lookups API
+   * GET /api/Lookups/cities
+   */
+  getCitiesFromLookups(): Observable<{ id: number; name: string }[]> {
+    return this.http
+      .get<{ id: number; name: string }[]>(`${this.baseUrl}Lookups/cities`)
+      .pipe(catchError(this.handleError));
   }
 
   /**
@@ -122,7 +130,7 @@ export class UsersService {
    */
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An unknown error occurred';
-    
+
     if (error.error instanceof ErrorEvent) {
       // Client-side error
       errorMessage = `Client Error: ${error.error.message}`;

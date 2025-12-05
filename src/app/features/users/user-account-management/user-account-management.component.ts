@@ -20,7 +20,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../services/users.service';
-import { CitiesService } from '../../looksup/services/cities.service';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { LanguageService } from '../../../shared/services/language.service';
@@ -31,7 +30,6 @@ import {
   UsersListResponse,
   UserTypeFilterEnum,
 } from '../models/user.models';
-import { City } from '../../looksup/models/city.models';
 import { Subject, takeUntil, timeout, distinctUntilChanged } from 'rxjs';
 import { Tooltip } from 'primeng/tooltip';
 @Component({
@@ -74,9 +72,8 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
   searchKeyword: string = '';
   selectedCityId: number | null = null;
   selectedFilter: UserTypeFilterEnum | null = null;
-  cities: City[] = [];
+  cities: { id: number; name: string }[] = [];
   filterOptions: { label: string; value: UserTypeFilterEnum | null }[] = [];
-  cityOptionLabel: keyof City = 'nameEn';
 
   // Dialog properties
   viewDialogVisible: boolean = false;
@@ -98,7 +95,6 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
 
   constructor(
     private usersService: UsersService,
-    private citiesService: CitiesService,
     private cdr: ChangeDetectorRef,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -107,7 +103,6 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
     this.setupSearchDebounce();
     this.buildFilterOptions();
     this.pageReportTemplate = this.t('table.currentPageReport');
-    this.updateCityOptionLabel();
     this.observeLanguageChanges();
   }
 
@@ -115,7 +110,6 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
     this.languageService.languageChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.buildFilterOptions();
       this.pageReportTemplate = this.t('table.currentPageReport');
-      this.updateCityOptionLabel();
       this.cdr.markForCheck();
     });
   }
@@ -125,11 +119,6 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
       label: this.t(option.labelKey),
       value: option.value,
     }));
-  }
-
-  private updateCityOptionLabel(): void {
-    const currentLang = this.languageService.getCurrentLanguage();
-    this.cityOptionLabel = currentLang === 'ar' ? 'nameAr' : 'nameEn';
   }
 
   ngOnInit(): void {
@@ -180,16 +169,16 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Load cities for filter dropdown
+   * Load cities for filter dropdown from Lookups API
    */
   loadCities(): void {
-    this.citiesService
-      .getCitiesList({ pageSize: 100, currentPage: 1 })
+    this.usersService
+      .getCitiesFromLookups()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (response) => {
-          this.cities = response.data || [];
-          console.log('Cities loaded:', this.cities.length, this.cities);
+        next: (cities) => {
+          this.cities = cities || [];
+          console.log('Cities loaded from Lookups:', this.cities.length, this.cities);
           this.cdr.detectChanges();
         },
         error: (error: any) => {

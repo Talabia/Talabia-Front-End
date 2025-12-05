@@ -11,7 +11,7 @@
             </p-iconfield>
 
             <!-- City Filter -->
-            <p-select [options]="cities" [(ngModel)]="selectedCityId" [optionLabel]="cityOptionLabel" optionValue="id"
+            <p-select [options]="cities" [(ngModel)]="selectedCityId" optionLabel="name" optionValue="id"
                 [placeholder]="'users.filters.cityPlaceholder' | translate" (onChange)="onFilterChange()"
                 [disabled]="loading" [showClear]="true" [filter]="true" />
 
