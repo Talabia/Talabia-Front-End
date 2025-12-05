@@ -73,7 +73,7 @@
             <label for="makerId">{{'vehicleModels.field.maker' | translate}} <span>*</span></label>
             <p-select id="makerId" formControlName="makerId" [options]="vehicleMakers" optionLabel="name"
                 optionValue="id" [placeholder]="'vehicleModels.field.makerPlaceholder' | translate" [disabled]="loading"
-                [invalid]="hasError('makerId')" />
+                [invalid]="hasError('makerId')" [filter]="true" />
 
             @if (hasError('makerId') || vehicleModelForm.get('makerId')?.dirty
             || vehicleModelForm.get('makerId')?.touched ) {
