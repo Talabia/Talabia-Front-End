@@ -4,7 +4,8 @@
             <p-iconfield>
                 <p-inputicon class="pi pi-search" />
                 <input type="text" pInputText [placeholder]="'sparePartsStatus.searchPlaceholder' | translate"
-                    (input)="onSearch($event)" (keyup)="onSearchKeyup($event)" [value]="searchKeyword" />
+                    [style]="{ width: '360px' }" (input)="onSearch($event)" (keyup)="onSearchKeyup($event)"
+                    [value]="searchKeyword" />
 
             </p-iconfield>
             <p-divider layout="vertical" />
@@ -31,10 +32,11 @@
                     <td>{{sparePartsStatus.nameEn}}</td>
                     <td>
                         <div class="table-actions">
-                            <p-button [label]="'sparePartsStatus.button.edit' | translate" severity="success"
-                                [disabled]="loading" (click)="showEditDialog(sparePartsStatus)" />
-                            <p-button [label]="'sparePartsStatus.button.delete' | translate" severity="danger"
-                                [disabled]="loading" (click)="confirmDelete($event, sparePartsStatus)" />
+                            <p-button [pTooltip]="'sparePartsStatus.button.edit' | translate" severity="success"
+                                icon="pi pi-pencil" [disabled]="loading" (click)="showEditDialog(sparePartsStatus)" />
+                            <p-button [pTooltip]="'sparePartsStatus.button.delete' | translate" severity="danger"
+                                icon="pi pi-trash" [disabled]="loading"
+                                (click)="confirmDelete($event, sparePartsStatus)" />
                         </div>
                     </td>
                 </tr>
