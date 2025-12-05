@@ -4,7 +4,8 @@
             <p-iconfield>
                 <p-inputicon class="pi pi-search" />
                 <input type="text" pInputText [placeholder]="'vehicleMakers.searchPlaceholder' | translate"
-                    (input)="onSearch($event)" (keyup)="onSearchKeyup($event)" [value]="searchKeyword" />
+                    [style]="{ width: '360px' }" (input)="onSearch($event)" (keyup)="onSearchKeyup($event)"
+                    [value]="searchKeyword" />
 
             </p-iconfield>
             <p-divider layout="vertical" />
@@ -44,10 +45,10 @@
                     </td>
                     <td>
                         <div class="table-actions">
-                            <p-button [label]="'vehicleMakers.button.edit' | translate" severity="success"
-                                [disabled]="loading" (click)="showEditDialog(vehicleMaker)" />
-                            <p-button [label]="'vehicleMakers.button.delete' | translate" severity="danger"
-                                [disabled]="loading" (click)="confirmDelete($event, vehicleMaker)" />
+                            <p-button [pTooltip]="'vehicleMakers.button.edit' | translate" severity="success"
+                                icon="pi pi-pencil" [disabled]="loading" (click)="showEditDialog(vehicleMaker)" />
+                            <p-button [pTooltip]="'vehicleMakers.button.delete' | translate" severity="danger"
+                                icon="pi pi-trash" [disabled]="loading" (click)="confirmDelete($event, vehicleMaker)" />
                         </div>
                     </td>
                 </tr>
