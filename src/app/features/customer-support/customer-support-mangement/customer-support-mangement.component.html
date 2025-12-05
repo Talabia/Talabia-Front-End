@@ -35,12 +35,12 @@
           </td>
           <td>
             <div class="table-actions">
-              <p-button [label]="'customerSupport.button.view' | translate" [disabled]="loading"
+              <p-button [pTooltip]="'customerSupport.button.view' | translate" icon="pi pi-eye" [disabled]="loading"
                 (click)="showViewDialog(contact)" />
-              <p-button [label]="'customerSupport.button.resolve' | translate" severity="success"
+              <p-button [pTooltip]="'customerSupport.button.resolve' | translate" icon="pi pi-check" severity="success"
                 [disabled]="loading || contact.isRead" (click)="markAsRead(contact)" />
-              <p-button [label]="'customerSupport.button.delete' | translate" severity="danger" [disabled]="loading"
-                (click)="confirmDelete($event, contact)" />
+              <p-button [pTooltip]="'customerSupport.button.delete' | translate" icon="pi pi-trash" severity="danger"
+                [disabled]="loading" (click)="confirmDelete($event, contact)" />
             </div>
           </td>
         </tr>

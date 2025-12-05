@@ -24,6 +24,7 @@ import {
   ContactUsListResponse,
 } from '../models/customer-support.models';
 import { Subject, takeUntil, timeout } from 'rxjs';
+import { TooltipModule } from 'primeng/tooltip';
 @Component({
   selector: 'app-customer-support-mangement',
   imports: [
@@ -37,6 +38,7 @@ import { Subject, takeUntil, timeout } from 'rxjs';
     TagModule,
     CommonModule,
     TranslatePipe,
+    TooltipModule,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './customer-support-mangement.component.html',
@@ -89,12 +91,10 @@ export class CustomerSupportMangementComponent implements OnInit, OnDestroy {
   }
 
   private observeLanguageChanges(): void {
-    this.languageService.languageChanged$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.pageReportTemplate = this.t('table.currentPageReport');
-        this.cdr.markForCheck();
-      });
+    this.languageService.languageChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.pageReportTemplate = this.t('table.currentPageReport');
+      this.cdr.markForCheck();
+    });
   }
 
   /**
@@ -174,7 +174,7 @@ export class CustomerSupportMangementComponent implements OnInit, OnDestroy {
    */
   showViewDialog(contact: ContactUs): void {
     this.loading = true;
-    
+
     this.customerSupportService
       .getContactUsById(contact.id)
       .pipe(takeUntil(this.destroy$))
