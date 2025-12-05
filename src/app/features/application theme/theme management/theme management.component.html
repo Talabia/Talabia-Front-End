@@ -61,13 +61,13 @@
                     </td>
                     <td>
                         <div class="table-actions">
+                            <p-button [label]="'theme.button.setDefault' | translate"
+                                [disabled]="loading || theme.isDefault" (click)="setAsDefault(theme)" />
                             <p-button
-                                [label]="theme.isActive ? ('theme.button.deactivate' | translate) : ('theme.button.activate' | translate)"
+                                [pTooltip]="theme.isActive ? ('theme.button.deactivate' | translate) : ('theme.button.activate' | translate)"
                                 [icon]="theme.isActive ? 'pi pi-times' : 'pi pi-check'"
                                 [severity]="theme.isActive ? 'danger' : 'success'" [disabled]="loading"
                                 (click)="toggleActiveStatus(theme, { checked: !theme.isActive })" />
-                            <p-button [label]="'theme.button.setDefault' | translate"
-                                [disabled]="loading || theme.isDefault" (click)="setAsDefault(theme)" />
                             <p-button severity="success" [pTooltip]="'common.edit' | translate" icon="pi pi-pencil"
                                 [disabled]="loading" (click)="showEditDialog(theme)" />
                             <p-button severity="danger" [pTooltip]="'common.delete' | translate" icon="pi pi-trash"
