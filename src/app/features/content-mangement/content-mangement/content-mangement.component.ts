@@ -31,7 +31,7 @@ import {
   DateRangeDuration,
 } from '../models/content-mangement.models';
 import { Subject, takeUntil, timeout, distinctUntilChanged, debounceTime } from 'rxjs';
-
+import { TooltipModule } from 'primeng/tooltip';
 @Component({
   selector: 'app-content-mangement',
   imports: [
@@ -51,6 +51,7 @@ import { Subject, takeUntil, timeout, distinctUntilChanged, debounceTime } from 
     DatePicker,
     ConfirmPopupModule,
     TranslatePipe,
+    TooltipModule,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './content-mangement.component.html',
@@ -95,7 +96,6 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
   DateRangeDuration = DateRangeDuration;
 
   private readonly durationFilterOptionConfigs = [
-    { labelKey: 'contentManagement.filters.duration.all', value: null },
     {
       labelKey: 'contentManagement.filters.duration.last24Hours',
       value: DateRangeDuration.Last24Hours,
@@ -108,13 +108,11 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
   ];
 
   private readonly activeFilterOptionConfigs = [
-    { labelKey: 'contentManagement.filters.status.all', value: null },
     { labelKey: 'contentManagement.filters.status.active', value: true },
     { labelKey: 'contentManagement.filters.status.inactive', value: false },
   ];
 
   private readonly promotedFilterOptionConfigs = [
-    { labelKey: 'contentManagement.filters.promoted.all', value: null },
     { labelKey: 'contentManagement.filters.promoted.promoted', value: true },
     { labelKey: 'contentManagement.filters.promoted.notPromoted', value: false },
   ];
