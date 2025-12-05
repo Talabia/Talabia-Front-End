@@ -1,9 +1,9 @@
-import { 
-  ChangeDetectionStrategy, 
-  Component, 
-  OnInit, 
-  OnDestroy, 
-  ChangeDetectorRef 
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
@@ -19,12 +19,12 @@ import { Subject, takeUntil } from 'rxjs';
 import { LanguageService } from '../../../shared/services/language.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { DashboardService } from '../services/dashboard.service';
-import { 
-  DashboardStatistics, 
-  DashboardFilterOption, 
+import {
+  DashboardStatistics,
+  DashboardFilterOption,
   DashboardFilterEnum,
   ChartData,
-  ChartOptions
+  ChartOptions,
 } from '../models/dashboard-statistics.models';
 
 @Component({
@@ -39,7 +39,7 @@ import {
     TagModule,
     CommonModule,
     FormsModule,
-    TranslatePipe
+    TranslatePipe,
   ],
   providers: [MessageService],
   templateUrl: './dashboard.component.html',
@@ -52,7 +52,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   loading: boolean = false;
 
   // Filter properties
-  selectedFilter: DashboardFilterEnum = DashboardFilterEnum.All;
+  selectedFilter: DashboardFilterEnum = DashboardFilterEnum.Last7Days;
   filterOptions: DashboardFilterOption[] = [];
 
   // Chart data
@@ -69,8 +69,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       legend: {
         position: 'bottom',
         display: true,
-      }
-    }
+      },
+    },
   };
 
   barChartOptions: any = {
@@ -79,17 +79,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     plugins: {
       legend: {
         display: false,
-        position: 'top'
-      }
+        position: 'top',
+      },
     },
     scales: {
       y: {
         beginAtZero: true,
-        display: true
+        display: true,
       },
       x: {
-        display: true
-      }
+        display: true,
+      },
     },
     elements: {
       bar: {
@@ -97,42 +97,42 @@ export class DashboardComponent implements OnInit, OnDestroy {
           topLeft: 8,
           topRight: 8,
           bottomLeft: 0,
-          bottomRight: 0
+          bottomRight: 0,
         },
-        borderSkipped: false
-      }
+        borderSkipped: false,
+      },
     },
     datasets: {
       bar: {
         categoryPercentage: 0.6,
-        barPercentage: 0.7
-      }
-    }
+        barPercentage: 0.7,
+      },
+    },
   };
 
   lineChartOptions!: ChartOptions;
 
   // Color palettes with gradients and 70% opacity
   private statusColors = [
-    'rgba(34, 211, 238, 0.7)',   // Cyan
-    'rgba(56, 189, 248, 0.7)',   // Sky Blue
-    'rgba(96, 165, 250, 0.7)',   // Blue
-    'rgba(129, 140, 248, 0.7)',  // Indigo
-    'rgba(45, 212, 191, 0.7)'    // Teal
+    'rgba(34, 211, 238, 0.7)', // Cyan
+    'rgba(56, 189, 248, 0.7)', // Sky Blue
+    'rgba(96, 165, 250, 0.7)', // Blue
+    'rgba(129, 140, 248, 0.7)', // Indigo
+    'rgba(45, 212, 191, 0.7)', // Teal
   ];
-  
+
   private typeColors = [
-    'rgba(56, 189, 248, 0.7)',   // Sky Blue
-    'rgba(96, 165, 250, 0.7)',   // Blue
-    'rgba(129, 140, 248, 0.7)'   // Indigo
+    'rgba(56, 189, 248, 0.7)', // Sky Blue
+    'rgba(96, 165, 250, 0.7)', // Blue
+    'rgba(129, 140, 248, 0.7)', // Indigo
   ];
-  
+
   private reasonColors = [
-    'rgba(34, 211, 238, 0.7)',   // Cyan
-    'rgba(56, 189, 248, 0.7)',   // Sky Blue
-    'rgba(96, 165, 250, 0.7)',   // Blue
-    'rgba(129, 140, 248, 0.7)',  // Indigo
-    'rgba(45, 212, 191, 0.7)'    // Teal
+    'rgba(34, 211, 238, 0.7)', // Cyan
+    'rgba(56, 189, 248, 0.7)', // Sky Blue
+    'rgba(96, 165, 250, 0.7)', // Blue
+    'rgba(129, 140, 248, 0.7)', // Indigo
+    'rgba(45, 212, 191, 0.7)', // Teal
   ];
 
   private destroy$ = new Subject<void>();
@@ -161,24 +161,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private observeLanguageChanges(): void {
-    this.languageService.languageChanged$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.buildFilterOptions();
-        this.loadingMessage = this.t('analytics.dashboard.loading');
-        this.lineChartOptions = this.buildLineChartOptions();
-        this.prepareChartData();
-        this.cdr.markForCheck();
-      });
+    this.languageService.languageChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.buildFilterOptions();
+      this.loadingMessage = this.t('analytics.dashboard.loading');
+      this.lineChartOptions = this.buildLineChartOptions();
+      this.prepareChartData();
+      this.cdr.markForCheck();
+    });
   }
 
   private buildFilterOptions(): void {
     this.filterOptions = [
-      { label: this.t('analytics.dashboard.filter.all'), value: DashboardFilterEnum.All },
       { label: this.t('analytics.dashboard.filter.7'), value: DashboardFilterEnum.Last7Days },
       { label: this.t('analytics.dashboard.filter.30'), value: DashboardFilterEnum.Last30Days },
       { label: this.t('analytics.dashboard.filter.90'), value: DashboardFilterEnum.Last90Days },
-      { label: this.t('analytics.dashboard.filter.year'), value: DashboardFilterEnum.ThisYear }
+      { label: this.t('analytics.dashboard.filter.year'), value: DashboardFilterEnum.ThisYear },
     ];
   }
 
@@ -187,8 +184,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
    */
   loadDashboardData(): void {
     this.loading = true;
-    
-    this.dashboardService.getDashboardStatistics()
+
+    this.dashboardService
+      .getDashboardStatistics()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data: DashboardStatistics) => {
@@ -203,10 +201,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
             severity: 'error',
             summary: this.t('common.error'),
             detail: error.message || this.t('analytics.dashboard.emptyDescription'),
-            life: 5000
+            life: 5000,
           });
           this.cdr.detectChanges();
-        }
+        },
       });
   }
 
@@ -231,67 +229,76 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.t('analytics.dashboard.pending'),
         this.t('analytics.dashboard.underReview'),
         this.t('analytics.dashboard.resolved'),
-        this.t('analytics.dashboard.rejected')
+        this.t('analytics.dashboard.rejected'),
       ],
-      datasets: [{
-        label: this.t('analytics.dashboard.statusChartTitle'),
-        data: [
-          this.statistics.pendingReports,
-          this.statistics.underReviewReports,
-          this.statistics.resolvedReports,
-          this.statistics.rejectedReports
-        ],
-        backgroundColor: this.statusColors.slice(0, 4),
-        borderWidth: 2
-      }]
+      datasets: [
+        {
+          label: this.t('analytics.dashboard.statusChartTitle'),
+          data: [
+            this.statistics.pendingReports,
+            this.statistics.underReviewReports,
+            this.statistics.resolvedReports,
+            this.statistics.rejectedReports,
+          ],
+          backgroundColor: this.statusColors.slice(0, 4),
+          borderWidth: 2,
+        },
+      ],
     };
 
     // Type Chart (Doughnut Chart)
     const typeLabels = Object.keys(this.statistics.reportsByType);
     const typeData = Object.values(this.statistics.reportsByType);
-    
+
     this.typeChartData = {
       labels: typeLabels,
-      datasets: [{
-        label: this.t('analytics.dashboard.typeChartTitle'),
-        data: typeData,
-        backgroundColor: this.typeColors.slice(0, typeLabels.length),
-        borderWidth: 2
-      }]
+      datasets: [
+        {
+          label: this.t('analytics.dashboard.typeChartTitle'),
+          data: typeData,
+          backgroundColor: this.typeColors.slice(0, typeLabels.length),
+          borderWidth: 2,
+        },
+      ],
     };
 
     // Reason Chart (Bar Chart)
     const reasonLabels = Object.keys(this.statistics.reportsByReason);
     const reasonData = Object.values(this.statistics.reportsByReason);
-    
+
     this.reasonChartData = {
       labels: reasonLabels,
-      datasets: [{
-        label: this.t('analytics.dashboard.reasonChartTitle'),
-        data: reasonData,
-        backgroundColor: this.reasonColors.slice(0, reasonLabels.length),
-        borderWidth: 1      }]
+      datasets: [
+        {
+          label: this.t('analytics.dashboard.reasonChartTitle'),
+          data: reasonData,
+          backgroundColor: this.reasonColors.slice(0, reasonLabels.length),
+          borderWidth: 1,
+        },
+      ],
     };
 
     // Timeline Chart (Line Chart)
     const timelineLabels = Object.keys(this.statistics.reportsLast7Days);
     const timelineData = Object.values(this.statistics.reportsLast7Days);
-    
+
     this.timelineChartData = {
       labels: timelineLabels,
-      datasets: [{
-        label: this.t('analytics.dashboard.timelineChartTitle'),
-        data: timelineData,
-        borderColor: ['rgba(34, 211, 238, 1)'],
-        backgroundColor: ['rgba(34, 211, 238, 0.1)'],
-        borderWidth: 3,
-        fill: true,
-        tension: 0.4,
-        pointBackgroundColor: ['rgba(34, 211, 238, 0.7)'],
-        pointBorderColor: ['rgba(34, 211, 238, 1)'],
-        pointRadius: 6,
-        pointHoverRadius: 8
-      }]
+      datasets: [
+        {
+          label: this.t('analytics.dashboard.timelineChartTitle'),
+          data: timelineData,
+          borderColor: ['rgba(34, 211, 238, 1)'],
+          backgroundColor: ['rgba(34, 211, 238, 0.1)'],
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: ['rgba(34, 211, 238, 0.7)'],
+          pointBorderColor: ['rgba(34, 211, 238, 1)'],
+          pointRadius: 6,
+          pointHoverRadius: 8,
+        },
+      ],
     };
   }
 
@@ -307,14 +314,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
    */
   getStatusPercentage(status: 'pending' | 'underReview' | 'resolved' | 'rejected'): number {
     if (!this.statistics || this.statistics.totalReports === 0) return 0;
-    
+
     const statusValue = {
       pending: this.statistics.pendingReports,
       underReview: this.statistics.underReviewReports,
       resolved: this.statistics.resolvedReports,
-      rejected: this.statistics.rejectedReports
+      rejected: this.statistics.rejectedReports,
     }[status];
-    
+
     return Math.round((statusValue / this.statistics.totalReports) * 100);
   }
 
@@ -329,8 +336,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       plugins: {
         legend: {
           display: true,
-          position: 'bottom'
-        }
+          position: 'bottom',
+        },
       },
       scales: {
         y: {
@@ -338,17 +345,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
           display: true,
           title: {
             display: true,
-            text: this.t('analytics.dashboard.axis.reports')
-          }
+            text: this.t('analytics.dashboard.axis.reports'),
+          },
         },
         x: {
           display: true,
           title: {
             display: true,
-            text: this.t('analytics.dashboard.axis.days')
-          }
-        }
-      }
+            text: this.t('analytics.dashboard.axis.days'),
+          },
+        },
+      },
     };
   }
 }

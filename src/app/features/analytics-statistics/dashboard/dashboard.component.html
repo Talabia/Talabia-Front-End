@@ -2,9 +2,9 @@
     <div class="card">
         <!-- Filters Section -->
         <div class="action-container">
-            <p-select [options]="filterOptions" [(ngModel)]="selectedFilter" optionLabel="label" optionValue="value"
+            <p-select [options]="filterOptions" [(ngModel)]="selectedFilter"
                 [placeholder]="'analytics.dashboard.filterPlaceholder' | translate" [disabled]="loading"
-                [showClear]="false" (onChange)="onFilterChange()" />
+                [showClear]="true" (onChange)="onFilterChange()" />
 
             <p-button [label]="'analytics.dashboard.refresh' | translate" icon="pi pi-refresh" severity="secondary"
                 [loading]="loading" (click)="loadDashboardData()" />

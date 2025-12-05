@@ -13,7 +13,7 @@ export interface DashboardStatistics {
 // Filter options for dashboard
 export interface DashboardFilterOption {
   label: string;
-  value: string | null;
+  value: number;
 }
 
 // Chart data interfaces for PrimeNG charts
@@ -71,9 +71,8 @@ export interface ChartOptions {
 
 // Enum for filter types
 export enum DashboardFilterEnum {
-  All = 'all',
-  Last7Days = 'last7days',
-  Last30Days = 'last30days',
-  Last90Days = 'last90days',
-  ThisYear = 'thisyear'
+  Last7Days = 1,
+  Last30Days = 2,
+  Last90Days = 3,
+  ThisYear = 4,
 }
