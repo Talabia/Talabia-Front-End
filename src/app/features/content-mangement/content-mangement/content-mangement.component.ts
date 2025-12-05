@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DatePicker } from 'primeng/datepicker';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { FileUploadModule, FileSelectEvent } from 'primeng/fileupload';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { LanguageService } from '../../../shared/services/language.service';
 import { ContentMangementService } from '../services/content-mangement.service';
@@ -50,6 +51,7 @@ import { TooltipModule } from 'primeng/tooltip';
     CommonModule,
     DatePicker,
     ConfirmPopupModule,
+    FileUploadModule,
     TranslatePipe,
     TooltipModule,
   ],
@@ -84,6 +86,12 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
   // Dialog properties
   viewDialogVisible: boolean = false;
   selectedOffer: AdminOffer | null = null;
+
+  // Promotion dialog properties
+  promoteDialogVisible: boolean = false;
+  selectedOfferForPromotion: AdminOffer | null = null;
+  uploadedPromotionImageUrl: string = '';
+  isPromotionImageUploading: boolean = false;
 
   pageReportTemplate: string = '';
 
@@ -347,18 +355,32 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
   /**
    * Toggle promote/unpromote offer
    */
-  togglePromote(offer: AdminOffer): void {
-    const newPromotedState = !offer.isPromoted;
-    const actionText = newPromotedState
-      ? this.t('contentManagement.button.promote')
-      : this.t('contentManagement.button.unpromote');
+  togglePromote(offer: AdminOffer, event?: Event): void {
+    if (offer.isPromoted) {
+      // For unpromoting, show confirmation popup like delete
+      this.confirmUnpromote(event!, offer);
+    } else {
+      // For promoting, show dialog with image upload
+      this.showPromoteDialog(offer);
+    }
+  }
 
+  /**
+   * Show promote dialog with image upload
+   */
+  showPromoteDialog(offer: AdminOffer): void {
+    this.selectedOfferForPromotion = offer;
+    this.uploadedPromotionImageUrl = '';
+    this.promoteDialogVisible = true;
+  }
+
+  /**
+   * Confirm unpromote with popup
+   */
+  confirmUnpromote(event: Event, offer: AdminOffer): void {
     this.confirmationService.confirm({
-      target: event?.currentTarget as EventTarget,
-      message: this.t('contentManagement.confirm.togglePromote', {
-        title: offer.title,
-        action: actionText.toLowerCase(),
-      }),
+      target: event.currentTarget as EventTarget,
+      message: this.t('contentManagement.confirm.unpromoteMessage', { title: offer.title }),
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
         label: this.t('theme.button.cancel'),
@@ -366,38 +388,151 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
         outlined: true,
       },
       acceptButtonProps: {
-        label: newPromotedState
-          ? 'contentManagement.button.promote'
-          : 'contentManagement.button.unpromote',
-        severity: newPromotedState ? 'success' : 'warning',
+        label: this.t('contentManagement.button.unpromote'),
+        severity: 'warning',
       },
       accept: () => {
-        this.promoteOffer(offer, newPromotedState);
+        this.unpromoteOffer(offer);
       },
     });
   }
 
   /**
-   * Promote or unpromote offer
+   * Handle promotion image upload
    */
-  private promoteOffer(offer: AdminOffer, isPromoted: boolean): void {
-    this.loading = true;
+  onPromotionImageUpload(event: FileSelectEvent): void {
+    const file = event.files[0];
+    if (!file) return;
+
+    this.isPromotionImageUploading = true;
 
     this.contentManagementService
-      .promoteAdminOffer({ offerId: offer.id, isPromoted })
+      .uploadImage(file)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (imageUrl: string) => {
+          this.uploadedPromotionImageUrl = imageUrl;
+          this.isPromotionImageUploading = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: this.t('common.success'),
+            detail: this.t('contentManagement.notification.imageUploadSuccess'),
+            life: 3000,
+          });
+          this.cdr.detectChanges();
+        },
+        error: (error: any) => {
+          this.isPromotionImageUploading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('contentManagement.notification.imageUploadError'),
+            life: 5000,
+          });
+          this.cdr.detectChanges();
+        },
+      });
+  }
+
+  /**
+   * Remove uploaded promotion image
+   */
+  removePromotionImage(): void {
+    this.uploadedPromotionImageUrl = '';
+  }
+
+  /**
+   * Confirm and promote offer with image
+   */
+  confirmPromote(): void {
+    if (!this.selectedOfferForPromotion) return;
+
+    if (!this.uploadedPromotionImageUrl) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: this.t('common.warning'),
+        detail: this.t('contentManagement.validation.imageRequired'),
+        life: 3000,
+      });
+      return;
+    }
+
+    this.promoteOffer(this.selectedOfferForPromotion, true, this.uploadedPromotionImageUrl);
+  }
+
+  /**
+   * Cancel promote dialog
+   */
+  cancelPromoteDialog(): void {
+    this.promoteDialogVisible = false;
+    this.selectedOfferForPromotion = null;
+    this.uploadedPromotionImageUrl = '';
+  }
+
+  /**
+   * Promote offer with image
+   */
+  private promoteOffer(offer: AdminOffer, isPromoted: boolean, promotionImageUrl?: string): void {
+    this.loading = true;
+
+    const request = {
+      offerId: offer.id,
+      isPromoted,
+      promotionImageUrl: promotionImageUrl || undefined,
+    };
+
+    this.contentManagementService
+      .promoteAdminOffer(request)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
           offer.isPromoted = isPromoted;
           this.loading = false;
+          this.promoteDialogVisible = false;
+          this.selectedOfferForPromotion = null;
+          this.uploadedPromotionImageUrl = '';
           this.messageService.add({
             severity: 'success',
             summary: this.t('common.success'),
-            detail: isPromoted
-              ? this.t('contentManagement.notification.promoteSuccess')
-              : this.t('contentManagement.notification.unpromoteSuccess'),
+            detail: this.t('contentManagement.notification.promoteSuccess'),
             life: 3000,
           });
+          this.loadOffers(); // Reload to get updated data
+          this.cdr.detectChanges();
+        },
+        error: (error: any) => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('contentManagement.notification.promoteError'),
+            life: 5000,
+          });
+          this.cdr.detectChanges();
+        },
+      });
+  }
+
+  /**
+   * Unpromote offer
+   */
+  private unpromoteOffer(offer: AdminOffer): void {
+    this.loading = true;
+
+    this.contentManagementService
+      .promoteAdminOffer({ offerId: offer.id, isPromoted: false })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          offer.isPromoted = false;
+          this.loading = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: this.t('common.success'),
+            detail: this.t('contentManagement.notification.unpromoteSuccess'),
+            life: 3000,
+          });
+          this.loadOffers(); // Reload to get updated data
           this.cdr.detectChanges();
         },
         error: (error: any) => {

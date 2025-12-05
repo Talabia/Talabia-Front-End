@@ -73,7 +73,7 @@
               <p-button icon="pi pi-star"
                 pTooltip="{{offer.isPromoted ? ('contentManagement.button.unpromote' | translate) : ('contentManagement.button.promote' | translate)}}"
                 [severity]="offer.isPromoted ? 'secondary' : 'success'" [disabled]="loading"
-                (click)="togglePromote(offer)" />
+                (click)="togglePromote(offer, $event)" />
               <p-button icon="pi pi-trash" pTooltip="{{'contentManagement.button.delete' | translate }}"
                 severity="danger" [disabled]="loading" (click)="confirmDelete($event, offer)" />
             </div>
@@ -148,7 +148,49 @@
     <p-button
       [label]="selectedOffer.isPromoted ? ('contentManagement.button.unpromote' | translate) : ('contentManagement.button.promote' | translate)"
       [severity]="selectedOffer.isPromoted ? 'secondary' : 'success'" [disabled]="loading"
-      (click)="togglePromote(selectedOffer); closeViewDialog()" />
+      (click)="togglePromote(selectedOffer, $event); closeViewDialog()" />
+  </div>
+  }
+</p-dialog>
+
+<!-- Promote Dialog -->
+<p-dialog [header]="'contentManagement.dialog.promoteHeader' | translate" [modal]="true"
+  [(visible)]="promoteDialogVisible" [style]="{ width: '35rem' }" [closable]="!loading" [draggable]="false"
+  [resizable]="false">
+
+  @if (selectedOfferForPromotion) {
+  <div class="promote-dialog-content">
+    <div class="detail-row">
+      <label class="detail-label">{{'contentManagement.dialog.offerTitle' | translate}}:</label>
+      <span class="detail-value">{{selectedOfferForPromotion.title}}</span>
+    </div>
+
+    <!-- Image Upload Section -->
+    <div class="input-container">
+      <p-fileupload mode="basic" name="promotionImage" chooseIcon="pi pi-upload" accept="image/*" maxFileSize="5000000"
+        (onSelect)="onPromotionImageUpload($event)" [auto]="false"
+        [chooseLabel]="'contentManagement.dialog.uploadLabel' | translate"
+        [disabled]="loading || isPromotionImageUploading" />
+
+      @if (uploadedPromotionImageUrl) {
+      <div class="uploaded-image-container">
+        <img [src]="uploadedPromotionImageUrl" class="uploaded-image" />
+        <p-button icon="pi pi-times" [text]="true" severity="danger" size="small" (click)="removePromotionImage()"
+          [disabled]="loading" />
+      </div>
+      }
+
+      @if (isPromotionImageUploading) {
+      <p-progressSpinner strokeWidth="5" [style]="{ width: '16px', height: '16px'}" />
+      }
+    </div>
+  </div>
+
+  <div class="dialog-footer">
+    <p-button [label]="'theme.button.cancel' | translate" severity="secondary" [disabled]="loading"
+      (click)="cancelPromoteDialog()" />
+    <p-button [label]="'contentManagement.button.promote' | translate" severity="success" [loading]="loading"
+      [disabled]="!uploadedPromotionImageUrl" (click)="confirmPromote()" />
   </div>
   }
 </p-dialog>

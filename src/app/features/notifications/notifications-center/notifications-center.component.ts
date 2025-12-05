@@ -10,8 +10,6 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { InputIcon } from 'primeng/inputicon';
-import { IconField } from 'primeng/iconfield';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
@@ -45,8 +43,6 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
     CardModule,
     TableModule,
     ButtonModule,
-    InputIcon,
-    IconField,
     InputTextModule,
     FormsModule,
     ReactiveFormsModule,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
@@ -100,6 +100,41 @@ export class ContentMangementService {
       );
   }
 
+  /**
+   * Upload image for promotion
+   * POST /api/Upload/image
+   */
+  uploadImage(file: File): Observable<string> {
+    const formData = new FormData();
+    formData.append('File', file);
+    formData.append('Folder', '1');
+
+    // Try to get authentication token from localStorage or sessionStorage
+    const token =
+      localStorage.getItem('authToken') ||
+      sessionStorage.getItem('authToken') ||
+      localStorage.getItem('token') ||
+      sessionStorage.getItem('token') ||
+      localStorage.getItem('access_token') ||
+      sessionStorage.getItem('access_token');
+
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    return this.http.post<any>(`${this.baseUrl}Uploaders/image`, formData, { headers }).pipe(
+      map((response) => {
+        // Return the filePath from the response
+        if (response && response.filePath) {
+          return response.filePath;
+        }
+        // Fallback if response structure is different
+        return response.url || response.data || response;
+      }),
+      catchError(this.handleError)
+    );
+  }
   /**
    * Promote or unpromote admin offer
    * POST /api/AdminOffers/promote
