@@ -1,7 +1,10 @@
 <p-card [header]="'analytics.verifications.header' | translate">
     <div class="card">
-        <!-- Refresh Button -->
+        <!-- Filter and Actions Container -->
         <div class="action-container">
+            <p-select id="dateFilter" [options]="filterOptions" [(ngModel)]="selectedFilter"
+                (onChange)="onFilterChange()" optionLabel="label" optionValue="value"
+                [style]="{'min-width': '200px'}" />
             <p-button [label]="'analytics.verifications.refresh' | translate" icon="pi pi-refresh" severity="secondary"
                 [loading]="loading" (click)="loadVerificationsData()" />
         </div>
@@ -17,19 +20,19 @@
         <!-- Summary Cards -->
         @if (!loading && statistics) {
         <div class="summary-container">
-            <div class="summary-card">
+            <div class="summary-card total">
                 <div class="card-content">
                     <div class="card-icon">
                         <i class="pi pi-chart-bar"></i>
                     </div>
                     <div class="card-info">
-                        <h3>{{getTotalVerifications()}}</h3>
-                        <p>{{'analytics.verifications.totalVerifications' | translate}}</p>
+                        <h3>{{statistics.totalSubmissions}}</h3>
+                        <p>{{'analytics.verifications.totalSubmissions' | translate}}</p>
                     </div>
                 </div>
             </div>
 
-            <div class="summary-card">
+            <div class="summary-card pending">
                 <div class="card-content">
                     <div class="card-icon">
                         <i class="pi pi-clock"></i>
@@ -43,7 +46,7 @@
                 </div>
             </div>
 
-            <div class="summary-card">
+            <div class="summary-card under-review">
                 <div class="card-content">
                     <div class="card-icon">
                         <i class="pi pi-eye"></i>
@@ -57,7 +60,7 @@
                 </div>
             </div>
 
-            <div class="summary-card">
+            <div class="summary-card approved">
                 <div class="card-content">
                     <div class="card-icon">
                         <i class="pi pi-check-circle"></i>
@@ -71,7 +74,7 @@
                 </div>
             </div>
 
-            <div class="summary-card">
+            <div class="summary-card rejected">
                 <div class="card-content">
                     <div class="card-icon">
                         <i class="pi pi-times-circle"></i>
@@ -85,7 +88,7 @@
                 </div>
             </div>
 
-            <div class="summary-card">
+            <div class="summary-card requires-update">
                 <div class="card-content">
                     <div class="card-icon">
                         <i class="pi pi-exclamation-triangle"></i>
@@ -99,7 +102,7 @@
                 </div>
             </div>
 
-            <div class="summary-card">
+            <div class="summary-card today">
                 <div class="card-content">
                     <div class="card-icon">
                         <i class="pi pi-calendar"></i>
@@ -111,7 +114,7 @@
                 </div>
             </div>
 
-            <div class="summary-card">
+            <div class="summary-card week">
                 <div class="card-content">
                     <div class="card-icon">
                         <i class="pi pi-calendar-plus"></i>
@@ -120,6 +123,66 @@
                         <h3>{{statistics.thisWeekSubmissions}}</h3>
                         <p>{{'analytics.verifications.thisWeekSubmissions' | translate}}</p>
                     </div>
+                </div>
+            </div>
+
+            <div class="summary-card month">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-calendar-times"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{statistics.thisMonthSubmissions}}</h3>
+                        <p>{{'analytics.verifications.thisMonthSubmissions' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card approval-rate">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-percentage"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{statistics.approvalRate.toFixed(2)}}%</h3>
+                        <p>{{'analytics.verifications.approvalRate' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card rejection-rate">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-ban"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{statistics.rejectionRate.toFixed(2)}}%</h3>
+                        <p>{{'analytics.verifications.rejectionRate' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-card">
+                <h3>{{'analytics.verifications.charts.submissionsOverTime' | translate}}</h3>
+                <div class="chart-container">
+                    <canvas #submissionsChart></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>{{'analytics.verifications.charts.statusDistribution' | translate}}</h3>
+                <div class="chart-container">
+                    <canvas #statusChart></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>{{'analytics.verifications.charts.approvalTrend' | translate}}</h3>
+                <div class="chart-container">
+                    <canvas #approvalChart></canvas>
                 </div>
             </div>
         </div>

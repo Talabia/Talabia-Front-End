@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { VerificationsStatistics } from '../models/verifications-statistics.models';
+import {
+  VerificationsStatistics,
+  DateRangeFilter,
+} from '../models/verifications-statistics.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VerificationsStatisticsService {
   private readonly baseUrl = environment.baseUrl;
@@ -15,13 +18,17 @@ export class VerificationsStatisticsService {
 
   /**
    * Get verifications statistics
+   * @param filter Date range filter (defaults to Last7Days)
    */
-  getVerificationsStatistics(): Observable<VerificationsStatistics> {
+  getVerificationsStatistics(
+    filter: DateRangeFilter = DateRangeFilter.Last7Days
+  ): Observable<VerificationsStatistics> {
     const url = `${this.baseUrl}UserVerifications/statistics`;
-    
-    return this.http.get<VerificationsStatistics>(url).pipe(
-      catchError(this.handleError)
-    );
+    const params = new HttpParams().set('Filter', filter.toString());
+
+    return this.http
+      .get<VerificationsStatistics>(url, { params })
+      .pipe(catchError(this.handleError));
   }
 
   /**
@@ -29,7 +36,7 @@ export class VerificationsStatisticsService {
    */
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An error occurred';
-    
+
     if (error.error instanceof ErrorEvent) {
       // Client-side error
       errorMessage = error.error.message;

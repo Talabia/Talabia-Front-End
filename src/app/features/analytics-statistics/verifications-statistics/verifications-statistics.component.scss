@@ -89,6 +89,107 @@
         }
     }
 
+    // Card Variants
+    &.total {
+        .card-icon {
+            background: linear-gradient(45deg, #3B82F6, #60A5FA);
+            color: white;
+        }
+    }
+
+    &.pending {
+        .card-icon {
+            background: linear-gradient(45deg, #FBBF24, #FCD34D);
+            color: white;
+        }
+    }
+
+    &.under-review {
+        .card-icon {
+            background: linear-gradient(45deg, #3B82F6, #60A5FA);
+            color: white;
+        }
+    }
+
+    &.approved {
+        .card-icon {
+            background: linear-gradient(45deg, #10B981, #34D399);
+            color: white;
+        }
+    }
+
+    &.rejected {
+        .card-icon {
+            background: linear-gradient(45deg, #EF4444, #F87171);
+            color: white;
+        }
+    }
+
+    &.requires-update {
+        .card-icon {
+            background: linear-gradient(45deg, #F59E0B, #FBBF24);
+            color: white;
+        }
+    }
+
+    &.today,
+    &.week,
+    &.month {
+        .card-icon {
+            background: linear-gradient(45deg, #8B5CF6, #A78BFA);
+            color: white;
+        }
+    }
+
+    &.approval-rate {
+        .card-icon {
+            background: linear-gradient(45deg, #10B981, #34D399);
+            color: white;
+        }
+    }
+
+    &.rejection-rate {
+        .card-icon {
+            background: linear-gradient(45deg, #EF4444, #F87171);
+            color: white;
+        }
+    }
+}
+
+// Charts Section
+.charts-section {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    margin-top: 2rem;
+}
+
+.chart-card {
+    background: var(--p-content-background);
+    border: 1px solid var(--p-content-border-color);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h3 {
+        margin: 0 0 1rem 0;
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--p-text-color);
+    }
+
+    .chart-container {
+        position: relative;
+        height: 300px;
+
+        canvas {
+            max-height: 100%;
+        }
+    }
 }
 
 // Empty State
@@ -118,5 +219,21 @@
         color: var(--p-text-muted-color);
         max-width: 400px;
         line-height: 1.5;
+    }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .action-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .summary-container {
+        grid-template-columns: 1fr;
+    }
+
+    .charts-section {
+        grid-template-columns: 1fr;
     }
 }
