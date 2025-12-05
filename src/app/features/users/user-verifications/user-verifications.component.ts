@@ -31,13 +31,14 @@ import {
   VerificationsListRequest,
   VerificationsListResponse,
   VerificationStatus,
-  ReviewVerificationRequest
+  ReviewVerificationRequest,
 } from '../models/user-verifications.models';
 import { Subject, takeUntil, timeout, distinctUntilChanged } from 'rxjs';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { TooltipModule } from 'primeng/tooltip';
 @Component({
   selector: 'app-user-verifications',
-    imports: [
+  imports: [
     CardModule,
     TableModule,
     ButtonModule,
@@ -56,10 +57,11 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
     TranslatePipe,
     DatePickerModule,
     TextareaModule,
+    TooltipModule,
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './user-verifications.component.html',
-  styleUrl: './user-verifications.component.scss'
+  styleUrl: './user-verifications.component.scss',
 })
 export class UserVerificationsComponent implements OnInit, OnDestroy {
   // Data properties
@@ -95,12 +97,14 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
   VerificationStatus = VerificationStatus;
 
   private readonly statusOptionConfigs = [
-    { labelKey: 'verifications.filters.status.all', value: null },
     { labelKey: 'verifications.filters.status.pending', value: VerificationStatus.Pending },
     { labelKey: 'verifications.filters.status.underReview', value: VerificationStatus.UnderReview },
     { labelKey: 'verifications.filters.status.approved', value: VerificationStatus.Approved },
     { labelKey: 'verifications.filters.status.rejected', value: VerificationStatus.Rejected },
-    { labelKey: 'verifications.filters.status.requiresUpdate', value: VerificationStatus.RequiresUpdate },
+    {
+      labelKey: 'verifications.filters.status.requiresUpdate',
+      value: VerificationStatus.RequiresUpdate,
+    },
   ];
 
   constructor(
@@ -119,13 +123,11 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
   }
 
   private observeLanguageChanges(): void {
-    this.languageService.languageChanged$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.buildStatusOptions();
-        this.pageReportTemplate = this.t('table.currentPageReport');
-        this.cdr.markForCheck();
-      });
+    this.languageService.languageChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.buildStatusOptions();
+      this.pageReportTemplate = this.t('table.currentPageReport');
+      this.cdr.markForCheck();
+    });
   }
 
   private buildStatusOptions(): void {
@@ -139,18 +141,23 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
     this.reviewForm = this.fb.group({
       status: [null, Validators.required],
       rejectionReason: [''],
-      adminNotes: ['']
+      adminNotes: [''],
     });
 
     // Watch status changes to update validators
-    this.reviewForm.get('status')?.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(status => {
+    this.reviewForm
+      .get('status')
+      ?.valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((status) => {
         const rejectionReasonControl = this.reviewForm.get('rejectionReason');
         const adminNotesControl = this.reviewForm.get('adminNotes');
 
         // Require notes for Rejected and UnderReview statuses
-        if (status === VerificationStatus.Rejected || status === VerificationStatus.UnderReview || status === VerificationStatus.RequiresUpdate) {
+        if (
+          status === VerificationStatus.Rejected ||
+          status === VerificationStatus.UnderReview ||
+          status === VerificationStatus.RequiresUpdate
+        ) {
           rejectionReasonControl?.setValidators([Validators.required]);
           adminNotesControl?.setValidators([Validators.required]);
         } else {
@@ -209,7 +216,6 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
       });
   }
 
-
   /**
    * Load verifications with pagination and filters
    */
@@ -236,10 +242,7 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
 
     this.currentRequest = this.verificationsService
       .getVerificationsList(request)
-      .pipe(
-        timeout(30000),
-        takeUntil(this.destroy$)
-      )
+      .pipe(timeout(30000), takeUntil(this.destroy$))
       .subscribe({
         next: (response: VerificationsListResponse) => {
           try {
@@ -323,7 +326,7 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
     this.selectedVerificationDetails = null; // Clear previous data
     this.viewDialogVisible = true;
     this.loading = true;
-    
+
     this.verificationsService
       .getVerificationDetails(verification.id, verification.userId)
       .pipe(takeUntil(this.destroy$))
@@ -369,15 +372,15 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
       rejectButtonProps: {
         label: this.t('theme.button.cancel'),
         severity: 'secondary',
-        outlined: true
+        outlined: true,
       },
       acceptButtonProps: {
         label: this.t('verifications.button.approve'),
-        severity: 'success'
+        severity: 'success',
       },
       accept: () => {
         this.approveVerification(verification);
-      }
+      },
     });
   }
 
@@ -387,7 +390,7 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
   private approveVerification(verification: UserVerification): void {
     const request: ReviewVerificationRequest = {
       verificationId: verification.id,
-      status: VerificationStatus.Approved
+      status: VerificationStatus.Approved,
     };
 
     this.loading = true;
@@ -432,7 +435,7 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
       verificationId: this.selectedVerification.id,
       status: formValue.status,
       rejectionReason: formValue.rejectionReason || undefined,
-      adminNotes: formValue.adminNotes || undefined
+      adminNotes: formValue.adminNotes || undefined,
     };
 
     this.loading = true;
@@ -485,7 +488,9 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
   /**
    * Get status severity for PrimeNG tags
    */
-  getStatusSeverity(status: string): 'secondary' | 'info' | 'success' | 'danger' | 'warn' | 'contrast' {
+  getStatusSeverity(
+    status: string
+  ): 'secondary' | 'info' | 'success' | 'danger' | 'warn' | 'contrast' {
     switch (status.toLowerCase()) {
       case 'pending':
         return 'warn';

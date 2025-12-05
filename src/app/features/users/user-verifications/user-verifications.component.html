@@ -6,7 +6,8 @@
             <p-iconfield>
                 <p-inputicon class="pi pi-search" />
                 <input type="text" pInputText [placeholder]="'verifications.filters.searchPlaceholder' | translate"
-                    [(ngModel)]="searchKeyword" (input)="onSearch($event)" [disabled]="loading" />
+                    [style]="{ width: '400px' }" [(ngModel)]="searchKeyword" (input)="onSearch($event)"
+                    [disabled]="loading" />
             </p-iconfield>
 
             <!-- Date Range Filter -->
@@ -54,12 +55,13 @@
                     </td>
                     <td>
                         <div class="table-actions">
-                            <p-button [label]="'verifications.button.details' | translate" [disabled]="loading"
-                                (click)="showViewDialog(verification)" />
-                            <p-button [label]="'verifications.button.review' | translate" severity="info"
-                                [disabled]="loading" (click)="showReviewDialog(verification)" />
-                            <p-button [label]="'verifications.button.approve' | translate" severity="success"
-                                [disabled]="loading" (click)="confirmApprove($event, verification)" />
+                            <p-button [pTooltip]="'verifications.button.details' | translate" icon="pi pi-eye"
+                                [disabled]="loading" (click)="showViewDialog(verification)" />
+                            <p-button [pTooltip]="'verifications.button.review' | translate" severity="info" icon="pi pi-list-check
+" [disabled]="loading" (click)="showReviewDialog(verification)" />
+                            <p-button [pTooltip]="'verifications.button.approve' | translate" severity="success"
+                                icon="pi pi-check" [disabled]="loading"
+                                (click)="confirmApprove($event, verification)" />
                         </div>
                     </td>
                 </tr>
