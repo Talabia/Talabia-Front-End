@@ -6,13 +6,14 @@
             <p-iconfield>
                 <p-inputicon class="pi pi-search" />
                 <input type="text" pInputText [placeholder]="'users.filters.searchPlaceholder' | translate"
-                    [(ngModel)]="searchKeyword" (input)="onSearch($event)" [disabled]="loading" />
+                    [style]="{ width: '360px' }" [(ngModel)]="searchKeyword" (input)="onSearch($event)"
+                    [disabled]="loading" />
             </p-iconfield>
 
             <!-- City Filter -->
             <p-select [options]="cities" [(ngModel)]="selectedCityId" [optionLabel]="cityOptionLabel" optionValue="id"
                 [placeholder]="'users.filters.cityPlaceholder' | translate" (onChange)="onFilterChange()"
-                [disabled]="loading" [showClear]="true" />
+                [disabled]="loading" [showClear]="true" [filter]="true" />
 
             <!-- User Type Filter -->
             <p-select [options]="filterOptions" [(ngModel)]="selectedFilter" optionLabel="label" optionValue="value"
@@ -64,14 +65,17 @@
                     </td>
                     <td>
                         <div class="table-actions">
-                            <p-button [label]="'users.button.view' | translate" [disabled]="loading"
+                            <p-button [pTooltip]="'users.button.view' | translate" icon="pi pi-eye" [disabled]="loading"
                                 (click)="showViewDialog(user)" />
-                            <p-button [label]="(user.isBlocked ? 'users.button.unban' : 'users.button.ban') | translate"
-                                [severity]="user.isBlocked ? 'success' : 'danger'" [disabled]="loading"
+                            <p-button
+                                [pTooltip]="(user.isBlocked ? 'users.button.unban' : 'users.button.ban') | translate"
+                                [severity]="user.isBlocked ? 'success' : 'danger'"
+                                [icon]="user.isBlocked ? 'pi pi-lock-open' : 'pi pi-lock'" [disabled]="loading"
                                 (click)="confirmBanToggle($event, user)" />
                             <p-button
-                                [label]="(user.isPremium ? 'users.button.makeRegular' : 'users.button.makePremium') | translate"
-                                [severity]="user.isPremium ? 'secondary' : 'primary'" [disabled]="loading"
+                                [pTooltip]="(user.isPremium ? 'users.button.makeRegular' : 'users.button.makePremium') | translate"
+                                [severity]="user.isPremium ? 'secondary' : 'primary'"
+                                [icon]="user.isPremium ? 'pi pi-user' : 'pi pi-star'" [disabled]="loading"
                                 (click)="confirmPremiumToggle($event, user)" />
                         </div>
                     </td>

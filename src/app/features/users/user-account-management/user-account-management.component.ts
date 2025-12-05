@@ -29,10 +29,11 @@ import {
   AdminUserDetails,
   UsersListRequest,
   UsersListResponse,
-  UserTypeFilterEnum
+  UserTypeFilterEnum,
 } from '../models/user.models';
 import { City } from '../../looksup/models/city.models';
 import { Subject, takeUntil, timeout, distinctUntilChanged } from 'rxjs';
+import { Tooltip } from 'primeng/tooltip';
 @Component({
   selector: 'app-user-account-management',
   imports: [
@@ -51,6 +52,7 @@ import { Subject, takeUntil, timeout, distinctUntilChanged } from 'rxjs';
     CommonModule,
     ConfirmPopupModule,
     TranslatePipe,
+    Tooltip,
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './user-account-management.component.html',
@@ -90,7 +92,6 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
   UserTypeFilterEnum = UserTypeFilterEnum;
 
   private readonly filterOptionConfigs = [
-    { labelKey: 'users.filters.type.all', value: null },
     { labelKey: 'users.filters.type.premium', value: UserTypeFilterEnum.Premium },
     { labelKey: 'users.filters.type.banned', value: UserTypeFilterEnum.Banned },
   ];
@@ -111,14 +112,12 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
   }
 
   private observeLanguageChanges(): void {
-    this.languageService.languageChanged$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.buildFilterOptions();
-        this.pageReportTemplate = this.t('table.currentPageReport');
-        this.updateCityOptionLabel();
-        this.cdr.markForCheck();
-      });
+    this.languageService.languageChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.buildFilterOptions();
+      this.pageReportTemplate = this.t('table.currentPageReport');
+      this.updateCityOptionLabel();
+      this.cdr.markForCheck();
+    });
   }
 
   private buildFilterOptions(): void {
@@ -222,15 +221,12 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
       cityId: this.selectedCityId,
       filter: this.selectedFilter,
       searchKeyword: this.searchKeyword,
-      request
+      request,
     });
 
     this.currentRequest = this.usersService
       .getUsersList(request)
-      .pipe(
-        timeout(30000),
-        takeUntil(this.destroy$)
-      )
+      .pipe(timeout(30000), takeUntil(this.destroy$))
       .subscribe({
         next: (response: UsersListResponse) => {
           try {
@@ -302,7 +298,7 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
     this.selectedUser = null; // Clear previous data
     this.viewDialogVisible = true;
     this.loading = true;
-    
+
     this.usersService
       .getUserDetails(user.id)
       .pipe(takeUntil(this.destroy$))
@@ -333,7 +329,7 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
   confirmBanToggle(event: Event, user: AdminUser): void {
     const action = user.isBlocked ? 'users.confirm.unban' : 'users.confirm.ban';
     const acceptLabel = user.isBlocked ? 'users.button.unban' : 'users.button.ban';
-    
+
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
       message: this.t(action, { name: user.userName }),
@@ -341,15 +337,15 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
       rejectButtonProps: {
         label: this.t('theme.button.cancel'),
         severity: 'secondary',
-        outlined: true
+        outlined: true,
       },
       acceptButtonProps: {
         label: this.t(acceptLabel),
-        severity: user.isBlocked ? 'success' : 'danger'
+        severity: user.isBlocked ? 'success' : 'danger',
       },
       accept: () => {
         this.toggleBanStatus(user);
-      }
+      },
     });
   }
 
@@ -358,7 +354,7 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
    */
   private toggleBanStatus(user: AdminUser): void {
     const newStatus = !user.isBlocked;
-    
+
     this.usersService
       .banUser({ userId: user.id, block: newStatus })
       .pipe(takeUntil(this.destroy$))
@@ -391,7 +387,7 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
   confirmPremiumToggle(event: Event, user: AdminUser): void {
     const action = user.isPremium ? 'users.confirm.removePremium' : 'users.confirm.makePremium';
     const acceptLabel = user.isPremium ? 'users.button.makeRegular' : 'users.button.makePremium';
-    
+
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
       message: this.t(action, { name: user.userName }),
@@ -399,15 +395,15 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
       rejectButtonProps: {
         label: this.t('theme.button.cancel'),
         severity: 'secondary',
-        outlined: true
+        outlined: true,
       },
       acceptButtonProps: {
         label: this.t(acceptLabel),
-        severity: user.isPremium ? 'secondary' : 'primary'
+        severity: user.isPremium ? 'secondary' : 'primary',
       },
       accept: () => {
         this.togglePremiumStatus(user);
-      }
+      },
     });
   }
 
@@ -416,7 +412,7 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
    */
   private togglePremiumStatus(user: AdminUser): void {
     const newStatus = !user.isPremium;
-    
+
     this.usersService
       .setPremiumStatus({ userId: user.id, isPremium: newStatus })
       .pipe(takeUntil(this.destroy$))
