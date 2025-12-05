@@ -4,7 +4,8 @@
             <p-iconfield>
                 <p-inputicon class="pi pi-search" />
                 <input type="text" pInputText [placeholder]="'cities.searchPlaceholder' | translate"
-                    (input)="onSearch($event)" (keyup)="onSearchKeyup($event)" [value]="searchKeyword" />
+                    [style]="{ width: '360px' }" (input)="onSearch($event)" (keyup)="onSearchKeyup($event)"
+                    [value]="searchKeyword" />
 
             </p-iconfield>
             <p-divider layout="vertical" />
@@ -31,10 +32,10 @@
                     <td>{{city.nameEn}}</td>
                     <td>
                         <div class="table-actions">
-                            <p-button [label]="'cities.button.edit' | translate" severity="success" [disabled]="loading"
-                                (click)="showEditDialog(city)" />
-                            <p-button [label]="'cities.button.delete' | translate" severity="danger"
-                                [disabled]="loading" (click)="confirmDelete($event, city)" />
+                            <p-button [pTooltip]="'cities.button.edit' | translate" icon="pi pi-pencil"
+                                severity="success" [disabled]="loading" (click)="showEditDialog(city)" />
+                            <p-button [pTooltip]="'cities.button.delete' | translate" icon="pi pi-trash"
+                                severity="danger" [disabled]="loading" (click)="confirmDelete($event, city)" />
                         </div>
                     </td>
                 </tr>
