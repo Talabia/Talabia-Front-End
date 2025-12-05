@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
@@ -22,30 +28,30 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { LanguageService } from '../../../shared/services/language.service';
 import { AdvertisementService } from '../services/advertisement.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { 
-  Advertisement, 
-  CreateAdvertisementRequest, 
-  EditAdvertisementRequest, 
-  AdvertisementsListRequest, 
-  AdvertisementsListResponse 
+import {
+  Advertisement,
+  CreateAdvertisementRequest,
+  EditAdvertisementRequest,
+  AdvertisementsListRequest,
+  AdvertisementsListResponse,
 } from '../models/advertisement.models';
 import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
 
 @Component({
   selector: 'app-advertisement-management',
   imports: [
-    CardModule, 
-    TableModule, 
-    ButtonModule, 
-    InputIcon, 
-    IconField, 
-    InputTextModule, 
-    FormsModule, 
+    CardModule,
+    TableModule,
+    ButtonModule,
+    InputIcon,
+    IconField,
+    InputTextModule,
+    FormsModule,
     ReactiveFormsModule,
-    DividerModule, 
-    DialogModule, 
-    TooltipModule, 
-    ToastModule, 
+    DividerModule,
+    DialogModule,
+    TooltipModule,
+    ToastModule,
     ConfirmPopupModule,
     MessageModule,
     ProgressSpinnerModule,
@@ -53,7 +59,7 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
     ImageModule,
     TagModule,
     Select,
-    TranslatePipe
+    TranslatePipe,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './advertisement-management.component.html',
@@ -61,33 +67,32 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdvertisementManagementComponent implements OnInit, OnDestroy {
-
   // Data properties
   advertisements: Advertisement[] = [];
   totalRecords: number = 0;
   loading: boolean = false;
-  
+
   // Pagination properties
   first: number = 0;
   rows: number = 10;
   currentPage: number = 1;
-  
+
   // Search and filter properties
   searchKeyword: string = '';
   statusFilter: any = null;
   statusOptions: { label: string; value: boolean | null }[] = [];
   private searchSubject = new Subject<string>();
   private currentSearchRequest?: any;
-  
+
   // Dialog properties
   visible: boolean = false;
   isEditMode: boolean = false;
   dialogTitle: string = '';
-  
+
   // Form properties
   advertisementForm!: FormGroup;
   submitted: boolean = false;
-  
+
   // Image upload properties
   uploadedImageUrl: string = '';
   isImageUploading: boolean = false;
@@ -96,9 +101,9 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
   pageReportTemplate: string = '';
 
   constructor(
-    private advertisementService: AdvertisementService, 
+    private advertisementService: AdvertisementService,
     private cdr: ChangeDetectorRef,
-    private confirmationService: ConfirmationService, 
+    private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private fb: FormBuilder,
     private languageService: LanguageService
@@ -118,7 +123,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    
+
     // Force stop any pending requests
     if (this.currentSearchRequest) {
       this.currentSearchRequest.unsubscribe();
@@ -127,19 +132,16 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
   }
 
   private observeLanguageChanges(): void {
-    this.languageService.languageChanged$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.buildStatusOptions();
-        this.updateDialogTitle();
-        this.updatePageReportTemplate();
-        this.cdr.markForCheck();
-      });
+    this.languageService.languageChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.buildStatusOptions();
+      this.updateDialogTitle();
+      this.updatePageReportTemplate();
+      this.cdr.markForCheck();
+    });
   }
 
   private buildStatusOptions(): void {
     this.statusOptions = [
-      { label: this.t('common.all'), value: null },
       { label: this.t('common.active'), value: true },
       { label: this.t('common.inactive'), value: false },
     ];
@@ -150,19 +152,16 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
       id: [''],
       title: ['', [Validators.required, Validators.minLength(3)]],
       imageUrl: ['', Validators.required],
-      isActive: [true, Validators.required]
+      isActive: [true, Validators.required],
     });
   }
 
   private setupSearchDebounce(): void {
     this.searchSubject
-      .pipe(
-        distinctUntilChanged(),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(searchTerm => {
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((searchTerm) => {
         const trimmedTerm = searchTerm.trim();
-        
+
         // If search is empty, load immediately without debounce
         if (!trimmedTerm) {
           this.searchKeyword = '';
@@ -171,12 +170,12 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
           this.loadAdvertisements();
           return;
         }
-        
+
         // For non-empty search, use minimal debounce
         this.searchKeyword = trimmedTerm;
         this.first = 0;
         this.currentPage = 1;
-        
+
         // Use setTimeout for very short debounce only for typed searches
         setTimeout(() => {
           if (this.searchKeyword === trimmedTerm) {
@@ -194,17 +193,18 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
     if (this.currentSearchRequest) {
       this.currentSearchRequest.unsubscribe();
     }
-    
+
     this.loading = true;
-    
+
     const request: AdvertisementsListRequest = {
       searchKeyword: this.searchKeyword,
       pageSize: this.rows,
       currentPage: this.currentPage,
-      isActive: this.statusFilter
+      isActive: this.statusFilter,
     };
 
-    this.currentSearchRequest = this.advertisementService.getAdvertisementsList(request)
+    this.currentSearchRequest = this.advertisementService
+      .getAdvertisementsList(request)
       .pipe(
         timeout(30000), // 30 second timeout
         takeUntil(this.destroy$)
@@ -234,10 +234,10 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
             severity: 'error',
             summary: this.t('common.error'),
             detail: error.message || this.t('advertisement.notification.loadError'),
-            life: 5000
+            life: 5000,
           });
           this.cdr.detectChanges();
-        }
+        },
       });
   }
 
@@ -277,13 +277,13 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
     if (this.loading) {
       return;
     }
-    
+
     this.first = event.first || 0;
     this.rows = event.rows || 10;
-    
+
     // Calculate current page (API expects 1-based page numbers)
     this.currentPage = Math.floor(this.first / this.rows) + 1;
-    
+
     this.loadAdvertisements();
   }
 
@@ -319,8 +319,9 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
     if (!file) return;
 
     this.isImageUploading = true;
-    
-    this.advertisementService.uploadImage(file)
+
+    this.advertisementService
+      .uploadImage(file)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (imageUrl: string) => {
@@ -331,7 +332,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
             severity: 'success',
             summary: this.t('common.success'),
             detail: this.t('advertisement.notification.imageUploadSuccess'),
-            life: 3000
+            life: 3000,
           });
           this.cdr.detectChanges();
         },
@@ -341,10 +342,10 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
             severity: 'error',
             summary: this.t('common.error'),
             detail: error.message || this.t('advertisement.notification.imageUploadError'),
-            life: 5000
+            life: 5000,
           });
           this.cdr.detectChanges();
-        }
+        },
       });
   }
 
@@ -361,7 +362,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
    */
   saveAdvertisement(): void {
     this.submitted = true;
-    
+
     if (this.advertisementForm.invalid) {
       this.markFormGroupTouched();
       return;
@@ -369,7 +370,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
 
     this.loading = true;
     const formValue = this.advertisementForm.value;
-    
+
     // Use uploadedImageUrl as fallback if form imageUrl is empty
     const imageUrl = formValue.imageUrl || this.uploadedImageUrl || '';
 
@@ -378,10 +379,11 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
         id: formValue.id,
         title: formValue.title.trim(),
         imageUrl: imageUrl,
-        isActive: formValue.isActive
+        isActive: formValue.isActive,
       };
 
-      this.advertisementService.editAdvertisement(editRequest)
+      this.advertisementService
+        .editAdvertisement(editRequest)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
@@ -391,7 +393,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
               severity: 'success',
               summary: this.t('common.success'),
               detail: this.t('advertisement.notification.updateSuccess'),
-              life: 3000
+              life: 3000,
             });
             this.loadAdvertisements();
           },
@@ -401,19 +403,20 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
               severity: 'error',
               summary: this.t('common.error'),
               detail: error.message || this.t('advertisement.notification.updateError'),
-              life: 5000
+              life: 5000,
             });
             this.cdr.detectChanges();
-          }
+          },
         });
     } else {
       const createRequest: CreateAdvertisementRequest = {
         title: formValue.title.trim(),
         imageUrl: imageUrl,
-        isActive: formValue.isActive
+        isActive: formValue.isActive,
       };
 
-      this.advertisementService.createAdvertisement(createRequest)
+      this.advertisementService
+        .createAdvertisement(createRequest)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
@@ -423,7 +426,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
               severity: 'success',
               summary: this.t('common.success'),
               detail: this.t('advertisement.notification.createSuccess'),
-              life: 3000
+              life: 3000,
             });
             this.loadAdvertisements();
           },
@@ -433,10 +436,10 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
               severity: 'error',
               summary: this.t('common.error'),
               detail: error.message || this.t('advertisement.notification.createError'),
-              life: 5000
+              life: 5000,
             });
             this.cdr.detectChanges();
-          }
+          },
         });
     }
   }
@@ -452,15 +455,15 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
       rejectButtonProps: {
         label: this.t('common.cancel'),
         severity: 'secondary',
-        outlined: true
+        outlined: true,
       },
       acceptButtonProps: {
         label: this.t('common.delete'),
-        severity: 'danger'
+        severity: 'danger',
       },
       accept: () => {
         this.deleteAdvertisement(advertisement.id);
-      }
+      },
     });
   }
 
@@ -469,8 +472,9 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
    */
   private deleteAdvertisement(advertisementId: string): void {
     this.loading = true;
-    
-    this.advertisementService.deleteAdvertisement(advertisementId)
+
+    this.advertisementService
+      .deleteAdvertisement(advertisementId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -479,7 +483,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
             severity: 'success',
             summary: this.t('common.success'),
             detail: this.t('advertisement.notification.deleteSuccess'),
-            life: 3000
+            life: 3000,
           });
           this.loadAdvertisements();
         },
@@ -489,10 +493,10 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
             severity: 'error',
             summary: this.t('common.error'),
             detail: error.message || this.t('advertisement.notification.deleteError'),
-            life: 5000
+            life: 5000,
           });
           this.cdr.detectChanges();
-        }
+        },
       });
   }
 
@@ -510,7 +514,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
    * Mark all form controls as touched for validation display
    */
   private markFormGroupTouched(): void {
-    Object.keys(this.advertisementForm.controls).forEach(key => {
+    Object.keys(this.advertisementForm.controls).forEach((key) => {
       const control = this.advertisementForm.get(key);
       control?.markAsTouched();
     });
@@ -530,11 +534,9 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
   hasError(controlName: string, errorType?: string): boolean {
     const control = this.getFormControl(controlName);
     if (!control) return false;
-    
-    const hasError = errorType ? 
-      control.hasError(errorType) : 
-      control.invalid;
-    
+
+    const hasError = errorType ? control.hasError(errorType) : control.invalid;
+
     return hasError && (control.touched || this.submitted);
   }
 
@@ -554,7 +556,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
       }
       return this.t('common.error');
     }
-    
+
     if (control.errors['minlength']) {
       return this.t('advertisement.validation.titleMinLength', {
         requiredLength: control.errors['minlength'].requiredLength,

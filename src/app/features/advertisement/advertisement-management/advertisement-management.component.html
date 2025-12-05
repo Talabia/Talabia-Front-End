@@ -10,7 +10,7 @@
 
             <p-select [options]="statusOptions" [(ngModel)]="statusFilter" optionLabel="label" optionValue="value"
                 [placeholder]="'advertisement.filterStatusPlaceholder' | translate" (onChange)="onStatusFilterChange()"
-                [style]="{ width: '200px' }" [disabled]="loading" />
+                [style]="{ width: '200px' }" [disabled]="loading" [showClear]="true" />
 
             <p-divider layout="vertical" />
             <p-button (click)="showCreateDialog()" [label]="'common.create' | translate" icon="pi pi-plus"
