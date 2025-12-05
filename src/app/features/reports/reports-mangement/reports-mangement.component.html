@@ -6,7 +6,8 @@
             <p-iconfield>
                 <p-inputicon class="pi pi-search" />
                 <input type="text" pInputText [placeholder]="'reports.filters.searchPlaceholder' | translate"
-                    [(ngModel)]="searchKeyword" (input)="onSearch($event)" [disabled]="loading" />
+                    [style]="{ width: '360px' }" [(ngModel)]="searchKeyword" (input)="onSearch($event)"
+                    [disabled]="loading" />
             </p-iconfield>
 
             <!-- Date Range Filter -->
@@ -33,7 +34,7 @@
             @if (selectedReports.length > 0) {
             <p-divider layout="vertical" />
             <p-button [label]="'reports.bulk.changeStatus' | translate:{ count: selectedReports.length }"
-                severity="primary" (click)="showBulkStatusDialog()" [disabled]="loading" />
+                icon="pi pi-pencil" severity="success" (click)="showBulkStatusDialog()" [disabled]="loading" />
             }
         </div>
 
@@ -81,12 +82,12 @@
                     <td>{{report.createdAt | date:'short'}}</td>
                     <td>
                         <div class="table-actions">
-                            <p-button [label]="'reports.button.view' | translate" severity="primary"
+                            <p-button icon="pi pi-eye" [pTooltip]="'reports.button.view' | translate" severity="primary"
                                 [disabled]="loading" (click)="showViewDialog(report)" />
-                            <p-button [label]="'reports.button.changeStatus' | translate" severity="primary"
-                                [disabled]="loading" (click)="showStatusDialog(report)" />
-                            <p-button [label]="'reports.button.delete' | translate" severity="danger"
-                                [disabled]="loading" (click)="confirmDelete($event, report)" />
+                            <p-button icon="pi pi-pencil" [pTooltip]="'reports.button.changeStatus' | translate"
+                                severity="success" [disabled]="loading" (click)="showStatusDialog(report)" />
+                            <p-button icon="pi pi-trash" [pTooltip]="'reports.button.delete' | translate"
+                                severity="danger" [disabled]="loading" (click)="confirmDelete($event, report)" />
                         </div>
                     </td>
                 </tr>
@@ -186,12 +187,7 @@
     </div>
 
     <div class="dialog-footer">
-        @if (selectedReport.status === 'Pending' || selectedReport.status === 'Under Review') {
-        <p-button [label]="'reports.button.changeStatus' | translate" severity="info"
-            (click)="showStatusDialog(selectedReport)" />
-        }
         <p-button [label]="'reports.button.cancel' | translate" severity="secondary" (click)="closeViewDialog()" />
-
     </div>
     }
 </p-dialog>

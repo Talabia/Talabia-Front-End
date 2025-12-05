@@ -19,7 +19,13 @@ import { IconField } from 'primeng/iconfield';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { MessageModule } from 'primeng/message';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DatePicker } from 'primeng/datepicker';
 import { Checkbox } from 'primeng/checkbox';
@@ -37,10 +43,11 @@ import {
   ChangeStatusRequest,
   BulkChangeStatusRequest,
   StatusFilterOption,
-  TypeFilterOption
+  TypeFilterOption,
 } from '../models/reports.models';
 import { Subject, takeUntil, timeout, distinctUntilChanged, debounceTime } from 'rxjs';
-import { Divider } from "primeng/divider";
+import { Divider } from 'primeng/divider';
+import { Tooltip } from 'primeng/tooltip';
 @Component({
   selector: 'app-reports-mangement',
   imports: [
@@ -64,8 +71,9 @@ import { Divider } from "primeng/divider";
     DatePicker,
     Checkbox,
     Divider,
-    TranslatePipe
-],
+    TranslatePipe,
+    Tooltip,
+  ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './reports-mangement.component.html',
   styleUrl: './reports-mangement.component.scss',
@@ -89,7 +97,7 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
   selectedReportReasonId: number | null = null;
   rangeDates: Date[] | null = null;
   reportReasons: ReportReason[] = [];
-  
+
   // Filter options
   typeFilterOptions: TypeFilterOption[] = [];
 
@@ -118,14 +126,12 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
   ReportTypeEnum = ReportTypeEnum;
 
   private readonly typeFilterOptionConfigs = [
-    { labelKey: 'reports.filters.type.all', value: null },
     { labelKey: 'reports.filters.type.offer', value: ReportTypeEnum.Offer },
     { labelKey: 'reports.filters.type.order', value: ReportTypeEnum.Order },
     { labelKey: 'reports.filters.type.chat', value: ReportTypeEnum.Chat },
   ];
 
   private readonly statusFilterOptionConfigs = [
-    { labelKey: 'reports.filters.status.all', value: null },
     { labelKey: 'reports.filters.status.pending', value: ReportStatusEnum.Pending },
     { labelKey: 'reports.filters.status.underReview', value: ReportStatusEnum.UnderReview },
     { labelKey: 'reports.filters.status.resolved', value: ReportStatusEnum.Resolved },
@@ -144,7 +150,7 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
     this.statusForm = this.fb.group({
       status: [null, Validators.required],
       adminNotes: ['', Validators.required],
-      actionTaken: ['', Validators.required]
+      actionTaken: ['', Validators.required],
     });
     this.setupSearchDebounce();
     this.buildFilterOptions();
@@ -153,24 +159,22 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
   }
 
   private observeLanguageChanges(): void {
-    this.languageService.languageChanged$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.buildFilterOptions();
-        this.pageReportTemplate = this.t('table.currentPageReport');
-        this.cdr.markForCheck();
-      });
+    this.languageService.languageChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.buildFilterOptions();
+      this.pageReportTemplate = this.t('table.currentPageReport');
+      this.cdr.markForCheck();
+    });
   }
 
   private buildFilterOptions(): void {
-    this.typeFilterOptions = this.typeFilterOptionConfigs.map(option => ({
+    this.typeFilterOptions = this.typeFilterOptionConfigs.map((option) => ({
       label: this.t(option.labelKey),
-      value: option.value
+      value: option.value,
     }));
 
-    this.statusFilterOptions = this.statusFilterOptionConfigs.map(option => ({
+    this.statusFilterOptions = this.statusFilterOptionConfigs.map((option) => ({
       label: this.t(option.labelKey),
-      value: option.value
+      value: option.value,
     }));
   }
 
@@ -270,10 +274,7 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
 
     this.currentRequest = this.reportsService
       .getReportsList(request)
-      .pipe(
-        timeout(30000),
-        takeUntil(this.destroy$)
-      )
+      .pipe(timeout(30000), takeUntil(this.destroy$))
       .subscribe({
         next: (response: ReportsListResponse) => {
           try {
@@ -329,7 +330,12 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
    */
   onDateRangeChange(event: any): void {
     // Only trigger filter when both start and end dates are selected
-    if (this.rangeDates && this.rangeDates.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
+    if (
+      this.rangeDates &&
+      this.rangeDates.length === 2 &&
+      this.rangeDates[0] &&
+      this.rangeDates[1]
+    ) {
       this.onFilterChange();
     }
   }
@@ -367,7 +373,7 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
     this.selectedReport = null; // Clear previous data
     this.viewDialogVisible = true;
     this.loading = true;
-    
+
     this.reportsService
       .getReportById(report.id)
       .pipe(takeUntil(this.destroy$))
@@ -428,14 +434,14 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
     }
 
     const formValue = this.statusForm.value;
-    
+
     if (this.selectedReport) {
       // Single report status change
       const request: ChangeStatusRequest = {
         reportId: this.selectedReport.id,
         status: formValue.status,
         adminNotes: formValue.adminNotes,
-        actionTaken: formValue.actionTaken
+        actionTaken: formValue.actionTaken,
       };
 
       this.reportsService
@@ -464,10 +470,10 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
     } else if (this.selectedReports.length > 0) {
       // Bulk status change
       const request: BulkChangeStatusRequest = {
-        reportIds: this.selectedReports.map(r => r.id),
+        reportIds: this.selectedReports.map((r) => r.id),
         status: formValue.status,
         adminNotes: formValue.adminNotes,
-        actionTaken: formValue.actionTaken
+        actionTaken: formValue.actionTaken,
       };
 
       this.reportsService
@@ -478,7 +484,9 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
             this.messageService.add({
               severity: 'success',
               summary: this.t('common.success'),
-              detail: this.t('reports.notification.bulkStatusSuccess', { count: this.selectedReports.length }),
+              detail: this.t('reports.notification.bulkStatusSuccess', {
+                count: this.selectedReports.length,
+              }),
               life: 3000,
             });
             this.statusDialogVisible = false;
@@ -508,15 +516,15 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
       rejectButtonProps: {
         label: this.t('reports.button.cancel'),
         severity: 'secondary',
-        outlined: true
+        outlined: true,
       },
       acceptButtonProps: {
         label: this.t('reports.button.delete'),
-        severity: 'danger'
+        severity: 'danger',
       },
       accept: () => {
         this.deleteReport(report);
-      }
+      },
     });
   }
 
@@ -660,4 +668,3 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
     return this.languageService.translate(key, params);
   }
 }
-
