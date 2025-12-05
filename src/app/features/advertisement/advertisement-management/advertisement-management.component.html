@@ -4,7 +4,8 @@
             <p-iconfield>
                 <p-inputicon class="pi pi-search" />
                 <input type="text" pInputText [placeholder]="'advertisement.searchPlaceholder' | translate"
-                    (input)="onSearch($event)" (keyup)="onSearchKeyup($event)" [value]="searchKeyword" />
+                    (input)="onSearch($event)" (keyup)="onSearchKeyup($event)" [value]="searchKeyword"
+                    [style]="{ width: '320px' }" />
             </p-iconfield>
 
             <p-select [options]="statusOptions" [(ngModel)]="statusFilter" optionLabel="label" optionValue="value"
@@ -24,9 +25,9 @@
             <ng-template #header>
                 <tr>
                     <th style="min-width:200px">{{'advertisement.table.title' | translate}}</th>
-                    <th style="min-width:150px">{{'advertisement.table.image' | translate}}</th>
+                    <th style="min-width:100px">{{'advertisement.table.image' | translate}}</th>
                     <th style="min-width:100px">{{'advertisement.table.status' | translate}}</th>
-                    <th style="min-width:150px">{{'advertisement.table.actions' | translate}}</th>
+                    <th style="min-width:100px">{{'advertisement.table.actions' | translate}}</th>
                 </tr>
             </ng-template>
 
@@ -55,10 +56,10 @@
                     </td>
                     <td>
                         <div class="table-actions">
-                            <p-button [label]="'common.edit' | translate" severity="success" [disabled]="loading"
-                                (click)="showEditDialog(advertisement)" />
-                            <p-button [label]="'common.delete' | translate" severity="danger" [disabled]="loading"
-                                (click)="confirmDelete($event, advertisement)" />
+                            <p-button [pTooltip]="'common.edit' | translate" icon="pi pi-pencil" severity="success"
+                                [disabled]="loading" (click)="showEditDialog(advertisement)" />
+                            <p-button [pTooltip]="'common.delete' | translate" icon="pi pi-trash" severity="danger"
+                                [disabled]="loading" (click)="confirmDelete($event, advertisement)" />
                         </div>
                     </td>
                 </tr>
