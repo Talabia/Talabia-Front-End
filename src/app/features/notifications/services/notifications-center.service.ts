@@ -22,7 +22,7 @@ export class NotificationsCenterService {
 
   /**
    * Get paginated list of notifications with optional search and date range filter
-   * GET /api/Notifications/admin/list?PageSize=10&CurrentPage=1&SearchKeyword=test&StartDate=2024-01-01&EndDate=2024-12-31
+   * GET /api/Notifications/admin/list?PageSize=10&CurrentPage=1&SearchKeyword=test&FromDate=2024-01-01&ToDate=2024-12-31
    */
   getNotificationsList(request: NotificationsListRequest): Observable<NotificationsListResponse> {
     let params = new HttpParams()
@@ -33,12 +33,12 @@ export class NotificationsCenterService {
       params = params.set('SearchKeyword', request.searchKeyword.trim());
     }
 
-    if (request.startDate) {
-      params = params.set('StartDate', request.startDate);
+    if (request.fromDate) {
+      params = params.set('FromDate', request.fromDate);
     }
 
-    if (request.endDate) {
-      params = params.set('EndDate', request.endDate);
+    if (request.toDate) {
+      params = params.set('ToDate', request.toDate);
     }
 
     return this.http

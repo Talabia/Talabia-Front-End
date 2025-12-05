@@ -4,7 +4,7 @@ export enum AdminNotificationTargetAudience {
   AllUsers = 1,
   VerifiedAccounts = 2,
   PremiumAccounts = 3,
-  SpecificCity = 4
+  SpecificCity = 4,
 }
 
 export interface Notification {
@@ -31,8 +31,8 @@ export interface NotificationsListRequest {
   searchKeyword?: string;
   pageSize: number;
   currentPage: number;
-  startDate?: string;
-  endDate?: string;
+  fromDate?: string;
+  toDate?: string;
 }
 
 export interface NotificationsListResponse {

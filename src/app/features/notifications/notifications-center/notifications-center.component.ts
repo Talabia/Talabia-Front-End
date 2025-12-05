@@ -82,9 +82,7 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
   currentPage: number = 1;
 
   // Filter properties
-  searchKeyword: string = '';
   rangeDates: Date[] | null = null;
-  private searchSubject = new Subject<string>();
   private currentSearchRequest?: any;
 
   // Dialog properties
@@ -121,7 +119,6 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
     private languageService: LanguageService
   ) {
     this.initializeForm();
-    this.setupSearchDebounce();
     this.buildTargetAudienceOptions();
     this.pageReportTemplate = this.t('table.currentPageReport');
     this.dialogTitle = this.t('notificationsCenter.dialog.createTitle');
@@ -197,35 +194,6 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
     });
   }
 
-  private setupSearchDebounce(): void {
-    this.searchSubject
-      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
-      .subscribe((searchTerm) => {
-        const trimmedTerm = searchTerm.trim();
-
-        // If search is empty, load immediately without debounce
-        if (!trimmedTerm) {
-          this.searchKeyword = '';
-          this.first = 0;
-          this.currentPage = 1;
-          this.loadNotifications();
-          return;
-        }
-
-        // For non-empty search, use minimal debounce
-        this.searchKeyword = trimmedTerm;
-        this.first = 0;
-        this.currentPage = 1;
-
-        // Use setTimeout for very short debounce only for typed searches
-        setTimeout(() => {
-          if (this.searchKeyword === trimmedTerm) {
-            this.loadNotifications();
-          }
-        }, 150); // Much faster debounce for typing
-      });
-  }
-
   /**
    * Load notifications with pagination, search, and date range filter
    */
@@ -238,15 +206,14 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     const request: NotificationsListRequest = {
-      searchKeyword: this.searchKeyword,
       pageSize: this.rows,
       currentPage: this.currentPage,
     };
 
     // Add date range if selected
     if (this.rangeDates && this.rangeDates.length === 2) {
-      request.startDate = this.formatDate(this.rangeDates[0]);
-      request.endDate = this.formatDate(this.rangeDates[1]);
+      request.fromDate = this.formatDate(this.rangeDates[0]);
+      request.toDate = this.formatDate(this.rangeDates[1]);
     }
 
     this.currentSearchRequest = this.notificationsService
@@ -308,25 +275,6 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Handle search input
-   */
-  onSearch(event: any): void {
-    const searchTerm = event.target.value || '';
-    this.searchSubject.next(searchTerm);
-  }
-
-  /**
-   * Handle keyup events for faster response on backspace/delete
-   */
-  onSearchKeyup(event: any): void {
-    const searchTerm = event.target.value || '';
-    // For backspace, delete, or when field becomes empty, trigger immediately
-    if (event.key === 'Backspace' || event.key === 'Delete' || !searchTerm.trim()) {
-      this.searchSubject.next(searchTerm);
-    }
-  }
-
-  /**
    * Handle pagination change
    */
   pageChange(event: any): void {
@@ -356,15 +304,13 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Handle date range change - only filter when both dates are selected
+   * Handle date range change - only filter when both dates are selected or when cleared
    */
   onDateRangeChange(): void {
-    // Only trigger filter when both start and end dates are selected
+    // Only trigger filter when both start and end dates are selected, or when cleared
     if (
-      this.rangeDates &&
-      this.rangeDates.length === 2 &&
-      this.rangeDates[0] &&
-      this.rangeDates[1]
+      !this.rangeDates || // Cleared
+      (this.rangeDates.length === 2 && this.rangeDates[0] && this.rangeDates[1]) // Both dates selected
     ) {
       this.first = 0;
       this.currentPage = 1;
@@ -515,10 +461,13 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Format date for API
+   * Format date for API (using local date to avoid timezone issues)
    */
   private formatDate(date: Date): string {
-    return date.toISOString().split('T')[0];
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   /**
