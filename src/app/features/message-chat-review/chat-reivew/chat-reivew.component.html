@@ -4,8 +4,8 @@
     <div class="card">
       <div class="action-container">
         <p-select [options]="timeFilterOptions" [(ngModel)]="timeFilter" optionLabel="label" optionValue="value"
-          [placeholder]="'chatReview.filters.placeholder' | translate" [style]="{ width: '250px' }"
-          [disabled]="loading" />
+          [placeholder]="'chatReview.filters.placeholder' | translate" [style]="{ width: '250px' }" [disabled]="loading"
+          [showClear]="true" />
 
         <p-divider layout="vertical" />
         <p-button (click)="loadChats()" [label]="'common.refresh' | translate" icon="pi pi-refresh"
