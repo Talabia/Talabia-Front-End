@@ -3,25 +3,25 @@ import { HttpClient, HttpParams, HttpErrorResponse, HttpHeaders } from '@angular
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { 
-  VehicleMaker, 
-  CreateVehicleMakerRequest, 
-  EditVehicleMakerRequest, 
-  VehicleMakersListRequest, 
-  VehicleMakersListResponse, 
+import {
+  VehicleMaker,
+  CreateVehicleMakerRequest,
+  EditVehicleMakerRequest,
+  VehicleMakersListRequest,
+  VehicleMakersListResponse,
   ApiResponse,
   DeleteVehicleMakerRequest,
   ImageUploadRequest,
-  ImageUploadResponse
+  ImageUploadResponse,
 } from '../models/vehicle-makers.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VehicleMakersService {
   private readonly baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Get paginated list of vehicle makers with optional search
@@ -36,23 +36,27 @@ export class VehicleMakersService {
       params = params.set('SearchKeyword', request.searchKeyword.trim());
     }
 
-    return this.http.get<any>(`${this.baseUrl}VehicleMakers/list`, { params })
-      .pipe(
-        map(response => {
-          // Handle API response structure
-          if (response && response.data) {
-            return {
-              data: response.data,
-              totalRecords: response.totalCount || response.totalRecords || 0,
-              currentPage: response.currentPage || request.currentPage,
-              pageSize: response.pageSize || request.pageSize,
-              totalPages: response.totalPages || Math.ceil((response.totalCount || response.totalRecords || 0) / (response.pageSize || request.pageSize))
-            };
-          }
-          return response;
-        }),
-        catchError(this.handleError)
-      );
+    return this.http.get<any>(`${this.baseUrl}VehicleMakers/list`, { params }).pipe(
+      map((response) => {
+        // Handle API response structure
+        if (response && response.data) {
+          return {
+            data: response.data,
+            totalRecords: response.totalCount || response.totalRecords || 0,
+            currentPage: response.currentPage || request.currentPage,
+            pageSize: response.pageSize || request.pageSize,
+            totalPages:
+              response.totalPages ||
+              Math.ceil(
+                (response.totalCount || response.totalRecords || 0) /
+                  (response.pageSize || request.pageSize)
+              ),
+          };
+        }
+        return response;
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -61,10 +65,11 @@ export class VehicleMakersService {
    */
   getVehicleMakerById(id: number): Observable<VehicleMaker> {
     const params = new HttpParams().set('Id', id.toString());
-    
-    return this.http.get<ApiResponse<VehicleMaker>>(`${this.baseUrl}VehicleMakers/get`, { params })
+
+    return this.http
+      .get<ApiResponse<VehicleMaker>>(`${this.baseUrl}VehicleMakers/get`, { params })
       .pipe(
-        map(response => response.data),
+        map((response) => response.data),
         catchError(this.handleError)
       );
   }
@@ -74,9 +79,10 @@ export class VehicleMakersService {
    * POST /api/VehicleMakers/create
    */
   createVehicleMaker(request: CreateVehicleMakerRequest): Observable<VehicleMaker> {
-    return this.http.post<ApiResponse<VehicleMaker>>(`${this.baseUrl}VehicleMakers/create`, request)
+    return this.http
+      .post<ApiResponse<VehicleMaker>>(`${this.baseUrl}VehicleMakers/create`, request)
       .pipe(
-        map(response => response.data),
+        map((response) => response.data),
         catchError(this.handleError)
       );
   }
@@ -86,9 +92,10 @@ export class VehicleMakersService {
    * PUT /api/VehicleMakers/edit
    */
   editVehicleMaker(request: EditVehicleMakerRequest): Observable<VehicleMaker> {
-    return this.http.put<ApiResponse<VehicleMaker>>(`${this.baseUrl}VehicleMakers/edit`, request)
+    return this.http
+      .put<ApiResponse<VehicleMaker>>(`${this.baseUrl}VehicleMakers/edit`, request)
       .pipe(
-        map(response => response.data),
+        map((response) => response.data),
         catchError(this.handleError)
       );
   }
@@ -99,10 +106,11 @@ export class VehicleMakersService {
    */
   deleteVehicleMaker(id: number): Observable<boolean> {
     const params = new HttpParams().set('Id', id.toString());
-    
-    return this.http.delete<ApiResponse<boolean>>(`${this.baseUrl}VehicleMakers/delete`, { params })
+
+    return this.http
+      .delete<ApiResponse<boolean>>(`${this.baseUrl}VehicleMakers/delete`, { params })
       .pipe(
-        map(response => response.success),
+        map((response) => response.success),
         catchError(this.handleError)
       );
   }
@@ -113,30 +121,34 @@ export class VehicleMakersService {
    */
   uploadImage(file: File): Observable<string> {
     const formData = new FormData();
-    formData.append('filePath', file);
+    formData.append('File', file);
+    formData.append('Folder', '1');
 
     // Try to get authentication token from localStorage or sessionStorage
-    const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken') || 
-                  localStorage.getItem('token') || sessionStorage.getItem('token') ||
-                  localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+    const token =
+      localStorage.getItem('authToken') ||
+      sessionStorage.getItem('authToken') ||
+      localStorage.getItem('token') ||
+      sessionStorage.getItem('token') ||
+      localStorage.getItem('access_token') ||
+      sessionStorage.getItem('access_token');
 
     let headers = new HttpHeaders();
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
 
-    return this.http.post<any>(`${this.baseUrl}Uploaders/image`, formData, { headers })
-      .pipe(
-        map(response => {
-          // Return the URL from the response
-          if (response && response.data && response.data.url) {
-            return response.data.url;
-          }
-          // Fallback if response structure is different
-          return response.url || response.data || response;
-        }),
-        catchError(this.handleError)
-      );
+    return this.http.post<any>(`${this.baseUrl}Uploaders/image`, formData, { headers }).pipe(
+      map((response) => {
+        // Return the filePath from the response
+        if (response && response.filePath) {
+          return response.filePath;
+        }
+        // Fallback if response structure is different
+        return response.url || response.data || response;
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -144,16 +156,15 @@ export class VehicleMakersService {
    * GET /api/Lookups/vehicle/makers
    */
   getVehicleMakersLookup(): Observable<VehicleMaker[]> {
-    return this.http.get<any>(`${this.baseUrl}Lookups/vehicle/makers`)
-      .pipe(
-        map(response => {
-          if (response && response.data) {
-            return response.data;
-          }
-          return response || [];
-        }),
-        catchError(this.handleError)
-      );
+    return this.http.get<any>(`${this.baseUrl}Lookups/vehicle/makers`).pipe(
+      map((response) => {
+        if (response && response.data) {
+          return response.data;
+        }
+        return response || [];
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -161,7 +172,7 @@ export class VehicleMakersService {
    */
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An unknown error occurred';
-    
+
     if (error.error instanceof ErrorEvent) {
       // Client-side error
       errorMessage = `Client Error: ${error.error.message}`;

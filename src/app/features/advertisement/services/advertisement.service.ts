@@ -3,31 +3,33 @@ import { HttpClient, HttpParams, HttpErrorResponse, HttpHeaders } from '@angular
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { 
-  Advertisement, 
-  CreateAdvertisementRequest, 
-  EditAdvertisementRequest, 
-  AdvertisementsListRequest, 
-  AdvertisementsListResponse, 
+import {
+  Advertisement,
+  CreateAdvertisementRequest,
+  EditAdvertisementRequest,
+  AdvertisementsListRequest,
+  AdvertisementsListResponse,
   ApiResponse,
   DeleteAdvertisementRequest,
   ImageUploadRequest,
-  ImageUploadResponse
+  ImageUploadResponse,
 } from '../models/advertisement.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdvertisementService {
   private readonly baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Get paginated list of advertisements with optional search and status filter
    * GET /api/Advertisements/list?IsActive=true&SearchKeyword=ff&PageSize=10&CurrentPage=1
    */
-  getAdvertisementsList(request: AdvertisementsListRequest): Observable<AdvertisementsListResponse> {
+  getAdvertisementsList(
+    request: AdvertisementsListRequest
+  ): Observable<AdvertisementsListResponse> {
     let params = new HttpParams()
       .set('PageSize', request.pageSize.toString())
       .set('CurrentPage', request.currentPage.toString());
@@ -40,23 +42,24 @@ export class AdvertisementService {
       params = params.set('SearchKeyword', request.searchKeyword.trim());
     }
 
-    return this.http.get<any>(`${this.baseUrl}Advertisements/list`, { params })
-      .pipe(
-        map(response => {
-          // Handle API response structure
-          if (response && response.data) {
-            return {
-              data: response.data,
-              totalCount: response.totalCount || 0,
-              currentPage: response.currentPage || request.currentPage,
-              pageSize: response.pageSize || request.pageSize,
-              totalPages: response.totalPages || Math.ceil((response.totalCount || 0) / (response.pageSize || request.pageSize))
-            };
-          }
-          return response;
-        }),
-        catchError(this.handleError)
-      );
+    return this.http.get<any>(`${this.baseUrl}Advertisements/list`, { params }).pipe(
+      map((response) => {
+        // Handle API response structure
+        if (response && response.data) {
+          return {
+            data: response.data,
+            totalCount: response.totalCount || 0,
+            currentPage: response.currentPage || request.currentPage,
+            pageSize: response.pageSize || request.pageSize,
+            totalPages:
+              response.totalPages ||
+              Math.ceil((response.totalCount || 0) / (response.pageSize || request.pageSize)),
+          };
+        }
+        return response;
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -65,10 +68,11 @@ export class AdvertisementService {
    */
   getAdvertisementById(id: string): Observable<Advertisement> {
     const params = new HttpParams().set('Id', id);
-    
-    return this.http.get<ApiResponse<Advertisement>>(`${this.baseUrl}Advertisements/get`, { params })
+
+    return this.http
+      .get<ApiResponse<Advertisement>>(`${this.baseUrl}Advertisements/get`, { params })
       .pipe(
-        map(response => response.data),
+        map((response) => response.data),
         catchError(this.handleError)
       );
   }
@@ -78,9 +82,10 @@ export class AdvertisementService {
    * POST /api/Advertisements/create
    */
   createAdvertisement(request: CreateAdvertisementRequest): Observable<Advertisement> {
-    return this.http.post<ApiResponse<Advertisement>>(`${this.baseUrl}Advertisements/create`, request)
+    return this.http
+      .post<ApiResponse<Advertisement>>(`${this.baseUrl}Advertisements/create`, request)
       .pipe(
-        map(response => response.data),
+        map((response) => response.data),
         catchError(this.handleError)
       );
   }
@@ -90,9 +95,10 @@ export class AdvertisementService {
    * PUT /api/Advertisements/edit
    */
   editAdvertisement(request: EditAdvertisementRequest): Observable<Advertisement> {
-    return this.http.put<ApiResponse<Advertisement>>(`${this.baseUrl}Advertisements/edit`, request)
+    return this.http
+      .put<ApiResponse<Advertisement>>(`${this.baseUrl}Advertisements/edit`, request)
       .pipe(
-        map(response => response.data),
+        map((response) => response.data),
         catchError(this.handleError)
       );
   }
@@ -103,10 +109,11 @@ export class AdvertisementService {
    */
   deleteAdvertisement(id: string): Observable<boolean> {
     const params = new HttpParams().set('Id', id);
-    
-    return this.http.delete<ApiResponse<boolean>>(`${this.baseUrl}Advertisements/delete`, { params })
+
+    return this.http
+      .delete<ApiResponse<boolean>>(`${this.baseUrl}Advertisements/delete`, { params })
       .pipe(
-        map(response => response.success),
+        map((response) => response.success),
         catchError(this.handleError)
       );
   }
@@ -117,30 +124,34 @@ export class AdvertisementService {
    */
   uploadImage(file: File): Observable<string> {
     const formData = new FormData();
-    formData.append('filePath', file);
+    formData.append('File', file);
+    formData.append('Folder', '1');
 
     // Try to get authentication token from localStorage or sessionStorage
-    const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken') || 
-                  localStorage.getItem('token') || sessionStorage.getItem('token') ||
-                  localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+    const token =
+      localStorage.getItem('authToken') ||
+      sessionStorage.getItem('authToken') ||
+      localStorage.getItem('token') ||
+      sessionStorage.getItem('token') ||
+      localStorage.getItem('access_token') ||
+      sessionStorage.getItem('access_token');
 
     let headers = new HttpHeaders();
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
 
-    return this.http.post<any>(`${this.baseUrl}Uploaders/image`, formData, { headers })
-      .pipe(
-        map(response => {
-          // Return the URL from the response
-          if (response && response.data && response.data.url) {
-            return response.data.url;
-          }
-          // Fallback if response structure is different
-          return response.url || response.data || response;
-        }),
-        catchError(this.handleError)
-      );
+    return this.http.post<any>(`${this.baseUrl}Uploaders/image`, formData, { headers }).pipe(
+      map((response) => {
+        // Return the filePath from the response
+        if (response && response.filePath) {
+          return response.filePath;
+        }
+        // Fallback if response structure is different
+        return response.url || response.data || response;
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -148,7 +159,7 @@ export class AdvertisementService {
    */
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An unknown error occurred';
-    
+
     if (error.error instanceof ErrorEvent) {
       // Client-side error
       errorMessage = `Client Error: ${error.error.message}`;
