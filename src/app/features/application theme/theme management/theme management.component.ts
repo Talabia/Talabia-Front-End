@@ -487,10 +487,20 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          // Update the theme in the array and create new reference for change detection
-          this.themes = this.themes.map((t) =>
-            t.id === theme.id ? { ...t, isActive: newStatus } : t
-          );
+          // If activating a theme, deactivate all others (only one can be active)
+          // If deactivating, just update that theme
+          if (newStatus) {
+            // Activating: set this theme to active, all others to inactive
+            this.themes = this.themes.map((t) => ({
+              ...t,
+              isActive: t.id === theme.id,
+            }));
+          } else {
+            // Deactivating: just update this theme
+            this.themes = this.themes.map((t) =>
+              t.id === theme.id ? { ...t, isActive: false } : t
+            );
+          }
           this.messageService.add({
             severity: 'success',
             summary: this.t('common.success'),
