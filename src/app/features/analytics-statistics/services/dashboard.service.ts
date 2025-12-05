@@ -6,7 +6,7 @@ import { environment } from '../../../../environments/environment';
 import { DashboardStatistics } from '../models/dashboard-statistics.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DashboardService {
   private readonly baseUrl = environment.baseUrl;
@@ -15,13 +15,16 @@ export class DashboardService {
 
   /**
    * Get dashboard statistics
+   * @param filter Optional filter value (1=Last7Days, 2=Last30Days, 3=Last90Days, 4=ThisYear)
    */
-  getDashboardStatistics(): Observable<DashboardStatistics> {
-    const url = `${this.baseUrl}Reports/statistics`;
-    
-    return this.http.get<DashboardStatistics>(url).pipe(
-      catchError(this.handleError)
-    );
+  getDashboardStatistics(filter?: number): Observable<DashboardStatistics> {
+    let url = `${this.baseUrl}Reports/statistics`;
+
+    if (filter) {
+      url += `?Filter=${filter}`;
+    }
+
+    return this.http.get<DashboardStatistics>(url).pipe(catchError(this.handleError));
   }
 
   /**
@@ -29,7 +32,7 @@ export class DashboardService {
    */
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An error occurred';
-    
+
     if (error.error instanceof ErrorEvent) {
       // Client-side error
       errorMessage = error.error.message;

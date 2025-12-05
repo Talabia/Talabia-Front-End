@@ -186,7 +186,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     this.dashboardService
-      .getDashboardStatistics()
+      .getDashboardStatistics(this.selectedFilter)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data: DashboardStatistics) => {
@@ -212,8 +212,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
    * Handle filter change
    */
   onFilterChange(): void {
-    // For now, just reload data
-    // In a real implementation, you would pass the filter to the API
+    // Reload data with the selected filter
     this.loadDashboardData();
   }
 
