@@ -85,6 +85,30 @@
                     </div>
                 </div>
             </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-megaphone"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{dashboardData.promotedOffersCount}}</h3>
+                        <p>{{'analytics.business.promotedOffersCount' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-dollar"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{dashboardData.averageOfferPrice | number:'1.2-2'}}</h3>
+                        <p>{{'analytics.business.averageOfferPrice' | translate}}</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Offers Chart -->
@@ -151,7 +175,11 @@
         <div class="two-column-grid">
             <!-- Most Active Cities -->
             <div class="chart-card">
-                <h4 class="chart-title">{{'analytics.business.citiesChartTitle' | translate}}</h4>
+                <div class="chart-header">
+                    <h4 class="chart-title">{{'analytics.business.citiesChartTitle' | translate}}</h4>
+                    <p-select [options]="filterOptions" [(ngModel)]="selectedCitiesFilter" optionLabel="label"
+                        optionValue="value" [showClear]="false" (onChange)="onCitiesFilterChange()" />
+                </div>
                 @if (citiesChartData) {
                 <p-chart type="bar" [data]="citiesChartData" [options]="barChartOptions" height="400px"
                     [style]="{'direction': 'ltr'}" />
@@ -160,7 +188,11 @@
 
             <!-- Category Performance -->
             <div class="chart-card">
-                <h4 class="chart-title">{{'analytics.business.categoryChartTitle' | translate}}</h4>
+                <div class="chart-header">
+                    <h4 class="chart-title">{{'analytics.business.categoryChartTitle' | translate}}</h4>
+                    <p-select [options]="filterOptions" [(ngModel)]="selectedCategoryFilter" optionLabel="label"
+                        optionValue="value" [showClear]="false" (onChange)="onCategoryFilterChange()" />
+                </div>
                 @if (categoryChartData) {
                 <p-chart type="bar" [data]="categoryChartData" [options]="barChartOptions" height="400px" />
                 }

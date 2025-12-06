@@ -1,9 +1,9 @@
-import { 
-  ChangeDetectionStrategy, 
-  Component, 
-  OnInit, 
-  OnDestroy, 
-  ChangeDetectorRef 
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
@@ -19,7 +19,7 @@ import { Subject, forkJoin, takeUntil } from 'rxjs';
 import { LanguageService } from '../../../shared/services/language.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { StatisticsService } from '../services/statistics.service';
-import { 
+import {
   DashboardOverview,
   OffersChartResponse,
   OrdersChartResponse,
@@ -27,7 +27,7 @@ import {
   CategoryPerformanceResponse,
   ChartFilter,
   ChartData,
-  ChartOptions
+  ChartOptions,
 } from '../models/statistics.models';
 
 @Component({
@@ -42,7 +42,7 @@ import {
     TableModule,
     CommonModule,
     FormsModule,
-    TranslatePipe
+    TranslatePipe,
   ],
   providers: [MessageService],
   templateUrl: './business-statistics.component.html',
@@ -63,10 +63,12 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
   // Filter properties
   selectedOffersFilter: ChartFilter = ChartFilter.Daily;
   selectedOrdersFilter: ChartFilter = ChartFilter.Daily;
+  selectedCitiesFilter: ChartFilter = ChartFilter.Daily;
+  selectedCategoryFilter: ChartFilter = ChartFilter.Daily;
   filterOptions = [
     { label: '', value: ChartFilter.Daily },
     { label: '', value: ChartFilter.Weekly },
-    { label: '', value: ChartFilter.Monthly }
+    { label: '', value: ChartFilter.Monthly },
   ];
 
   // Chart data
@@ -86,10 +88,7 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
   private ordersColor = 'rgba(245, 158, 11, 1)';
   private ordersColorLight = 'rgba(245, 158, 11, 0.1)';
   private cityColor = 'rgba(56, 189, 248, 0.7)';
-  private categoryColors = [
-    'rgba(102, 126, 234, 0.7)',
-    'rgba(245, 158, 11, 0.7)'
-  ];
+  private categoryColors = ['rgba(102, 126, 234, 0.7)', 'rgba(245, 158, 11, 0.7)'];
 
   private destroy$ = new Subject<void>();
 
@@ -115,22 +114,20 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
   }
 
   private observeLanguageChanges(): void {
-    this.languageService.languageChanged$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.loadingMessage = this.t('analytics.business.loading');
-        this.buildFilterOptions();
-        this.initializeChartOptions();
-        this.prepareChartData();
-        this.cdr.markForCheck();
-      });
+    this.languageService.languageChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.loadingMessage = this.t('analytics.business.loading');
+      this.buildFilterOptions();
+      this.initializeChartOptions();
+      this.prepareChartData();
+      this.cdr.markForCheck();
+    });
   }
 
   private buildFilterOptions(): void {
     this.filterOptions = [
       { label: this.t('analytics.business.filter.daily'), value: ChartFilter.Daily },
       { label: this.t('analytics.business.filter.weekly'), value: ChartFilter.Weekly },
-      { label: this.t('analytics.business.filter.monthly'), value: ChartFilter.Monthly }
+      { label: this.t('analytics.business.filter.monthly'), value: ChartFilter.Monthly },
     ];
   }
 
@@ -141,37 +138,38 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
       dashboard: this.statisticsService.getDashboardOverview(),
       offers: this.statisticsService.getOffersChart(this.selectedOffersFilter),
       orders: this.statisticsService.getOrdersChart(this.selectedOrdersFilter),
-      cities: this.statisticsService.getMostActiveCities(10),
-      categories: this.statisticsService.getCategoryPerformance()
+      cities: this.statisticsService.getMostActiveCities(10, this.selectedCitiesFilter),
+      categories: this.statisticsService.getCategoryPerformance(this.selectedCategoryFilter),
     })
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (data) => {
-        this.dashboardData = data.dashboard;
-        this.offersData = data.offers;
-        this.ordersData = data.orders;
-        this.citiesData = data.cities;
-        this.categoryData = data.categories;
-        this.prepareChartData();
-        this.loading = false;
-        this.cdr.markForCheck();
-      },
-      error: (error) => {
-        this.loading = false;
-        this.messageService.add({
-          severity: 'error',
-          summary: this.t('common.error'),
-          detail: error.message,
-          life: 5000
-        });
-        this.cdr.markForCheck();
-      }
-    });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.dashboardData = data.dashboard;
+          this.offersData = data.offers;
+          this.ordersData = data.orders;
+          this.citiesData = data.cities;
+          this.categoryData = data.categories;
+          this.prepareChartData();
+          this.loading = false;
+          this.cdr.markForCheck();
+        },
+        error: (error) => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: this.t('common.error'),
+            detail: error.message,
+            life: 5000,
+          });
+          this.cdr.markForCheck();
+        },
+      });
   }
 
   onOffersFilterChange(): void {
     this.loading = true;
-    this.statisticsService.getOffersChart(this.selectedOffersFilter)
+    this.statisticsService
+      .getOffersChart(this.selectedOffersFilter)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
@@ -186,16 +184,17 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
             severity: 'error',
             summary: this.t('common.error'),
             detail: error.message,
-            life: 5000
+            life: 5000,
           });
           this.cdr.markForCheck();
-        }
+        },
       });
   }
 
   onOrdersFilterChange(): void {
     this.loading = true;
-    this.statisticsService.getOrdersChart(this.selectedOrdersFilter)
+    this.statisticsService
+      .getOrdersChart(this.selectedOrdersFilter)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
@@ -210,10 +209,60 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
             severity: 'error',
             summary: this.t('common.error'),
             detail: error.message,
-            life: 5000
+            life: 5000,
           });
           this.cdr.markForCheck();
-        }
+        },
+      });
+  }
+
+  onCitiesFilterChange(): void {
+    this.loading = true;
+    this.statisticsService
+      .getMostActiveCities(10, this.selectedCitiesFilter)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.citiesData = data;
+          this.prepareCitiesChart();
+          this.loading = false;
+          this.cdr.markForCheck();
+        },
+        error: (error) => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: this.t('common.error'),
+            detail: error.message,
+            life: 5000,
+          });
+          this.cdr.markForCheck();
+        },
+      });
+  }
+
+  onCategoryFilterChange(): void {
+    this.loading = true;
+    this.statisticsService
+      .getCategoryPerformance(this.selectedCategoryFilter)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.categoryData = data;
+          this.prepareCategoryChart();
+          this.loading = false;
+          this.cdr.markForCheck();
+        },
+        error: (error) => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: this.t('common.error'),
+            detail: error.message,
+            life: 5000,
+          });
+          this.cdr.markForCheck();
+        },
       });
   }
 
@@ -228,21 +277,23 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
     if (!this.offersData) return;
 
     this.offersChartData = {
-      labels: this.offersData.chartData.map(d => d.label),
-      datasets: [{
-        label: this.t('analytics.business.offersChartTitle'),
-        data: this.offersData.chartData.map(d => d.value),
-        borderColor: this.offersColor,
-        backgroundColor: this.offersColorLight,
-        borderWidth: 3,
-        fill: true,
-        tension: 0.4,
-        pointRadius: 0,
-        pointHoverRadius: 6,
-        pointHoverBackgroundColor: this.offersColor,
-        pointHoverBorderColor: '#fff',
-        pointHoverBorderWidth: 2
-      }]
+      labels: this.offersData.chartData.map((d) => d.label),
+      datasets: [
+        {
+          label: this.t('analytics.business.offersChartTitle'),
+          data: this.offersData.chartData.map((d) => d.value),
+          borderColor: this.offersColor,
+          backgroundColor: this.offersColorLight,
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 0,
+          pointHoverRadius: 6,
+          pointHoverBackgroundColor: this.offersColor,
+          pointHoverBorderColor: '#fff',
+          pointHoverBorderWidth: 2,
+        },
+      ],
     };
   }
 
@@ -250,21 +301,23 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
     if (!this.ordersData) return;
 
     this.ordersChartData = {
-      labels: this.ordersData.chartData.map(d => d.label),
-      datasets: [{
-        label: this.t('analytics.business.ordersChartTitle'),
-        data: this.ordersData.chartData.map(d => d.value),
-        borderColor: this.ordersColor,
-        backgroundColor: this.ordersColorLight,
-        borderWidth: 3,
-        fill: true,
-        tension: 0.4,
-        pointRadius: 0,
-        pointHoverRadius: 6,
-        pointHoverBackgroundColor: this.ordersColor,
-        pointHoverBorderColor: '#fff',
-        pointHoverBorderWidth: 2
-      }]
+      labels: this.ordersData.chartData.map((d) => d.label),
+      datasets: [
+        {
+          label: this.t('analytics.business.ordersChartTitle'),
+          data: this.ordersData.chartData.map((d) => d.value),
+          borderColor: this.ordersColor,
+          backgroundColor: this.ordersColorLight,
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 0,
+          pointHoverRadius: 6,
+          pointHoverBackgroundColor: this.ordersColor,
+          pointHoverBorderColor: '#fff',
+          pointHoverBorderWidth: 2,
+        },
+      ],
     };
   }
 
@@ -272,13 +325,15 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
     if (!this.citiesData) return;
 
     this.citiesChartData = {
-      labels: this.citiesData.cities.map(c => c.cityName),
-      datasets: [{
-        label: this.t('analytics.business.citiesChartTitle'),
-        data: this.citiesData.cities.map(c => c.totalActivity),
-        backgroundColor: this.cityColor,
-        borderWidth: 0
-      }]
+      labels: this.citiesData.cities.map((c) => c.cityName),
+      datasets: [
+        {
+          label: this.t('analytics.business.citiesChartTitle'),
+          data: this.citiesData.cities.map((c) => c.totalActivity),
+          backgroundColor: this.cityColor,
+          borderWidth: 0,
+        },
+      ],
     };
   }
 
@@ -286,21 +341,21 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
     if (!this.categoryData) return;
 
     this.categoryChartData = {
-      labels: this.categoryData.offersByCategory.map(c => c.label),
+      labels: this.categoryData.offersByCategory.map((c) => c.label),
       datasets: [
         {
           label: 'Offers',
-          data: this.categoryData.offersByCategory.map(c => c.value),
+          data: this.categoryData.offersByCategory.map((c) => c.value),
           backgroundColor: this.categoryColors[0],
-          borderWidth: 0
+          borderWidth: 0,
         },
         {
           label: 'Orders',
-          data: this.categoryData.ordersByCategory.map(c => c.value),
+          data: this.categoryData.ordersByCategory.map((c) => c.value),
           backgroundColor: this.categoryColors[1],
-          borderWidth: 0
-        }
-      ]
+          borderWidth: 0,
+        },
+      ],
     };
   }
 
@@ -310,27 +365,27 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { 
+        legend: {
           display: false,
-          labels: { color: '#6b7280' }
+          labels: { color: '#6b7280' },
         },
         tooltip: {
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           padding: 12,
-          cornerRadius: 8
-        }
+          cornerRadius: 8,
+        },
       },
       scales: {
         y: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: '#6b7280' }
+          ticks: { color: '#6b7280' },
         },
         x: {
           grid: { display: false },
-          ticks: { color: '#6b7280', maxRotation: 0 }
-        }
-      }
+          ticks: { color: '#6b7280', maxRotation: 0 },
+        },
+      },
     };
 
     // Horizontal bar for cities
@@ -338,28 +393,28 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { 
+        legend: {
           display: false,
-          labels: { color: '#6b7280' }
-        }
+          labels: { color: '#6b7280' },
+        },
       },
       scales: {
         x: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: '#6b7280' }
+          ticks: { color: '#6b7280' },
         },
         y: {
           grid: { display: false },
-          ticks: { color: '#6b7280' }
-        }
+          ticks: { color: '#6b7280' },
+        },
       },
       elements: {
         bar: {
           borderRadius: { topRight: 8, bottomRight: 8 },
-          borderSkipped: false
-        }
-      }
+          borderSkipped: false,
+        },
+      },
     };
 
     // Grouped bar for categories
@@ -367,32 +422,32 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { 
+        legend: {
           display: true,
           position: 'top',
           align: 'end',
-          labels: { color: '#6b7280' }
-        }
+          labels: { color: '#6b7280' },
+        },
       },
       scales: {
         y: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: '#6b7280' }
+          ticks: { color: '#6b7280' },
         },
         x: {
           grid: { display: false },
-          ticks: { color: '#6b7280' }
-        }
+          ticks: { color: '#6b7280' },
+        },
       },
       elements: {
         bar: {
           borderRadius: { topLeft: 8, topRight: 8 },
           borderSkipped: 'bottom',
           barThickness: 24,
-          maxBarThickness: 32
-        }
-      }
+          maxBarThickness: 32,
+        },
+      },
     };
   }
 

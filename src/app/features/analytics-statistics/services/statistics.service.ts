@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { 
+import {
   DashboardOverview,
   OffersChartResponse,
   OrdersChartResponse,
@@ -13,11 +13,11 @@ import {
   CategoryPerformanceResponse,
   UserEngagementResponse,
   ReviewAnalyticsResponse,
-  ChartFilter
+  ChartFilter,
 } from '../models/statistics.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StatisticsService {
   private readonly baseUrl = `${environment.baseUrl}Statistics`;
@@ -28,7 +28,8 @@ export class StatisticsService {
    * Get dashboard overview statistics
    */
   getDashboardOverview(): Observable<DashboardOverview> {
-    return this.http.get<DashboardOverview>(`${this.baseUrl}/dashboard-overview`)
+    return this.http
+      .get<DashboardOverview>(`${this.baseUrl}/dashboard-overview`)
       .pipe(catchError(this.handleError));
   }
 
@@ -38,7 +39,8 @@ export class StatisticsService {
    */
   getOffersChart(filter: ChartFilter): Observable<OffersChartResponse> {
     const params = new HttpParams().set('Filter', filter.toString());
-    return this.http.get<OffersChartResponse>(`${this.baseUrl}/offers-chart`, { params })
+    return this.http
+      .get<OffersChartResponse>(`${this.baseUrl}/offers-chart`, { params })
       .pipe(catchError(this.handleError));
   }
 
@@ -48,17 +50,23 @@ export class StatisticsService {
    */
   getOrdersChart(filter: ChartFilter): Observable<OrdersChartResponse> {
     const params = new HttpParams().set('Filter', filter.toString());
-    return this.http.get<OrdersChartResponse>(`${this.baseUrl}/orders-chart`, { params })
+    return this.http
+      .get<OrdersChartResponse>(`${this.baseUrl}/orders-chart`, { params })
       .pipe(catchError(this.handleError));
   }
 
   /**
    * Get most active cities
    * @param topCount Number of cities to return
+   * @param filter Time period filter (1=Daily, 2=Weekly, 3=Monthly)
    */
-  getMostActiveCities(topCount: number = 10): Observable<CityStatsResponse> {
-    const params = new HttpParams().set('TopCount', topCount.toString());
-    return this.http.get<CityStatsResponse>(`${this.baseUrl}/most-active-cities`, { params })
+  getMostActiveCities(topCount: number = 10, filter?: ChartFilter): Observable<CityStatsResponse> {
+    let params = new HttpParams().set('TopCount', topCount.toString());
+    if (filter) {
+      params = params.set('Filter', filter.toString());
+    }
+    return this.http
+      .get<CityStatsResponse>(`${this.baseUrl}/most-active-cities`, { params })
       .pipe(catchError(this.handleError));
   }
 
@@ -68,7 +76,8 @@ export class StatisticsService {
    */
   getMostActiveUsers(topCount: number = 10): Observable<UserStatsResponse> {
     const params = new HttpParams().set('TopCount', topCount.toString());
-    return this.http.get<UserStatsResponse>(`${this.baseUrl}/most-active-users`, { params })
+    return this.http
+      .get<UserStatsResponse>(`${this.baseUrl}/most-active-users`, { params })
       .pipe(catchError(this.handleError));
   }
 
@@ -76,15 +85,22 @@ export class StatisticsService {
    * Get vehicle analytics data
    */
   getVehicleAnalytics(): Observable<VehicleAnalyticsResponse> {
-    return this.http.get<VehicleAnalyticsResponse>(`${this.baseUrl}/vehicle-analytics`)
+    return this.http
+      .get<VehicleAnalyticsResponse>(`${this.baseUrl}/vehicle-analytics`)
       .pipe(catchError(this.handleError));
   }
 
   /**
    * Get category performance data
+   * @param filter Time period filter (1=Daily, 2=Weekly, 3=Monthly)
    */
-  getCategoryPerformance(): Observable<CategoryPerformanceResponse> {
-    return this.http.get<CategoryPerformanceResponse>(`${this.baseUrl}/category-performance`)
+  getCategoryPerformance(filter?: ChartFilter): Observable<CategoryPerformanceResponse> {
+    let params = new HttpParams();
+    if (filter) {
+      params = params.set('Filter', filter.toString());
+    }
+    return this.http
+      .get<CategoryPerformanceResponse>(`${this.baseUrl}/category-performance`, { params })
       .pipe(catchError(this.handleError));
   }
 
@@ -94,7 +110,8 @@ export class StatisticsService {
    */
   getUserEngagement(daysBack: number = 30): Observable<UserEngagementResponse> {
     const params = new HttpParams().set('DaysBack', daysBack.toString());
-    return this.http.get<UserEngagementResponse>(`${this.baseUrl}/user-engagement`, { params })
+    return this.http
+      .get<UserEngagementResponse>(`${this.baseUrl}/user-engagement`, { params })
       .pipe(catchError(this.handleError));
   }
 
@@ -103,11 +120,15 @@ export class StatisticsService {
    * @param daysBack Number of days to look back
    * @param topCount Number of top items to return
    */
-  getReviewAnalytics(daysBack: number = 30, topCount: number = 10): Observable<ReviewAnalyticsResponse> {
+  getReviewAnalytics(
+    daysBack: number = 30,
+    topCount: number = 10
+  ): Observable<ReviewAnalyticsResponse> {
     const params = new HttpParams()
       .set('DaysBack', daysBack.toString())
       .set('TopItemsCount', topCount.toString());
-    return this.http.get<ReviewAnalyticsResponse>(`${this.baseUrl}/review-analytics`, { params })
+    return this.http
+      .get<ReviewAnalyticsResponse>(`${this.baseUrl}/review-analytics`, { params })
       .pipe(catchError(this.handleError));
   }
 
@@ -116,7 +137,7 @@ export class StatisticsService {
    */
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An error occurred';
-    
+
     if (error.error instanceof ErrorEvent) {
       // Client-side error
       errorMessage = error.error.message;
