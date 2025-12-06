@@ -238,6 +238,73 @@
             </p-table>
         </div>
         }
+
+        <!-- Most Reviewed Items Grid -->
+        <div class="two-column-grid">
+            <!-- Most Reviewed Offers -->
+            <div class="chart-card">
+                <h4 class="chart-title">{{'analytics.user.mostReviewedOffersTitle' | translate}}</h4>
+                @if (reviewData && reviewData.mostReviewedOffers) {
+                <p-table [value]="reviewData.mostReviewedOffers" styleClass="p-datatable-sm">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{'analytics.user.table.rank' | translate}}</th>
+                            <th>{{'analytics.user.table.itemTitle' | translate}}</th>
+                            <th>{{'analytics.user.table.rating' | translate}}</th>
+                            <th>{{'analytics.user.table.reviews' | translate}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item let-i="rowIndex">
+                        <tr>
+                            <td>
+                                <span class="rank-badge" [ngClass]="getRankBadgeClass(i)">
+                                    {{ i + 1 }}
+                                </span>
+                            </td>
+                            <td><strong>{{ item.itemTitle }}</strong></td>
+                            <td>
+                                <span class="stars">{{ getStars(item.averageRating) }}</span>
+                                {{ item.averageRating }}
+                            </td>
+                            <td>{{ item.reviewCount }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                }
+            </div>
+
+            <!-- Most Reviewed Orders -->
+            <div class="chart-card">
+                <h4 class="chart-title">{{'analytics.user.mostReviewedOrdersTitle' | translate}}</h4>
+                @if (reviewData && reviewData.mostReviewedOrders) {
+                <p-table [value]="reviewData.mostReviewedOrders" styleClass="p-datatable-sm">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{'analytics.user.table.rank' | translate}}</th>
+                            <th>{{'analytics.user.table.itemTitle' | translate}}</th>
+                            <th>{{'analytics.user.table.rating' | translate}}</th>
+                            <th>{{'analytics.user.table.reviews' | translate}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item let-i="rowIndex">
+                        <tr>
+                            <td>
+                                <span class="rank-badge" [ngClass]="getRankBadgeClass(i)">
+                                    {{ i + 1 }}
+                                </span>
+                            </td>
+                            <td><strong>{{ item.itemTitle }}</strong></td>
+                            <td>
+                                <span class="stars">{{ getStars(item.averageRating) }}</span>
+                                {{ item.averageRating }}
+                            </td>
+                            <td>{{ item.reviewCount }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                }
+            </div>
+        </div>
         }
 
         <!-- Empty State -->
