@@ -52,7 +52,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   loading: boolean = false;
 
   // Filter properties
-  selectedFilter: DashboardFilterEnum = DashboardFilterEnum.Last7Days;
+  selectedFilter: DashboardFilterEnum | null = null;
   filterOptions: DashboardFilterOption[] = [];
 
   // Chart data
@@ -152,6 +152,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // Load data on first run with filter cleared (no filter parameter sent to API)
     this.loadDashboardData();
   }
 
@@ -185,8 +186,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   loadDashboardData(): void {
     this.loading = true;
 
+    // When selectedFilter is null, call API without filter parameter (shows all data)
+    const filterValue = this.selectedFilter !== null ? this.selectedFilter : undefined;
+
     this.dashboardService
-      .getDashboardStatistics(this.selectedFilter)
+      .getDashboardStatistics(filterValue)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data: DashboardStatistics) => {
