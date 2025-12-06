@@ -2,9 +2,6 @@
     <div class="card">
         <!-- Action Container -->
         <div class="action-container">
-            <p-select [options]="filterOptions" [(ngModel)]="selectedFilter" optionLabel="label" optionValue="value"
-                [showClear]="false" (onChange)="onFilterChange()" />
-
             <p-button [label]="'analytics.vehicle.refresh' | translate" icon="pi pi-refresh" severity="secondary"
                 [loading]="loading" (click)="loadData()" />
         </div>
@@ -18,12 +15,17 @@
         }
 
         <!-- Dashboard Content -->
-        @if (!loading && vehicleData) {
+        @if (!loading && typesData) {
         <!-- Vehicle Analytics Grid -->
         <div class="vehicle-analytics-grid">
             <!-- Vehicle Types -->
             <div class="chart-card">
-                <h4 class="chart-title">{{'analytics.vehicle.typesChartTitle' | translate}}</h4>
+                <div class="chart-header">
+                    <h4 class="chart-title">{{'analytics.vehicle.typesChartTitle' | translate}}</h4>
+                    <p-select [options]="filterOptions" [(ngModel)]="typesFilter" optionLabel="label"
+                        optionValue="value" [showClear]="false" (onChange)="onTypesFilterChange()"
+                        styleClass="filter-dropdown" />
+                </div>
                 @if (typesChartData) {
                 <p-chart type="doughnut" [data]="typesChartData" [options]="donutChartOptions" height="300px" />
                 }
@@ -31,7 +33,12 @@
 
             <!-- Top Vehicle Makers -->
             <div class="chart-card">
-                <h4 class="chart-title">{{'analytics.vehicle.makersChartTitle' | translate}}</h4>
+                <div class="chart-header">
+                    <h4 class="chart-title">{{'analytics.vehicle.makersChartTitle' | translate}}</h4>
+                    <p-select [options]="filterOptions" [(ngModel)]="makersFilter" optionLabel="label"
+                        optionValue="value" [showClear]="false" (onChange)="onMakersFilterChange()"
+                        styleClass="filter-dropdown" />
+                </div>
                 @if (makersChartData) {
                 <p-chart type="bar" [data]="makersChartData" [options]="barChartOptions" height="300px"
                     [style]="{'direction': 'ltr'}" />
@@ -40,7 +47,12 @@
 
             <!-- Top Vehicle Models -->
             <div class="chart-card">
-                <h4 class="chart-title">{{'analytics.vehicle.modelsChartTitle' | translate}}</h4>
+                <div class="chart-header">
+                    <h4 class="chart-title">{{'analytics.vehicle.modelsChartTitle' | translate}}</h4>
+                    <p-select [options]="filterOptions" [(ngModel)]="modelsFilter" optionLabel="label"
+                        optionValue="value" [showClear]="false" (onChange)="onModelsFilterChange()"
+                        styleClass="filter-dropdown" />
+                </div>
                 @if (modelsChartData) {
                 <p-chart type="bar" [data]="modelsChartData" [options]="barChartOptions" height="300px" />
                 }
@@ -48,16 +60,34 @@
 
             <!-- Average Price by Type -->
             <div class="chart-card">
-                <h4 class="chart-title">{{'analytics.vehicle.priceChartTitle' | translate}}</h4>
+                <div class="chart-header">
+                    <h4 class="chart-title">{{'analytics.vehicle.priceChartTitle' | translate}}</h4>
+                    <p-select [options]="filterOptions" [(ngModel)]="priceFilter" optionLabel="label"
+                        optionValue="value" [showClear]="false" (onChange)="onPriceFilterChange()"
+                        styleClass="filter-dropdown" />
+                </div>
                 @if (priceChartData) {
                 <p-chart type="bar" [data]="priceChartData" [options]="barChartOptions" height="300px" />
+                }
+            </div>
+
+            <!-- Manufacture Years -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h4 class="chart-title">{{'analytics.vehicle.yearsChartTitle' | translate}}</h4>
+                    <p-select [options]="filterOptions" [(ngModel)]="yearsFilter" optionLabel="label"
+                        optionValue="value" [showClear]="false" (onChange)="onYearsFilterChange()"
+                        styleClass="filter-dropdown" />
+                </div>
+                @if (yearsChartData) {
+                <p-chart type="bar" [data]="yearsChartData" [options]="barChartOptions" height="300px" />
                 }
             </div>
         </div>
         }
 
         <!-- Empty State -->
-        @if (!loading && !vehicleData) {
+        @if (!loading && !typesData) {
         <div class="empty-container">
             <i class="pi pi-car"></i>
             <h4>{{'analytics.dashboard.emptyTitle' | translate}}</h4>

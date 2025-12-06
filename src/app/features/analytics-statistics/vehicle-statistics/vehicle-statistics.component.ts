@@ -1,9 +1,9 @@
-import { 
-  ChangeDetectionStrategy, 
-  Component, 
-  OnInit, 
-  OnDestroy, 
-  ChangeDetectorRef 
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
@@ -18,12 +18,13 @@ import { Subject, takeUntil } from 'rxjs';
 import { LanguageService } from '../../../shared/services/language.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { StatisticsService } from '../services/statistics.service';
-import { 
+import {
   VehicleAnalyticsResponse,
   ChartData,
   ChartOptions,
-  ChartFilter
+  ChartFilter,
 } from '../models/statistics.models';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-vehicle-statistics',
@@ -36,7 +37,7 @@ import {
     ProgressSpinnerModule,
     CommonModule,
     FormsModule,
-    TranslatePipe
+    TranslatePipe,
   ],
   providers: [MessageService],
   templateUrl: './vehicle-statistics.component.html',
@@ -48,14 +49,23 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
   loadingMessage = '';
 
   // Data properties
-  vehicleData?: VehicleAnalyticsResponse;
+  typesData?: VehicleAnalyticsResponse;
+  makersData?: VehicleAnalyticsResponse;
+  modelsData?: VehicleAnalyticsResponse;
+  priceData?: VehicleAnalyticsResponse;
+  yearsData?: VehicleAnalyticsResponse;
 
   // Filter properties
-  selectedFilter: ChartFilter = ChartFilter.Daily;
+  typesFilter: ChartFilter = ChartFilter.Daily;
+  makersFilter: ChartFilter = ChartFilter.Daily;
+  modelsFilter: ChartFilter = ChartFilter.Daily;
+  priceFilter: ChartFilter = ChartFilter.Daily;
+  yearsFilter: ChartFilter = ChartFilter.Daily;
+
   filterOptions = [
     { label: '', value: ChartFilter.Daily },
     { label: '', value: ChartFilter.Weekly },
-    { label: '', value: ChartFilter.Monthly }
+    { label: '', value: ChartFilter.Monthly },
   ];
 
   // Chart data
@@ -63,6 +73,7 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
   makersChartData?: ChartData;
   modelsChartData?: ChartData;
   priceChartData?: ChartData;
+  yearsChartData?: ChartData;
 
   // Chart options
   donutChartOptions!: ChartOptions;
@@ -71,11 +82,11 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
 
   // Color palettes - using green/emerald scheme
   private typeColors = [
-    'rgba(16, 185, 129, 0.7)',   // emerald
-    'rgba(52, 211, 153, 0.7)',   // emerald lighter
-    'rgba(6, 182, 212, 0.7)',    // cyan
-    'rgba(14, 165, 233, 0.7)',   // sky
-    'rgba(59, 130, 246, 0.7)'    // blue
+    'rgba(16, 185, 129, 0.7)', // emerald
+    'rgba(52, 211, 153, 0.7)', // emerald lighter
+    'rgba(6, 182, 212, 0.7)', // cyan
+    'rgba(14, 165, 233, 0.7)', // sky
+    'rgba(59, 130, 246, 0.7)', // blue
   ];
 
   private destroy$ = new Subject<void>();
@@ -102,101 +113,218 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
   }
 
   private observeLanguageChanges(): void {
-    this.languageService.languageChanged$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.loadingMessage = this.t('analytics.vehicle.loading');
-        this.buildFilterOptions();
-        this.initializeChartOptions();
-        this.prepareChartData();
-        this.cdr.markForCheck();
-      });
+    this.languageService.languageChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.loadingMessage = this.t('analytics.vehicle.loading');
+      this.buildFilterOptions();
+      this.initializeChartOptions();
+      this.prepareChartData();
+      this.cdr.markForCheck();
+    });
   }
 
   private buildFilterOptions(): void {
     this.filterOptions = [
       { label: this.t('analytics.vehicle.filter.daily'), value: ChartFilter.Daily },
       { label: this.t('analytics.vehicle.filter.weekly'), value: ChartFilter.Weekly },
-      { label: this.t('analytics.vehicle.filter.monthly'), value: ChartFilter.Monthly }
+      { label: this.t('analytics.vehicle.filter.monthly'), value: ChartFilter.Monthly },
     ];
   }
 
-  onFilterChange(): void {
-    this.loadData();
+  onTypesFilterChange(): void {
+    this.statisticsService
+      .getVehicleAnalytics(this.typesFilter)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.typesData = data;
+          this.prepareTypesChart();
+          this.cdr.markForCheck();
+        },
+        error: (error) => this.handleError(error),
+      });
+  }
+
+  onMakersFilterChange(): void {
+    this.statisticsService
+      .getVehicleAnalytics(this.makersFilter)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.makersData = data;
+          this.prepareMakersChart();
+          this.cdr.markForCheck();
+        },
+        error: (error) => this.handleError(error),
+      });
+  }
+
+  onModelsFilterChange(): void {
+    this.statisticsService
+      .getVehicleAnalytics(this.modelsFilter)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.modelsData = data;
+          this.prepareModelsChart();
+          this.cdr.markForCheck();
+        },
+        error: (error) => this.handleError(error),
+      });
+  }
+
+  onPriceFilterChange(): void {
+    this.statisticsService
+      .getVehicleAnalytics(this.priceFilter)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.priceData = data;
+          this.preparePriceChart();
+          this.cdr.markForCheck();
+        },
+        error: (error) => this.handleError(error),
+      });
+  }
+
+  onYearsFilterChange(): void {
+    this.statisticsService
+      .getVehicleAnalytics(this.yearsFilter)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.yearsData = data;
+          this.prepareYearsChart();
+          this.cdr.markForCheck();
+        },
+        error: (error) => this.handleError(error),
+      });
   }
 
   loadData(): void {
     this.loading = true;
 
-    this.statisticsService.getVehicleAnalytics()
+    forkJoin({
+      types: this.statisticsService.getVehicleAnalytics(this.typesFilter),
+      makers: this.statisticsService.getVehicleAnalytics(this.makersFilter),
+      models: this.statisticsService.getVehicleAnalytics(this.modelsFilter),
+      prices: this.statisticsService.getVehicleAnalytics(this.priceFilter),
+      years: this.statisticsService.getVehicleAnalytics(this.yearsFilter),
+    })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
-          this.vehicleData = data;
+          this.typesData = data.types;
+          this.makersData = data.makers;
+          this.modelsData = data.models;
+          this.priceData = data.prices;
+          this.yearsData = data.years;
+
           this.prepareChartData();
           this.loading = false;
           this.cdr.markForCheck();
         },
-        error: (error) => {
-          this.loading = false;
-          this.messageService.add({
-            severity: 'error',
-            summary: this.t('common.error'),
-            detail: error.message,
-            life: 5000
-          });
-          this.cdr.markForCheck();
-        }
+        error: (error) => this.handleError(error),
       });
   }
 
+  private handleError(error: any): void {
+    this.loading = false;
+    this.messageService.add({
+      severity: 'error',
+      summary: this.t('common.error'),
+      detail: error.message,
+      life: 5000,
+    });
+    this.cdr.markForCheck();
+  }
+
   private prepareChartData(): void {
-    if (!this.vehicleData) return;
+    this.prepareTypesChart();
+    this.prepareMakersChart();
+    this.prepareModelsChart();
+    this.preparePriceChart();
+    this.prepareYearsChart();
+  }
 
-    // Types - Donut Chart
+  private prepareTypesChart(): void {
+    if (!this.typesData) return;
+
     this.typesChartData = {
-      labels: this.vehicleData.vehicleTypes.map(v => v.label),
-      datasets: [{
-        data: this.vehicleData.vehicleTypes.map(v => v.value),
-        backgroundColor: this.typeColors.slice(0, this.vehicleData.vehicleTypes.length),
-        borderWidth: 0
-      }]
+      labels: this.typesData.vehicleTypes.map((v) => v.label),
+      datasets: [
+        {
+          data: this.typesData.vehicleTypes.map((v) => v.value),
+          backgroundColor: this.typeColors.slice(0, this.typesData.vehicleTypes.length),
+          borderWidth: 0,
+        },
+      ],
     };
+  }
 
-    // Makers - Horizontal Bar
+  private prepareMakersChart(): void {
+    if (!this.makersData) return;
+
     this.makersChartData = {
-      labels: this.vehicleData.vehicleMakers.map(v => v.label),
-      datasets: [{
-        label: this.t('analytics.vehicle.makersChartTitle'),
-        data: this.vehicleData.vehicleMakers.map(v => v.value),
-        backgroundColor: 'rgba(16, 185, 129, 0.7)',
-        borderWidth: 0
-      }]
+      labels: this.makersData.vehicleMakers.map((v) => v.label),
+      datasets: [
+        {
+          label: this.t('analytics.vehicle.makersChartTitle'),
+          data: this.makersData.vehicleMakers.map((v) => v.value),
+          backgroundColor: 'rgba(16, 185, 129, 0.7)',
+          borderWidth: 0,
+        },
+      ],
     };
+  }
 
-    // Models - Vertical Bar
+  private prepareModelsChart(): void {
+    if (!this.modelsData) return;
+
     this.modelsChartData = {
-      labels: this.vehicleData.vehicleModels.map(v => v.label),
-      datasets: [{
-        label: this.t('analytics.vehicle.modelsChartTitle'),
-        data: this.vehicleData.vehicleModels.map(v => v.value),
-        backgroundColor: 'rgba(52, 211, 153, 0.7)',
-        borderWidth: 0
-      }]
+      labels: this.modelsData.vehicleModels.map((v) => v.label),
+      datasets: [
+        {
+          label: this.t('analytics.vehicle.modelsChartTitle'),
+          data: this.modelsData.vehicleModels.map((v) => v.value),
+          backgroundColor: 'rgba(52, 211, 153, 0.7)',
+          borderWidth: 0,
+        },
+      ],
     };
+  }
 
-    // Average Price - Column Chart
-    const priceLabels = Object.keys(this.vehicleData.averagePriceByType);
-    const priceValues = Object.values(this.vehicleData.averagePriceByType);
+  private preparePriceChart(): void {
+    if (!this.priceData) return;
+
+    const priceLabels = Object.keys(this.priceData.averagePriceByType);
+    const priceValues = Object.values(this.priceData.averagePriceByType);
 
     this.priceChartData = {
       labels: priceLabels,
-      datasets: [{
-        label: 'Average Price (SAR)',
-        data: priceValues,
-        backgroundColor: 'rgba(52, 211, 153, 0.7)',
-        borderWidth: 0
-      }]
+      datasets: [
+        {
+          label: 'Average Price (SAR)',
+          data: priceValues,
+          backgroundColor: 'rgba(52, 211, 153, 0.7)',
+          borderWidth: 0,
+        },
+      ],
+    };
+  }
+
+  private prepareYearsChart(): void {
+    if (!this.yearsData?.manufactureYears) return;
+
+    this.yearsChartData = {
+      labels: this.yearsData.manufactureYears.map((v) => v.label),
+      datasets: [
+        {
+          label: this.t('analytics.vehicle.yearsChartTitle'),
+          data: this.yearsData.manufactureYears.map((v) => v.value),
+          backgroundColor: 'rgba(6, 182, 212, 0.7)',
+          borderWidth: 0,
+        },
+      ],
     };
   }
 
@@ -206,20 +334,20 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { 
+        legend: {
           position: 'bottom',
           labels: {
             padding: 15,
             font: { size: 12 },
-            color: '#6b7280'
-          }
+            color: '#6b7280',
+          },
         },
         tooltip: {
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           padding: 12,
-          cornerRadius: 8
-        }
-      }
+          cornerRadius: 8,
+        },
+      },
     };
 
     // Horizontal bar for makers
@@ -227,25 +355,25 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: false }
+        legend: { display: false },
       },
       scales: {
         x: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: '#6b7280' }
+          ticks: { color: '#6b7280' },
         },
         y: {
           grid: { display: false },
-          ticks: { color: '#6b7280' }
-        }
+          ticks: { color: '#6b7280' },
+        },
       },
       elements: {
         bar: {
           borderRadius: { topRight: 8, bottomRight: 8 },
-          borderSkipped: false
-        }
-      }
+          borderSkipped: false,
+        },
+      },
     };
 
     // Vertical bar for models and prices
@@ -263,33 +391,33 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
               const label = context.dataset.label || '';
               const value = context.parsed.y;
               return `${label}: ${value.toLocaleString()} SAR`;
-            }
-          }
-        }
+            },
+          },
+        },
       },
       scales: {
         y: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: '#6b7280' }
+          ticks: { color: '#6b7280' },
         },
         x: {
           grid: { display: false },
-          ticks: { 
+          ticks: {
             color: '#6b7280',
             maxRotation: 45,
-            minRotation: 45
-          }
-        }
+            minRotation: 45,
+          },
+        },
       },
       elements: {
         bar: {
           borderRadius: { topLeft: 8, topRight: 8 },
           borderSkipped: 'bottom',
           barThickness: 24,
-          maxBarThickness: 32
-        }
-      }
+          maxBarThickness: 32,
+        },
+      },
     };
   }
 

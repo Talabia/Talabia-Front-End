@@ -155,6 +155,7 @@ const TRANSLATIONS: Translations = {
     'analytics.vehicle.typesChartTitle': 'Vehicle Types Distribution',
     'analytics.vehicle.makersChartTitle': 'Top Vehicle Makers',
     'analytics.vehicle.modelsChartTitle': 'Top Vehicle Models',
+    'analytics.vehicle.yearsChartTitle': 'Manufacture Years',
     'analytics.vehicle.priceChartTitle': 'Average Price by Type',
     'analytics.vehicle.filter.daily': 'Daily (Last 30 Days)',
     'analytics.vehicle.filter.weekly': 'Weekly (Last 12 Weeks)',

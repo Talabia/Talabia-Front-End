@@ -84,9 +84,16 @@ export class StatisticsService {
   /**
    * Get vehicle analytics data
    */
-  getVehicleAnalytics(): Observable<VehicleAnalyticsResponse> {
+  /**
+   * Get vehicle analytics data
+   * @param filter Time period filter (1=Daily, 2=Weekly, 3=Monthly)
+   */
+  getVehicleAnalytics(
+    filter: ChartFilter = ChartFilter.Daily
+  ): Observable<VehicleAnalyticsResponse> {
+    const params = new HttpParams().set('Filter', filter.toString());
     return this.http
-      .get<VehicleAnalyticsResponse>(`${this.baseUrl}/vehicle-analytics`)
+      .get<VehicleAnalyticsResponse>(`${this.baseUrl}/vehicle-analytics`, { params })
       .pipe(catchError(this.handleError));
   }
 
