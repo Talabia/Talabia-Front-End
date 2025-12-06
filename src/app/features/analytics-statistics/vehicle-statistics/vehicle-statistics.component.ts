@@ -56,6 +56,7 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
   yearsData?: VehicleAnalyticsResponse;
 
   // Filter properties
+  globalFilter: ChartFilter = ChartFilter.Daily;
   typesFilter: ChartFilter = ChartFilter.Daily;
   makersFilter: ChartFilter = ChartFilter.Daily;
   modelsFilter: ChartFilter = ChartFilter.Daily;
@@ -128,6 +129,18 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
       { label: this.t('analytics.vehicle.filter.weekly'), value: ChartFilter.Weekly },
       { label: this.t('analytics.vehicle.filter.monthly'), value: ChartFilter.Monthly },
     ];
+  }
+
+  onGlobalFilterChange(): void {
+    // Update all individual filters
+    this.typesFilter = this.globalFilter;
+    this.makersFilter = this.globalFilter;
+    this.modelsFilter = this.globalFilter;
+    this.priceFilter = this.globalFilter;
+    this.yearsFilter = this.globalFilter;
+
+    // Reload all data
+    this.loadData();
   }
 
   onTypesFilterChange(): void {
@@ -321,7 +334,7 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
         {
           label: this.t('analytics.vehicle.yearsChartTitle'),
           data: this.yearsData.manufactureYears.map((v) => v.value),
-          backgroundColor: 'rgba(6, 182, 212, 0.7)',
+          backgroundColor: 'rgba(52, 211, 153, 0.7)',
           borderWidth: 0,
         },
       ],
