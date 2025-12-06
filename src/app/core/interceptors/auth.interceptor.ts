@@ -1,0 +1,54 @@
+import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { catchError, switchMap, throwError } from 'rxjs';
+import { AuthService } from '../services/auth.service';
+
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const authService = inject(AuthService);
+  const currentUser = authService.currentUser();
+  const token = currentUser?.token;
+
+  // Clone request to add Authorization header if token exists
+  // Skip if request is already going to Auth API (except special cases if needed, but usually login/otp don't need token)
+  let authReq = req;
+  const isAuthApi = req.url.includes('/api/Auth/');
+
+  if (token && !isAuthApi) {
+    authReq = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+  return next(authReq).pipe(
+    catchError((error: HttpErrorResponse) => {
+      // Handle 401 Unauthorized
+      if (error.status === 401 && !authReq.url.includes('/refresh-token')) {
+        const user = authService.currentUser();
+        if (user && user.token && user.refreshToken) {
+          return authService.refreshToken(user.token, user.refreshToken).pipe(
+            switchMap((response) => {
+              authService.updateTokens(response.token, response.refreshToken);
+              // Retry the original request with new token
+              const newAuthReq = req.clone({
+                setHeaders: {
+                  Authorization: `Bearer ${response.token}`,
+                },
+              });
+              return next(newAuthReq);
+            }),
+            catchError((refreshError) => {
+              // If refresh fails, logout
+              authService.logout();
+              return throwError(() => refreshError);
+            })
+          );
+        } else {
+          authService.logout();
+        }
+      }
+      return throwError(() => error);
+    })
+  );
+};

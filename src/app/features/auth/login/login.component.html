@@ -1,0 +1,22 @@
+<div class="login-container">
+  <p-toast></p-toast>
+  <p-card>
+    <div class="login-card">
+      <div class="login-header">
+        <!-- Placeholder for Logo if needed -->
+        <!-- <img src="assets/images/logo.png" alt="Logo" class="login-logo"> -->
+        <div class="login-title">{{ 'auth.login.title' | translate }}</div>
+        <div class="login-subtitle">{{ 'auth.login.subtitle' | translate }}</div>
+      </div>
+
+      <div class="login-form">
+        <p-floatlabel>
+          <input pInputText id="email" class="login-input" [(ngModel)]="emailOrPhone" />
+          <label for="email">{{ 'auth.login.label' | translate }}</label>
+        </p-floatlabel>
+        <p-button (click)="onSendOtp()" [label]="'auth.login.button' | translate" icon="pi pi-arrow-right"
+          iconPos="right" [loading]="loading" class="login-submit-btn"></p-button>
+      </div>
+    </div>
+  </p-card>
+</div>

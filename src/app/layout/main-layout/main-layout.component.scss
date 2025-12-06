@@ -1,0 +1,36 @@
+// Moved from app.scss if any specific layout styles existed there, or keep empty and rely on global styles
+// Assuming layout styles are global or in styles.scss, but app.component typically has some layout styles.
+// Checking app.scss content next step, for now basic import or empty
+:host {
+    display: block;
+    height: 100vh;
+}
+
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+// Sidebar container behavior
+app-side-bar {
+    transition: width 0.3s ease;
+    // Assuming the sidebar handles its own width toggling or we control it here
+    // If hidden prop is used on app-side-bar, we might just rely on its internal implementation, 
+    // but usually layout controls the space.
+}
+
+.layout-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.layout-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    transition: margin-left 0.2s;
+    background-color: var(--surface-ground);
+}

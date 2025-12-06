@@ -1,14 +1,26 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+  inject,
+} from '@angular/core';
 import { Toolbar } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
-import { LanguageService } from '../../shared/services/language.service';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../core/services/auth.service';
 import { Subject, takeUntil } from 'rxjs';
+import { LanguageService } from '../../shared/services/language.service';
+
 @Component({
   selector: 'app-header',
-  imports: [Toolbar, AvatarModule, ButtonModule, TooltipModule, TranslatePipe],
+  imports: [Toolbar, AvatarModule, ButtonModule, TooltipModule, TranslatePipe, CommonModule],
   standalone: true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -20,12 +32,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   hideSideBarBtn: boolean = false;
   currentLang: 'ar' | 'en' = 'ar';
 
+  public authService = inject(AuthService); // Public for template use
+
   private readonly destroy$ = new Subject<void>();
 
-  constructor(
-    private languageService: LanguageService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private languageService: LanguageService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     const savedDarkMode = localStorage.getItem('darkMode');
@@ -37,17 +48,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (savedSideBar) {
       this.hideSideBarBtn = savedSideBar === 'true';
     }
-    
+
     // Initialize current language
     this.currentLang = this.languageService.getCurrentLanguage();
-    
+
     // Subscribe to language changes
-    this.languageService.languageChanged$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((newLang) => {
-        this.currentLang = newLang;
-        this.cdr.markForCheck();
-      });
+    this.languageService.languageChanged$.pipe(takeUntil(this.destroy$)).subscribe((newLang) => {
+      this.currentLang = newLang;
+      this.cdr.markForCheck();
+    });
   }
 
   ngOnDestroy(): void {
@@ -79,5 +88,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   toggleLanguage() {
     this.languageService.toggleLanguage();
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

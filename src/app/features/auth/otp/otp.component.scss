@@ -1,0 +1,76 @@
+.otp-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1rem;
+    background: linear-gradient(135deg,
+            #e8f0ff 0%,
+            #e4e0ff 40%,
+            #d9f7f5 100%);
+}
+
+.otp-card {
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.otp-header {
+    margin-bottom: 2rem;
+
+    .otp-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .otp-subtitle {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .otp-identifier {
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+}
+
+.otp-input-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.otp-timer-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    gap: 1rem;
+
+    .timer-text {
+        font-weight: bold;
+        color: var(--p-red-600);
+    }
+}
+
+.otp-btns-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 0.5rem;
+}
+
+::ng-deep .p-button {
+    width: 100% !important;
+    font-size: 1.1rem;
+}

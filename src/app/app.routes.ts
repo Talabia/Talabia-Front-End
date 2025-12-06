@@ -20,9 +20,13 @@ import { NotificationsCenterComponent } from './features/notifications/notificat
 import { languageGuard } from './shared/guards/language.guard';
 import { ChatReivewComponent } from './features/message-chat-review/chat-reivew/chat-reivew.component';
 import { ContentMangementComponent } from './features/content-mangement/content-mangement/content-mangement.component';
+import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
+import { LoginComponent } from './features/auth/login/login.component';
+import { OtpComponent } from './features/auth/otp/otp.component';
+import { authGuard } from './core/guards/auth.guard';
 
-// Define the main routes without language prefix
-const mainRoutes: Routes = [
+// Define the main protected routes
+const protectedRoutes: Routes = [
   {
     path: '',
     component: AdvertisementManagementComponent,
@@ -160,19 +164,32 @@ const mainRoutes: Routes = [
 ];
 
 export const routes: Routes = [
-  // Language-prefixed routes
+  // Public Routes (Login, OTP) - No Main Layout, No Auth Guard
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'otp',
+    component: OtpComponent,
+  },
+
+  // Language-prefixed routes wrapping MainLayout and Protected Routes
   {
     path: ':lang',
-    canActivate: [languageGuard],
-    children: mainRoutes,
+    canActivate: [languageGuard], // Ensures lang is valid
+    component: MainLayoutComponent, // Wraps content in Header/Sidebar
+    canActivateChild: [authGuard], // Protects children
+    children: protectedRoutes,
   },
-  // Default redirect to Arabic (or preferred default language)
+
+  // Redirect root to default language (which will then hit the guard)
   {
     path: '',
     redirectTo: '/ar',
     pathMatch: 'full',
   },
-  // Fallback for any unmatched routes - redirect to default language
+  // Fallback
   {
     path: '**',
     redirectTo: '/ar',

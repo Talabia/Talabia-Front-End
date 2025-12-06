@@ -1,0 +1,11 @@
+<div class="layout-container">
+    <!-- Header -->
+    <app-header (toggleHideSidebar)="toggleHideSidebar()"></app-header>
+    <!-- Sidebar + Main Content -->
+    <div class="layout-body">
+        <app-side-bar [hidden]="hidden"></app-side-bar>
+        <main class="layout-content">
+            <router-outlet />
+        </main>
+    </div>
+</div>

@@ -1,8 +1,6 @@
 <header>
   <p-toolbar class="header">
     <ng-template #start>
-    </ng-template>
-    <ng-template #end>
       <div class="header-action">
         <!-- dark theme btn -->
         <p-button severity="secondary" [icon]="darkModeBtn ? 'pi pi-sun' : 'pi pi-moon'" (onClick)="toggleDarkMode()"
@@ -17,6 +15,19 @@
           severity="secondary" (click)="onToggleHideClick()" [pTooltip]="'header.toggleSidebar' | translate"
           tooltipPosition="left"></p-button>
       </div>
+    </ng-template>
+    <ng-template #end>
+      @if (authService.currentUser(); as user) {
+      <div class="user-container">
+        <div class="user-info">
+          <span class="user-name">{{ user.userName }}</span>
+          <span class="user-company">{{ user.companyName }}</span>
+        </div>
+        <p-avatar [image]="user.profileImage" [label]="!user.profileImage ? user.userName.charAt(0).toUpperCase() : ''"
+          size="large" class="user-image"></p-avatar>
+        <p-button icon="pi pi-sign-out" severity="secondary" (onClick)="logout()" pTooltip="Logout"></p-button>
+      </div>
+      }
     </ng-template>
   </p-toolbar>
 </header>
