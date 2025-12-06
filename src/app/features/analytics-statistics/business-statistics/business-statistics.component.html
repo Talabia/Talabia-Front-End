@@ -113,6 +113,11 @@
 
         <!-- Offers Chart -->
         <div class="chart-card">
+            @if (isOffersLoading) {
+            <div class="chart-loading-overlay">
+                <p-progressSpinner styleClass="w-2rem h-2rem" strokeWidth="4" />
+            </div>
+            }
             <div class="chart-header">
                 <h4 class="chart-title">{{'analytics.business.offersChartTitle' | translate}}</h4>
                 <p-select [options]="filterOptions" [(ngModel)]="selectedOffersFilter" optionLabel="label"
@@ -145,6 +150,11 @@
 
         <!-- Orders Chart -->
         <div class="chart-card">
+            @if (isOrdersLoading) {
+            <div class="chart-loading-overlay">
+                <p-progressSpinner styleClass="w-2rem h-2rem" strokeWidth="4" />
+            </div>
+            }
             <div class="chart-header">
                 <h4 class="chart-title">{{'analytics.business.ordersChartTitle' | translate}}</h4>
                 <p-select [options]="filterOptions" [(ngModel)]="selectedOrdersFilter" optionLabel="label"
@@ -175,6 +185,11 @@
         <div class="two-column-grid">
             <!-- Most Active Cities -->
             <div class="chart-card">
+                @if (isCitiesLoading) {
+                <div class="chart-loading-overlay">
+                    <p-progressSpinner styleClass="w-2rem h-2rem" strokeWidth="4" />
+                </div>
+                }
                 <div class="chart-header">
                     <h4 class="chart-title">{{'analytics.business.citiesChartTitle' | translate}}</h4>
                     <p-select [options]="filterOptions" [(ngModel)]="selectedCitiesFilter" optionLabel="label"
@@ -188,6 +203,11 @@
 
             <!-- Category Performance -->
             <div class="chart-card">
+                @if (isCategoryLoading) {
+                <div class="chart-loading-overlay">
+                    <p-progressSpinner styleClass="w-2rem h-2rem" strokeWidth="4" />
+                </div>
+                }
                 <div class="chart-header">
                     <h4 class="chart-title">{{'analytics.business.categoryChartTitle' | translate}}</h4>
                     <p-select [options]="filterOptions" [(ngModel)]="selectedCategoryFilter" optionLabel="label"

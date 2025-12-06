@@ -51,6 +51,10 @@ import {
 })
 export class BusinessStatisticsComponent implements OnInit, OnDestroy {
   loading = false;
+  isOffersLoading = false;
+  isOrdersLoading = false;
+  isCitiesLoading = false;
+  isCategoryLoading = false;
   loadingMessage = '';
 
   // Data properties
@@ -167,7 +171,7 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
   }
 
   onOffersFilterChange(): void {
-    this.loading = true;
+    this.isOffersLoading = true;
     this.statisticsService
       .getOffersChart(this.selectedOffersFilter)
       .pipe(takeUntil(this.destroy$))
@@ -175,11 +179,11 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
         next: (data) => {
           this.offersData = data;
           this.prepareOffersChart();
-          this.loading = false;
+          this.isOffersLoading = false;
           this.cdr.markForCheck();
         },
         error: (error) => {
-          this.loading = false;
+          this.isOffersLoading = false;
           this.messageService.add({
             severity: 'error',
             summary: this.t('common.error'),
@@ -192,7 +196,7 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
   }
 
   onOrdersFilterChange(): void {
-    this.loading = true;
+    this.isOrdersLoading = true;
     this.statisticsService
       .getOrdersChart(this.selectedOrdersFilter)
       .pipe(takeUntil(this.destroy$))
@@ -200,11 +204,11 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
         next: (data) => {
           this.ordersData = data;
           this.prepareOrdersChart();
-          this.loading = false;
+          this.isOrdersLoading = false;
           this.cdr.markForCheck();
         },
         error: (error) => {
-          this.loading = false;
+          this.isOrdersLoading = false;
           this.messageService.add({
             severity: 'error',
             summary: this.t('common.error'),
@@ -217,7 +221,7 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
   }
 
   onCitiesFilterChange(): void {
-    this.loading = true;
+    this.isCitiesLoading = true;
     this.statisticsService
       .getMostActiveCities(10, this.selectedCitiesFilter)
       .pipe(takeUntil(this.destroy$))
@@ -225,11 +229,11 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
         next: (data) => {
           this.citiesData = data;
           this.prepareCitiesChart();
-          this.loading = false;
+          this.isCitiesLoading = false;
           this.cdr.markForCheck();
         },
         error: (error) => {
-          this.loading = false;
+          this.isCitiesLoading = false;
           this.messageService.add({
             severity: 'error',
             summary: this.t('common.error'),
@@ -242,7 +246,7 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
   }
 
   onCategoryFilterChange(): void {
-    this.loading = true;
+    this.isCategoryLoading = true;
     this.statisticsService
       .getCategoryPerformance(this.selectedCategoryFilter)
       .pipe(takeUntil(this.destroy$))
@@ -250,11 +254,11 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
         next: (data) => {
           this.categoryData = data;
           this.prepareCategoryChart();
-          this.loading = false;
+          this.isCategoryLoading = false;
           this.cdr.markForCheck();
         },
         error: (error) => {
-          this.loading = false;
+          this.isCategoryLoading = false;
           this.messageService.add({
             severity: 'error',
             summary: this.t('common.error'),

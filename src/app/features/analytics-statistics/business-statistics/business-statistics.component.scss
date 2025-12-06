@@ -90,7 +90,7 @@
     small {
       font-size: 0.875rem;
       font-weight: 600;
-      
+
       &.trend-positive {
         color: var(--p-green-600);
       }
@@ -114,6 +114,23 @@
   padding: 1.5rem;
   transition: all 0.3s ease;
   margin-bottom: 1.5rem;
+  position: relative; // Ensure relative positioning for overlay
+
+  .chart-loading-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: 1rem;
+    backdrop-filter: blur(2px);
+
+    :host-context(.my-app-dark) & {
+      background: rgba(0, 0, 0, 0.6);
+    }
+  }
 
   :host-context(.my-app-dark) & {
     background: linear-gradient(45deg, var(--p-neutral-900) 0%, var(--p-neutral-800) 100%);
