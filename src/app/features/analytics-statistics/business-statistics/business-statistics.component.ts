@@ -291,11 +291,6 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
           borderWidth: 3,
           fill: true,
           tension: 0.4,
-          pointRadius: 0,
-          pointHoverRadius: 6,
-          pointHoverBackgroundColor: this.offersColor,
-          pointHoverBorderColor: '#fff',
-          pointHoverBorderWidth: 2,
         },
       ],
     };
@@ -315,11 +310,6 @@ export class BusinessStatisticsComponent implements OnInit, OnDestroy {
           borderWidth: 3,
           fill: true,
           tension: 0.4,
-          pointRadius: 0,
-          pointHoverRadius: 6,
-          pointHoverBackgroundColor: this.ordersColor,
-          pointHoverBorderColor: '#fff',
-          pointHoverBorderWidth: 2,
         },
       ],
     };
