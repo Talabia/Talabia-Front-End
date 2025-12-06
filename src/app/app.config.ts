@@ -11,13 +11,14 @@ import Aura from '@primeuix/themes/aura';
 import MyPreset from '../../mypreset';
 import { routes } from './app.routes';
 import { languageInterceptor } from './shared/interceptors/language.interceptor';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([languageInterceptor])),
+    provideHttpClient(withInterceptors([languageInterceptor, authInterceptor])),
     provideAnimationsAsync(),
     providePrimeNG({
       ripple: true,

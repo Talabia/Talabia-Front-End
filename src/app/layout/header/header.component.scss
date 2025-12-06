@@ -12,4 +12,34 @@
     justify-content: flex-end;
     gap: 0.5rem;
   }
+
+  .user-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+
+      .user-name {
+        font-weight: bold;
+        font-size: 12px;
+      }
+
+      .user-company {
+        font-size: 10px;
+      }
+    }
+
+    .user-image {
+      ::ng-deep img {
+        border-radius: 5px;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+      }
+    }
+
+  }
 }

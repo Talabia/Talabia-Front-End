@@ -1,0 +1,32 @@
+<div class="otp-container">
+    <p-toast></p-toast>
+    <p-card>
+        <div class="otp-card">
+            <div class="otp-header">
+                <div class="otp-title">{{ 'auth.otp.title' | translate }}</div>
+                <div class="otp-subtitle">{{ 'auth.otp.subtitle' | translate }}</div>
+                <div class="otp-identifier">{{ identifier }}</div>
+            </div>
+            <!-- [mask]="true" -->
+            <div class="otp-input-wrapper">
+                <p-inputOtp [(ngModel)]="otp" [length]="6" (onChange)="onVerify()" [integerOnly]="true"></p-inputOtp>
+            </div>
+
+            <div class="otp-timer-wrapper">
+                @if (!canResend) {
+                <span class="timer-text">{{ 'auth.otp.timer' | translate }} {{ timerDisplay }}</span>
+                }
+                @if (canResend) {
+                <p-button [label]="'auth.otp.resend' | translate" [link]="true" (onClick)="onResend()"></p-button>
+                }
+            </div>
+            <div class="otp-btns-wrapper">
+                <p-button [label]="'auth.otp.verify' | translate" class="otp-submit-btn" (click)="onVerify()"
+                    [loading]="loading" [disabled]="!otp"></p-button>
+
+                <p-button routerLink="/login" [label]="'auth.otp.backToLogin' | translate" icon="pi pi-arrow-left"
+                    iconPos="left" [loading]="loading" class="back-link" severity="secondary"></p-button>
+            </div>
+        </div>
+    </p-card>
+</div>
