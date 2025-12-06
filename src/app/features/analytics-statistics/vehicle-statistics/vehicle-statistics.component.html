@@ -46,9 +46,6 @@
             <div class="chart-card">
                 <div class="chart-header">
                     <h4 class="chart-title">{{'analytics.vehicle.modelsChartTitle' | translate}}</h4>
-                    <p-select [options]="filterOptions" [(ngModel)]="modelsFilter" optionLabel="label"
-                        optionValue="value" [showClear]="false" (onChange)="onModelsFilterChange()"
-                        styleClass="filter-dropdown" />
                 </div>
                 @if (modelsChartData) {
                 <p-chart type="bar" [data]="modelsChartData" [options]="barChartOptions" height="300px" />
