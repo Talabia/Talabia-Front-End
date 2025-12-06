@@ -7,7 +7,7 @@ export interface ChartDataPoint {
 export enum ChartFilter {
   Daily = 1,
   Weekly = 2,
-  Monthly = 3
+  Monthly = 3,
 }
 
 export interface ChartData {
@@ -120,9 +120,13 @@ export interface UserEngagementData {
 
 export interface UserEngagementResponse {
   dailyActiveUsers: number;
+  dailyActiveUsersChangePercent: number;
   weeklyActiveUsers: number;
   monthlyActiveUsers: number;
   onlineUsers: number;
+  totalRegisteredUsers: number;
+  premiumUsersCount: number;
+  verifiedUsersPercentage: number;
   newUserRegistrations: UserEngagementData[];
   commentsPerDay: UserEngagementData[];
   favoritesPerDay: UserEngagementData[];

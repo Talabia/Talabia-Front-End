@@ -15,7 +15,7 @@
         }
 
         <!-- Dashboard Content -->
-        @if (!loading && engagementData) {
+        @if (!loading && registrationsData) {
         <!-- Engagement KPI Cards -->
         <div class="summary-container">
             <div class="summary-card">
@@ -24,8 +24,54 @@
                         <i class="pi pi-calendar"></i>
                     </div>
                     <div class="card-info">
-                        <h3>{{engagementData.dailyActiveUsers}}</h3>
+                        <h3>{{registrationsData.dailyActiveUsers}}</h3>
                         <p>{{'analytics.user.dailyActiveUsers' | translate}}</p>
+                        <small [ngClass]="{
+                            'trend-positive': registrationsData.dailyActiveUsersChangePercent > 0,
+                            'trend-negative': registrationsData.dailyActiveUsersChangePercent < 0,
+                            'trend-neutral': registrationsData.dailyActiveUsersChangePercent === 0
+                        }">
+                            {{ registrationsData.dailyActiveUsersChangePercent > 0 ? '↑' :
+                            registrationsData.dailyActiveUsersChangePercent < 0 ? '↓' : '→' }}
+                                {{registrationsData.dailyActiveUsersChangePercent> 0 ? '+' :
+                                ''}}{{registrationsData.dailyActiveUsersChangePercent}}%
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-id-card"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{registrationsData.totalRegisteredUsers}}</h3>
+                        <p>{{'analytics.user.totalRegisteredUsers' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-star"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{registrationsData.premiumUsersCount}}</h3>
+                        <p>{{'analytics.user.premiumUsersCount' | translate}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="pi pi-verified"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{registrationsData.verifiedUsersPercentage}}%</h3>
+                        <p>{{'analytics.user.verifiedUsersPercentage' | translate}}</p>
                     </div>
                 </div>
             </div>
@@ -36,7 +82,7 @@
                         <i class="pi pi-chart-line"></i>
                     </div>
                     <div class="card-info">
-                        <h3>{{engagementData.weeklyActiveUsers}}</h3>
+                        <h3>{{registrationsData.weeklyActiveUsers}}</h3>
                         <p>{{'analytics.user.weeklyActiveUsers' | translate}}</p>
                     </div>
                 </div>
@@ -48,7 +94,7 @@
                         <i class="pi pi-chart-bar"></i>
                     </div>
                     <div class="card-info">
-                        <h3>{{engagementData.monthlyActiveUsers}}</h3>
+                        <h3>{{registrationsData.monthlyActiveUsers}}</h3>
                         <p>{{'analytics.user.monthlyActiveUsers' | translate}}</p>
                     </div>
                 </div>
@@ -60,7 +106,7 @@
                         <i class="pi pi-users"></i>
                     </div>
                     <div class="card-info">
-                        <h3>{{engagementData.onlineUsers}}</h3>
+                        <h3>{{registrationsData.onlineUsers}}</h3>
                         <p>{{'analytics.user.onlineNow' | translate}}</p>
                         <small class="online-badge">
                             <span class="pulse-dot"></span>
@@ -153,6 +199,14 @@
             </div>
         </div>
 
+        <!-- Reviews Over Time Chart -->
+        <div class="chart-card">
+            <h4 class="chart-title">{{'analytics.user.reviewsOverTimeTitle' | translate}}</h4>
+            @if (reviewsOverTimeChartData) {
+            <p-chart type="line" [data]="reviewsOverTimeChartData" [options]="lineChartOptions" height="300px" />
+            }
+        </div>
+
         <!-- Top Rated Users -->
         @if (reviewData && reviewData.topRatedUsers && reviewData.topRatedUsers.length > 0) {
         <div class="chart-card">
@@ -187,7 +241,7 @@
         }
 
         <!-- Empty State -->
-        @if (!loading && !engagementData) {
+        @if (!loading && !registrationsData) {
         <div class="empty-container">
             <i class="pi pi-users"></i>
             <h4>{{'analytics.dashboard.emptyTitle' | translate}}</h4>

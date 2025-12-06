@@ -141,6 +141,10 @@ const TRANSLATIONS: Translations = {
     'analytics.user.table.activity': 'Activity',
     'analytics.user.table.rating': 'Rating',
     'analytics.user.table.reviews': 'Reviews',
+    'analytics.user.reviewsOverTimeTitle': 'Reviews Trend',
+    'analytics.user.totalRegisteredUsers': 'Total Registered Users',
+    'analytics.user.premiumUsersCount': 'Premium Users',
+    'analytics.user.verifiedUsersPercentage': 'Verified Users %',
     // Vehicle Statistics
     'analytics.vehicle.header': 'Vehicle Statistics',
     'analytics.vehicle.loading': 'Loading vehicle data...',

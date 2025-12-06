@@ -106,10 +106,10 @@ export class StatisticsService {
 
   /**
    * Get user engagement data
-   * @param daysBack Number of days to look back
+   * @param filter Time period filter (1=Daily, 2=Weekly, 3=Monthly)
    */
-  getUserEngagement(daysBack: number = 30): Observable<UserEngagementResponse> {
-    const params = new HttpParams().set('DaysBack', daysBack.toString());
+  getUserEngagement(filter: ChartFilter = ChartFilter.Daily): Observable<UserEngagementResponse> {
+    const params = new HttpParams().set('Filter', filter.toString());
     return this.http
       .get<UserEngagementResponse>(`${this.baseUrl}/user-engagement`, { params })
       .pipe(catchError(this.handleError));

@@ -1,9 +1,9 @@
-import { 
-  ChangeDetectionStrategy, 
-  Component, 
-  OnInit, 
-  OnDestroy, 
-  ChangeDetectorRef 
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
@@ -20,7 +20,7 @@ import { Subject, forkJoin, takeUntil } from 'rxjs';
 import { LanguageService } from '../../../shared/services/language.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { StatisticsService } from '../services/statistics.service';
-import { 
+import {
   UserEngagementResponse,
   UserStatsResponse,
   ReviewAnalyticsResponse,
@@ -28,7 +28,7 @@ import {
   ChartOptions,
   UserStats,
   TopRatedUser,
-  ChartFilter
+  ChartFilter,
 } from '../models/statistics.models';
 
 @Component({
@@ -44,7 +44,7 @@ import {
     TagModule,
     CommonModule,
     FormsModule,
-    TranslatePipe
+    TranslatePipe,
   ],
   providers: [MessageService],
   templateUrl: './user-statistics.component.html',
@@ -56,7 +56,9 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
   loadingMessage = '';
 
   // Data properties
-  engagementData?: UserEngagementResponse;
+  // Data properties
+  registrationsData?: UserEngagementResponse;
+  engagementMetricsData?: UserEngagementResponse;
   activeUsersData?: UserStatsResponse;
   reviewData?: ReviewAnalyticsResponse;
 
@@ -66,13 +68,14 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
   filterOptions = [
     { label: '', value: ChartFilter.Daily },
     { label: '', value: ChartFilter.Weekly },
-    { label: '', value: ChartFilter.Monthly }
+    { label: '', value: ChartFilter.Monthly },
   ];
 
   // Chart data
   registrationsChartData?: ChartData;
   engagementChartData?: ChartData;
   ratingDistributionChartData?: ChartData;
+  reviewsOverTimeChartData?: ChartData;
 
   // Chart options
   lineChartOptions!: ChartOptions;
@@ -84,11 +87,11 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
   private secondaryColor = 'rgba(236, 72, 153, 1)';
   private tertiaryColor = 'rgba(14, 165, 233, 1)';
   private ratingColors = [
-    'rgba(239, 68, 68, 0.7)',    // 1 star - red
-    'rgba(249, 115, 22, 0.7)',   // 2 stars - orange
-    'rgba(234, 179, 8, 0.7)',    // 3 stars - yellow
-    'rgba(132, 204, 22, 0.7)',   // 4 stars - lime
-    'rgba(34, 197, 94, 0.7)'     // 5 stars - green
+    'rgba(239, 68, 68, 0.7)', // 1 star - red
+    'rgba(249, 115, 22, 0.7)', // 2 stars - orange
+    'rgba(234, 179, 8, 0.7)', // 3 stars - yellow
+    'rgba(132, 204, 22, 0.7)', // 4 stars - lime
+    'rgba(34, 197, 94, 0.7)', // 5 stars - green
   ];
 
   private destroy$ = new Subject<void>();
@@ -115,22 +118,20 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
   }
 
   private observeLanguageChanges(): void {
-    this.languageService.languageChanged$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.loadingMessage = this.t('analytics.user.loading');
-        this.buildFilterOptions();
-        this.initializeChartOptions();
-        this.prepareChartData();
-        this.cdr.markForCheck();
-      });
+    this.languageService.languageChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.loadingMessage = this.t('analytics.user.loading');
+      this.buildFilterOptions();
+      this.initializeChartOptions();
+      this.prepareChartData();
+      this.cdr.markForCheck();
+    });
   }
 
   private buildFilterOptions(): void {
     this.filterOptions = [
       { label: this.t('analytics.user.filter.daily'), value: ChartFilter.Daily },
       { label: this.t('analytics.user.filter.weekly'), value: ChartFilter.Weekly },
-      { label: this.t('analytics.user.filter.monthly'), value: ChartFilter.Monthly }
+      { label: this.t('analytics.user.filter.monthly'), value: ChartFilter.Monthly },
     ];
   }
 
@@ -138,100 +139,136 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     forkJoin({
-      engagement: this.statisticsService.getUserEngagement(30),
+      registrations: this.statisticsService.getUserEngagement(this.selectedRegistrationsFilter),
+      engagement: this.statisticsService.getUserEngagement(this.selectedEngagementFilter),
       activeUsers: this.statisticsService.getMostActiveUsers(10),
-      reviews: this.statisticsService.getReviewAnalytics(30, 10)
+      reviews: this.statisticsService.getReviewAnalytics(30, 10),
     })
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (data) => {
-        this.engagementData = data.engagement;
-        this.activeUsersData = data.activeUsers;
-        this.reviewData = data.reviews;
-        this.prepareChartData();
-        this.loading = false;
-        this.cdr.markForCheck();
-      },
-      error: (error) => {
-        this.loading = false;
-        this.messageService.add({
-          severity: 'error',
-          summary: this.t('common.error'),
-          detail: error.message,
-          life: 5000
-        });
-        this.cdr.markForCheck();
-      }
-    });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.registrationsData = data.registrations;
+          this.engagementMetricsData = data.engagement;
+          this.activeUsersData = data.activeUsers;
+          this.reviewData = data.reviews;
+          this.prepareChartData();
+          this.loading = false;
+          this.cdr.markForCheck();
+        },
+        error: (error) => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: this.t('common.error'),
+            detail: error.message,
+            life: 5000,
+          });
+          this.cdr.markForCheck();
+        },
+      });
   }
 
   onRegistrationsFilterChange(): void {
-    this.loadData();
+    this.statisticsService
+      .getUserEngagement(this.selectedRegistrationsFilter)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.registrationsData = data;
+          this.prepareRegistrationsChart();
+          this.cdr.markForCheck();
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.t('common.error'),
+            detail: error.message,
+            life: 5000,
+          });
+          this.cdr.markForCheck();
+        },
+      });
   }
 
   onEngagementFilterChange(): void {
-    this.loadData();
+    this.statisticsService
+      .getUserEngagement(this.selectedEngagementFilter)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.engagementMetricsData = data;
+          this.prepareEngagementChart();
+          this.cdr.markForCheck();
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.t('common.error'),
+            detail: error.message,
+            life: 5000,
+          });
+          this.cdr.markForCheck();
+        },
+      });
   }
 
   private prepareChartData(): void {
     this.prepareRegistrationsChart();
     this.prepareEngagementChart();
     this.prepareRatingDistributionChart();
+    this.prepareReviewsOverTimeChart();
   }
 
   private prepareRegistrationsChart(): void {
-    if (!this.engagementData) return;
+    if (!this.registrationsData) return;
 
     this.registrationsChartData = {
-      labels: this.engagementData.newUserRegistrations.map(d => d.label),
-      datasets: [{
-        label: this.t('analytics.user.registrationsChartTitle'),
-        data: this.engagementData.newUserRegistrations.map(d => d.value),
-        borderColor: this.primaryColor,
-        backgroundColor: 'rgba(139, 92, 246, 0.1)',
-        borderWidth: 3,
-        fill: true,
-        tension: 0.4,
-        pointRadius: 0,
-        pointHoverRadius: 6,
-        pointHoverBackgroundColor: this.primaryColor,
-        pointHoverBorderColor: '#fff',
-        pointHoverBorderWidth: 2
-      }]
+      labels: this.registrationsData.newUserRegistrations.map((d) => d.label),
+      datasets: [
+        {
+          label: this.t('analytics.user.registrationsChartTitle'),
+          data: this.registrationsData.newUserRegistrations.map((d) => d.value),
+          borderColor: this.primaryColor,
+          backgroundColor: 'rgba(139, 92, 246, 0.1)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+        },
+      ],
     };
   }
 
   private prepareEngagementChart(): void {
-    if (!this.engagementData) return;
+    if (!this.engagementMetricsData) return;
 
     this.engagementChartData = {
-      labels: this.engagementData.commentsPerDay.map(d => d.label),
+      labels: this.engagementMetricsData.commentsPerDay.map((d) => d.label),
       datasets: [
         {
           label: 'Comments',
-          data: this.engagementData.commentsPerDay.map(d => d.value),
+          data: this.engagementMetricsData.commentsPerDay.map((d) => d.value),
           borderColor: this.primaryColor,
           backgroundColor: 'rgba(139, 92, 246, 0.1)',
           borderWidth: 3,
-          tension: 0.4
+          tension: 0.4,
         },
         {
           label: 'Favorites',
-          data: this.engagementData.favoritesPerDay.map(d => d.value),
+          data: this.engagementMetricsData.favoritesPerDay.map((d) => d.value),
           borderColor: this.secondaryColor,
           backgroundColor: 'rgba(236, 72, 153, 0.1)',
           borderWidth: 3,
-          tension: 0.4
+          tension: 0.4,
         },
         {
           label: 'Follows',
-          data: this.engagementData.followsPerDay.map(d => d.value),
+          data: this.engagementMetricsData.followsPerDay.map((d) => d.value),
           borderColor: this.tertiaryColor,
           backgroundColor: 'rgba(14, 165, 233, 0.1)',
           borderWidth: 3,
-          tension: 0.4
-        }
-      ]
+          tension: 0.4,
+        },
+      ],
     };
   }
 
@@ -239,16 +276,37 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
     if (!this.reviewData) return;
 
     const ratings = Object.keys(this.reviewData.ratingDistribution).sort();
-    const counts = ratings.map(r => this.reviewData!.ratingDistribution[r]);
+    const counts = ratings.map((r) => this.reviewData!.ratingDistribution[r]);
 
     this.ratingDistributionChartData = {
-      labels: ratings.map(r => `${r} Stars`),
-      datasets: [{
-        label: 'Reviews',
-        data: counts,
-        backgroundColor: this.ratingColors,
-        borderWidth: 0
-      }]
+      labels: ratings.map((r) => `${r} Stars`),
+      datasets: [
+        {
+          label: 'Reviews',
+          data: counts,
+          backgroundColor: this.ratingColors,
+          borderWidth: 0,
+        },
+      ],
+    };
+  }
+
+  private prepareReviewsOverTimeChart(): void {
+    if (!this.reviewData?.reviewsOverTime) return;
+
+    this.reviewsOverTimeChartData = {
+      labels: this.reviewData.reviewsOverTime.map((d) => d.label),
+      datasets: [
+        {
+          label: this.t('analytics.user.reviewsOverTimeTitle'),
+          data: this.reviewData.reviewsOverTime.map((d) => d.value),
+          borderColor: this.tertiaryColor,
+          backgroundColor: 'rgba(14, 165, 233, 0.1)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+        },
+      ],
     };
   }
 
@@ -262,7 +320,11 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
   getStars(rating: number): string {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
-    return '★'.repeat(fullStars) + (hasHalfStar ? '☆' : '') + '☆'.repeat(5 - fullStars - (hasHalfStar ? 1 : 0));
+    return (
+      '★'.repeat(fullStars) +
+      (hasHalfStar ? '☆' : '') +
+      '☆'.repeat(5 - fullStars - (hasHalfStar ? 1 : 0))
+    );
   }
 
   private initializeChartOptions(): void {
@@ -275,20 +337,20 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
         tooltip: {
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           padding: 12,
-          cornerRadius: 8
-        }
+          cornerRadius: 8,
+        },
       },
       scales: {
         y: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: '#6b7280' }
+          ticks: { color: '#6b7280' },
         },
         x: {
           grid: { display: false },
-          ticks: { color: '#6b7280', maxRotation: 0 }
-        }
-      }
+          ticks: { color: '#6b7280', maxRotation: 0 },
+        },
+      },
     };
 
     // Multi-line chart for engagement
@@ -296,28 +358,28 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { 
+        legend: {
           display: true,
           position: 'bottom',
-          labels: { color: '#6b7280' }
+          labels: { color: '#6b7280' },
         },
         tooltip: {
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           padding: 12,
-          cornerRadius: 8
-        }
+          cornerRadius: 8,
+        },
       },
       scales: {
         y: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: '#6b7280' }
+          ticks: { color: '#6b7280' },
         },
         x: {
           grid: { display: false },
-          ticks: { color: '#6b7280', maxRotation: 0 }
-        }
-      }
+          ticks: { color: '#6b7280', maxRotation: 0 },
+        },
+      },
     };
 
     // Horizontal bar for rating distribution
@@ -325,27 +387,27 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: false }
+        legend: { display: false },
       },
       scales: {
         x: {
           beginAtZero: true,
           grid: { color: 'rgba(0, 0, 0, 0.05)' },
-          ticks: { color: '#6b7280' }
+          ticks: { color: '#6b7280' },
         },
         y: {
           grid: { display: false },
-          ticks: { color: '#6b7280' }
-        }
+          ticks: { color: '#6b7280' },
+        },
       },
       elements: {
         bar: {
           borderRadius: { topLeft: 8, topRight: 8 },
           borderSkipped: 'bottom',
           barThickness: 24,
-          maxBarThickness: 32
-        }
-      }
+          maxBarThickness: 32,
+        },
+      },
     };
   }
 
