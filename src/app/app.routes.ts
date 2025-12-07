@@ -24,6 +24,7 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
 import { LoginComponent } from './features/auth/login/login.component';
 import { OtpComponent } from './features/auth/otp/otp.component';
 import { authGuard } from './core/guards/auth.guard';
+import { ContentPreviewComponent } from './features/content-preview/content-preview/content-preview.component';
 
 // Define the main protected routes
 const protectedRoutes: Routes = [
@@ -158,6 +159,15 @@ const protectedRoutes: Routes = [
       {
         path: 'content-offers',
         component: ContentMangementComponent,
+      },
+    ],
+  },
+  {
+    path: 'content-preview',
+    children: [
+      {
+        path: 'content-preview',
+        component: ContentPreviewComponent,
       },
     ],
   },
