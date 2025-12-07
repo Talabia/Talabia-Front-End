@@ -58,6 +58,7 @@ export class AuthService {
       .pipe(
         tap((user) => {
           this.setCurrentUser(user);
+          localStorage.setItem('authToken', user.token);
         })
       );
   }
@@ -76,10 +77,15 @@ export class AuthService {
     });
   }
 
-  logout(): void {
-    localStorage.removeItem('currentUser');
-    this.currentUser.set(null);
-    this.router.navigate(['/login']);
+  logout(): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/logout`, {}).pipe(
+      tap(() => {
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('authToken');
+        this.currentUser.set(null);
+        this.router.navigate(['/login']);
+      })
+    );
   }
 
   private setCurrentUser(user: User): void {
@@ -97,6 +103,7 @@ export class AuthService {
     if (user) {
       const updatedUser = { ...user, token, refreshToken };
       this.setCurrentUser(updatedUser);
+      localStorage.setItem('authToken', token);
     }
   }
 }

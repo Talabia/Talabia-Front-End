@@ -163,7 +163,7 @@ const TRANSLATIONS: Translations = {
     'analytics.user.table.itemTitle': 'Item Title',
     'analytics.user.totalRegisteredUsers': 'Total Registered Users',
     'analytics.user.premiumUsersCount': 'Premium Users',
-    'analytics.user.verifiedUsersPercentage': 'Verified Users %',
+    'analytics.user.verifiedUsersPercentage': 'Verified Users',
     // Vehicle Statistics
     'analytics.vehicle.header': 'Vehicle Statistics',
     'analytics.vehicle.loading': 'Loading vehicle data...',
@@ -988,6 +988,13 @@ const TRANSLATIONS: Translations = {
     'analytics.user.table.activity': 'النشاط',
     'analytics.user.table.rating': 'التقييم',
     'analytics.user.table.reviews': 'المراجعات',
+    'analytics.user.reviewsOverTimeTitle': 'اتجاه المراجعات',
+    'analytics.user.mostReviewedOffersTitle': 'العروض الأكثر مراجعة',
+    'analytics.user.mostReviewedOrdersTitle': 'الطلبات الأكثر مراجعة',
+    'analytics.user.table.itemTitle': 'عنوان العنصر',
+    'analytics.user.totalRegisteredUsers': 'إجمالي المستخدمين المسجلين',
+    'analytics.user.premiumUsersCount': 'المستخدمون المميزون',
+    'analytics.user.verifiedUsersPercentage': 'نسبة المستخدمين الموثقين %',
     // Vehicle Statistics
     'analytics.vehicle.header': 'إحصائيات المركبات',
     'analytics.vehicle.loading': 'جاري تحميل بيانات المركبات...',

@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   darkModeBtn: boolean = false;
   hideSideBarBtn: boolean = false;
   currentLang: 'ar' | 'en' = 'ar';
+  isLoggingOut: boolean = false;
 
   public authService = inject(AuthService); // Public for template use
 
@@ -91,6 +92,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.authService.logout();
+    if (this.isLoggingOut) return;
+
+    this.isLoggingOut = true;
+    this.cdr.markForCheck();
+
+    this.authService.logout().subscribe({
+      next: () => {
+        this.isLoggingOut = false;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.isLoggingOut = false;
+        this.cdr.markForCheck();
+      }
+    });
   }
 }

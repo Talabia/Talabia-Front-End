@@ -9,11 +9,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = currentUser?.token;
 
   // Clone request to add Authorization header if token exists
-  // Skip if request is already going to Auth API (except special cases if needed, but usually login/otp don't need token)
+  // Skip if request is already going to Auth API (except logout and refresh-token which need the token)
   let authReq = req;
   const isAuthApi = req.url.includes('/api/Auth/');
+  const isLogoutOrRefresh = req.url.includes('/logout') || req.url.includes('/refresh-token');
 
-  if (token && !isAuthApi) {
+  if (token && (!isAuthApi || isLogoutOrRefresh)) {
     authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,

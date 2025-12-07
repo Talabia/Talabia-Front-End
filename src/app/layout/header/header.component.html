@@ -25,9 +25,19 @@
         </div>
         <p-avatar [image]="user.profileImage" [label]="!user.profileImage ? user.userName.charAt(0).toUpperCase() : ''"
           size="large" class="user-image"></p-avatar>
-        <p-button icon="pi pi-sign-out" severity="secondary" (onClick)="logout()" pTooltip="Logout"></p-button>
+        <p-button icon="pi pi-sign-out" severity="secondary" (click)="logout()" pTooltip="Logout"></p-button>
       </div>
       }
     </ng-template>
   </p-toolbar>
+
+  <!-- Logout overlay loader -->
+  @if (isLoggingOut) {
+  <div class="logout-overlay">
+    <div class="logout-spinner">
+      <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+      <p>Logging out...</p>
+    </div>
+  </div>
+  }
 </header>
