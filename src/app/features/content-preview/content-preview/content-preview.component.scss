@@ -1,0 +1,53 @@
+:host {
+  display: block;
+}
+
+.empty-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.action-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-block: 0.5rem;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.table-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25rem;
+  margin-block: 0.75rem;
+
+  label {
+    span {
+      color: var(--p-red-700);
+    }
+  }
+
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-block-start: 1.5rem;
+  padding-top: 1rem;
+}
