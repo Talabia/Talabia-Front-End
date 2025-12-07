@@ -3,11 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { SideBarComponent } from '../side-bar/side-bar.component';
+import { GlobalLoaderComponent } from '../../shared/components/global-loader/global-loader';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, HeaderComponent, SideBarComponent],
+  imports: [RouterOutlet, CommonModule, HeaderComponent, SideBarComponent, GlobalLoaderComponent],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
 })

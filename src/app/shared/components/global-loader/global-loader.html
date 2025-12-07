@@ -1,0 +1,8 @@
+@if (loaderState.isVisible) {
+<div class="global-loader-overlay">
+  <div class="global-loader-spinner">
+    <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+    <p>{{ loaderState.message | translate }}</p>
+  </div>
+</div>
+}

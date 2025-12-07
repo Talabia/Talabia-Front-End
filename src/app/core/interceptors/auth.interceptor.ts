@@ -28,6 +28,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status === 401 && !authReq.url.includes('/refresh-token')) {
         const user = authService.currentUser();
         if (user && user.token && user.refreshToken) {
+          // Try to refresh the token
           return authService.refreshToken(user.token, user.refreshToken).pipe(
             switchMap((response) => {
               authService.updateTokens(response.token, response.refreshToken);
@@ -40,13 +41,31 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
               return next(newAuthReq);
             }),
             catchError((refreshError) => {
-              // If refresh fails, logout
-              authService.logout();
-              return throwError(() => refreshError);
+              // If refresh token fails, attempt to logout
+              return authService.logout().pipe(
+                catchError((logoutError) => {
+                  // If logout API also fails, force logout by clearing storage
+                  authService.forceLogout();
+                  return throwError(() => logoutError);
+                }),
+                switchMap(() => {
+                  return throwError(() => refreshError);
+                })
+              );
             })
           );
         } else {
-          authService.logout();
+          // No refresh token available, attempt logout
+          return authService.logout().pipe(
+            catchError((logoutError) => {
+              // If logout fails, force logout
+              authService.forceLogout();
+              return throwError(() => logoutError);
+            }),
+            switchMap(() => {
+              return throwError(() => error);
+            })
+          );
         }
       }
       return throwError(() => error);

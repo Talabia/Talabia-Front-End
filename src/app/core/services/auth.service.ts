@@ -40,7 +40,7 @@ export class AuthService {
   // Computed signal to check if user is logged in
   isLoggedIn = computed(() => !!this.currentUser());
 
-  constructor() {}
+  constructor() { }
 
   sendOtp(emailOrPhone: string, otpType: number = 2): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/send/otp`, {
@@ -80,12 +80,35 @@ export class AuthService {
   logout(): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/logout`, {}).pipe(
       tap(() => {
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('authToken');
-        this.currentUser.set(null);
-        this.router.navigate(['/login']);
+        this.clearAuthDataAndNavigate();
       })
     );
+  }
+
+  /**
+   * Force logout - clears auth data and navigates to login
+   * Used when logout API fails or when refresh token fails
+   */
+  forceLogout(): void {
+    this.clearAuthDataAndNavigate();
+  }
+
+  /**
+   * Clear all auth-related data from storage and navigate to login
+   */
+  private clearAuthDataAndNavigate(): void {
+    // Remove all auth-related keys from localStorage
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('authToken');
+    // localStorage.removeItem('darkMode');
+    // localStorage.removeItem('hideSideBar');
+    // localStorage.removeItem('sidebarState');
+
+    // Clear user signal
+    this.currentUser.set(null);
+
+    // Navigate to login
+    this.router.navigate(['/login']);
   }
 
   private setCurrentUser(user: User): void {

@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { Subject, takeUntil } from 'rxjs';
 import { LanguageService } from '../../shared/services/language.service';
+import { GlobalLoaderService } from '../../shared/services/global-loader.service';
 
 @Component({
   selector: 'app-header',
@@ -31,13 +32,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   darkModeBtn: boolean = false;
   hideSideBarBtn: boolean = false;
   currentLang: 'ar' | 'en' = 'ar';
-  isLoggingOut: boolean = false;
 
   public authService = inject(AuthService); // Public for template use
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private languageService: LanguageService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private languageService: LanguageService,
+    private cdr: ChangeDetectorRef,
+    private globalLoaderService: GlobalLoaderService
+  ) {}
 
   ngOnInit() {
     const savedDarkMode = localStorage.getItem('darkMode');
@@ -92,19 +96,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    if (this.isLoggingOut) return;
+    if (this.globalLoaderService.isVisible()) return;
 
-    this.isLoggingOut = true;
-    this.cdr.markForCheck();
+    this.globalLoaderService.show('common.loggingOut');
 
     this.authService.logout().subscribe({
       next: () => {
-        this.isLoggingOut = false;
-        this.cdr.markForCheck();
+        this.globalLoaderService.hide();
       },
       error: () => {
-        this.isLoggingOut = false;
-        this.cdr.markForCheck();
+        // If logout API fails, force logout (already handled in service)
+        // Just hide the loader as the user will be redirected
+        this.globalLoaderService.hide();
+        // Force logout to ensure cleanup even if API fails
+        this.authService.forceLogout();
       }
     });
   }
