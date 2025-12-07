@@ -1,0 +1,60 @@
+// * Font Management Mixin Documentation
+//  This mixin is used for generating font-face rules for different font weights.
+//  It ensures consistent font loading across various browsers by providing multiple font file formats.
+//  The mixin accepts four parameters: font name, font weight, font path, and SVG ID for legacy iOS.
+
+// * Example usage:
+// ? @include font-face($font-family, $font-weights, $font-path, 'NunitoSans');
+
+// * Font Weights Mapping:
+// ? Font weights in Figma VS  font weights in the code:
+//    - ExtraLight ==> 200
+//    - Light ==> 300
+//    - Regular ==> 400
+//    - Medium ==> 500
+//    - SemiBold ==> 600
+//    - Bold ==> 700
+//    - ExtraBold ==> 800
+//    - Black ==> 900
+//    - UltraBlack ==> 1000
+// * Font sizes Variables:
+// Font weights
+$fw-200: 200;
+$fw-300: 300;
+$fw-400: 400;
+$fw-500: 500;
+$fw-600: 600;
+$fw-700: 700;
+$fw-800: 800;
+$fw-900: 900;
+$fw-1000: 1000;
+// ! Make sure to include the font files in the correct directory for proper loading.
+$font-path: '../fonts/NunitoSans';
+$font-family: 'Nunito Sans';
+$font-weights: ($fw-200, $fw-300, $fw-400, $fw-500, $fw-600, $fw-700, $fw-800, $fw-900, $fw-1000);
+
+@mixin font-face($name, $weight, $path, $svg-id) {
+  @font-face {
+    font-family: $name;
+    font-style: normal;
+    font-weight: $weight;
+    src: url('#{$path}.eot');
+    // ! For IE6-IE8: Embedded OpenType format
+    src: url('#{$path}.eot?#iefix') format('embedded-opentype'),
+    // ? For modern browsers: WOFF2 format
+    url('#{$path}.woff2') format('woff2'),
+    // ? For modern browsers: WOFF format
+    url('#{$path}.woff') format('woff'),
+    // ? For Safari, Android, iOS: TTF format
+    url('#{$path}.ttf') format('truetype'),
+    // ! For legacy iOS: SVG format
+    url('#{$path}.svg##{$svg-id}') format('svg');
+    font-display: swap;
+    // * Ensures faster font rendering
+  }
+}
+
+// @each loop to generate font-face rules for each font weight
+@each $weight in $font-weights {
+  @include font-face($font-family, $weight, '#{$font-path}', 'NunitoSans');
+}
