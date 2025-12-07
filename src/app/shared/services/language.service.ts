@@ -994,7 +994,7 @@ const TRANSLATIONS: Translations = {
     'analytics.user.table.itemTitle': 'عنوان العنصر',
     'analytics.user.totalRegisteredUsers': 'إجمالي المستخدمين المسجلين',
     'analytics.user.premiumUsersCount': 'المستخدمون المميزون',
-    'analytics.user.verifiedUsersPercentage': 'نسبة المستخدمين الموثقين %',
+    'analytics.user.verifiedUsersPercentage': 'نسبة المستخدمين الموثقين',
     // Vehicle Statistics
     'analytics.vehicle.header': 'إحصائيات المركبات',
     'analytics.vehicle.loading': 'جاري تحميل بيانات المركبات...',
