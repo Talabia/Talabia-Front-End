@@ -19,6 +19,11 @@
             <p-select [options]="filterOptions" [(ngModel)]="selectedFilter" optionLabel="label" optionValue="value"
                 [placeholder]="'users.filters.typePlaceholder' | translate" (onChange)="onFilterChange()"
                 [disabled]="loading" [showClear]="true" />
+            <!-- Vertical Divider -->
+            <p-divider layout="vertical" [style]="{display: 'none'}" />
+            <!-- Export Button Placeholder -->
+            <p-button [label]="'users.button.export' | translate" icon="pi pi-download" [disabled]="loading"
+                (click)="onExport()" [style]="{display: 'none'}" />
         </div>
 
         <p-table [value]="users" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"
@@ -85,6 +90,8 @@
                                 [severity]="user.isPremium ? 'secondary' : 'primary'"
                                 [icon]="user.isPremium ? 'pi pi-user' : 'pi pi-star'" [disabled]="loading"
                                 (click)="confirmPremiumToggle($event, user)" />
+                            <p-button [pTooltip]="'users.button.delete' | translate" severity="danger"
+                                icon="pi pi-trash" [disabled]="loading" (click)="confirmDelete($event, user)" />
                         </div>
                     </td>
                 </tr>

@@ -32,6 +32,7 @@ import {
 } from '../models/user.models';
 import { Subject, takeUntil, timeout, distinctUntilChanged } from 'rxjs';
 import { Tooltip } from 'primeng/tooltip';
+import { Divider } from 'primeng/divider';
 @Component({
   selector: 'app-user-account-management',
   imports: [
@@ -51,6 +52,7 @@ import { Tooltip } from 'primeng/tooltip';
     ConfirmPopupModule,
     TranslatePipe,
     Tooltip,
+    Divider,
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './user-account-management.component.html',
@@ -435,6 +437,75 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
   closeViewDialog(): void {
     this.viewDialogVisible = false;
     this.selectedUser = null;
+  }
+
+  /**
+   * Confirm and delete user
+   */
+  confirmDelete(event: Event, user: AdminUser): void {
+    this.confirmationService.confirm({
+      target: event.currentTarget as EventTarget,
+      message: this.t('users.confirm.delete', { name: user.userName }),
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+        label: this.t('theme.button.cancel'),
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: this.t('users.button.delete'),
+        severity: 'danger',
+      },
+      accept: () => {
+        this.deleteUser(user);
+      },
+    });
+  }
+
+  /**
+   * Delete user
+   */
+  private deleteUser(user: AdminUser): void {
+    this.loading = true;
+
+    this.usersService
+      .deleteUser(user.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: this.t('common.success'),
+            detail: this.t('users.notification.deleteSuccess'),
+            life: 3000,
+          });
+          this.loadUsers();
+        },
+        error: (error: any) => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('users.notification.deleteError'),
+            life: 5000,
+          });
+          this.cdr.detectChanges();
+        },
+      });
+  }
+
+  /**
+   * Export users (placeholder)
+   */
+  onExport(): void {
+    // Placeholder for export functionality
+    this.messageService.add({
+      severity: 'info',
+      summary: this.t('common.info') || 'Info',
+      detail: this.t('users.notification.exportPlaceholder') || 'Export feature coming soon',
+      life: 3000,
+    });
   }
 
   private t(key: string, params?: Record<string, unknown>): string {

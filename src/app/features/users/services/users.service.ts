@@ -116,6 +116,21 @@ export class UsersService {
   }
 
   /**
+   * Delete user by ID
+   * DELETE /api/AdminUsers/delete?UserId={id}
+   */
+  deleteUser(userId: string): Observable<boolean> {
+    const params = new HttpParams().set('UserId', userId);
+
+    return this.http
+      .delete<ApiResponse<boolean>>(`${this.baseUrl}AdminUsers/delete`, { params })
+      .pipe(
+        map((response) => response.success),
+        catchError(this.handleError)
+      );
+  }
+
+  /**
    * Get cities from Lookups API
    * GET /api/Lookups/cities
    */

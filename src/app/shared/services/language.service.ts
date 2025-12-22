@@ -435,6 +435,14 @@ const TRANSLATIONS: Translations = {
     'users.notification.banError': 'Failed to update ban status',
     'users.notification.premiumSuccess': 'Premium status updated successfully',
     'users.notification.premiumError': 'Failed to update premium status',
+    'users.notification.deleteSuccess': 'User deleted successfully',
+    'users.notification.deleteError': 'Failed to delete user',
+    'users.notification.exportPlaceholder': 'Export feature coming soon',
+    'users.button.delete': 'Delete',
+    'users.button.export': 'Export',
+    'users.confirm.delete':
+      'Are you sure you want to delete "{{name}}"? This action cannot be undone.',
+    'common.info': 'Info',
     'cities.header': 'Cities',
     'cities.searchPlaceholder': 'Search cities...',
     'cities.button.create': 'Create',
@@ -889,8 +897,7 @@ const TRANSLATIONS: Translations = {
     'contentPreview.field.contentEn': 'Content (English)',
     'contentPreview.type.usagePolicy': 'Usage Policy',
     'contentPreview.type.aboutUs': 'About Us',
-    'contentPreview.confirm.deleteMessage':
-      'Are you sure you want to delete "{{title}}"?',
+    'contentPreview.confirm.deleteMessage': 'Are you sure you want to delete "{{title}}"?',
     'contentPreview.notification.createSuccess': 'Content created successfully',
     'contentPreview.notification.createError': 'Failed to create content',
     'contentPreview.notification.updateSuccess': 'Content updated successfully',
@@ -1317,6 +1324,13 @@ const TRANSLATIONS: Translations = {
     'users.notification.banError': 'فشل تحديث حالة الحظر',
     'users.notification.premiumSuccess': 'تم تحديث حالة التمييز بنجاح',
     'users.notification.premiumError': 'فشل تحديث حالة التمييز',
+    'users.notification.deleteSuccess': 'تم حذف المستخدم بنجاح',
+    'users.notification.deleteError': 'فشل حذف المستخدم',
+    'users.notification.exportPlaceholder': 'ميزة التصدير قادمة قريبًا',
+    'users.button.delete': 'حذف',
+    'users.button.export': 'تصدير',
+    'users.confirm.delete': 'هل أنت متأكد أنك تريد حذف "{{name}}"؟ لا يمكن التراجع عن هذا الإجراء.',
+    'common.info': 'معلومات',
     'verifications.header': 'توثيق المستخدمين',
     'verifications.filters.searchPlaceholder':
       'ابحث بالاسم أو البريد الإلكتروني أو الرقم التجاري...',
@@ -1777,7 +1791,8 @@ const TRANSLATIONS: Translations = {
     'contentPreview.validation.titleEnRequired': 'العنوان بالإنجليزية مطلوب',
     'contentPreview.validation.contentArRequired': 'المحتوى بالعربية مطلوب',
     'contentPreview.validation.contentEnRequired': 'المحتوى بالإنجليزية مطلوب',
-    'contentPreview.validation.titleArPattern': 'يجب أن يحتوي العنوان بالعربية على حرف عربي واحد على الأقل',
+    'contentPreview.validation.titleArPattern':
+      'يجب أن يحتوي العنوان بالعربية على حرف عربي واحد على الأقل',
     'contentPreview.validation.titleEnPattern':
       'يجب أن يحتوي العنوان بالإنجليزية على حرف إنجليزي واحد على الأقل',
     'contentPreview.validation.invalid': 'قيمة غير صحيحة',
