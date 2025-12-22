@@ -120,9 +120,13 @@
         <div class="detail-row">
             <label class="detail-label">{{'verifications.detailsDialog.fields.taxCertificate' | translate}}:</label>
             @if (selectedVerificationDetails.taxCertificateUrl) {
-            <a [href]="selectedVerificationDetails.taxCertificateUrl" target="_blank" class="detail-value">
-                {{'verifications.detailsDialog.viewDocument' | translate}}
-            </a>
+            <div class="image-preview-container" style="display: flex; align-items: center; gap: 8px;">
+                <p-image [src]="selectedVerificationDetails.taxCertificateUrl" alt="Tax Certificate" width="100"
+                    [preview]="true" />
+                <p-button icon="pi pi-download" [pTooltip]="'verifications.detailsDialog.downloadDocument' | translate"
+                    severity="secondary" [text]="true"
+                    (click)="downloadFile(selectedVerificationDetails.taxCertificateUrl, 'tax-certificate')" />
+            </div>
             } @else {
             <span class="detail-value">-</span>
             }
@@ -130,9 +134,13 @@
         <div class="detail-row">
             <label class="detail-label">{{'verifications.detailsDialog.fields.storeImage' | translate}}:</label>
             @if (selectedVerificationDetails.storeImageUrl) {
-            <a [href]="selectedVerificationDetails.storeImageUrl" target="_blank" class="detail-value">
-                {{'verifications.detailsDialog.viewImage' | translate}}
-            </a>
+            <div class="image-preview-container" style="display: flex; align-items: center; gap: 8px;">
+                <p-image [src]="selectedVerificationDetails.storeImageUrl" alt="Store Image" width="100"
+                    [preview]="true" />
+                <p-button icon="pi pi-download" [pTooltip]="'verifications.detailsDialog.downloadImage' | translate"
+                    severity="secondary" [text]="true"
+                    (click)="downloadFile(selectedVerificationDetails.storeImageUrl, 'store-image')" />
+            </div>
             } @else {
             <span class="detail-value">-</span>
             }

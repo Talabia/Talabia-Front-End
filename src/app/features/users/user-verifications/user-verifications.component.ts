@@ -36,6 +36,7 @@ import {
 import { Subject, takeUntil, timeout, distinctUntilChanged } from 'rxjs';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
+import { ImageModule } from 'primeng/image';
 @Component({
   selector: 'app-user-verifications',
   imports: [
@@ -58,6 +59,7 @@ import { TooltipModule } from 'primeng/tooltip';
     DatePickerModule,
     TextareaModule,
     TooltipModule,
+    ImageModule,
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './user-verifications.component.html',
@@ -511,5 +513,31 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
 
   private t(key: string, params?: Record<string, unknown>): string {
     return this.languageService.translate(key, params);
+  }
+
+  /**
+   * Download file without opening a new tab
+   */
+  downloadFile(url: string, filename: string): void {
+    fetch(url)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+      })
+      .catch((error) => {
+        console.error('Download failed:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: this.t('common.error'),
+          detail: this.t('verifications.notification.downloadError'),
+          life: 5000,
+        });
+      });
   }
 }
