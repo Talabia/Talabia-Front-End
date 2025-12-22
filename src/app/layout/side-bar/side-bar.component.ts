@@ -34,7 +34,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
     private languageService: LanguageService,
     private navigationService: NavigationService,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.buildMenu();
@@ -54,11 +54,13 @@ export class SideBarComponent implements OnInit, OnDestroy {
         label: this.t('sidebar.advertisement'),
         icon: 'pi pi-bullseye',
         routerLink: this.navigationService.getRouterLink('/advertisement/advertisement-management'),
+        routerLinkActiveOptions: { exact: true },
       },
       {
         label: this.t('sidebar.theme'),
         icon: 'pi pi-palette',
         routerLink: this.navigationService.getRouterLink('/application-theme/theme-management'),
+        routerLinkActiveOptions: { exact: true },
       },
       {
         label: this.t('sidebar.customerSupport'),
@@ -66,38 +68,38 @@ export class SideBarComponent implements OnInit, OnDestroy {
         routerLink: this.navigationService.getRouterLink(
           '/customer-support/customer-support-mangement'
         ),
+        routerLinkActiveOptions: { exact: true },
       },
       {
         label: this.t('sidebar.notifications'),
         icon: 'pi pi-bell',
         routerLink: this.navigationService.getRouterLink('/notifications/notifications-center'),
+        routerLinkActiveOptions: { exact: true },
       },
       {
         label: this.t('sidebar.messageChatReview'),
         icon: 'pi pi-comments',
         routerLink: this.navigationService.getRouterLink('/message-chat-review/chat-reivew'),
+        routerLinkActiveOptions: { exact: true },
       },
       {
         label: this.t('sidebar.contentManagement'),
         icon: 'pi pi-box',
         routerLink: this.navigationService.getRouterLink('/content-management/content-offers'),
+        routerLinkActiveOptions: { exact: true },
       },
       {
         label: this.t('sidebar.contentPreview'),
         icon: 'pi pi-box',
         routerLink: this.navigationService.getRouterLink('/content-preview/content-preview'),
+        routerLinkActiveOptions: { exact: true },
       },
       {
         label: this.t('sidebar.reports'),
         icon: 'pi pi-flag',
         routerLink: this.navigationService.getRouterLink('/reports/reports-mangement'),
-        // items: [
-        //   {
-        //     label: this.t('sidebar.reportsManagement'),
-        //     icon: 'pi pi-file',
-        //   },
-        // ],
-      }
+        routerLinkActiveOptions: { exact: true },
+      },
     ];
 
     this.items = [
@@ -109,31 +111,31 @@ export class SideBarComponent implements OnInit, OnDestroy {
             label: this.t('lookups.cities'),
             icon: 'pi pi-file',
             routerLink: this.navigationService.getRouterLink('/looksup/cities'),
+            routerLinkActiveOptions: { exact: true },
           },
-          // {
-          //   label: this.t('lookups.conditions'),
-          //   icon: 'pi pi-file',
-          //   routerLink: this.navigationService.getRouterLink('/looksup/conditions'),
-          // },
           {
             label: this.t('lookups.sparePartsStatus'),
             icon: 'pi pi-file',
             routerLink: this.navigationService.getRouterLink('/looksup/spare-parts-status'),
+            routerLinkActiveOptions: { exact: true },
           },
           {
             label: this.t('lookups.vehicleTypes'),
             icon: 'pi pi-file',
             routerLink: this.navigationService.getRouterLink('/looksup/vehicle-types'),
+            routerLinkActiveOptions: { exact: true },
           },
           {
             label: this.t('lookups.vehicleMakers'),
             icon: 'pi pi-file',
             routerLink: this.navigationService.getRouterLink('/looksup/vehicle-makers'),
+            routerLinkActiveOptions: { exact: true },
           },
           {
             label: this.t('lookups.vehicleModels'),
             icon: 'pi pi-file',
             routerLink: this.navigationService.getRouterLink('/looksup/vehicle-models'),
+            routerLinkActiveOptions: { exact: true },
           },
         ],
       },
@@ -145,11 +147,13 @@ export class SideBarComponent implements OnInit, OnDestroy {
             label: this.t('users.management'),
             icon: 'pi pi-user',
             routerLink: this.navigationService.getRouterLink('/users/user-management'),
+            routerLinkActiveOptions: { exact: true },
           },
           {
             label: this.t('users.verifications'),
             icon: 'pi pi-verified',
             routerLink: this.navigationService.getRouterLink('/users/user-verifications'),
+            routerLinkActiveOptions: { exact: true },
           },
         ],
       },
@@ -161,6 +165,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
             label: this.t('sidebar.reportsStatistics'),
             icon: 'pi pi-chart-line',
             routerLink: this.navigationService.getRouterLink('/analytics-statistics/dashboard'),
+            routerLinkActiveOptions: { exact: true },
           },
           {
             label: this.t('sidebar.verificationsStatistics'),
@@ -168,6 +173,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
             routerLink: this.navigationService.getRouterLink(
               '/analytics-statistics/verifications-statistics'
             ),
+            routerLinkActiveOptions: { exact: true },
           },
           {
             label: this.t('sidebar.businessStatistics'),
@@ -175,6 +181,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
             routerLink: this.navigationService.getRouterLink(
               '/analytics-statistics/business-statistics'
             ),
+            routerLinkActiveOptions: { exact: true },
           },
           {
             label: this.t('sidebar.userStatistics'),
@@ -182,6 +189,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
             routerLink: this.navigationService.getRouterLink(
               '/analytics-statistics/user-statistics'
             ),
+            routerLinkActiveOptions: { exact: true },
           },
           {
             label: this.t('sidebar.vehicleStatistics'),
@@ -189,9 +197,10 @@ export class SideBarComponent implements OnInit, OnDestroy {
             routerLink: this.navigationService.getRouterLink(
               '/analytics-statistics/vehicle-statistics'
             ),
+            routerLinkActiveOptions: { exact: true },
           },
         ],
-      }
+      },
     ];
 
     this.cdr.markForCheck();

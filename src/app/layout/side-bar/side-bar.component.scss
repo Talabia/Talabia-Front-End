@@ -5,10 +5,16 @@
 .layout-sidebar {
   background: var(--p-toolbar-background);
   border-inline: 1px solid var(--p-toolbar-border-color);
-  width: 250px;
+  width: 280px;
   height: 100vh;
-  padding: 1rem 0.5rem;
-  overflow-y: auto;
+
+  .menu-container {
+    height: calc(100vh - 5rem);
+    padding: 1rem 0.75rem;
+    overflow-y: auto;
+
+  }
+
   z-index: 10000;
   transition: all 0.3s ease;
 
@@ -20,9 +26,26 @@
     transition: all 0.3s ease;
   }
 
-  .dropdown-menu {
-    &:not(:first-of-type) {
-      margin-block-start: 0.5rem;
+  // Active menu item styling
+  ::ng-deep {
+
+    // Target all active link variations in PanelMenu
+    .p-panelmenu-item-link.p-panelmenu-item-link-active,
+    .p-panelmenu-panel>.p-panelmenu-header>.p-panelmenu-header-link.p-panelmenu-item-link-active,
+    .p-panelmenu-header-content>a.p-panelmenu-item-link-active,
+    a.p-panelmenu-item-link-active {
+      background: var(--p-primary-color) !important;
+      color: #ffffff !important;
+      border-radius: 6px;
+
+      // Force white color on all text and icon elements
+      .p-menuitem-icon,
+      .p-menuitem-text,
+      .p-panelmenu-header-label,
+      span,
+      i {
+        color: #ffffff !important;
+      }
     }
   }
 }

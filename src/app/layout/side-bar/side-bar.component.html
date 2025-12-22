@@ -1,4 +1,6 @@
 <aside class="layout-sidebar" [class.hidden]="hidden">
-  <p-panelmenu [model]="menuItems" class="dropdown-menu"></p-panelmenu>
-  <p-panelmenu [model]="items" class="dropdown-menu" />
+  <div class="menu-container">
+    <p-panelmenu [model]="menuItems"></p-panelmenu>
+    <p-panelmenu [model]="items" [style]="{ marginBlock: '0.5rem' }" />
+  </div>
 </aside>
