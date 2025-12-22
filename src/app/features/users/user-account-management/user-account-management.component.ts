@@ -91,6 +91,7 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
   private readonly filterOptionConfigs = [
     { labelKey: 'users.filters.type.premium', value: UserTypeFilterEnum.Premium },
     { labelKey: 'users.filters.type.banned', value: UserTypeFilterEnum.Banned },
+    { labelKey: 'users.filters.type.verified', value: UserTypeFilterEnum.Verified },
   ];
 
   constructor(

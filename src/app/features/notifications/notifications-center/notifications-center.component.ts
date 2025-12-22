@@ -148,6 +148,10 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
         label: this.t('notificationsCenter.targetAudience.specificCity'),
         value: AdminNotificationTargetAudience.SpecificCity,
       },
+      {
+        label: this.t('notificationsCenter.targetAudience.specificUsers'),
+        value: AdminNotificationTargetAudience.SpecificUsers,
+      }
     ];
   }
 

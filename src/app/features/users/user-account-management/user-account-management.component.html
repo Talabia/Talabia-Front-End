@@ -36,6 +36,7 @@
                     <th style="min-width:150px">{{'users.table.city' | translate}}</th>
                     <th style="min-width:120px">{{'users.table.joinDate' | translate}}</th>
                     <th style="min-width:120px">{{'users.table.premium' | translate}}</th>
+                    <th style="min-width:120px">{{'users.table.verified' | translate}}</th>
                     <th style="min-width:120px">{{'users.table.banStatus' | translate}}</th>
                     <th style="min-width:300px">{{'users.table.actions' | translate}}</th>
                 </tr>
@@ -54,6 +55,13 @@
                         <p-tag severity="primary" [value]="'users.tag.premium' | translate" />
                         } @else {
                         <p-tag severity="secondary" [value]="'users.tag.regular' | translate" />
+                        }
+                    </td>
+                    <td>
+                        @if (user.isVerified) {
+                        <p-tag severity="primary" [value]="'users.tag.verified' | translate" />
+                        } @else {
+                        <p-tag severity="secondary" [value]="'users.tag.unverified' | translate" />
                         }
                     </td>
                     <td>

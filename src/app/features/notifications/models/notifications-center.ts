@@ -5,6 +5,7 @@ export enum AdminNotificationTargetAudience {
   VerifiedAccounts = 2,
   PremiumAccounts = 3,
   SpecificCity = 4,
+  SpecificUsers = 5
 }
 
 export interface Notification {

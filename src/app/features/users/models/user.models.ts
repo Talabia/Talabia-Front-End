@@ -11,6 +11,7 @@ export interface AdminUser {
   joinDate: string;
   isPremium: boolean;
   isBlocked: boolean;
+  isVerified: boolean;
 }
 
 // User metadata from details endpoint
@@ -60,7 +61,8 @@ export interface PremiumUserRequest {
 
 export enum UserTypeFilterEnum {
   Premium = 1,
-  Banned = 2
+  Banned = 2,
+  Verified = 3
 }
 
 export interface ApiResponse<T> {

@@ -34,7 +34,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
     private languageService: LanguageService,
     private navigationService: NavigationService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.buildMenu();
@@ -87,6 +87,17 @@ export class SideBarComponent implements OnInit, OnDestroy {
         icon: 'pi pi-box',
         routerLink: this.navigationService.getRouterLink('/content-preview/content-preview'),
       },
+      {
+        label: this.t('sidebar.reports'),
+        icon: 'pi pi-flag',
+        routerLink: this.navigationService.getRouterLink('/reports/reports-mangement'),
+        // items: [
+        //   {
+        //     label: this.t('sidebar.reportsManagement'),
+        //     icon: 'pi pi-file',
+        //   },
+        // ],
+      }
     ];
 
     this.items = [
@@ -147,7 +158,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
         icon: 'pi pi-chart-bar',
         items: [
           {
-            label: this.t('sidebar.dashboard'),
+            label: this.t('sidebar.reportsStatistics'),
             icon: 'pi pi-chart-line',
             routerLink: this.navigationService.getRouterLink('/analytics-statistics/dashboard'),
           },
@@ -180,18 +191,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
             ),
           },
         ],
-      },
-      {
-        label: this.t('sidebar.reports'),
-        icon: 'pi pi-flag',
-        items: [
-          {
-            label: this.t('sidebar.reportsManagement'),
-            icon: 'pi pi-file',
-            routerLink: this.navigationService.getRouterLink('/reports/reports-mangement'),
-          },
-        ],
-      },
+      }
     ];
 
     this.cdr.markForCheck();
