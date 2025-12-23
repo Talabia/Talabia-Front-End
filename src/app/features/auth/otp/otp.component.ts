@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { InputOtpModule } from 'primeng/inputotp';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
@@ -21,6 +21,7 @@ import { CardModule } from 'primeng/card';
     ToastModule,
     TranslatePipe,
     CardModule,
+    RouterLink,
   ],
   providers: [MessageService],
   templateUrl: './otp.component.html',
