@@ -6,36 +6,28 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
-import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
-import { ConfirmPopupModule } from 'primeng/confirmpopup';
-import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DatePicker } from 'primeng/datepicker';
-import { Select } from 'primeng/select';
-import { TextareaModule } from 'primeng/textarea';
 import { TagModule } from 'primeng/tag';
 import { NotificationsCenterService } from '../services/notifications-center.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { LanguageService } from '../../../shared/services/language.service';
+import { NavigationService } from '../../../shared/services/navigation.service';
 import {
   Notification,
-  SendNotificationRequest,
   NotificationsListRequest,
   NotificationsListResponse,
-  AdminNotificationTargetAudience,
-  City,
 } from '../models/notifications-center';
-import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
+import { Subject, takeUntil, timeout } from 'rxjs';
 
 @Component({
   selector: 'app-notifications-center',
@@ -43,24 +35,17 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
     CardModule,
     TableModule,
     ButtonModule,
-    InputTextModule,
     FormsModule,
-    ReactiveFormsModule,
     DividerModule,
-    DialogModule,
     TooltipModule,
     ToastModule,
-    ConfirmPopupModule,
-    MessageModule,
     ProgressSpinnerModule,
     DatePicker,
-    Select,
-    TextareaModule,
     TagModule,
     DatePipe,
     TranslatePipe,
   ],
-  providers: [ConfirmationService, MessageService],
+  providers: [MessageService],
   templateUrl: './notifications-center.component.html',
   styleUrl: './notifications-center.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,7 +53,6 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
 export class NotificationsCenterComponent implements OnInit, OnDestroy {
   // Data properties
   notifications: Notification[] = [];
-  cities: City[] = [];
   totalRecords: number = 0;
   loading: boolean = false;
 
@@ -81,83 +65,31 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
   rangeDates: Date[] | null = null;
   private currentSearchRequest?: any;
 
-  // Dialog properties
-  visible: boolean = false;
-  dialogTitle: string = '';
-
   pageReportTemplate: string = '';
-
-  // Form properties
-  notificationForm!: FormGroup;
-  submitted: boolean = false;
-
-  // Target audience options
-  targetAudienceOptions: { label: string; value: AdminNotificationTargetAudience }[] = [];
-  selectedTargetAudience: AdminNotificationTargetAudience | null = null;
-
-  // Expose enum for template
-  AdminNotificationTargetAudience = AdminNotificationTargetAudience;
-
-  // Validation patterns
-  private readonly arabicPattern =
-    /^(?!\s+$)(?!\d+$)(?![^\w\s\u0600-\u06FF]+$)(?=.*[\u0600-\u06FF])[\u0600-\u06FF0-9][\u0600-\u06FF0-9\s.,!?@#$%^&()|_+=<>:;\-\[\]]*$/;
-  private readonly englishPattern =
-    /^(?!\s+$)(?!\d+$)(?![^\w\s]+$)(?=.*[A-Za-z])[A-Za-z0-9][A-Za-z0-9\s.,!?@#$%^&()|_+=<>:;\-\[\]]*$/;
 
   private destroy$ = new Subject<void>();
 
   constructor(
     private notificationsService: NotificationsCenterService,
     private cdr: ChangeDetectorRef,
-    private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private fb: FormBuilder,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private router: Router,
+    private navigationService: NavigationService
   ) {
-    this.initializeForm();
-    this.buildTargetAudienceOptions();
     this.pageReportTemplate = this.t('table.currentPageReport');
-    this.dialogTitle = this.t('notificationsCenter.dialog.createTitle');
     this.observeLanguageChanges();
   }
 
   private observeLanguageChanges(): void {
     this.languageService.languageChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.buildTargetAudienceOptions();
       this.pageReportTemplate = this.t('table.currentPageReport');
-      this.dialogTitle = this.t('notificationsCenter.dialog.createTitle');
       this.cdr.markForCheck();
     });
   }
 
-  private buildTargetAudienceOptions(): void {
-    this.targetAudienceOptions = [
-      {
-        label: this.t('notificationsCenter.targetAudience.allUsers'),
-        value: AdminNotificationTargetAudience.AllUsers,
-      },
-      {
-        label: this.t('notificationsCenter.targetAudience.verifiedAccounts'),
-        value: AdminNotificationTargetAudience.VerifiedAccounts,
-      },
-      {
-        label: this.t('notificationsCenter.targetAudience.premiumAccounts'),
-        value: AdminNotificationTargetAudience.PremiumAccounts,
-      },
-      {
-        label: this.t('notificationsCenter.targetAudience.specificCity'),
-        value: AdminNotificationTargetAudience.SpecificCity,
-      },
-      {
-        label: this.t('notificationsCenter.targetAudience.specificUsers'),
-        value: AdminNotificationTargetAudience.SpecificUsers,
-      }
-    ];
-  }
-
   ngOnInit(): void {
     this.loadNotifications();
-    this.loadCities();
   }
 
   ngOnDestroy(): void {
@@ -169,29 +101,6 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
       this.currentSearchRequest.unsubscribe();
     }
     this.loading = false;
-  }
-
-  private initializeForm(): void {
-    this.notificationForm = this.fb.group({
-      titleEn: ['', [Validators.required, Validators.minLength(3)]],
-      titleAr: ['', [Validators.required, Validators.pattern(this.arabicPattern)]],
-      descriptionEn: ['', [Validators.required, Validators.minLength(10)]],
-      descriptionAr: ['', [Validators.required, Validators.pattern(this.arabicPattern)]],
-      targetAudience: [null, Validators.required],
-      cityId: [null],
-    });
-
-    // Watch target audience changes to show/hide city field
-    this.notificationForm.get('targetAudience')?.valueChanges.subscribe((value) => {
-      const cityControl = this.notificationForm.get('cityId');
-      if (value === AdminNotificationTargetAudience.SpecificCity) {
-        cityControl?.setValidators([Validators.required]);
-      } else {
-        cityControl?.clearValidators();
-        cityControl?.setValue(null);
-      }
-      cityControl?.updateValueAndValidity();
-    });
   }
 
   /**
@@ -255,26 +164,6 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Load cities for dropdown
-   */
-  loadCities(): void {
-    this.notificationsService
-      .getCities()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (cities: City[]) => {
-          this.cities = cities || [];
-          this.cdr.detectChanges();
-        },
-        error: (error) => {
-          console.error('Error loading cities:', error);
-          this.cities = [];
-          this.cdr.detectChanges();
-        },
-      });
-  }
-
-  /**
    * Handle pagination change
    */
   pageChange(event: any): void {
@@ -293,14 +182,11 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Show create notification dialog
+   * Navigate to send notification page
    */
-  showCreateDialog(): void {
-    this.dialogTitle = this.t('notificationsCenter.dialog.createTitle');
-    this.notificationForm.reset();
-    this.selectedTargetAudience = null;
-    this.submitted = false;
-    this.visible = true;
+  navigateToSendNotification(): void {
+    const route = this.navigationService.getRouterLink('/notifications/send-notification');
+    this.router.navigate([route]);
   }
 
   /**
@@ -316,148 +202,6 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
       this.currentPage = 1;
       this.loadNotifications();
     }
-  }
-
-  /**
-   * Send notification
-   */
-  sendNotification(): void {
-    this.submitted = true;
-
-    if (this.notificationForm.invalid) {
-      this.markFormGroupTouched();
-      return;
-    }
-
-    this.loading = true;
-    const formValue = this.notificationForm.value;
-
-    const sendRequest: SendNotificationRequest = {
-      titleEn: formValue.titleEn.trim(),
-      titleAr: formValue.titleAr.trim(),
-      descriptionEn: formValue.descriptionEn.trim(),
-      descriptionAr: formValue.descriptionAr.trim(),
-      targetAudience: formValue.targetAudience,
-      cityId:
-        formValue.targetAudience === AdminNotificationTargetAudience.SpecificCity
-          ? formValue.cityId
-          : undefined,
-    };
-
-    this.notificationsService
-      .sendNotification(sendRequest)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => {
-          this.loading = false;
-          this.visible = false;
-          this.messageService.add({
-            severity: 'success',
-            summary: this.t('common.success'),
-            detail: this.t('notificationsCenter.notification.sendSuccess'),
-            life: 3000,
-          });
-          this.loadNotifications();
-        },
-        error: (error) => {
-          this.loading = false;
-          this.messageService.add({
-            severity: 'error',
-            summary: this.t('common.error'),
-            detail: error.message || this.t('notificationsCenter.notification.sendError'),
-            life: 5000,
-          });
-          this.cdr.detectChanges();
-        },
-      });
-  }
-
-  /**
-   * Cancel dialog
-   */
-  cancelDialog(): void {
-    this.visible = false;
-    this.submitted = false;
-    this.notificationForm.reset();
-    this.selectedTargetAudience = null;
-  }
-
-  /**
-   * Mark all form controls as touched for validation display
-   */
-  private markFormGroupTouched(): void {
-    Object.keys(this.notificationForm.controls).forEach((key) => {
-      const control = this.notificationForm.get(key);
-      control?.markAsTouched();
-    });
-    this.cdr.detectChanges();
-  }
-
-  /**
-   * Get form control for template access
-   */
-  getFormControl(controlName: string) {
-    return this.notificationForm.get(controlName);
-  }
-
-  /**
-   * Check if form control has error
-   */
-  hasError(controlName: string, errorType?: string): boolean {
-    const control = this.getFormControl(controlName);
-    if (!control) return false;
-
-    const hasError = errorType ? control.hasError(errorType) : control.invalid;
-
-    return hasError && (control.touched || this.submitted);
-  }
-
-  /**
-   * Get error message for form control
-   */
-  getErrorMessage(controlName: string): string {
-    const control = this.getFormControl(controlName);
-    if (!control || !control.errors) return '';
-
-    if (control.errors['required']) {
-      switch (controlName) {
-        case 'titleEn':
-          return this.t('notificationsCenter.validation.titleEnRequired');
-        case 'titleAr':
-          return this.t('notificationsCenter.validation.titleArRequired');
-        case 'descriptionEn':
-          return this.t('notificationsCenter.validation.descriptionEnRequired');
-        case 'descriptionAr':
-          return this.t('notificationsCenter.validation.descriptionArRequired');
-        case 'targetAudience':
-          return this.t('notificationsCenter.validation.targetAudienceRequired');
-        case 'cityId':
-          return this.t('notificationsCenter.validation.cityRequired');
-        default:
-          return this.t('common.error');
-      }
-    }
-
-    if (control.errors['minlength']) {
-      if (controlName === 'titleEn') {
-        return this.t('notificationsCenter.validation.titleMinLength', {
-          requiredLength: control.errors['minlength'].requiredLength,
-        });
-      }
-      if (controlName === 'descriptionEn') {
-        return this.t('notificationsCenter.validation.descriptionMinLength', {
-          requiredLength: control.errors['minlength'].requiredLength,
-        });
-      }
-    }
-
-    if (control.errors['pattern']) {
-      if (controlName === 'titleAr' || controlName === 'descriptionAr') {
-        return this.t('notificationsCenter.validation.arabicPattern');
-      }
-    }
-
-    return this.t('common.error');
   }
 
   /**
@@ -485,6 +229,8 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
         return this.t('notificationsCenter.targetAudience.premiumAccounts');
       case 'SpecificCity':
         return this.t('notificationsCenter.targetAudience.specificCity');
+      case 'SpecificUsers':
+        return this.t('notificationsCenter.targetAudience.specificUsers');
       default:
         return targetAudience;
     }
@@ -505,6 +251,8 @@ export class NotificationsCenterComponent implements OnInit, OnDestroy {
         return 'warn';
       case 'SpecificCity':
         return 'danger';
+      case 'SpecificUsers':
+        return 'contrast';
       default:
         return 'secondary';
     }

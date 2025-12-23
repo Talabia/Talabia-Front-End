@@ -17,6 +17,7 @@ import { BusinessStatisticsComponent } from './features/analytics-statistics/bus
 import { UserStatisticsComponent } from './features/analytics-statistics/user-statistics/user-statistics.component';
 import { VehicleStatisticsComponent } from './features/analytics-statistics/vehicle-statistics/vehicle-statistics.component';
 import { NotificationsCenterComponent } from './features/notifications/notifications-center/notifications-center.component';
+import { SendNotificationComponent } from './features/notifications/send-notification/send-notification.component';
 import { languageGuard } from './shared/guards/language.guard';
 import { ChatReivewComponent } from './features/message-chat-review/chat-reivew/chat-reivew.component';
 import { ContentMangementComponent } from './features/content-mangement/content-mangement/content-mangement.component';
@@ -141,6 +142,10 @@ const protectedRoutes: Routes = [
       {
         path: 'notifications-center',
         component: NotificationsCenterComponent,
+      },
+      {
+        path: 'send-notification',
+        component: SendNotificationComponent,
       },
     ],
   },

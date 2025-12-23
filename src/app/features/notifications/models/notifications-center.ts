@@ -5,7 +5,7 @@ export enum AdminNotificationTargetAudience {
   VerifiedAccounts = 2,
   PremiumAccounts = 3,
   SpecificCity = 4,
-  SpecificUsers = 5
+  SpecificUsers = 5,
 }
 
 export interface Notification {
@@ -26,6 +26,7 @@ export interface SendNotificationRequest {
   descriptionAr: string;
   targetAudience: AdminNotificationTargetAudience;
   cityId?: number;
+  userIds?: string[];
 }
 
 export interface NotificationsListRequest {
@@ -55,5 +56,35 @@ export interface CitiesListResponse {
   totalCount: number;
   currentPage: number;
   pageSize: number;
+  totalPages: number;
+}
+
+// Admin Users interfaces for Specific Users targeting
+export interface AdminUser {
+  id: string;
+  companyName: string;
+  userName: string;
+  phone: string;
+  email: string;
+  city: string;
+  joinDate: string;
+  isPremium: boolean;
+  isBlocked: boolean;
+  isVerified: boolean;
+}
+
+export interface AdminUsersListRequest {
+  filter?: number;
+  searchKeyword?: string;
+  pageSize: number;
+  currentPage: number;
+  cityId?: number;
+}
+
+export interface AdminUsersListResponse {
+  data: AdminUser[];
+  totalCount: number;
+  pageSize: number;
+  currentPage: number;
   totalPages: number;
 }

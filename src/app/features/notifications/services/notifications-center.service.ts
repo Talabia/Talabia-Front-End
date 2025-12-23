@@ -10,6 +10,9 @@ import {
   NotificationsListResponse,
   City,
   CitiesListResponse,
+  AdminUser,
+  AdminUsersListRequest,
+  AdminUsersListResponse,
 } from '../models/notifications-center';
 
 @Injectable({
@@ -97,6 +100,33 @@ export class NotificationsCenterService {
 
         return validCities;
       }),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Get paginated list of admin users for specific user targeting
+   * GET /api/AdminUsers/list?Filter=1&SearchKeyword=s&PageSize=10&CurrentPage=1&CityId=1
+   */
+  getAdminUsersList(request: AdminUsersListRequest): Observable<AdminUsersListResponse> {
+    let params = new HttpParams()
+      .set('PageSize', request.pageSize.toString())
+      .set('CurrentPage', request.currentPage.toString());
+
+    if (request.filter !== undefined) {
+      params = params.set('Filter', request.filter.toString());
+    }
+
+    if (request.searchKeyword && request.searchKeyword.trim()) {
+      params = params.set('SearchKeyword', request.searchKeyword.trim());
+    }
+
+    if (request.cityId !== undefined) {
+      params = params.set('CityId', request.cityId.toString());
+    }
+
+    return this.http.get<AdminUsersListResponse>(`${this.baseUrl}AdminUsers/list`, { params }).pipe(
+      map((response) => response),
       catchError(this.handleError)
     );
   }
