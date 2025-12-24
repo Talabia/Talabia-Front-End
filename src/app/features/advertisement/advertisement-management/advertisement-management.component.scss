@@ -14,10 +14,16 @@
 .action-container {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-block: 0.5rem;
+
+  .flex-grow {
+    flex: 1;
+    flex-grow: 1;
+    min-width: 200px;
+  }
 }
 
 .cursor-pointer {
@@ -36,11 +42,11 @@
   align-items: stretch;
   gap: 0.25rem;
   margin-block: 0.75rem;
-  
+
   label {
     span {
       color: var(--p-red-700);
-    } 
+    }
   }
 }
 
@@ -56,8 +62,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; 
-    
+  justify-content: center;
+
   .ad-image {
     width: 100px;
     height: 80px;
@@ -76,7 +82,7 @@
   gap: 0.25rem;
   color: var(--p-text-muted-color);
   font-size: 0.8rem;
-  
+
   i {
     font-size: 1.3rem;
   }
@@ -91,11 +97,11 @@
   padding: 0.15rem 0.5rem;
   margin-block: 0.5rem;
 
- .uploaded-image {
+  .uploaded-image {
     width: 100px;
     height: 80px;
     object-fit: cover !important;
     object-position: center !important;
     border-radius: 0.5rem;
-   }
+  }
 }

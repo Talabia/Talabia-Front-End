@@ -5,10 +5,16 @@
 .action-container {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-block: 0.5rem;
+
+  .flex-grow {
+    flex: 1;
+    flex-grow: 1;
+    min-width: 120px;
+  }
 }
 
 .empty-container {

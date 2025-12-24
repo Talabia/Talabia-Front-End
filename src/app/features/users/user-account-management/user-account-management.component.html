@@ -3,24 +3,22 @@
         <!-- Filters Section -->
         <div class="action-container">
             <!-- Search -->
-            <p-iconfield>
+            <p-iconfield class="flex-grow">
                 <p-inputicon class="pi pi-search" />
                 <input type="text" pInputText [placeholder]="'users.filters.searchPlaceholder' | translate"
-                    [style]="{ width: '360px' }" [(ngModel)]="searchKeyword" (input)="onSearch($event)"
+                    [style]="{ width: '100%' }" [(ngModel)]="searchKeyword" (input)="onSearch($event)"
                     [disabled]="loading" />
             </p-iconfield>
 
             <!-- City Filter -->
-            <p-select [options]="cities" [(ngModel)]="selectedCityId" optionLabel="name" optionValue="id"
-                [placeholder]="'users.filters.cityPlaceholder' | translate" (onChange)="onFilterChange()"
-                [disabled]="loading" [showClear]="true" [filter]="true" />
+            <p-select class="flex-grow" [options]="cities" [(ngModel)]="selectedCityId" optionLabel="name"
+                optionValue="id" [placeholder]="'users.filters.cityPlaceholder' | translate"
+                (onChange)="onFilterChange()" [disabled]="loading" [showClear]="true" [filter]="true" />
 
             <!-- User Type Filter -->
-            <p-select [options]="filterOptions" [(ngModel)]="selectedFilter" optionLabel="label" optionValue="value"
-                [placeholder]="'users.filters.typePlaceholder' | translate" (onChange)="onFilterChange()"
-                [disabled]="loading" [showClear]="true" />
-            <!-- Vertical Divider -->
-            <p-divider layout="vertical" [style]="{display: 'none'}" />
+            <p-select class="flex-grow" [options]="filterOptions" [(ngModel)]="selectedFilter" optionLabel="label"
+                optionValue="value" [placeholder]="'users.filters.typePlaceholder' | translate"
+                (onChange)="onFilterChange()" [disabled]="loading" [showClear]="true" />
             <!-- Export Button Placeholder -->
             <p-button [label]="'users.button.export' | translate" icon="pi pi-download" [disabled]="loading"
                 (click)="onExport()" [style]="{display: 'none'}" />

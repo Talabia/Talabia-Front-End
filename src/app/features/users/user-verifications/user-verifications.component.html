@@ -3,24 +3,24 @@
         <!-- Filters Section -->
         <div class="action-container">
             <!-- Search -->
-            <p-iconfield>
+            <p-iconfield class="flex-grow">
                 <p-inputicon class="pi pi-search" />
                 <input type="text" pInputText [placeholder]="'verifications.filters.searchPlaceholder' | translate"
-                    [style]="{ width: '400px' }" [(ngModel)]="searchKeyword" (input)="onSearch($event)"
+                    [style]="{ width: '100%' }" [(ngModel)]="searchKeyword" (input)="onSearch($event)"
                     [disabled]="loading" />
             </p-iconfield>
 
             <!-- Date Range Filter -->
-            <p-datepicker [(ngModel)]="dateRange" selectionMode="range" [readonlyInput]="true" showIcon
-                iconDisplay="input" [showClear]="true"
+            <p-datepicker class="flex-grow" [(ngModel)]="dateRange" selectionMode="range" [readonlyInput]="true"
+                showIcon iconDisplay="input" [showClear]="true"
                 [placeholder]="'verifications.filters.dateRangePlaceholder' | translate" style="min-width: 300px;"
                 dateFormat="yy-mm-dd" (onSelect)="onDateRangeChange()" (onClear)="onFilterChange()"
                 [disabled]="loading" />
 
             <!-- Status Filter -->
-            <p-select [options]="statusOptions" [(ngModel)]="selectedStatus" optionLabel="label" optionValue="value"
-                [placeholder]="'verifications.filters.statusPlaceholder' | translate" (onChange)="onFilterChange()"
-                [disabled]="loading" [showClear]="true" />
+            <p-select class="flex-grow" [options]="statusOptions" [(ngModel)]="selectedStatus" optionLabel="label"
+                optionValue="value" [placeholder]="'verifications.filters.statusPlaceholder' | translate"
+                (onChange)="onFilterChange()" [disabled]="loading" [showClear]="true" />
         </div>
 
         <p-table [value]="verifications" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"

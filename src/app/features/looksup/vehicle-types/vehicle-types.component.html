@@ -1,14 +1,13 @@
 <p-card [header]="'vehicleTypes.header' | translate">
     <div class="card">
         <div class="action-container">
-            <p-iconfield>
+            <p-iconfield class="flex-grow">
                 <p-inputicon class="pi pi-search" />
                 <input type="text" pInputText [placeholder]="'vehicleTypes.searchPlaceholder' | translate"
-                    [style]="{ width: '360px' }" (input)="onSearch($event)" (keyup)="onSearchKeyup($event)"
+                    [style]="{ width: '100%' }" (input)="onSearch($event)" (keyup)="onSearchKeyup($event)"
                     [value]="searchKeyword" />
 
             </p-iconfield>
-            <p-divider layout="vertical" />
             <p-button (click)="showCreateDialog()" [label]="'vehicleTypes.button.create' | translate" icon="pi pi-plus"
                 [disabled]="loading" />
         </div>

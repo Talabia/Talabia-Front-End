@@ -3,28 +3,27 @@
         <!-- Filters Section -->
         <div class="action-container">
             <!-- Date Range Filter -->
-            <p-datepicker [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" showIcon
-                iconDisplay="input" [showClear]="true" [placeholder]="'reports.filters.datePlaceholder' | translate"
-                style="min-width: 300px;" (onSelect)="onDateRangeChange($event)" (onClear)="onFilterChange()"
-                [disabled]="loading" />
+            <p-datepicker class="flex-grow" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
+                showIcon iconDisplay="input" [showClear]="true"
+                [placeholder]="'reports.filters.datePlaceholder' | translate" (onSelect)="onDateRangeChange($event)"
+                (onClear)="onFilterChange()" [disabled]="loading" />
 
             <!-- Report Type Filter -->
-            <p-select [options]="typeFilterOptions" [(ngModel)]="selectedReportType" optionLabel="label"
-                optionValue="value" [placeholder]="'reports.filters.typePlaceholder' | translate"
+            <p-select class="flex-grow" [options]="typeFilterOptions" [(ngModel)]="selectedReportType"
+                optionLabel="label" optionValue="value" [placeholder]="'reports.filters.typePlaceholder' | translate"
                 (onChange)="onFilterChange()" [disabled]="loading" [showClear]="true" />
 
             <!-- Status Filter -->
-            <p-select [options]="statusFilterOptions" [(ngModel)]="selectedStatus" optionLabel="label"
+            <p-select class="flex-grow" [options]="statusFilterOptions" [(ngModel)]="selectedStatus" optionLabel="label"
                 optionValue="value" [placeholder]="'reports.filters.statusPlaceholder' | translate"
                 (onChange)="onFilterChange()" [disabled]="loading" [showClear]="true" />
 
             <!-- Report Reason Filter -->
-            <p-select [options]="reportReasons" [(ngModel)]="selectedReportReasonId" optionLabel="name" optionValue="id"
-                [placeholder]="'reports.filters.reasonPlaceholder' | translate" (onChange)="onFilterChange()"
-                [disabled]="loading" [showClear]="true" />
+            <p-select class="flex-grow" [options]="reportReasons" [(ngModel)]="selectedReportReasonId"
+                optionLabel="name" optionValue="id" [placeholder]="'reports.filters.reasonPlaceholder' | translate"
+                (onChange)="onFilterChange()" [disabled]="loading" [showClear]="true" />
             <!-- Bulk Actions -->
             @if (selectedReports.length > 0) {
-            <p-divider layout="vertical" />
             <p-button [label]="'reports.bulk.changeStatus' | translate:{ count: selectedReports.length }"
                 icon="pi pi-pencil" severity="success" (click)="showBulkStatusDialog()" [disabled]="loading" />
             }

@@ -3,12 +3,10 @@
     <!-- Filters Section -->
     <div class="action-container">
       <!-- Date Range Filter -->
-      <p-datepicker [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" showIcon iconDisplay="input"
-        [showClear]="true" [placeholder]="'notificationsCenter.dateRangePlaceholder' | translate"
-        style="min-width: 300px;" (onSelect)="onDateRangeChange()" (onClear)="onDateRangeChange()"
+      <p-datepicker class="flex-grow" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" showIcon
+        iconDisplay="input" [showClear]="true" [placeholder]="'notificationsCenter.dateRangePlaceholder' | translate"
+        style="max-width: 360px;" (onSelect)="onDateRangeChange()" (onClear)="onDateRangeChange()"
         [disabled]="loading" />
-
-      <p-divider layout="vertical" />
       <p-button (click)="navigateToSendNotification()" icon="pi pi-send"
         [label]="'notificationsCenter.button.send' | translate" severity="primary" [disabled]="loading" />
     </div>
