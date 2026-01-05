@@ -26,6 +26,8 @@ import { LoginComponent } from './features/auth/login/login.component';
 import { OtpComponent } from './features/auth/otp/otp.component';
 import { authGuard } from './core/guards/auth.guard';
 import { ContentPreviewComponent } from './features/content-preview/content-preview/content-preview.component';
+import { UsagePolicyComponent } from './features/content-preview/usage-policy/usage-policy.component';
+import { TermsConditionsComponent } from './features/content-preview/terms-conditions/terms-conditions.component';
 
 // Define the main protected routes
 const protectedRoutes: Routes = [
@@ -173,6 +175,14 @@ const protectedRoutes: Routes = [
       {
         path: 'content-preview',
         component: ContentPreviewComponent,
+      },
+      {
+        path: 'usage-policy',
+        component: UsagePolicyComponent,
+      },
+      {
+        path: 'terms-conditions',
+        component: TermsConditionsComponent,
       },
     ],
   },

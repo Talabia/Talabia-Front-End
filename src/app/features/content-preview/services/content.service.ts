@@ -120,6 +120,28 @@ export class ContentService {
   }
 
   /**
+   * Get usage policy HTML content
+   * GET /api/Contents/usage-policy
+   */
+  getUsagePolicy(): Observable<string> {
+    return this.http.get(`${this.baseUrl}Contents/usage-policy`, { responseType: 'text' })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  /**
+   * Get terms and conditions HTML content
+   * GET /api/Contents/terms-conditions
+   */
+  getTermsConditions(): Observable<string> {
+    return this.http.get(`${this.baseUrl}Contents/terms-conditions`, { responseType: 'text' })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  /**
    * Centralized error handling
    */
   private handleError(error: HttpErrorResponse): Observable<never> {

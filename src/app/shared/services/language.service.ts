@@ -932,6 +932,16 @@ const TRANSLATIONS: Translations = {
     'contentPreview.validation.titleEnPattern':
       'English title must contain at least one English character',
     'contentPreview.validation.invalid': 'Invalid value',
+    // Usage Policy
+    'sidebar.usagePolicy': 'Usage Policy',
+    'usagePolicy.header': 'Usage Policy',
+    'usagePolicy.loading': 'Loading usage policy...',
+    'usagePolicy.loadError': 'Failed to load usage policy',
+    // Terms & Conditions
+    'sidebar.termsConditions': 'Terms & Conditions',
+    'termsConditions.header': 'Terms & Conditions',
+    'termsConditions.loading': 'Loading terms and conditions...',
+    'termsConditions.loadError': 'Failed to load terms and conditions',
   },
   ar: {
     'language.ar': 'العربية',
@@ -1828,6 +1838,16 @@ const TRANSLATIONS: Translations = {
     'contentPreview.validation.titleEnPattern':
       'يجب أن يحتوي العنوان بالإنجليزية على حرف إنجليزي واحد على الأقل',
     'contentPreview.validation.invalid': 'قيمة غير صحيحة',
+    // Usage Policy
+    'sidebar.usagePolicy': 'سياسة الاستخدام',
+    'usagePolicy.header': 'سياسة الاستخدام',
+    'usagePolicy.loading': 'جاري تحميل سياسة الاستخدام...',
+    'usagePolicy.loadError': 'فشل تحميل سياسة الاستخدام',
+    // Terms & Conditions
+    'sidebar.termsConditions': 'الشروط والأحكام',
+    'termsConditions.header': 'الشروط والأحكام',
+    'termsConditions.loading': 'جاري تحميل الشروط والأحكام...',
+    'termsConditions.loadError': 'فشل تحميل الشروط والأحكام',
     // Auth Keys
     'auth.login.title': 'مرحبًا بعودتك',
     'auth.login.subtitle': 'يرجى إدخال التفاصيل لتسجيل الدخول',

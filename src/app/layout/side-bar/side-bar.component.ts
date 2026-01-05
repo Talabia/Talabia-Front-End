@@ -89,12 +89,6 @@ export class SideBarComponent implements OnInit, OnDestroy {
         routerLinkActiveOptions: { exact: true },
       },
       {
-        label: this.t('sidebar.contentPreview'),
-        icon: 'pi pi-box',
-        routerLink: this.navigationService.getRouterLink('/content-preview/content-preview'),
-        routerLinkActiveOptions: { exact: true },
-      },
-      {
         label: this.t('sidebar.reports'),
         icon: 'pi pi-flag',
         routerLink: this.navigationService.getRouterLink('/reports/reports-mangement'),
@@ -103,6 +97,30 @@ export class SideBarComponent implements OnInit, OnDestroy {
     ];
 
     this.items = [
+            {
+        label: this.t('sidebar.contentPreview'),
+        icon: 'pi pi-box',
+        items: [
+          {
+            label: this.t('sidebar.contentPreview'),
+            icon: 'pi pi-box',
+            routerLink: this.navigationService.getRouterLink('/content-preview/content-preview'),
+            routerLinkActiveOptions: { exact: true },
+          },
+          {
+            label: this.t('sidebar.usagePolicy'),
+            icon: 'pi pi-file-edit',
+            routerLink: this.navigationService.getRouterLink('/content-preview/usage-policy'),
+            routerLinkActiveOptions: { exact: true },
+          },
+          {
+            label: this.t('sidebar.termsConditions'),
+            icon: 'pi pi-file-check',
+            routerLink: this.navigationService.getRouterLink('/content-preview/terms-conditions'),
+            routerLinkActiveOptions: { exact: true },
+          },
+        ],
+      },
       {
         label: this.t('sidebar.lookups'),
         icon: 'pi pi-book',
@@ -201,6 +219,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
           },
         ],
       },
+
     ];
 
     this.cdr.markForCheck();

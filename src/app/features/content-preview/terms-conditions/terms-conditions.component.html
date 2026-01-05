@@ -1,0 +1,28 @@
+<div class="terms-conditions-container">
+    <p-card>
+        <!-- Loading State -->
+        @if (loading) {
+        <div class="loading-container">
+            <i class="pi pi-spin pi-spinner loading-icon"></i>
+            <p class="loading-text">{{ 'termsConditions.loading' | translate }}</p>
+        </div>
+        }
+
+
+        <!-- Error State -->
+        @if (!loading && errorMessage) {
+        <div class="error-container">
+            <p-message severity="error" [text]="errorMessage"></p-message>
+            <button pButton type="button" [label]="'common.retry' | translate" icon="pi pi-refresh"
+                class="p-button-outlined retry-button" (click)="retry()"></button>
+        </div>
+        }
+
+        <!-- Content Display -->
+        @if (!loading && !errorMessage && htmlContent) {
+        <div class="content-display" [innerHTML]="htmlContent"></div>
+        }
+    </p-card>
+</div>
+
+<p-toast></p-toast>
