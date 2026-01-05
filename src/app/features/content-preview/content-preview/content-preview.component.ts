@@ -253,11 +253,11 @@ export class ContentPreviewComponent implements OnInit, OnDestroy {
         next: (detailedContent: AdminContent) => {
           this.isEditMode = true;
           this.dialogTitle = this.t('contentPreview.dialog.editTitle');
-          this.contentForm.patchValue(detailedContent);
-          this.submitted = false;
           this.createEditDialogVisible = true;
           this.loading = false;
-          this.cdr.detectChanges();
+          this.cdr.detectChanges(); // Ensure dialog and editors are rendered
+          
+          this.contentForm.patchValue(detailedContent);
         },
         error: (error) => {
           this.loading = false;
