@@ -55,6 +55,7 @@ export interface AdminContentDetailsResponse {
 export enum ContentType {
   UsagePolicy = 1,
   AboutUs = 2,
+  TermsAndConditions = 3
 }
 
 export interface ApiResponse<T> {

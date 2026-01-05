@@ -12,7 +12,7 @@
       <ng-template #header>
         <tr>
           <th style="min-width:200px">{{'contentPreview.table.title' | translate}}</th>
-          <th style="min-width:150px">{{'contentPreview.table.type' | translate}}</th>
+          <!-- <th style="min-width:150px">{{'contentPreview.table.type' | translate}}</th> -->
           <th style="min-width:200px">{{'contentPreview.table.actions' | translate}}</th>
         </tr>
       </ng-template>
@@ -20,11 +20,11 @@
       <ng-template #body let-content>
         <tr>
           <td>{{content.title}}</td>
-          <td>{{getContentTypeLabel(content.type)}}</td>
+          <!-- <td>{{getContentTypeLabel(content.type)}}</td> -->
           <td>
             <div class="table-actions">
-              <p-button [pTooltip]="'contentPreview.button.preview' | translate" icon="pi pi-eye"
-                [disabled]="loading" (click)="showPreviewDialog(content)" />
+              <p-button [pTooltip]="'contentPreview.button.preview' | translate" icon="pi pi-eye" [disabled]="loading"
+                (click)="showPreviewDialog(content)" />
               <p-button [pTooltip]="'contentPreview.button.edit' | translate" severity="success" icon="pi pi-pencil"
                 [disabled]="loading" (click)="showEditDialog(content)" />
               <p-button [pTooltip]="'contentPreview.button.delete' | translate" severity="danger" icon="pi pi-trash"
@@ -72,8 +72,8 @@
     <div class="input-container">
       <label for="titleAr" class="font-semibold w-24">{{'contentPreview.field.titleAr' | translate}}
         <span>*</span></label>
-      <input pInputText id="titleAr" formControlName="titleAr" class="flex-auto" autocomplete="off"
-        [disabled]="loading" [invalid]="hasError('titleAr')" />
+      <input pInputText id="titleAr" formControlName="titleAr" class="flex-auto" autocomplete="off" [disabled]="loading"
+        [invalid]="hasError('titleAr')" />
 
       @if (hasError('titleAr') || contentForm.get('titleAr')?.dirty || contentForm.get('titleAr')?.touched ) {
       <p-message severity="error" size="small" variant="simple">
@@ -86,8 +86,8 @@
     <div class="input-container">
       <label for="titleEn" class="font-semibold w-24">{{'contentPreview.field.titleEn' | translate}}
         <span>*</span></label>
-      <input pInputText id="titleEn" formControlName="titleEn" class="flex-auto" autocomplete="off"
-        [disabled]="loading" [invalid]="hasError('titleEn')" />
+      <input pInputText id="titleEn" formControlName="titleEn" class="flex-auto" autocomplete="off" [disabled]="loading"
+        [invalid]="hasError('titleEn')" />
 
       @if (hasError('titleEn') || contentForm.get('titleEn')?.dirty || contentForm.get('titleEn')?.touched ) {
       <p-message severity="error" size="small" variant="simple">
@@ -132,9 +132,8 @@
 </p-dialog>
 
 <!-- Preview Dialog -->
-<p-dialog [header]="'contentPreview.dialog.previewTitle' | translate" [modal]="true"
-  [(visible)]="previewDialogVisible" [style]="{ width: '50rem' }" [closable]="!loading" [draggable]="false"
-  [resizable]="false">
+<p-dialog [header]="'contentPreview.dialog.previewTitle' | translate" [modal]="true" [(visible)]="previewDialogVisible"
+  [style]="{ width: '50rem' }" [closable]="!loading" [draggable]="false" [resizable]="false">
 
   @if (previewContent) {
   <div class="preview-container">
@@ -161,8 +160,7 @@
   </div>
 
   <div class="dialog-footer">
-    <p-button [label]="'contentPreview.button.close' | translate" severity="secondary"
-      (click)="closePreviewDialog()" />
+    <p-button [label]="'contentPreview.button.close' | translate" severity="secondary" (click)="closePreviewDialog()" />
   </div>
   }
 </p-dialog>

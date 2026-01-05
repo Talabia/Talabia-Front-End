@@ -99,6 +99,7 @@ export class ContentPreviewComponent implements OnInit, OnDestroy {
   private readonly typeOptionConfigs = [
     { labelKey: 'contentPreview.type.usagePolicy', value: ContentType.UsagePolicy },
     { labelKey: 'contentPreview.type.aboutUs', value: ContentType.AboutUs },
+    { labelKey: 'contentPreview.type.termsConditions', value: ContentType.TermsAndConditions }
   ];
 
   constructor(
@@ -256,7 +257,7 @@ export class ContentPreviewComponent implements OnInit, OnDestroy {
           this.createEditDialogVisible = true;
           this.loading = false;
           this.cdr.detectChanges(); // Ensure dialog and editors are rendered
-          
+
           this.contentForm.patchValue(detailedContent);
         },
         error: (error) => {
@@ -474,6 +475,8 @@ export class ContentPreviewComponent implements OnInit, OnDestroy {
         return this.t('contentPreview.type.usagePolicy');
       case ContentType.AboutUs:
         return this.t('contentPreview.type.aboutUs');
+      case ContentType.TermsAndConditions:
+        return this.t('contentPreview.type.termsConditions');
       default:
         return '';
     }
