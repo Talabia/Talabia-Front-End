@@ -66,7 +66,6 @@ import { Tooltip } from 'primeng/tooltip';
     ConfirmPopupModule,
     DatePicker,
     Checkbox,
-    Divider,
     TranslatePipe,
     Tooltip,
   ],

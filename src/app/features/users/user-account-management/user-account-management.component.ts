@@ -52,7 +52,6 @@ import { Divider } from 'primeng/divider';
     ConfirmPopupModule,
     TranslatePipe,
     Tooltip,
-    Divider,
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './user-account-management.component.html',
