@@ -22,7 +22,7 @@
             <div class="input-container">
                 <label for="cityId" class="font-semibold">{{'notificationsCenter.form.city' | translate}}
                     <span>*</span></label>
-                <p-select [options]="cities" formControlName="cityId" optionLabel="nameEn" optionValue="id"
+                <p-select [options]="cities" formControlName="cityId" optionLabel="name" optionValue="id"
                     [placeholder]="'notificationsCenter.form.cityPlaceholder' | translate" class="flex-auto"
                     [disabled]="loading" [invalid]="hasError('cityId')" />
 

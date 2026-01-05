@@ -9,7 +9,6 @@ import {
   NotificationsListRequest,
   NotificationsListResponse,
   City,
-  CitiesListResponse,
   AdminUser,
   AdminUsersListRequest,
   AdminUsersListResponse,
@@ -65,41 +64,11 @@ export class NotificationsCenterService {
 
   /**
    * Get list of cities for specific city targeting
-   * GET /api/Cities/list (with large page size to get all cities)
+   * GET /api/Lookups/cities
    */
   getCities(): Observable<City[]> {
-    // Use the Cities/list endpoint with a large page size to get all cities
-    const params = new HttpParams()
-      .set('PageSize', '1000') // Large page size to get all cities
-      .set('CurrentPage', '1');
-
-    return this.http.get<any>(`${this.baseUrl}Cities/list`, { params }).pipe(
-      map((response) => {
-        let cities: any[] = [];
-
-        // Try different response structures
-        if (response && response.data && Array.isArray(response.data)) {
-          cities = response.data;
-        } else if (Array.isArray(response)) {
-          cities = response;
-        }
-
-        // Ensure each city has the required properties and map to correct format
-        const validCities = cities
-          .filter((city) => {
-            const hasId = city && (city.id !== undefined || city.Id !== undefined);
-            const hasNameEn = city && (city.nameEn !== undefined || city.NameEn !== undefined);
-
-            return hasId && hasNameEn;
-          })
-          .map((city) => ({
-            id: city.id || city.Id,
-            nameEn: city.nameEn || city.NameEn || '',
-            nameAr: city.nameAr || city.NameAr || '',
-          }));
-
-        return validCities;
-      }),
+    return this.http.get<City[]>(`${this.baseUrl}Lookups/cities`).pipe(
+      map((response) => response),
       catchError(this.handleError)
     );
   }

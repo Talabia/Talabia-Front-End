@@ -47,17 +47,10 @@ export interface NotificationsListResponse {
 
 export interface City {
   id: number;
-  nameEn: string;
-  nameAr: string;
+  name: string;
 }
 
-export interface CitiesListResponse {
-  data: City[];
-  totalCount: number;
-  currentPage: number;
-  pageSize: number;
-  totalPages: number;
-}
+
 
 // Admin Users interfaces for Specific Users targeting
 export interface AdminUser {
