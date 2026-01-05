@@ -1,5 +1,5 @@
-<div class="usage-policy-container">
-    <p-card>
+<p-card>
+    <div class="card">
         <!-- Loading State -->
         @if (loading) {
         <div class="loading-container">
@@ -11,9 +11,11 @@
         <!-- Error State -->
         @if (!loading && errorMessage) {
         <div class="error-container">
-            <p-message severity="error" [text]="errorMessage"></p-message>
-            <button pButton type="button" [label]="'common.retry' | translate" icon="pi pi-refresh"
-                class="p-button-outlined retry-button" (click)="retry()"></button>
+            <p-message severity="error" size="small">
+                {{errorMessage}}
+            </p-message>
+            <p-button [label]="'common.retry' | translate" icon="pi pi-refresh" severity="secondary"
+                (click)="retry()" />
         </div>
         }
 
@@ -21,7 +23,7 @@
         @if (!loading && !errorMessage && htmlContent) {
         <div class="content-display" [innerHTML]="htmlContent"></div>
         }
-    </p-card>
-</div>
+    </div>
+</p-card>
 
-<p-toast></p-toast>
+<p-toast />

@@ -1,99 +1,95 @@
-.terms-conditions-container {
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  gap: 1rem;
 
-  .loading-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem;
-    gap: 1rem;
+  .loading-icon {
+    font-size: 3rem;
+    color: var(--p-primary-color);
+  }
 
-    .loading-icon {
-      font-size: 3rem;
-      color: var(--primary-color);
-    }
+  .loading-text {
+    font-size: 1rem;
+    color: var(--p-text-muted-color);
+    margin: 0;
+  }
+}
 
-    .loading-text {
-      font-size: 1rem;
-      color: var(--text-color-secondary);
-      margin: 0;
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.content-display {
+  padding-inline: 2rem;
+  line-height: 1.6;
+
+  // Style the HTML content from the API
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--p-text-color);
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  p {
+    color: var(--p-text-muted-color);
+    margin-bottom: 1rem;
+  }
+
+  ul,
+  ol {
+    margin: 1rem 0;
+    padding-inline-start: 2rem;
+
+    li {
+      margin-bottom: 0.5rem;
+      color: var(--p-text-muted-color);
     }
   }
 
-  .error-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 2rem;
+  // Support for RTL
+  &[dir='rtl'] {
+    text-align: right;
 
-    .retry-button {
-      margin-top: 1rem;
-    }
-  }
-
-  .content-display {
-    padding: 1.5rem;
-    line-height: 1.6;
-
-    // Style the HTML content from the API
-    h1, h2, h3, h4, h5, h6 {
-      color: var(--text-color);
-      margin-top: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    h1 {
-      font-size: 2rem;
-      font-weight: 700;
-    }
-
-    h2 {
-      font-size: 1.5rem;
-      font-weight: 600;
-    }
-
-    p {
-      color: var(--text-color-secondary);
-      margin-bottom: 1rem;
-    }
-
-    ul, ol {
-      margin: 1rem 0;
-      padding-inline-start: 2rem;
-
-      li {
-        margin-bottom: 0.5rem;
-        color: var(--text-color-secondary);
-      }
-    }
-
-    // Support for RTL
-    &[dir="rtl"] {
-      text-align: right;
-
-      ul, ol {
-        padding-inline-start: 0;
-        padding-inline-end: 2rem;
-      }
+    ul,
+    ol {
+      padding-inline-start: 0;
+      padding-inline-end: 2rem;
     }
   }
 }
 
 // Responsive design
 @media (max-width: 768px) {
-  .terms-conditions-container {
+  .content-display {
+    padding: 1rem;
 
-    .content-display {
-      padding: 1rem;
+    h1 {
+      font-size: 1.5rem;
+    }
 
-      h1 {
-        font-size: 1.5rem;
-      }
-
-      h2 {
-        font-size: 1.25rem;
-      }
+    h2 {
+      font-size: 1.25rem;
     }
   }
 }
