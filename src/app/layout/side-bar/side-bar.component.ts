@@ -34,7 +34,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
     private languageService: LanguageService,
     private navigationService: NavigationService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.buildMenu();
@@ -97,7 +97,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
     ];
 
     this.items = [
-            {
+      {
         label: this.t('sidebar.contentPreview'),
         icon: 'pi pi-box',
         items: [
@@ -110,13 +110,13 @@ export class SideBarComponent implements OnInit, OnDestroy {
           {
             label: this.t('sidebar.usagePolicy'),
             icon: 'pi pi-file-edit',
-            routerLink: this.navigationService.getRouterLink('/content-preview/usage-policy'),
+            routerLink: this.navigationService.getRouterLink('/usage-policy'),
             routerLinkActiveOptions: { exact: true },
           },
           {
             label: this.t('sidebar.termsConditions'),
             icon: 'pi pi-file-check',
-            routerLink: this.navigationService.getRouterLink('/content-preview/terms-conditions'),
+            routerLink: this.navigationService.getRouterLink('/terms-conditions'),
             routerLinkActiveOptions: { exact: true },
           },
         ],

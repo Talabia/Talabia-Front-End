@@ -176,14 +176,6 @@ const protectedRoutes: Routes = [
         path: 'content-preview',
         component: ContentPreviewComponent,
       },
-      {
-        path: 'usage-policy',
-        component: UsagePolicyComponent,
-      },
-      {
-        path: 'terms-conditions',
-        component: TermsConditionsComponent,
-      },
     ],
   },
 ];
@@ -204,8 +196,22 @@ export const routes: Routes = [
     path: ':lang',
     canActivate: [languageGuard], // Ensures lang is valid
     component: MainLayoutComponent, // Wraps content in Header/Sidebar
-    canActivateChild: [authGuard], // Protects children
-    children: protectedRoutes,
+    children: [
+      // Public routes with MainLayout but no auth guard
+      {
+        path: 'usage-policy',
+        component: UsagePolicyComponent,
+      },
+      {
+        path: 'terms-conditions',
+        component: TermsConditionsComponent,
+      },
+      // Protected routes with auth guard
+      ...protectedRoutes.map(route => ({
+        ...route,
+        canActivate: [authGuard],
+      })),
+    ],
   },
 
   // Redirect root to default language (which will then hit the guard)
