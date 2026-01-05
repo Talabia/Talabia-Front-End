@@ -495,16 +495,21 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
   ): 'secondary' | 'info' | 'success' | 'danger' | 'warn' | 'contrast' {
     switch (status.toLowerCase()) {
       case 'pending':
+      case 'معلق':
         return 'warn';
       case 'underreview':
       case 'under review':
+      case 'مراجعة':
         return 'info';
       case 'approved':
+        case 'مقبول':
         return 'success';
       case 'rejected':
+      case 'مرفوض':
         return 'danger';
       case 'requiresupdate':
       case 'requires update':
+      case 'تحت التحديث':
         return 'contrast';
       default:
         return 'secondary';
