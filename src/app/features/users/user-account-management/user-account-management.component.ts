@@ -287,7 +287,6 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
    */
   showViewDialog(user: AdminUser): void {
     this.selectedUser = null; // Clear previous data
-    this.viewDialogVisible = true;
     this.loading = true;
 
     this.usersService
@@ -298,6 +297,7 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
           console.log('User details loaded:', detailedUser);
           this.selectedUser = detailedUser;
           this.loading = false;
+          this.viewDialogVisible = true;
           this.cdr.detectChanges();
         },
         error: (error: any) => {
@@ -345,7 +345,7 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
    */
   private toggleBanStatus(user: AdminUser): void {
     const newStatus = !user.isBlocked;
-
+    this.loading = true;
     this.usersService
       .banUser({ userId: user.id, block: newStatus })
       .pipe(takeUntil(this.destroy$))
@@ -358,6 +358,7 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
             detail: this.t('users.notification.banSuccess'),
             life: 3000,
           });
+          this.loading = false;
           this.cdr.detectChanges();
         },
         error: (error: any) => {
@@ -403,7 +404,7 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
    */
   private togglePremiumStatus(user: AdminUser): void {
     const newStatus = !user.isPremium;
-
+    this.loading = true;
     this.usersService
       .setPremiumStatus({ userId: user.id, isPremium: newStatus })
       .pipe(takeUntil(this.destroy$))
@@ -416,6 +417,7 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
             detail: this.t('users.notification.premiumSuccess'),
             life: 3000,
           });
+          this.loading = false;
           this.cdr.detectChanges();
         },
         error: (error: any) => {

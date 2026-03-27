@@ -19,11 +19,11 @@ import { VehicleModelsService } from '../services/vehicle-models.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { LanguageService } from '../../../shared/services/language.service';
-import { 
-  VehicleModel, 
-  CreateVehicleModelRequest, 
-  EditVehicleModelRequest, 
-  VehicleModelsListRequest, 
+import {
+  VehicleModel,
+  CreateVehicleModelRequest,
+  EditVehicleModelRequest,
+  VehicleModelsListRequest,
   VehicleModelsListResponse,
   VehicleModelDetailsResponse,
   VehicleMakerLookup
@@ -33,18 +33,18 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
 @Component({
   selector: 'app-vehicle-models',
   imports: [
-    CardModule, 
-    TableModule, 
-    ButtonModule, 
-    InputIcon, 
-    IconField, 
-    InputTextModule, 
-    FormsModule, 
+    CardModule,
+    TableModule,
+    ButtonModule,
+    InputIcon,
+    IconField,
+    InputTextModule,
+    FormsModule,
     ReactiveFormsModule,
-    DividerModule, 
-    DialogModule, 
-    TooltipModule, 
-    ToastModule, 
+    DividerModule,
+    DialogModule,
+    TooltipModule,
+    ToastModule,
     ConfirmPopupModule,
     MessageModule,
     ProgressSpinnerModule,
@@ -62,38 +62,38 @@ export class VehicleModelsComponent implements OnInit, OnDestroy {
   vehicleMakers: VehicleMakerLookup[] = [];
   totalRecords: number = 0;
   loading: boolean = false;
-  
+
   // Pagination properties
   first: number = 0;
   rows: number = 10;
   currentPage: number = 1;
-  
+
   // Search properties
   searchKeyword: string = '';
   private searchSubject = new Subject<string>();
   private currentSearchRequest?: any;
-  
+
   // Dialog properties
   visible: boolean = false;
   isEditMode: boolean = false;
   dialogTitle: string = '';
   pageReportTemplate: string = '';
   currentVehicleModel?: VehicleModelDetailsResponse;
-  
+
   // Form properties
   vehicleModelForm!: FormGroup;
   submitted: boolean = false;
-  
+
   // Validation patterns
   private readonly arabicPattern = /^(?!\s+$)(?!\d+$)(?![^\w\s\u0600-\u06FF]+$)(?=.*[\u0600-\u06FF])[\u0600-\u06FF0-9][\u0600-\u06FF0-9\s.,!?@#$%^&()|_+=<>:;\-\[\]]*$/;
   private readonly englishPattern = /^(?!\s+$)(?!\d+$)(?![^\w\s]+$)(?=.*[A-Za-z])[A-Za-z0-9][A-Za-z0-9\s.,!?@#$%^&()|_+=<>:;\-\[\]]*$/;
-  
+
   private destroy$ = new Subject<void>();
 
   constructor(
-    private vehicleModelsService: VehicleModelsService, 
+    private vehicleModelsService: VehicleModelsService,
     private cdr: ChangeDetectorRef,
-    private confirmationService: ConfirmationService, 
+    private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private fb: FormBuilder,
     private languageService: LanguageService
@@ -125,7 +125,7 @@ export class VehicleModelsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    
+
     // Force stop any pending requests
     if (this.currentSearchRequest) {
       this.currentSearchRequest.unsubscribe();
@@ -150,7 +150,7 @@ export class VehicleModelsComponent implements OnInit, OnDestroy {
       )
       .subscribe(searchTerm => {
         const trimmedTerm = searchTerm.trim();
-        
+
         // If search is empty, load immediately without debounce
         if (!trimmedTerm) {
           this.searchKeyword = '';
@@ -159,12 +159,12 @@ export class VehicleModelsComponent implements OnInit, OnDestroy {
           this.loadVehicleModels();
           return;
         }
-        
+
         // For non-empty search, use minimal debounce
         this.searchKeyword = trimmedTerm;
         this.first = 0;
         this.currentPage = 1;
-        
+
         // Use setTimeout for very short debounce only for typed searches
         setTimeout(() => {
           if (this.searchKeyword === trimmedTerm) {
@@ -182,9 +182,9 @@ export class VehicleModelsComponent implements OnInit, OnDestroy {
     if (this.currentSearchRequest) {
       this.currentSearchRequest.unsubscribe();
     }
-    
+
     this.loading = true;
-    
+
     const request: VehicleModelsListRequest = {
       searchKeyword: this.searchKeyword,
       pageSize: this.rows,
@@ -255,13 +255,13 @@ export class VehicleModelsComponent implements OnInit, OnDestroy {
     if (this.loading) {
       return;
     }
-    
+
     this.first = event.first || 0;
     this.rows = event.rows || 10;
-    
+
     // Calculate current page (API expects 1-based page numbers)
     this.currentPage = Math.floor(this.first / this.rows) + 1;
-    
+
     this.loadVehicleModels();
   }
 
@@ -307,7 +307,8 @@ export class VehicleModelsComponent implements OnInit, OnDestroy {
   showEditDialog(vehicleModel: VehicleModel): void {
     this.isEditMode = true;
     this.dialogTitle = this.t('vehicleModels.dialog.editTitle');
-    
+    this.loading = true;
+
     // Load full details for editing
     this.vehicleModelsService.getVehicleModelById(vehicleModel.id)
       .pipe(takeUntil(this.destroy$))
@@ -322,6 +323,7 @@ export class VehicleModelsComponent implements OnInit, OnDestroy {
           });
           this.submitted = false;
           this.visible = true;
+          this.loading = false;
           this.cdr.detectChanges();
         },
         error: (error) => {
@@ -340,7 +342,7 @@ export class VehicleModelsComponent implements OnInit, OnDestroy {
    */
   saveVehicleModel(): void {
     this.submitted = true;
-    
+
     if (this.vehicleModelForm.invalid) {
       this.markFormGroupTouched();
       return;
@@ -445,7 +447,7 @@ export class VehicleModelsComponent implements OnInit, OnDestroy {
    */
   private deleteVehicleModel(vehicleModelId: number): void {
     this.loading = true;
-    
+
     this.vehicleModelsService.deleteVehicleModel(vehicleModelId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -506,11 +508,11 @@ export class VehicleModelsComponent implements OnInit, OnDestroy {
   hasError(controlName: string, errorType?: string): boolean {
     const control = this.getFormControl(controlName);
     if (!control) return false;
-    
-    const hasError = errorType ? 
-      control.hasError(errorType) : 
+
+    const hasError = errorType ?
+      control.hasError(errorType) :
       control.invalid;
-    
+
     return hasError && (control.touched || this.submitted);
   }
 
@@ -527,7 +529,7 @@ export class VehicleModelsComponent implements OnInit, OnDestroy {
       if (controlName === 'makerId') return this.t('vehicleModels.validation.makerRequired');
       return this.t('form.validation.required');
     }
-    
+
     if (control.errors['pattern']) {
       if (controlName === 'nameAr') {
         return this.t('vehicleModels.validation.nameArPattern');

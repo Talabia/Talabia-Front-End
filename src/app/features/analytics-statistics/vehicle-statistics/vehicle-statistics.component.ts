@@ -24,7 +24,6 @@ import {
   ChartOptions,
   ChartFilter,
 } from '../models/statistics.models';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-vehicle-statistics',
@@ -216,27 +215,22 @@ export class VehicleStatisticsComponent implements OnInit, OnDestroy {
   loadData(): void {
     this.loading = true;
 
-    forkJoin({
-      types: this.statisticsService.getVehicleAnalytics(this.typesFilter),
-      makers: this.statisticsService.getVehicleAnalytics(this.makersFilter),
-      models: this.statisticsService.getVehicleAnalytics(this.modelsFilter),
-      prices: this.statisticsService.getVehicleAnalytics(this.priceFilter),
-      years: this.statisticsService.getVehicleAnalytics(this.yearsFilter),
-    })
+    this.statisticsService
+      .getVehicleAnalytics(this.globalFilter)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (data) => {
-          this.typesData = data.types;
-          this.makersData = data.makers;
-          this.modelsData = data.models;
-          this.priceData = data.prices;
-          this.yearsData = data.years;
+        next: (data: VehicleAnalyticsResponse) => {
+          this.typesData = data;
+          this.makersData = data;
+          this.modelsData = data;
+          this.priceData = data;
+          this.yearsData = data;
 
           this.prepareChartData();
           this.loading = false;
           this.cdr.markForCheck();
         },
-        error: (error) => this.handleError(error),
+        error: (error: any) => this.handleError(error),
       });
   }
 

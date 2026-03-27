@@ -326,7 +326,6 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
   showViewDialog(verification: UserVerification): void {
     this.selectedVerification = verification;
     this.selectedVerificationDetails = null; // Clear previous data
-    this.viewDialogVisible = true;
     this.loading = true;
 
     this.verificationsService
@@ -338,6 +337,7 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
             this.selectedVerificationDetails = response.details;
           }
           this.loading = false;
+          this.viewDialogVisible = true;
           this.cdr.detectChanges();
         },
         error: (error: any) => {
@@ -502,7 +502,7 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
       case 'مراجعة':
         return 'info';
       case 'approved':
-        case 'مقبول':
+      case 'مقبول':
         return 'success';
       case 'rejected':
       case 'مرفوض':

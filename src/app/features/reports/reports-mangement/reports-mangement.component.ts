@@ -319,7 +319,7 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
    */
   showViewDialog(report: Report): void {
     this.selectedReport = null; // Clear previous data
-    this.viewDialogVisible = true;
+
     this.loading = true;
 
     this.reportsService
@@ -330,6 +330,7 @@ export class ReportsMangementComponent implements OnInit, OnDestroy {
           console.log('Report details loaded:', detailedReport);
           this.selectedReport = detailedReport;
           this.loading = false;
+          this.viewDialogVisible = true;
           this.cdr.detectChanges();
         },
         error: (error: any) => {

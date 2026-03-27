@@ -124,9 +124,16 @@
                 <p-select [options]="filterOptions" [(ngModel)]="selectedRegistrationsFilter" optionLabel="label"
                     optionValue="value" [showClear]="false" (onChange)="onRegistrationsFilterChange()" />
             </div>
-            @if (registrationsChartData) {
-            <p-chart type="line" [data]="registrationsChartData" [options]="lineChartOptions" height="400px" />
-            }
+            <div class="chart-wrapper">
+                @if (registrationsChartLoading) {
+                <div class="chart-loading-overlay">
+                    <p-progressSpinner strokeWidth="4" />
+                </div>
+                }
+                @if (registrationsChartData) {
+                <p-chart type="line" [data]="registrationsChartData" [options]="lineChartOptions" height="400px" />
+                }
+            </div>
         </div>
 
         <!-- Engagement Activities Chart -->
@@ -136,9 +143,16 @@
                 <p-select [options]="filterOptions" [(ngModel)]="selectedEngagementFilter" optionLabel="label"
                     optionValue="value" [showClear]="false" (onChange)="onEngagementFilterChange()" />
             </div>
-            @if (engagementChartData) {
-            <p-chart type="line" [data]="engagementChartData" [options]="multiLineChartOptions" height="400px" />
-            }
+            <div class="chart-wrapper">
+                @if (engagementChartLoading) {
+                <div class="chart-loading-overlay">
+                    <p-progressSpinner strokeWidth="4" />
+                </div>
+                }
+                @if (engagementChartData) {
+                <p-chart type="line" [data]="engagementChartData" [options]="multiLineChartOptions" height="400px" />
+                }
+            </div>
         </div>
 
         <!-- Two Column Grid -->

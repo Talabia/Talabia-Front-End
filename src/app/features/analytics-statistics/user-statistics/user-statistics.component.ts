@@ -54,6 +54,8 @@ import {
 export class UserStatisticsComponent implements OnInit, OnDestroy {
   loading = false;
   loadingMessage = '';
+  registrationsChartLoading = false;
+  engagementChartLoading = false;
 
   // Data properties
   // Data properties
@@ -139,15 +141,14 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     forkJoin({
-      registrations: this.statisticsService.getUserEngagement(this.selectedRegistrationsFilter),
-      engagement: this.statisticsService.getUserEngagement(this.selectedEngagementFilter),
+      engagement: this.statisticsService.getUserEngagement(this.selectedRegistrationsFilter),
       activeUsers: this.statisticsService.getMostActiveUsers(10),
       reviews: this.statisticsService.getReviewAnalytics(30, 10),
     })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
-          this.registrationsData = data.registrations;
+          this.registrationsData = data.engagement;
           this.engagementMetricsData = data.engagement;
           this.activeUsersData = data.activeUsers;
           this.reviewData = data.reviews;
@@ -169,6 +170,8 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
   }
 
   onRegistrationsFilterChange(): void {
+    this.registrationsChartLoading = true;
+    this.cdr.markForCheck();
     this.statisticsService
       .getUserEngagement(this.selectedRegistrationsFilter)
       .pipe(takeUntil(this.destroy$))
@@ -176,9 +179,11 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
         next: (data) => {
           this.registrationsData = data;
           this.prepareRegistrationsChart();
+          this.registrationsChartLoading = false;
           this.cdr.markForCheck();
         },
         error: (error) => {
+          this.registrationsChartLoading = false;
           this.messageService.add({
             severity: 'error',
             summary: this.t('common.error'),
@@ -191,6 +196,8 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
   }
 
   onEngagementFilterChange(): void {
+    this.engagementChartLoading = true;
+    this.cdr.markForCheck();
     this.statisticsService
       .getUserEngagement(this.selectedEngagementFilter)
       .pipe(takeUntil(this.destroy$))
@@ -198,9 +205,11 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
         next: (data) => {
           this.engagementMetricsData = data;
           this.prepareEngagementChart();
+          this.engagementChartLoading = false;
           this.cdr.markForCheck();
         },
         error: (error) => {
+          this.engagementChartLoading = false;
           this.messageService.add({
             severity: 'error',
             summary: this.t('common.error'),
@@ -245,7 +254,7 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
       labels: this.engagementMetricsData.commentsPerDay.map((d) => d.label),
       datasets: [
         {
-          label: 'Comments',
+          label: this.t('engagement.chart.label.comments'),
           data: this.engagementMetricsData.commentsPerDay.map((d) => d.value),
           borderColor: this.primaryColor,
           backgroundColor: 'rgba(139, 92, 246, 0.1)',
@@ -253,7 +262,7 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
           tension: 0.4,
         },
         {
-          label: 'Favorites',
+          label: this.t('engagement.chart.label.favorites'),
           data: this.engagementMetricsData.favoritesPerDay.map((d) => d.value),
           borderColor: this.secondaryColor,
           backgroundColor: 'rgba(236, 72, 153, 0.1)',
@@ -261,7 +270,7 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
           tension: 0.4,
         },
         {
-          label: 'Follows',
+          label: this.t('engagement.chart.label.follows'),
           data: this.engagementMetricsData.followsPerDay.map((d) => d.value),
           borderColor: this.tertiaryColor,
           backgroundColor: 'rgba(14, 165, 233, 0.1)',
@@ -279,10 +288,10 @@ export class UserStatisticsComponent implements OnInit, OnDestroy {
     const counts = ratings.map((r) => this.reviewData!.ratingDistribution[r]);
 
     this.ratingDistributionChartData = {
-      labels: ratings.map((r) => `${r} Stars`),
+      labels: ratings.map((r) => `${r} ${this.t('analytics.user.rating.stars')}`),
       datasets: [
         {
-          label: 'Reviews',
+          label: this.t('analytics.user.rating.reviews'),
           data: counts,
           backgroundColor: this.ratingColors,
           borderWidth: 0,

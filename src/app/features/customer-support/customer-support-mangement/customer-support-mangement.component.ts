@@ -215,6 +215,7 @@ export class CustomerSupportMangementComponent implements OnInit, OnDestroy {
             life: 3000,
           });
           this.cdr.detectChanges();
+          this.loadContacts();
         },
         error: (error: any) => {
           this.messageService.add({
