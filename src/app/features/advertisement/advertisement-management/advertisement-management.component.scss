@@ -88,6 +88,33 @@
   }
 }
 
+.link-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  font-size: 1rem;
+
+  &.link-icon-active {
+    color: var(--p-primary-color);
+    background: var(--p-primary-50);
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      background: var(--p-primary-100);
+    }
+  }
+
+  &.link-icon-dimmed {
+    color: var(--p-text-muted-color);
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
 .uploaded-image-container {
   display: flex;
   justify-content: space-between;

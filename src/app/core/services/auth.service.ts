@@ -42,9 +42,9 @@ export class AuthService {
 
   constructor() { }
 
-  sendOtp(emailOrPhone: string, otpType: number = 2): Observable<AuthResponse> {
+  sendOtp(phone: string, otpType: number = 2): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/send/otp`, {
-      emailOrPhone,
+      phone,
       otpType,
     });
   }

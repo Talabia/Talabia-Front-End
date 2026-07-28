@@ -13,6 +13,7 @@
         <tr>
           <th style="min-width:200px">{{'contentPreview.table.title' | translate}}</th>
           <!-- <th style="min-width:150px">{{'contentPreview.table.type' | translate}}</th> -->
+          <th style="min-width:120px">{{'contentPreview.table.status' | translate}}</th>
           <th style="min-width:200px">{{'contentPreview.table.actions' | translate}}</th>
         </tr>
       </ng-template>
@@ -22,11 +23,17 @@
           <td>{{content.title}}</td>
           <!-- <td>{{getContentTypeLabel(content.type)}}</td> -->
           <td>
+            <p-tag [severity]="getActiveSeverity(content.isActive)" [value]="getActiveText(content.isActive)" />
+          </td>
+          <td>
             <div class="table-actions">
               <p-button [pTooltip]="'contentPreview.button.preview' | translate" icon="pi pi-eye" [disabled]="loading"
                 (click)="showPreviewDialog(content)" />
               <p-button [pTooltip]="'contentPreview.button.edit' | translate" severity="success" icon="pi pi-pencil"
                 [disabled]="loading" (click)="showEditDialog(content)" />
+              <p-button [pTooltip]="'contentPreview.button.activate' | translate" severity="info"
+                icon="pi pi-check-circle" [disabled]="loading || content.isActive"
+                (click)="confirmActivate($event, content)" />
               <p-button [pTooltip]="'contentPreview.button.delete' | translate" severity="danger" icon="pi pi-trash"
                 [disabled]="loading" (click)="confirmDelete($event, content)" />
             </div>
@@ -36,7 +43,7 @@
 
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td colspan="3">
+          <td colspan="4">
             <div class="empty-container">
               <i class="pi pi-info-circle"></i>
               <h4>{{'contentPreview.empty.default' | translate}}</h4>
@@ -140,6 +147,11 @@
     <div class="preview-row">
       <label class="preview-label">{{'contentPreview.field.type' | translate}}:</label>
       <span class="preview-value">{{getContentTypeLabel(previewContent.type)}}</span>
+    </div>
+    <div class="preview-row">
+      <label class="preview-label">{{'contentPreview.table.status' | translate}}:</label>
+      <p-tag [severity]="getActiveSeverity(previewContent.isActive)"
+        [value]="getActiveText(previewContent.isActive)" />
     </div>
     <div class="preview-row">
       <label class="preview-label">{{'contentPreview.field.titleAr' | translate}}:</label>

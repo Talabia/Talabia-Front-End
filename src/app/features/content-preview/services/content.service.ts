@@ -10,7 +10,8 @@ import {
   AdminContentListRequest,
   AdminContentListResponse,
   ApiResponse,
-  AdminContentDetailsResponse
+  AdminContentDetailsResponse,
+  ChangeContentStatusRequest
 } from '../models/content.models';
 
 @Injectable({
@@ -113,6 +114,18 @@ export class ContentService {
     const params = new HttpParams().set('id', id.toString());
 
     return this.http.delete<any>(`${this.baseUrl}AdminContents/delete`, { params })
+      .pipe(
+        map(response => response.success || true),
+        catchError(this.handleError)
+      );
+  }
+
+  /**
+   * Activate a content, deactivating the previously active one
+   * POST /api/AdminContents/change-status
+   */
+  changeContentStatus(request: ChangeContentStatusRequest): Observable<boolean> {
+    return this.http.post<any>(`${this.baseUrl}AdminContents/change-status`, request)
       .pipe(
         map(response => response.success || true),
         catchError(this.handleError)

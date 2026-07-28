@@ -18,6 +18,7 @@ import { MessageModule } from 'primeng/message';
 import { Select } from 'primeng/select';
 import { EditorModule } from 'primeng/editor';
 import { InputTextModule } from 'primeng/inputtext';
+import { TagModule } from 'primeng/tag';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { LanguageService } from '../../../shared/services/language.service';
@@ -29,7 +30,8 @@ import {
   AdminContentListRequest,
   AdminContentListResponse,
   ContentType,
-  AdminContentDetailsResponse
+  AdminContentDetailsResponse,
+  ChangeContentStatusRequest
 } from '../models/content.models';
 import { Subject, takeUntil, timeout } from 'rxjs';
 
@@ -49,6 +51,7 @@ import { Subject, takeUntil, timeout } from 'rxjs';
     Select,
     EditorModule,
     InputTextModule,
+    TagModule,
     TranslatePipe,
   ],
   providers: [ConfirmationService, MessageService],
@@ -447,6 +450,83 @@ export class ContentPreviewComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
         },
       });
+  }
+
+  /**
+   * Confirm and activate content
+   */
+  confirmActivate(event: Event, content: AdminContent): void {
+    if (content.isActive) return;
+
+    this.confirmationService.confirm({
+      target: event.currentTarget as EventTarget,
+      message: this.t('contentPreview.confirm.activateMessage', { title: content.title }),
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+        label: this.t('contentPreview.button.cancel'),
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: this.t('contentPreview.button.activate'),
+        severity: 'success',
+      },
+      accept: () => {
+        this.activateContent(content);
+      },
+    });
+  }
+
+  /**
+   * Activate content
+   */
+  private activateContent(content: AdminContent): void {
+    this.loading = true;
+
+    const request: ChangeContentStatusRequest = {
+      id: content.id,
+      isActive: true,
+    };
+
+    this.contentService
+      .changeContentStatus(request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: this.t('common.success'),
+            detail: this.t('contentPreview.notification.activateSuccess'),
+            life: 3000,
+          });
+          this.loadContents();
+        },
+        error: (error) => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('contentPreview.notification.activateError'),
+            life: 5000,
+          });
+          this.cdr.detectChanges();
+        },
+      });
+  }
+
+  /**
+   * Get active status severity for tags
+   */
+  getActiveSeverity(isActive: boolean): string {
+    return isActive ? 'success' : 'secondary';
+  }
+
+  /**
+   * Get active status text
+   */
+  getActiveText(isActive: boolean): string {
+    return isActive ? this.t('common.active') : this.t('common.inactive');
   }
 
   /**

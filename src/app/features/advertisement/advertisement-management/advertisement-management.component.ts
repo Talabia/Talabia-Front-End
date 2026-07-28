@@ -5,7 +5,14 @@ import {
   OnDestroy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -154,7 +161,25 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
       title: ['', [Validators.required, Validators.minLength(3)]],
       imageUrl: ['', Validators.required],
       status: [StatusTypeEnum.Active, Validators.required],
+      link: ['', [this.urlValidator]],
     });
+  }
+
+  /**
+   * Validates that a control's value, when present, is a well-formed URL
+   */
+  private urlValidator(control: AbstractControl): ValidationErrors | null {
+    const value = (control.value || '').trim();
+    if (!value) {
+      return null;
+    }
+
+    try {
+      new URL(value);
+      return null;
+    } catch {
+      return { invalidUrl: true };
+    }
   }
 
   private setupSearchDebounce(): void {
@@ -294,7 +319,12 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
   showCreateDialog(): void {
     this.isEditMode = false;
     this.updateDialogTitle();
-    this.advertisementForm.reset({ id: '', status: StatusTypeEnum.Active, imageUrl: '' });
+    this.advertisementForm.reset({
+      id: '',
+      status: StatusTypeEnum.Active,
+      imageUrl: '',
+      link: '',
+    });
     this.uploadedImageUrl = '';
     this.submitted = false;
     this.visible = true;
@@ -307,6 +337,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
     this.isEditMode = true;
     this.updateDialogTitle();
     this.advertisementForm.patchValue(advertisement);
+    this.advertisementForm.markAsPristine();
     this.uploadedImageUrl = advertisement.imageUrl || '';
     this.submitted = false;
     this.visible = true;
@@ -328,6 +359,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
         next: (imageUrl: string) => {
           this.uploadedImageUrl = imageUrl;
           this.advertisementForm.patchValue({ imageUrl: imageUrl });
+          this.advertisementForm.get('imageUrl')?.markAsDirty();
           this.isImageUploading = false;
           this.messageService.add({
             severity: 'success',
@@ -356,6 +388,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
   removeImage(): void {
     this.uploadedImageUrl = '';
     this.advertisementForm.patchValue({ imageUrl: '' });
+    this.advertisementForm.get('imageUrl')?.markAsDirty();
   }
 
   /**
@@ -374,6 +407,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
 
     // Use uploadedImageUrl as fallback if form imageUrl is empty
     const imageUrl = formValue.imageUrl || this.uploadedImageUrl || '';
+    const link = formValue.link ? formValue.link.trim() : '';
 
     if (this.isEditMode) {
       const editRequest: EditAdvertisementRequest = {
@@ -381,6 +415,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
         title: formValue.title.trim(),
         imageUrl: imageUrl,
         status: formValue.status,
+        link: link || undefined,
       };
 
       this.advertisementService
@@ -415,6 +450,7 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
         title: formValue.title.trim(),
         imageUrl: imageUrl,
         status: formValue.status,
+        link: link || undefined,
       };
 
       this.advertisementService
@@ -508,7 +544,12 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
   cancelDialog(): void {
     this.visible = false;
     this.submitted = false;
-    this.advertisementForm.reset({ id: '', status: StatusTypeEnum.Active, imageUrl: '' });
+    this.advertisementForm.reset({
+      id: '',
+      status: StatusTypeEnum.Active,
+      imageUrl: '',
+      link: '',
+    });
     this.uploadedImageUrl = '';
   }
 
@@ -521,6 +562,16 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
       control?.markAsTouched();
     });
     this.cdr.detectChanges();
+  }
+
+  /**
+   * Whether the dialog's save button should be disabled
+   */
+  isSaveDisabled(): boolean {
+    if (this.isImageUploading) return true;
+    if (this.advertisementForm.invalid) return true;
+    if (this.isEditMode && this.advertisementForm.pristine) return true;
+    return false;
   }
 
   /**
@@ -563,6 +614,10 @@ export class AdvertisementManagementComponent implements OnInit, OnDestroy {
       return this.t('advertisement.validation.titleMinLength', {
         requiredLength: control.errors['minlength'].requiredLength,
       });
+    }
+
+    if (control.errors['invalidUrl']) {
+      return this.t('advertisement.validation.linkInvalid');
     }
 
     return this.t('common.error');

@@ -131,6 +131,31 @@ export class UsersService {
   }
 
   /**
+   * Export users as file with optional filters
+   * GET /api/AdminUsers/export
+   */
+  exportUsers(cityId?: number | null, filter?: number | null, searchKeyword?: string): Observable<Blob> {
+    let params = new HttpParams();
+
+    if (cityId !== undefined && cityId !== null) {
+      params = params.set('CityId', cityId.toString());
+    }
+    if (filter !== undefined && filter !== null) {
+      params = params.set('Filter', filter.toString());
+    }
+    if (searchKeyword && searchKeyword.trim()) {
+      params = params.set('SearchKeyword', searchKeyword.trim());
+    }
+
+    return this.http
+      .get(`${this.baseUrl}AdminUsers/export`, { params, responseType: 'blob', observe: 'response' })
+      .pipe(
+        map((response) => response.body as Blob),
+        catchError(this.handleError)
+      );
+  }
+
+  /**
    * Get cities from Lookups API
    * GET /api/Lookups/cities
    */

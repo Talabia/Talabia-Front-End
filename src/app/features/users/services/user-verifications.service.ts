@@ -7,6 +7,7 @@ import {
   VerificationsListRequest,
   VerificationsListResponse,
   VerificationDetailsResponse,
+  VerificationReview,
   ReviewVerificationRequest,
 } from '../models/user-verifications.models';
 
@@ -62,6 +63,17 @@ export class UserVerificationsService {
 
     return this.http
       .get<VerificationDetailsResponse>(`${this.apiUrl}/details`, { params })
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Get current review data for a verification
+   * GET /api/UserVerifications/review?Id={id}
+   */
+  getVerificationReview(id: string): Observable<VerificationReview> {
+    const params = new HttpParams().set('Id', id);
+    return this.http
+      .get<VerificationReview>(`${this.apiUrl}/review`, { params })
       .pipe(catchError(this.handleError));
   }
 

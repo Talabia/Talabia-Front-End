@@ -88,6 +88,15 @@ export interface VerificationsListResponse {
 }
 
 /**
+ * Current review data returned by GET /api/UserVerifications/review
+ */
+export interface VerificationReview {
+  status: VerificationStatus;
+  rejectionReason: string;
+  adminNotes: string;
+}
+
+/**
  * Review Verification Request
  */
 export interface ReviewVerificationRequest {

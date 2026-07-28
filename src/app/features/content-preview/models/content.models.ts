@@ -8,6 +8,7 @@ export interface AdminContent {
   titleEn?: string;
   contentAr?: string;
   contentEn?: string;
+  isActive: boolean;
   createdAt: string;
 }
 
@@ -49,7 +50,13 @@ export interface AdminContentDetailsResponse {
   titleEn: string;
   contentAr: string;
   contentEn: string;
+  isActive: boolean;
   createdAt: string;
+}
+
+export interface ChangeContentStatusRequest {
+  id: number;
+  isActive: boolean;
 }
 
 export enum ContentType {

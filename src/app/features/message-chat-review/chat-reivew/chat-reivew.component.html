@@ -97,57 +97,58 @@
     </div>
   </p-card>
 
-  <!-- Chat Viewer Section -->
-  @if (selectedChat) {
-  <p-card [header]="'chatReview.viewer.header' | translate" class="chat-viewer-card">
-    <div class="chat-viewer-container">
-      <p-button class="close-chat" icon="pi pi-times" [text]="true" severity="secondary" (click)="closeChat()" />
+  <!-- Chat Viewer Modal -->
+  <p-dialog [header]="'chatReview.viewer.header' | translate" [(visible)]="chatViewerVisible" [modal]="true"
+    [style]="{ width: '40rem' }" [draggable]="false" [resizable]="false" [dismissableMask]="true"
+    (onHide)="closeChat()">
 
-      <!-- Messages Container -->
-      <div class="messages-container" (scroll)="onChatScroll($event)">
-        @if (loadingMessages && messagesCurrentPage === 1) {
-        <div class="loading-messages">
-          <p-progressSpinner strokeWidth="3" [style]="{ width: '24px', height: '24px'}" />
-          <span>{{'common.loading' | translate}}</span>
-        </div>
+    <!-- Messages Container -->
+    <div class="messages-container" #messagesContainer (scroll)="onChatScroll($event)">
+      @if (loadingMessages && messagesCurrentPage === 1) {
+      <div class="loading-messages">
+        <p-progressSpinner strokeWidth="3" [style]="{ width: '24px', height: '24px'}" />
+        <span>{{'common.loading' | translate}}</span>
+      </div>
+      }
+
+      @if (loadingMessages && messagesCurrentPage > 1) {
+      <div class="loading-more">
+        <p-progressSpinner strokeWidth="2" [style]="{ width: '16px', height: '16px'}" />
+        <small>{{'chatReview.viewer.loadingMore' | translate}}</small>
+      </div>
+      }
+
+      @for (message of messages; track message.id) {
+      <div class="message-item" [ngClass]="{'own-message': isMessageFromAdmin(message)}">
+        @if (!isMessageFromAdmin(message)) {
+        <p-avatar [image]="message.senderAvatar || ''" [label]="getMessageSenderName(message).charAt(0).toUpperCase()"
+          size="normal" [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }">
+        </p-avatar>
         }
-
-        @for (message of messages; track message.id) {
-        <div class="message-item" [ngClass]="{'own-message': isMessageFromAdmin(message)}">
-          @if (!isMessageFromAdmin(message)) {
-          <p-avatar [image]="message.senderAvatar || ''" [label]="getMessageSenderName(message).charAt(0).toUpperCase()"
-            size="normal" [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }">
-          </p-avatar>
-          }
-          <div class="message-content">
-            <div class="message-header">
-              <span class="sender-name">{{getMessageSenderName(message)}}</span>
-              <span class="message-time">{{formatMessageTime(message.sentAt)}}</span>
-            </div>
-            <div class="message-text" [style.background]="getParticipantColor(message.senderId)">
-              {{message.content}}
-            </div>
+        <div class="message-content">
+          <div class="message-header">
+            <span class="sender-name">{{getMessageSenderName(message)}}</span>
+            <span class="message-time">{{formatMessageTime(message.sentAt)}}</span>
+          </div>
+          <div class="message-text" [style.background]="getParticipantColor(message.senderId)">
+            {{message.content}}
           </div>
         </div>
-        }
-
-        @if (loadingMessages && messagesCurrentPage > 1) {
-        <div class="loading-more">
-          <p-progressSpinner strokeWidth="2" [style]="{ width: '16px', height: '16px'}" />
-          <small>{{'chatReview.viewer.loadingMore' | translate}}</small>
-        </div>
-        }
-
-        @if (messages.length === 0 && !loadingMessages) {
-        <div class="no-messages-in-chat">
-          <i class="pi pi-comments"></i>
-          <span>{{'chatReview.viewer.noMessages' | translate}}</span>
-        </div>
-        }
       </div>
+      }
+
+      @if (messages.length === 0 && !loadingMessages) {
+      <div class="no-messages-in-chat">
+        <i class="pi pi-comments"></i>
+        <span>{{'chatReview.viewer.noMessages' | translate}}</span>
+      </div>
+      }
     </div>
-  </p-card>
-  }
+
+    <ng-template #footer>
+      <p-button [label]="'common.close' | translate" severity="secondary" (click)="chatViewerVisible = false" />
+    </ng-template>
+  </p-dialog>
 </div>
 
 <p-toast />

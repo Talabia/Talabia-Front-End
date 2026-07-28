@@ -10,12 +10,14 @@ export interface Advertisement {
   title: string;
   imageUrl: string;
   status: StatusTypeEnum;
+  link?: string;
 }
 
 export interface CreateAdvertisementRequest {
   title: string;
   imageUrl: string;
   status: StatusTypeEnum;
+  link?: string;
 }
 
 export interface EditAdvertisementRequest {
@@ -23,6 +25,7 @@ export interface EditAdvertisementRequest {
   title: string;
   imageUrl: string;
   status: StatusTypeEnum;
+  link?: string;
 }
 
 export interface AdvertisementsListRequest {

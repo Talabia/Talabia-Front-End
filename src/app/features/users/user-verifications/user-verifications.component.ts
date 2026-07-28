@@ -31,6 +31,7 @@ import {
   VerificationsListRequest,
   VerificationsListResponse,
   VerificationStatus,
+  VerificationReview,
   ReviewVerificationRequest,
 } from '../models/user-verifications.models';
 import { Subject, takeUntil, timeout, distinctUntilChanged } from 'rxjs';
@@ -354,13 +355,32 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
       });
   }
 
-  /**
-   * Show review dialog
-   */
   showReviewDialog(verification: UserVerification): void {
     this.selectedVerification = verification;
     this.reviewForm.reset();
-    this.reviewDialogVisible = true;
+    this.loading = true;
+    this.cdr.markForCheck();
+
+    this.verificationsService
+      .getVerificationReview(verification.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (review: VerificationReview) => {
+          this.reviewForm.patchValue({
+            status: review.status,
+            rejectionReason: review.rejectionReason || '',
+            adminNotes: review.adminNotes || '',
+          });
+          this.loading = false;
+          this.reviewDialogVisible = true;
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.loading = false;
+          this.reviewDialogVisible = true;
+          this.cdr.detectChanges();
+        },
+      });
   }
 
   /**

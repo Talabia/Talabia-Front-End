@@ -31,6 +31,7 @@ import {
   UserTypeFilterEnum,
 } from '../models/user.models';
 import { Subject, takeUntil, timeout, distinctUntilChanged } from 'rxjs';
+import { saveAs } from 'file-saver';
 import { Tooltip } from 'primeng/tooltip';
 import { Divider } from 'primeng/divider';
 @Component({
@@ -496,17 +497,37 @@ export class UserAccountManagementComponent implements OnInit, OnDestroy {
       });
   }
 
-  /**
-   * Export users (placeholder)
-   */
   onExport(): void {
-    // Placeholder for export functionality
-    this.messageService.add({
-      severity: 'info',
-      summary: this.t('common.info') || 'Info',
-      detail: this.t('users.notification.exportPlaceholder') || 'Export feature coming soon',
-      life: 3000,
-    });
+    this.loading = true;
+    this.cdr.markForCheck();
+
+    this.usersService
+      .exportUsers(this.selectedCityId, this.selectedFilter, this.searchKeyword)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (blob: Blob) => {
+          saveAs(blob, `users-export-${new Date().toISOString().slice(0, 10)}.xlsx`);
+
+          this.loading = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: this.t('common.success'),
+            detail: this.t('users.notification.exportSuccess'),
+            life: 3000,
+          });
+          this.cdr.detectChanges();
+        },
+        error: (error: any) => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: this.t('common.error'),
+            detail: error.message || this.t('users.notification.exportError'),
+            life: 5000,
+          });
+          this.cdr.detectChanges();
+        },
+      });
   }
 
   private t(key: string, params?: Record<string, unknown>): string {

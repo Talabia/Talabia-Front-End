@@ -21,7 +21,7 @@
                 (onChange)="onFilterChange()" [disabled]="loading" [showClear]="true" />
             <!-- Export Button Placeholder -->
             <p-button [label]="'users.button.export' | translate" icon="pi pi-download" [disabled]="loading"
-                (click)="onExport()" [style]="{display: 'none'}" />
+                (click)="onExport()" />
         </div>
 
         <p-table [value]="users" [scrollable]="true" [paginator]="true" [rows]="rows" [first]="first"

@@ -4,6 +4,8 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
@@ -13,6 +15,7 @@ import { Select } from 'primeng/select';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { AvatarModule } from 'primeng/avatar';
 import { DividerModule } from 'primeng/divider';
+import { DialogModule } from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
@@ -46,6 +49,7 @@ import { TagModule } from 'primeng/tag';
     ScrollPanelModule,
     AvatarModule,
     DividerModule,
+    DialogModule,
     ProgressSpinnerModule,
     ToastModule,
     ConfirmPopupModule,
@@ -101,6 +105,13 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
   // Selected chat for viewing
   selectedChat: Chat | null = null;
   selectedChatParticipants: Participant[] = [];
+  chatViewerVisible: boolean = false;
+
+  // senderId of the first message seen in the conversation; that sender is rendered on the right
+  private rightSideSenderId: string | null = null;
+
+
+  @ViewChild('messagesContainer') messagesContainerRef?: ElementRef<HTMLDivElement>;
 
   // Form properties
   filterForm!: FormGroup;
@@ -259,8 +270,10 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
     this.messagesCurrentPage = 1;
     this.messagesTotalRecords = 0;
     this.messages = [];
-    // Clear color assignments for new chat
+    // Clear color and side assignments for new chat
     this.participantColors.clear();
+    this.rightSideSenderId = null;
+    this.chatViewerVisible = true;
     this.loadChatMessages();
   }
 
@@ -274,6 +287,11 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
     if (this.messagesRequest) {
       this.messagesRequest.unsubscribe();
     }
+
+    const isLoadMore = this.messagesCurrentPage > 1;
+    const container = this.messagesContainerRef?.nativeElement;
+    const previousScrollHeight = isLoadMore ? container?.scrollHeight ?? 0 : 0;
+    const previousScrollTop = isLoadMore ? container?.scrollTop ?? 0 : 0;
 
     this.loadingMessages = true;
 
@@ -291,11 +309,20 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
           try {
             // Reverse the order for chat display (newest first)
             const newMessages = response.data || [];
+            if (this.rightSideSenderId === null && newMessages.length > 0) {
+              this.rightSideSenderId = newMessages[0].senderId;
+            }
             this.messages = [...newMessages.reverse(), ...this.messages];
             this.messagesTotalRecords = response.totalCount || 0;
             this.loadingMessages = false;
             this.messagesRequest = undefined;
             this.cdr.detectChanges();
+
+            if (isLoadMore) {
+              this.preserveScrollPosition(previousScrollHeight, previousScrollTop);
+            } else {
+              this.scrollToBottom();
+            }
           } catch (error) {
             console.error('Error processing messages response:', error);
             this.loadingMessages = false;
@@ -319,6 +346,30 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Scroll the messages container to the latest message
+   */
+  private scrollToBottom(): void {
+    setTimeout(() => {
+      const container = this.messagesContainerRef?.nativeElement;
+      if (container) {
+        container.scrollTop = container.scrollHeight;
+      }
+    });
+  }
+
+  /**
+   * Keep the currently visible message in view after older messages are prepended
+   */
+  private preserveScrollPosition(previousScrollHeight: number, previousScrollTop: number): void {
+    setTimeout(() => {
+      const container = this.messagesContainerRef?.nativeElement;
+      if (container) {
+        container.scrollTop = container.scrollHeight - previousScrollHeight + previousScrollTop;
+      }
+    });
+  }
+
+  /**
    * Handle scroll in chat container to load more messages
    */
   onChatScroll(event: any): void {
@@ -339,10 +390,20 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
    * Close chat viewer
    */
   closeChat(): void {
+    if (this.messagesRequest) {
+      this.messagesRequest.unsubscribe();
+      this.messagesRequest = undefined;
+    }
+    this.chatViewerVisible = false;
     this.selectedChat = null;
     this.messages = [];
     this.selectedChatParticipants = [];
     this.participantColors.clear();
+    this.rightSideSenderId = null;
+    this.messagesFirst = 0;
+    this.messagesCurrentPage = 1;
+    this.messagesTotalRecords = 0;
+    this.loadingMessages = false;
   }
 
   /**
@@ -382,10 +443,10 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Check if message is from current user (admin)
+   * Check whether a message belongs to the participant rendered on the right side
    */
   isMessageFromAdmin(message: LastMessage): boolean {
-    return message.isOwn;
+    return message.senderId === this.rightSideSenderId;
   }
 
   /**
