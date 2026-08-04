@@ -275,8 +275,18 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     this.isEditMode = true;
     this.dialogTitle = this.t('conditions.dialog.editTitle');
     this.conditionForm.patchValue(condition);
+    this.conditionForm.markAsPristine();
     this.submitted = false;
     this.visible = true;
+  }
+
+  /**
+   * Whether the dialog's save button should be disabled
+   */
+  isSaveDisabled(): boolean {
+    if (this.conditionForm.invalid) return true;
+    if (this.isEditMode && this.conditionForm.pristine) return true;
+    return false;
   }
 
   /**

@@ -85,6 +85,13 @@
 }
 
 
+// The dialog's own content wrapper scrolls by default; the messages-container
+// below provides its own scroll area, so disable the outer one to avoid a
+// double scrollbar in the chat viewer modal.
+:host ::ng-deep .p-dialog-content {
+  overflow: hidden;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;

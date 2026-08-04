@@ -25,6 +25,7 @@ import {
 } from '../models/customer-support.models';
 import { Subject, takeUntil, timeout } from 'rxjs';
 import { TooltipModule } from 'primeng/tooltip';
+import { DateTimePipe } from '../../../shared/pipes/date-time.pipe';
 @Component({
   selector: 'app-customer-support-mangement',
   imports: [
@@ -39,6 +40,7 @@ import { TooltipModule } from 'primeng/tooltip';
     CommonModule,
     TranslatePipe,
     TooltipModule,
+    DateTimePipe
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './customer-support-mangement.component.html',

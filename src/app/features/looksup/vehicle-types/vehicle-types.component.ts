@@ -275,8 +275,18 @@ export class VehicleTypesComponent implements OnInit, OnDestroy {
     this.isEditMode = true;
     this.dialogTitle = this.t('vehicleTypes.dialog.editTitle');
     this.vehicleTypeForm.patchValue(vehicleType);
+    this.vehicleTypeForm.markAsPristine();
     this.submitted = false;
     this.visible = true;
+  }
+
+  /**
+   * Whether the dialog's save button should be disabled
+   */
+  isSaveDisabled(): boolean {
+    if (this.vehicleTypeForm.invalid) return true;
+    if (this.isEditMode && this.vehicleTypeForm.pristine) return true;
+    return false;
   }
 
   /**

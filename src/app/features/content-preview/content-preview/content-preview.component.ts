@@ -262,6 +262,7 @@ export class ContentPreviewComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges(); // Ensure dialog and editors are rendered
 
           this.contentForm.patchValue(detailedContent);
+          this.contentForm.markAsPristine();
         },
         error: (error) => {
           this.loading = false;
@@ -304,6 +305,15 @@ export class ContentPreviewComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
         },
       });
+  }
+
+  /**
+   * Whether the dialog's save button should be disabled
+   */
+  isSaveDisabled(): boolean {
+    if (this.contentForm.invalid) return true;
+    if (this.isEditMode && this.contentForm.pristine) return true;
+    return false;
   }
 
   /**

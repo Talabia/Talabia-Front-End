@@ -201,7 +201,7 @@
             <p-button [label]="'theme.button.cancel' | translate" severity="secondary" type="button"
                 [disabled]="loading" (click)="cancelDialog()" />
             <p-button [label]="isEditMode ? ('theme.button.update' | translate) : ('theme.button.create' | translate)"
-                type="submit" [loading]="loading" [disabled]="themeForm.invalid && submitted" />
+                type="submit" [loading]="loading" [disabled]="isSaveDisabled()" />
         </div>
     </form>
     }

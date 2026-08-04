@@ -38,6 +38,7 @@ import { Subject, takeUntil, timeout, distinctUntilChanged } from 'rxjs';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
 import { ImageModule } from 'primeng/image';
+import { DateTimePipe } from '../../../shared/pipes/date-time.pipe';
 @Component({
   selector: 'app-user-verifications',
   imports: [
@@ -61,6 +62,7 @@ import { ImageModule } from 'primeng/image';
     TextareaModule,
     TooltipModule,
     ImageModule,
+    DateTimePipe
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './user-verifications.component.html',
@@ -371,6 +373,7 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
             rejectionReason: review.rejectionReason || '',
             adminNotes: review.adminNotes || '',
           });
+          this.reviewForm.markAsPristine();
           this.loading = false;
           this.reviewDialogVisible = true;
           this.cdr.detectChanges();
@@ -441,6 +444,15 @@ export class UserVerificationsComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
         },
       });
+  }
+
+  /**
+   * Whether the review dialog's submit button should be disabled
+   */
+  isReviewSaveDisabled(): boolean {
+    if (this.reviewForm.invalid) return true;
+    if (this.reviewForm.pristine) return true;
+    return false;
   }
 
   /**

@@ -113,7 +113,7 @@
             <p-button [label]="'vehicleModels.button.cancel' | translate" severity="secondary" type="button"
                 [disabled]="loading" (click)="cancelDialog()" />
             <p-button [label]="(isEditMode ? 'vehicleModels.button.update' : 'vehicleModels.button.create') | translate"
-                type="submit" [loading]="loading" [disabled]="vehicleModelForm.invalid && submitted" />
+                type="submit" [loading]="loading" [disabled]="isSaveDisabled()" />
         </div>
     </form>
 </p-dialog>

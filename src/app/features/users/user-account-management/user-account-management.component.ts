@@ -34,6 +34,7 @@ import { Subject, takeUntil, timeout, distinctUntilChanged } from 'rxjs';
 import { saveAs } from 'file-saver';
 import { Tooltip } from 'primeng/tooltip';
 import { Divider } from 'primeng/divider';
+import { DateTimePipe } from '../../../shared/pipes/date-time.pipe';
 @Component({
   selector: 'app-user-account-management',
   imports: [
@@ -53,6 +54,7 @@ import { Divider } from 'primeng/divider';
     ConfirmPopupModule,
     TranslatePipe,
     Tooltip,
+    DateTimePipe
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './user-account-management.component.html',

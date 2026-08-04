@@ -22,6 +22,7 @@ export interface UserVerification {
   location: string;
   city: string;
   status: string;
+  isAccepted: boolean;
   submittedAt: string;
 }
 

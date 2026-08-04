@@ -64,7 +64,7 @@
           <td>
             <p-tag [severity]="getPromotedSeverity(offer.isPromoted)" [value]="getPromotedText(offer.isPromoted)" />
           </td>
-          <td>{{offer.createdFrom}}</td>
+          <td>{{offer.createdAt | dateTime}}</td>
           <td>
             <div class="table-actions">
               <p-button icon="pi pi-eye" pTooltip="{{'contentManagement.button.view' | translate }}"
@@ -153,7 +153,7 @@
     </div>
     <div class="detail-row">
       <label class="detail-label">{{'contentManagement.dialog.createdFrom' | translate}}:</label>
-      <span class="detail-value">{{selectedOffer.createdFrom}}</span>
+      <span class="detail-value">{{selectedOffer.createdAt | dateTime}}</span>
     </div>
     <div class="detail-row">
       <label class="detail-label">{{'contentManagement.dialog.status' | translate}}:</label>

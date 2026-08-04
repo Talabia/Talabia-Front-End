@@ -96,7 +96,7 @@
             <p-button [label]="'cities.button.cancel' | translate" severity="secondary" type="button"
                 [disabled]="loading" (click)="cancelDialog()" />
             <p-button [label]="(isEditMode ? 'cities.button.update' : 'cities.button.create') | translate" type="submit"
-                [loading]="loading" [disabled]="cityForm.invalid && submitted" />
+                [loading]="loading" [disabled]="isSaveDisabled()" />
         </div>
     </form>
 </p-dialog>

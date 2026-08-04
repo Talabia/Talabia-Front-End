@@ -18,6 +18,9 @@ import { DividerModule } from 'primeng/divider';
 import { DialogModule } from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { LanguageService } from '../../../shared/services/language.service';
 import { ChatReviewService } from '../services/chat-review.service';
@@ -38,6 +41,7 @@ import {
 import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
 import { DatePipe, CommonModule } from '@angular/common';
 import { TagModule } from 'primeng/tag';
+import { DateTimePipe } from '../../../shared/pipes/date-time.pipe';
 
 @Component({
   selector: 'app-chat-reivew',
@@ -59,6 +63,10 @@ import { TagModule } from 'primeng/tag';
     CommonModule,
     TranslatePipe,
     TagModule,
+    DateTimePipe,
+    IconField,
+    InputIcon,
+    InputTextModule
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './chat-reivew.component.html',
@@ -80,6 +88,10 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
   first: number = 0;
   rows: number = 10;
   currentPage: number = 1;
+
+  // Search properties
+  searchKeyword: string = '';
+  private searchSubject = new Subject<string>();
 
   // Messages pagination
   messagesFirst: number = 0;
@@ -133,6 +145,55 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
     this.buildTimeFilterOptions();
     this.updatePageReportTemplate();
     this.observeLanguageChanges();
+    this.setupSearchDebounce();
+  }
+
+  private setupSearchDebounce(): void {
+    this.searchSubject
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((searchTerm) => {
+        const trimmedTerm = searchTerm.trim();
+
+        // If search is empty, load immediately without debounce
+        if (!trimmedTerm) {
+          this.searchKeyword = '';
+          this.first = 0;
+          this.currentPage = 1;
+          this.loadChats();
+          return;
+        }
+
+        // For non-empty search, use minimal debounce
+        this.searchKeyword = trimmedTerm;
+        this.first = 0;
+        this.currentPage = 1;
+
+        // Use setTimeout for very short debounce only for typed searches
+        setTimeout(() => {
+          if (this.searchKeyword === trimmedTerm) {
+            this.loadChats();
+          }
+        }, 150); // Much faster debounce for typing
+      });
+  }
+
+  /**
+   * Handle search input
+   */
+  onSearch(event: any): void {
+    const searchTerm = event.target.value || '';
+    this.searchSubject.next(searchTerm);
+  }
+
+  /**
+   * Handle keyup events for faster response on backspace/delete
+   */
+  onSearchKeyup(event: any): void {
+    const searchTerm = event.target.value || '';
+    // For backspace, delete, or when field becomes empty, trigger immediately
+    if (event.key === 'Backspace' || event.key === 'Delete' || !searchTerm.trim()) {
+      this.searchSubject.next(searchTerm);
+    }
   }
 
   ngOnInit(): void {
@@ -189,6 +250,7 @@ export class ChatReivewComponent implements OnInit, OnDestroy {
 
     const request: ChatsListRequest = {
       timeFilter: this.timeFilter ?? ChatTimeFilter.All,
+      searchKeyword: this.searchKeyword,
       pageSize: this.rows,
       currentPage: this.currentPage,
     };

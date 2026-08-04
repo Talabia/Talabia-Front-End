@@ -34,6 +34,7 @@ import {
 import { Subject, takeUntil, timeout, distinctUntilChanged, debounceTime } from 'rxjs';
 import { TooltipModule } from 'primeng/tooltip';
 import { Image } from 'primeng/image';
+import { DateTimePipe } from '../../../shared/pipes/date-time.pipe';
 @Component({
   selector: 'app-content-mangement',
   imports: [
@@ -56,6 +57,7 @@ import { Image } from 'primeng/image';
     TranslatePipe,
     TooltipModule,
     Image,
+    DateTimePipe
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './content-mangement.component.html',

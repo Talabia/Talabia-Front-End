@@ -31,6 +31,10 @@ export class ChatReviewService {
       .set('PageSize', request.pageSize.toString())
       .set('CurrentPage', request.currentPage.toString());
 
+    if (request.searchKeyword && request.searchKeyword.trim()) {
+      params = params.set('SearchKeyword', request.searchKeyword.trim());
+    }
+
     return this.http.get<any>(`${this.baseUrl}AdminChats/list`, { params }).pipe(
       map((response) => {
         if (response && response.data) {

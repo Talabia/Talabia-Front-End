@@ -22,7 +22,7 @@ export interface AdminOffer {
   offerImages: string[];
   lastRefreshedAt: string;
   isRefreshed: boolean;
-  createdFrom: string;
+  createdAt: string;
 }
 
 export interface AdminOffersListRequest {

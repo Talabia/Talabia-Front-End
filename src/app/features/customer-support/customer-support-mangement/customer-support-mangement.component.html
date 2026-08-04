@@ -25,7 +25,7 @@
               {{contact.message.length > 100 ? (contact.message | slice:0:100) + '...' : contact.message}}
             </div>
           </td>
-          <td>{{contact.createdAt}}</td>
+          <td>{{contact.createdAt | dateTime}}</td>
           <td>
             @if (contact.isRead) {
             <p-tag severity="primary" [value]="'customerSupport.status.read' | translate" />
@@ -75,7 +75,7 @@
     </div>
     <div class="detail-row">
       <label class="detail-label">{{'customerSupport.dialog.createdAt' | translate}}:</label>
-      <span class="detail-value">{{selectedContact.createdAt}}</span>
+      <span class="detail-value">{{selectedContact.createdAt | dateTime}}</span>
     </div>
     <div class="detail-row">
       <label class="detail-label">{{'customerSupport.dialog.status' | translate}}:</label>

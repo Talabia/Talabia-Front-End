@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/features/auth/login/login.component.scss"],
+  "sourcesContent": [".login-container {\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    min-height: 100vh;\r\n    padding: 1rem;\r\n    background: linear-gradient(135deg,\r\n            #e8f0ff 0%,\r\n            #e4e0ff 40%,\r\n            #d9f7f5 100%);\r\n}\r\n\r\n.login-card {\r\n    padding: 2.5rem;\r\n    width: 100%;\r\n    max-width: 450px;\r\n}\r\n\r\n.login-header {\r\n    text-align: center;\r\n    margin-bottom: 2rem;\r\n\r\n    .login-title {\r\n        font-size: 1.75rem;\r\n        font-weight: 700;\r\n        margin-bottom: 0.5rem;\r\n    }\r\n\r\n    .login-subtitle {\r\n        font-size: 1rem;\r\n        line-height: 1.5;\r\n    }\r\n}\r\n\r\n.login-form {\r\n    display: flex;\r\n    flex-direction: column;\r\n    gap: 1rem;\r\n\r\n    .login-input {\r\n        width: 100%;\r\n    }\r\n\r\n    .login-submit-btn {\r\n        ::ng-deep .p-button {\r\n            width: 100% !important;\r\n            font-size: 1.1rem;\r\n        }\r\n    }\r\n}"],
+  "mappings": ";AAAA,CAAA;AACI,WAAA;AACA,eAAA;AACA,mBAAA;AACA,cAAA;AACA,WAAA;AACA;IAAA;MAAA,MAAA;MAAA,QAAA,EAAA;MAAA,QAAA,GAAA;MAAA,QAAA;;AAMJ,CAAA;AACI,WAAA;AACA,SAAA;AACA,aAAA;;AAGJ,CAAA;AACI,cAAA;AACA,iBAAA;;AAEA,CAJJ,aAII,CAAA;AACI,aAAA;AACA,eAAA;AACA,iBAAA;;AAGJ,CAVJ,aAUI,CAAA;AACI,aAAA;AACA,eAAA;;AAIR,CAAA;AACI,WAAA;AACA,kBAAA;AACA,OAAA;;AAEA,CALJ,WAKI,CAAA;AACI,SAAA;;AAIA,CAVR,WAUQ,CAAA,iBAAA,UAAA,CAAA;AACI,SAAA;AACA,aAAA;;",
+  "names": []
+}

@@ -164,7 +164,7 @@
                 <p-button [label]="'common.cancel' | translate" severity="secondary" type="button" [disabled]="loading"
                     (click)="goBack()" />
                 <p-button [label]="'sendNotification.button.send' | translate" type="submit" [loading]="loading"
-                    [disabled]="!isFormValid() && submitted" severity="primary" icon="pi pi-send" />
+                    [disabled]="!isFormValid()" severity="primary" icon="pi pi-send" />
             </div>
         </form>
     </div>

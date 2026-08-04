@@ -285,9 +285,20 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
     this.isEditMode = true;
     this.dialogTitle = this.t('vehicleMakers.dialog.editTitle');
     this.vehicleMakerForm.patchValue(vehicleMaker);
+    this.vehicleMakerForm.markAsPristine();
     this.uploadedImageUrl = vehicleMaker.logo || '';
     this.submitted = false;
     this.visible = true;
+  }
+
+  /**
+   * Whether the dialog's save button should be disabled
+   */
+  isSaveDisabled(): boolean {
+    if (this.isImageUploading) return true;
+    if (this.vehicleMakerForm.invalid) return true;
+    if (this.isEditMode && this.vehicleMakerForm.pristine) return true;
+    return false;
   }
 
   /**
@@ -305,6 +316,7 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
         next: (imageUrl: string) => {
           this.uploadedImageUrl = imageUrl;
           this.vehicleMakerForm.patchValue({ logo: imageUrl });
+          this.vehicleMakerForm.get('logo')?.markAsDirty();
           this.isImageUploading = false;
           this.messageService.add({
             severity: 'success',
@@ -333,6 +345,7 @@ export class VehicleMakersComponent implements OnInit, OnDestroy {
   removeImage(): void {
     this.uploadedImageUrl = '';
     this.vehicleMakerForm.patchValue({ logo: '' });
+    this.vehicleMakerForm.get('logo')?.markAsDirty();
   }
 
   /**

@@ -276,8 +276,18 @@ export class CitiesComponent implements OnInit, OnDestroy {
     this.isEditMode = true;
     this.dialogTitle = this.t('cities.dialog.editTitle');
     this.cityForm.patchValue(city);
+    this.cityForm.markAsPristine();
     this.submitted = false;
     this.visible = true;
+  }
+
+  /**
+   * Whether the dialog's save button should be disabled
+   */
+  isSaveDisabled(): boolean {
+    if (this.cityForm.invalid) return true;
+    if (this.isEditMode && this.cityForm.pristine) return true;
+    return false;
   }
 
   /**

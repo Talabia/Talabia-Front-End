@@ -133,7 +133,7 @@
       <p-button [label]="'contentPreview.button.cancel' | translate" severity="secondary" type="button"
         [disabled]="loading" (click)="cancelDialog()" />
       <p-button [label]="(isEditMode ? 'contentPreview.button.update' : 'contentPreview.button.create') | translate"
-        type="submit" [loading]="loading" [disabled]="contentForm.invalid && submitted" />
+        type="submit" [loading]="loading" [disabled]="isSaveDisabled()" />
     </div>
   </form>
 </p-dialog>

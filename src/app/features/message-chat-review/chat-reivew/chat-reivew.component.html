@@ -3,6 +3,13 @@
   <p-card [header]="'chatReview.header' | translate">
     <div class="card">
       <div class="action-container">
+        <p-iconfield class="flex-grow">
+          <p-inputicon class="pi pi-search" />
+          <input type="text" pInputText [placeholder]="'chatReview.searchPlaceholder' | translate"
+            (input)="onSearch($event)" (keyup)="onSearchKeyup($event)" [value]="searchKeyword"
+            [style]="{ width: '100%' }" [disabled]="loading" />
+        </p-iconfield>
+
         <p-select class="flex-grow" [options]="timeFilterOptions" [(ngModel)]="timeFilter" optionLabel="label"
           optionValue="value" [placeholder]="'chatReview.filters.placeholder' | translate"
           [style]="{ maxWidth: '280px' }" [disabled]="loading" [showClear]="true" />
@@ -50,7 +57,7 @@
                   : {{chat.lastMessage.content}}
                 </div>
                 <div class="message-time">
-                  {{formatMessageTime(chat.lastMessage.sentAt)}}
+                  {{chat.lastMessage.sentAt | dateTime}}
                 </div>
               </div>
               } @else {
@@ -66,11 +73,11 @@
             <td>
               @if (chat.lastMessageAt) {
               <div class="activity-time">
-                {{formatMessageTime(chat.lastMessageAt)}}
+                {{chat.lastMessageAt | dateTime}}
               </div>
               } @else {
               <div class="activity-time">
-                {{formatMessageTime(chat.createdAt)}}
+                {{chat.createdAt | dateTime}}
               </div>
               }
             </td>
@@ -128,7 +135,7 @@
         <div class="message-content">
           <div class="message-header">
             <span class="sender-name">{{getMessageSenderName(message)}}</span>
-            <span class="message-time">{{formatMessageTime(message.sentAt)}}</span>
+            <span class="message-time">{{message.sentAt | dateTime}}</span>
           </div>
           <div class="message-text" [style.background]="getParticipantColor(message.senderId)">
             {{message.content}}

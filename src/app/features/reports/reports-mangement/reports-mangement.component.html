@@ -70,7 +70,7 @@
                     <td>
                         <p-tag [value]="report.status" [severity]="getStatusSeverity(report.status)" />
                     </td>
-                    <td>{{report.createdAt | date:'short'}}</td>
+                    <td>{{report.createdAt | dateTime}}</td>
                     <td>
                         <div class="table-actions">
                             <p-button icon="pi pi-eye" [pTooltip]="'reports.button.view' | translate" severity="primary"
@@ -138,12 +138,12 @@
         <div class="detail-row">
             <label class="detail-label">{{'reports.dialog.fields.createdAt' | translate}}:</label>
 
-            <span class="detail-value">{{selectedReport.createdAt | date:'medium'}}</span>
+            <span class="detail-value">{{selectedReport.createdAt | dateTime}}</span>
         </div>
         <div class="detail-row">
             <label class="detail-label">{{'reports.dialog.fields.updatedAt' | translate}}:</label>
 
-            <span class="detail-value">{{selectedReport.updatedAt | date:'medium'}}</span>
+            <span class="detail-value">{{selectedReport.updatedAt | dateTime}}</span>
         </div>
         @if (selectedReport.adminNotes) {
         <div class="detail-row">
@@ -227,7 +227,7 @@
             <p-button [label]="'reports.button.cancel' | translate" severity="secondary" type="button"
                 [disabled]="loading" (click)="closeStatusDialog()" />
             <p-button [label]="'reports.button.updateStatus' | translate" type="submit" [loading]="loading"
-                [disabled]="statusForm.invalid && submitted" />
+                [disabled]="statusForm.invalid" />
         </div>
     </form>
 </p-dialog>

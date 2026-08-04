@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/layout/main-layout/main-layout.component.scss"],
+  "sourcesContent": ["// Moved from app.scss if any specific layout styles existed there, or keep empty and rely on global styles\r\n// Assuming layout styles are global or in styles.scss, but app.component typically has some layout styles.\r\n// Checking app.scss content next step, for now basic import or empty\r\n:host {\r\n    display: block;\r\n    height: 100vh;\r\n}\r\n\r\n.layout-container {\r\n    display: flex;\r\n    flex-direction: column;\r\n    height: 100vh;\r\n    overflow: hidden;\r\n}\r\n\r\n// Sidebar container behavior\r\napp-side-bar {\r\n    transition: width 0.3s ease;\r\n    // Assuming the sidebar handles its own width toggling or we control it here\r\n    // If hidden prop is used on app-side-bar, we might just rely on its internal implementation, \r\n    // but usually layout controls the space.\r\n}\r\n\r\n.layout-body {\r\n    display: flex;\r\n    flex: 1;\r\n    overflow: hidden;\r\n}\r\n\r\n.layout-content {\r\n    flex: 1;\r\n    overflow-y: auto;\r\n    padding: 1rem;\r\n    transition: margin-left 0.2s;\r\n    background-color: var(--surface-ground);\r\n}"],
+  "mappings": ";AAGA;AACI,WAAA;AACA,UAAA;;AAGJ,CAAA;AACI,WAAA;AACA,kBAAA;AACA,UAAA;AACA,YAAA;;AAIJ;AACI,cAAA,MAAA,KAAA;;AAMJ,CAAA;AACI,WAAA;AACA,QAAA;AACA,YAAA;;AAGJ,CAAA;AACI,QAAA;AACA,cAAA;AACA,WAAA;AACA,cAAA,YAAA;AACA,oBAAA,IAAA;;",
+  "names": []
+}

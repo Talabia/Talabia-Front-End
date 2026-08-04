@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { CitiesComponent } from './features/looksup/cities/cities.component';
 import { ConditionsComponent } from './features/looksup/conditions/conditions.component';
+import { CategoriesComponent } from './features/looksup/categories/categories.component';
 import { SparePartsStatusComponent } from './features/looksup/spare-parts-status/spare-parts-status.component';
 import { VehicleTypesComponent } from './features/looksup/vehicle-types/vehicle-types.component';
 import { VehicleMakersComponent } from './features/looksup/vehicle-makers/vehicle-makers.component';
@@ -45,6 +46,10 @@ const protectedRoutes: Routes = [
       {
         path: 'conditions',
         component: ConditionsComponent,
+      },
+      {
+        path: 'categories',
+        component: CategoriesComponent,
       },
       {
         path: 'spare-parts-status',

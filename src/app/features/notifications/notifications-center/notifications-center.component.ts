@@ -28,6 +28,7 @@ import {
   NotificationsListResponse,
 } from '../models/notifications-center';
 import { Subject, takeUntil, timeout } from 'rxjs';
+import { DateTimePipe } from '../../../shared/pipes/date-time.pipe';
 
 @Component({
   selector: 'app-notifications-center',
@@ -42,8 +43,8 @@ import { Subject, takeUntil, timeout } from 'rxjs';
     ProgressSpinnerModule,
     DatePicker,
     TagModule,
-    DatePipe,
     TranslatePipe,
+    DateTimePipe
   ],
   providers: [MessageService],
   templateUrl: './notifications-center.component.html',

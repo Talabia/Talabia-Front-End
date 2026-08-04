@@ -275,8 +275,18 @@ export class SparePartsStatusComponent implements OnInit, OnDestroy {
     this.isEditMode = true;
     this.dialogTitle = this.t('sparePartsStatus.dialog.editTitle');
     this.sparePartsStatusForm.patchValue(sparePartsStatus);
+    this.sparePartsStatusForm.markAsPristine();
     this.submitted = false;
     this.visible = true;
+  }
+
+  /**
+   * Whether the dialog's save button should be disabled
+   */
+  isSaveDisabled(): boolean {
+    if (this.sparePartsStatusForm.invalid) return true;
+    if (this.isEditMode && this.sparePartsStatusForm.pristine) return true;
+    return false;
   }
 
   /**

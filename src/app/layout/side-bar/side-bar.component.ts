@@ -132,6 +132,12 @@ export class SideBarComponent implements OnInit, OnDestroy {
             routerLinkActiveOptions: { exact: true },
           },
           {
+            label: this.t('lookups.categories'),
+            icon: 'pi pi-file',
+            routerLink: this.navigationService.getRouterLink('/looksup/categories'),
+            routerLinkActiveOptions: { exact: true },
+          },
+          {
             label: this.t('lookups.sparePartsStatus'),
             icon: 'pi pi-file',
             routerLink: this.navigationService.getRouterLink('/looksup/spare-parts-status'),

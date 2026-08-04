@@ -52,7 +52,7 @@
                     <td>{{user.phone}}</td>
                     <td>{{user.email}}</td>
                     <td>{{user.city}}</td>
-                    <td>{{user.joinDate}}</td>
+                    <td>{{user.joinDate | dateTime:'date'}}</td>
                     <td>
                         @if (user.isPremium) {
                         <p-tag severity="primary" [value]="'users.tag.premium' | translate" />

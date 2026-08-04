@@ -43,6 +43,7 @@ export interface Chat {
 
 export interface ChatsListRequest {
   timeFilter: ChatTimeFilter;
+  searchKeyword?: string;
   pageSize: number;
   currentPage: number;
 }

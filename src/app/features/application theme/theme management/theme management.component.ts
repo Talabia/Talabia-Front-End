@@ -368,6 +368,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
             light: details.lightTheme,
             dark: details.darkTheme,
           });
+          this.themeForm.markAsPristine();
           this.dialogLoading = false;
           this.submitted = false;
           this.visible = true;
@@ -384,6 +385,15 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
         },
       });
+  }
+
+  /**
+   * Whether the dialog's save button should be disabled
+   */
+  isSaveDisabled(): boolean {
+    if (this.themeForm.invalid) return true;
+    if (this.isEditMode && this.themeForm.pristine) return true;
+    return false;
   }
 
   /**

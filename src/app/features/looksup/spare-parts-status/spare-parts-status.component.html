@@ -100,7 +100,7 @@
                 [disabled]="loading" (click)="cancelDialog()" />
             <p-button
                 [label]="(isEditMode ? 'sparePartsStatus.button.update' : 'sparePartsStatus.button.create') | translate"
-                type="submit" [loading]="loading" [disabled]="sparePartsStatusForm.invalid && submitted" />
+                type="submit" [loading]="loading" [disabled]="isSaveDisabled()" />
         </div>
     </form>
 </p-dialog>

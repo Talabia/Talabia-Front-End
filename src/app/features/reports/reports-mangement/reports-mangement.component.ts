@@ -46,6 +46,7 @@ import {
 import { Subject, takeUntil, timeout } from 'rxjs';
 import { Divider } from 'primeng/divider';
 import { Tooltip } from 'primeng/tooltip';
+import { DateTimePipe } from '../../../shared/pipes/date-time.pipe';
 @Component({
   selector: 'app-reports-mangement',
   imports: [
@@ -68,6 +69,7 @@ import { Tooltip } from 'primeng/tooltip';
     Checkbox,
     TranslatePipe,
     Tooltip,
+    DateTimePipe
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './reports-mangement.component.html',

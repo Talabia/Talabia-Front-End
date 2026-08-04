@@ -321,6 +321,7 @@ export class VehicleModelsComponent implements OnInit, OnDestroy {
             nameEn: details.nameEn,
             makerId: details.makerId
           });
+          this.vehicleModelForm.markAsPristine();
           this.submitted = false;
           this.visible = true;
           this.loading = false;
@@ -335,6 +336,15 @@ export class VehicleModelsComponent implements OnInit, OnDestroy {
           });
         }
       });
+  }
+
+  /**
+   * Whether the dialog's save button should be disabled
+   */
+  isSaveDisabled(): boolean {
+    if (this.vehicleModelForm.invalid) return true;
+    if (this.isEditMode && this.vehicleModelForm.pristine) return true;
+    return false;
   }
 
   /**

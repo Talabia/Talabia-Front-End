@@ -49,7 +49,7 @@
                     <td>{{verification.phone}}</td>
                     <td>{{verification.email}}</td>
                     <td>{{verification.city}}</td>
-                    <td>{{verification.submittedAt | date:'short'}}</td>
+                    <td>{{verification.submittedAt | dateTime}}</td>
                     <td>
                         <p-tag [severity]="getStatusSeverity(verification.status)" [value]="verification.status" />
                     </td>
@@ -57,11 +57,11 @@
                         <div class="table-actions">
                             <p-button [pTooltip]="'verifications.button.details' | translate" icon="pi pi-eye"
                                 [disabled]="loading" (click)="showViewDialog(verification)" />
-                            <p-button [pTooltip]="'verifications.button.review' | translate" severity="info" icon="pi pi-list-check
-" [disabled]="loading" (click)="showReviewDialog(verification)" />
+                            <p-button [pTooltip]="'verifications.button.review' | translate" severity="info"
+                                icon="pi pi-list-check" [disabled]="loading" (click)="showReviewDialog(verification)" />
                             <p-button [pTooltip]="'verifications.button.approve' | translate" severity="success"
                                 icon="pi pi-check" [disabled]="loading" (click)="confirmApprove($event, verification)"
-                                [disabled]="verification.status === 'Approved' || verification.status === 'مقبول'" />
+                                [disabled]="verification.isAccepted" />
                         </div>
                     </td>
                 </tr>
@@ -225,7 +225,7 @@
             <p-button [label]="'verifications.button.cancel' | translate" severity="secondary" type="button"
                 (click)="closeReviewDialog()" [disabled]="loading" />
             <p-button [label]="'verifications.button.submit' | translate" severity="primary" type="submit"
-                [disabled]="loading || reviewForm.invalid" [loading]="loading" />
+                [disabled]="isReviewSaveDisabled()" [loading]="loading" />
         </div>
     </form>
 </p-dialog>
