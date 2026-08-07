@@ -1,0 +1,37 @@
+<div class="phone-input">
+  @if (label) {
+    <label class="phone-input-label">{{ label }}</label>
+  }
+  <div class="phone-input-row" dir="ltr">
+    <p-select
+      class="phone-input-country"
+      [options]="countries"
+      optionLabel="name"
+      optionValue="iso2"
+      [ngModel]="selectedCountry"
+      (ngModelChange)="onCountryChange($event)"
+      [filter]="true"
+      [disabled]="disabled || lockCountry"
+      appendTo="body"
+    >
+      <ng-template #selectedItem let-option>
+        <span class="phone-input-flag" [style.background-image]="'url(assets/flags/' + option.iso2.toLowerCase() + '.svg)'"></span>
+        <span class="phone-input-dialcode">{{ option.dialCode }}</span>
+      </ng-template>
+      <ng-template #item let-option>
+        <span class="phone-input-flag" [style.background-image]="'url(assets/flags/' + option.iso2.toLowerCase() + '.svg)'"></span>
+        <span class="phone-input-country-name">{{ option.name }}</span>
+        <span class="phone-input-dialcode">{{ option.dialCode }}</span>
+      </ng-template>
+    </p-select>
+    <input
+      pInputText
+      type="tel"
+      class="phone-input-number"
+      [ngModel]="nationalNumber"
+      (ngModelChange)="onNumberInput($event)"
+      (blur)="onBlur()"
+      [disabled]="disabled"
+    />
+  </div>
+</div>

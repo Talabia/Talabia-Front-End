@@ -26,6 +26,7 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
 import { LoginComponent } from './features/auth/login/login.component';
 import { OtpComponent } from './features/auth/otp/otp.component';
 import { authGuard } from './core/guards/auth.guard';
+import { guestGuard } from './core/guards/guest.guard';
 import { ContentPreviewComponent } from './features/content-preview/content-preview/content-preview.component';
 import { UsagePolicyComponent } from './features/content-preview/usage-policy/usage-policy.component';
 import { TermsConditionsComponent } from './features/content-preview/terms-conditions/terms-conditions.component';
@@ -189,10 +190,12 @@ export const routes: Routes = [
   // Public Routes (Login, OTP) - No Main Layout, No Auth Guard
   {
     path: 'login',
+    canActivate: [guestGuard],
     component: LoginComponent,
   },
   {
     path: 'otp',
+    canActivate: [guestGuard],
     component: OtpComponent,
   },
 

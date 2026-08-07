@@ -54,7 +54,7 @@ export class OtpComponent implements OnInit, OnDestroy {
       this.returnUrl = params['returnUrl'] || '/';
 
       if (!this.userId) {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/login'], { replaceUrl: true });
       }
     });
 
@@ -107,7 +107,7 @@ export class OtpComponent implements OnInit, OnDestroy {
           detail: 'Logged in successfully',
         });
         setTimeout(() => {
-          this.router.navigateByUrl(this.returnUrl);
+          this.router.navigateByUrl(this.returnUrl, { replaceUrl: true });
         }, 500);
       },
       error: (err) => {

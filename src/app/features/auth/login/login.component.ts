@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgModel } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { MessageService } from 'primeng/api';
@@ -10,19 +9,18 @@ import { ToastModule } from 'primeng/toast';
 import { AuthService } from '../../../core/services/auth.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { LanguageService } from '../../../shared/services/language.service';
-import { FloatLabelModule } from 'primeng/floatlabel';
+import { PhoneInputComponent } from '../../../shared/components/phone-input/phone-input.component';
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
-    InputTextModule,
     ButtonModule,
     CardModule,
     ToastModule,
     TranslatePipe,
-    FloatLabelModule,
+    PhoneInputComponent,
   ],
   providers: [MessageService],
   templateUrl: './login.component.html',
@@ -32,6 +30,8 @@ export class LoginComponent {
   emailOrPhone: string = '';
   loading: boolean = false;
   returnUrl: string = '/';
+
+  @ViewChild('phoneField') phoneField?: NgModel;
 
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -57,6 +57,15 @@ export class LoginComponent {
       return;
     }
 
+    if (this.phoneField?.invalid) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: this.languageService.translate('auth.validation.invalidPhone'),
+      });
+      return;
+    }
+
     this.loading = true;
     this.authService.sendOtp(this.emailOrPhone).subscribe({
       next: (response) => {
@@ -68,6 +77,7 @@ export class LoginComponent {
         });
         // Navigate to OTP page, passing data and returnUrl
         this.router.navigate(['/otp'], {
+          replaceUrl: true,
           queryParams: {
             userId: response.userId,
             identifier: this.emailOrPhone,

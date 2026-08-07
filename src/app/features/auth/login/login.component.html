@@ -10,10 +10,11 @@
       </div>
 
       <div class="login-form">
-        <p-floatlabel>
-          <input pInputText id="email" class="login-input" [(ngModel)]="emailOrPhone" />
-          <label for="email">{{ 'auth.login.label' | translate }}</label>
-        </p-floatlabel>
+        <app-phone-input name="phone" [(ngModel)]="emailOrPhone" #phoneField="ngModel"
+          [label]="'auth.login.label' | translate" defaultCountry="SA" [lockCountry]="true"></app-phone-input>
+        @if (phoneField.invalid && phoneField.touched) {
+          <small class="p-error">{{ 'auth.validation.invalidPhone' | translate }}</small>
+        }
         <p-button (click)="onSendOtp()" [label]="'auth.login.button' | translate" icon="pi pi-arrow-right"
           iconPos="right" [loading]="loading" class="login-submit-btn"></p-button>
       </div>

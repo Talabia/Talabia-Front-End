@@ -41,6 +41,12 @@
         width: 100%;
     }
 
+    .p-error {
+        color: var(--p-red-600);
+        font-size: 0.875rem;
+        margin-top: -0.5rem;
+    }
+
     .login-submit-btn {
         ::ng-deep .p-button {
             width: 100% !important;

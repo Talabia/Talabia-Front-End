@@ -35,6 +35,11 @@
                 "glob": "web.config",
                 "input": "src",
                 "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/flag-icons/flags/4x3",
+                "output": "assets/flags"
               }
             ],
             "styles": [

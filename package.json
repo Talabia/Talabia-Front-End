@@ -34,6 +34,8 @@
     "@primeuix/themes": "^1.2.3",
     "chart.js": "^4.5.1",
     "file-saver": "^2.0.5",
+    "flag-icons": "^7.5.0",
+    "libphonenumber-js": "^1.13.10",
     "moment": "^2.30.1",
     "primeicons": "^7.0.0",
     "primeng": "^20.1.1",

@@ -108,7 +108,7 @@ export class AuthService {
     this.currentUser.set(null);
 
     // Navigate to login
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], { replaceUrl: true });
   }
 
   private setCurrentUser(user: User): void {
