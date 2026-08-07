@@ -4,15 +4,22 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
+  Signal,
+  ViewChild,
+  signal,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { InputIcon } from 'primeng/inputicon';
-import { IconField } from 'primeng/iconfield';
 import { TextareaModule } from 'primeng/textarea';
-import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
@@ -24,6 +31,7 @@ import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TagModule } from 'primeng/tag';
 import { ColorPicker } from 'primeng/colorpicker';
+import { Popover } from 'primeng/popover';
 import { LanguageService } from '../../../shared/services/language.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { ThemeService } from '../services/theme.service';
@@ -38,6 +46,10 @@ import {
   ThemeDetailsResponse,
 } from '../models/theme.models';
 import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
+import {
+  MobileThemePreviewComponent,
+  ThemeRegionKey,
+} from './mobile-theme-preview/mobile-theme-preview.component';
 @Component({
   selector: 'app-theme-management',
   imports: [
@@ -56,8 +68,10 @@ import { distinctUntilChanged, Subject, takeUntil, timeout } from 'rxjs';
     ProgressSpinnerModule,
     TagModule,
     ColorPicker,
+    Popover,
     TextareaModule,
     TranslatePipe,
+    MobileThemePreviewComponent,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './theme management.component.html',
@@ -90,6 +104,13 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
   // Form properties
   themeForm!: FormGroup;
   submitted: boolean = false;
+
+  // Interactive preview properties
+  @ViewChild('colorPopover') colorPopover?: Popover;
+  mode = signal<'light' | 'dark'>('light');
+  activePreviewKey = signal<ThemeRegionKey | null>(null);
+  lightPalette!: Signal<ThemePalette>;
+  darkPalette!: Signal<ThemePalette>;
 
   palettePreviewKeys: (keyof ThemePalette)[] = ['primary', 'secondary', 'surface', 'onSurface'];
 
@@ -158,6 +179,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
     private languageService: LanguageService
   ) {
     this.initializeForm();
+    this.initializePreviewSignals();
     this.setupSearchDebounce();
     this.updateDialogTitle();
     this.pageReportTemplate = this.languageService.translate('table.currentPageReport');
@@ -196,6 +218,19 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
       descriptionAr: ['', [Validators.required, Validators.minLength(5)]],
       light: this.createPaletteGroup(this.defaultLightPalette),
       dark: this.createPaletteGroup(this.defaultDarkPalette),
+    });
+  }
+
+  /**
+   * Bridge the light/dark palette FormGroups into signals so the OnPush preview
+   * updates live without manual valueChanges subscriptions + markForCheck() calls.
+   */
+  private initializePreviewSignals(): void {
+    this.lightPalette = toSignal(this.themeForm.get('light')!.valueChanges, {
+      initialValue: this.themeForm.get('light')!.getRawValue() as ThemePalette,
+    });
+    this.darkPalette = toSignal(this.themeForm.get('dark')!.valueChanges, {
+      initialValue: this.themeForm.get('dark')!.getRawValue() as ThemePalette,
     });
   }
 
@@ -343,6 +378,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
       light: this.defaultLightPalette,
       dark: this.defaultDarkPalette,
     });
+    this.resetPreviewState();
     this.submitted = false;
     this.visible = true;
   }
@@ -354,6 +390,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
     this.isEditMode = true;
     this.updateDialogTitle();
     this.dialogLoading = true;
+    this.loading = true;
     this.themeService
       .getThemeById(theme.id)
       .pipe(takeUntil(this.destroy$))
@@ -369,6 +406,8 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
             dark: details.darkTheme,
           });
           this.themeForm.markAsPristine();
+          this.resetPreviewState();
+          this.loading = false;
           this.dialogLoading = false;
           this.submitted = false;
           this.visible = true;
@@ -376,6 +415,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
         },
         error: (error: any) => {
           this.dialogLoading = false;
+          this.loading = false;
           this.messageService.add({
             severity: 'error',
             summary: this.t('common.error'),
@@ -491,7 +531,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
    */
   toggleActiveStatus(theme: Theme, event: any): void {
     const newStatus = event.checked;
-
+    this.loading = true;
     this.themeService
       .setActiveStatus({ id: theme.id, status: newStatus })
       .pipe(takeUntil(this.destroy$))
@@ -511,6 +551,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
               t.id === theme.id ? { ...t, isActive: false } : t
             );
           }
+          this.loading = false;
           this.messageService.add({
             severity: 'success',
             summary: this.t('common.success'),
@@ -522,6 +563,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
         },
         error: (error: any) => {
+          this.loading = false;
           this.messageService.add({
             severity: 'error',
             summary: this.t('common.error'),
@@ -541,6 +583,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
    * Set theme as default
    */
   setAsDefault(theme: Theme): void {
+    this.loading = true;
     this.themeService
       .setDefaultTheme({ id: theme.id })
       .pipe(takeUntil(this.destroy$))
@@ -551,6 +594,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
             ...t,
             isDefault: t.id === theme.id,
           }));
+          this.loading = false;
           this.messageService.add({
             severity: 'success',
             summary: this.t('common.success'),
@@ -560,6 +604,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
         },
         error: (error: any) => {
+          this.loading = false;
           this.messageService.add({
             severity: 'error',
             summary: this.t('common.error'),
@@ -642,6 +687,7 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
       light: this.defaultLightPalette,
       dark: this.defaultDarkPalette,
     });
+    this.resetPreviewState();
   }
 
   /**
@@ -660,6 +706,47 @@ export class ThemeManagementComponent implements OnInit, OnDestroy {
    */
   getFormControl(controlName: string) {
     return this.themeForm.get(controlName);
+  }
+
+  /**
+   * Open the shared color picker popover for a clicked preview region/chip
+   */
+  openColorPicker(key: ThemeRegionKey, sourceEvent: Event): void {
+    this.activePreviewKey.set(key);
+    this.colorPopover?.toggle(sourceEvent);
+  }
+
+  /**
+   * Clear the active preview key once the popover closes
+   */
+  onColorPopoverHide(): void {
+    this.activePreviewKey.set(null);
+  }
+
+  /**
+   * Form control bound to the popover's color picker, based on the active mode + key
+   */
+  getActivePaletteControl(): FormControl | null {
+    const key = this.activePreviewKey();
+    if (!key) return null;
+    return this.themeForm.get([this.mode(), key]) as FormControl | null;
+  }
+
+  /**
+   * Translated label for the currently active preview key
+   */
+  getActivePaletteLabel(): string {
+    const key = this.activePreviewKey();
+    return this.paletteFields.find((field) => field.key === key)?.labelKey ?? '';
+  }
+
+  /**
+   * Reset preview state (mode + active key) and close the popover
+   */
+  private resetPreviewState(): void {
+    this.mode.set('light');
+    this.activePreviewKey.set(null);
+    this.colorPopover?.hide();
   }
 
   /**

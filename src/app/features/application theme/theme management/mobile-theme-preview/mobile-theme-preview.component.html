@@ -1,0 +1,121 @@
+<div class="phone-frame">
+    <div class="phone-notch"></div>
+    <div class="phone-screen" [style.background]="palette().surface">
+
+        <!-- Status bar -> surfaceContainerLow -->
+        <div class="region status-bar" [style.background]="palette().surfaceContainerLow"
+            [class.region-active]="activeKey() === 'surfaceContainerLow'" tabindex="0" role="button"
+            aria-label="Surface Container Low" (click)="onRegionClick('surfaceContainerLow', $event)"
+            (keydown.enter)="onRegionClick('surfaceContainerLow', $event)">
+            <span [style.color]="palette().onSurface">9:41</span>
+            <span class="status-icons" [style.color]="palette().onSurface">
+                <i class="pi pi-wifi"></i>
+                <i class="pi pi-mobile"></i>
+            </span>
+        </div>
+
+        <!-- App bar -> primary / onPrimary -->
+        <div class="region app-bar" [style.background]="palette().primary"
+            [class.region-active]="activeKey() === 'primary'" tabindex="0" role="button" aria-label="Primary"
+            (click)="onRegionClick('primary', $event)" (keydown.enter)="onRegionClick('primary', $event)">
+            <i class="pi pi-arrow-left" [style.color]="palette().onPrimary"></i>
+            <span class="region app-bar-title" [style.color]="palette().onPrimary"
+                [class.region-active]="activeKey() === 'onPrimary'" tabindex="0" role="button" aria-label="On Primary"
+                (click)="onRegionClick('onPrimary', $event)" (keydown.enter)="onRegionClick('onPrimary', $event)">
+                Talabia
+            </span>
+            <i class="pi pi-bell" [style.color]="palette().onPrimary"></i>
+        </div>
+
+        <div class="region phone-body" [class.region-active]="activeKey() === 'surface'" tabindex="0" role="button"
+            aria-label="Surface" (click)="onRegionClick('surface', $event)"
+            (keydown.enter)="onRegionClick('surface', $event)">
+            <!-- Promo banner -> primaryFixed -->
+            <div class="region promo-banner" [style.background]="palette().primaryFixed"
+                [class.region-active]="activeKey() === 'primaryFixed'" tabindex="0" role="button"
+                aria-label="Primary Fixed" (click)="onRegionClick('primaryFixed', $event)"
+                (keydown.enter)="onRegionClick('primaryFixed', $event)">
+                <span [style.color]="palette().onSurface">Special offer today</span>
+            </div>
+
+            <!-- Text samples -> onSurface / onSurfaceVariant -->
+            <div class="text-block">
+                <p class="region title-text" [style.color]="palette().onSurface"
+                    [class.region-active]="activeKey() === 'onSurface'" tabindex="0" role="button"
+                    aria-label="On Surface" (click)="onRegionClick('onSurface', $event)"
+                    (keydown.enter)="onRegionClick('onSurface', $event)">
+                    Available near you
+                </p>
+                <p class="region subtitle-text" [style.color]="palette().onSurfaceVariant"
+                    [class.region-active]="activeKey() === 'onSurfaceVariant'" tabindex="0" role="button"
+                    aria-label="On Surface Variant" (click)="onRegionClick('onSurfaceVariant', $event)"
+                    (keydown.enter)="onRegionClick('onSurfaceVariant', $event)">
+                    Updated a few minutes ago
+                </p>
+            </div>
+
+            <!-- Card -> surfaceContainer / outline / secondaryFixed / onSecondaryContainer -->
+            <div class="region preview-card" [style.background]="palette().surfaceContainer"
+                [class.region-active]="activeKey() === 'surfaceContainer'" tabindex="0" role="button"
+                aria-label="Surface Container" (click)="onRegionClick('surfaceContainer', $event)"
+                (keydown.enter)="onRegionClick('surfaceContainer', $event)">
+                <div class="region card-thumb" [style.border-color]="palette().outline"
+                    [class.region-active]="activeKey() === 'outline'" tabindex="0" role="button"
+                    aria-label="Outline" (click)="onRegionClick('outline', $event)"
+                    (keydown.enter)="onRegionClick('outline', $event)"></div>
+                <div class="card-lines">
+                    <span [style.background]="palette().onSurface"></span>
+                    <span [style.background]="palette().onSurfaceVariant"></span>
+                </div>
+                <div class="region card-chip" [style.background]="palette().secondaryFixed"
+                    [class.region-active]="activeKey() === 'secondaryFixed'" tabindex="0" role="button"
+                    aria-label="Secondary Fixed" (click)="onRegionClick('secondaryFixed', $event)"
+                    (keydown.enter)="onRegionClick('secondaryFixed', $event)">
+                    <span class="region" [style.color]="palette().onSecondaryContainer"
+                        [class.region-active]="activeKey() === 'onSecondaryContainer'" tabindex="0" role="button"
+                        aria-label="On Secondary Container" (click)="onRegionClick('onSecondaryContainer', $event)"
+                        (keydown.enter)="onRegionClick('onSecondaryContainer', $event)">
+                        New
+                    </span>
+                </div>
+            </div>
+
+            <!-- Error banner -> error / onError -->
+            <div class="region error-banner" [style.background]="palette().error"
+                [class.region-active]="activeKey() === 'error'" tabindex="0" role="button" aria-label="Error"
+                (click)="onRegionClick('error', $event)" (keydown.enter)="onRegionClick('error', $event)">
+                <span class="region" [style.color]="palette().onError"
+                    [class.region-active]="activeKey() === 'onError'" tabindex="0" role="button"
+                    aria-label="On Error" (click)="onRegionClick('onError', $event)"
+                    (keydown.enter)="onRegionClick('onError', $event)">
+                    Payment failed
+                </span>
+            </div>
+
+            <!-- CTA button (decorative echo of primary / onPrimary) -->
+            <button type="button" class="cta-button" [style.background]="palette().primary"
+                [style.color]="palette().onPrimary" (click)="onRegionClick('primary', $event)">
+                Book Now
+            </button>
+        </div>
+
+        <!-- FAB -> secondary / onSecondary -->
+        <div class="region fab" [style.background]="palette().secondary"
+            [class.region-active]="activeKey() === 'secondary'" tabindex="0" role="button" aria-label="Secondary"
+            (click)="onRegionClick('secondary', $event)" (keydown.enter)="onRegionClick('secondary', $event)">
+            <i class="region pi pi-plus" [style.color]="palette().onSecondary"
+                [class.region-active]="activeKey() === 'onSecondary'" tabindex="0" role="button"
+                aria-label="On Secondary" (click)="onRegionClick('onSecondary', $event)"
+                (keydown.enter)="onRegionClick('onSecondary', $event)"></i>
+        </div>
+
+        <!-- Bottom nav (decorative echoes) -->
+        <div class="bottom-nav" [style.background]="palette().surfaceContainerLow"
+            [style.border-top-color]="palette().outline">
+            <i class="pi pi-home" [style.color]="palette().primary"></i>
+            <i class="pi pi-search" [style.color]="palette().onSurfaceVariant"></i>
+            <i class="pi pi-heart" [style.color]="palette().onSurfaceVariant"></i>
+            <i class="pi pi-user" [style.color]="palette().onSurfaceVariant"></i>
+        </div>
+    </div>
+</div>

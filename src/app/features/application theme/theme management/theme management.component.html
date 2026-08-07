@@ -160,42 +160,39 @@
             </div>
         </div>
 
-        <!-- Light Theme Palette -->
+        <!-- Interactive Theme Preview -->
         <div class="form-section">
-            <h4>{{'theme.palette.light' | translate}}</h4>
-            <div class="palette-grid" formGroupName="light">
-                @for (field of paletteFields; track field.key) {
-                <div class="color-field">
-                    <label [for]="'light-' + field.key" class="color-label">{{field.labelKey | translate}}</label>
-                    <p-colorpicker [formControlName]="field.key" [inputId]="'light-' + field.key"
-                        [disabled]="loading" />
-                    @if (hasError('light.' + field.key)) {
-                    <p-message severity="error" size="small" variant="simple">
-                        {{getErrorMessage('light.' + field.key)}}
-                    </p-message>
-                    }
+            <div class="preview-header">
+                <h4>{{'theme.preview.title' | translate}}</h4>
+                <div class="mode-toggle">
+                    <p-button type="button" size="small" [label]="'theme.palette.light' | translate"
+                        [outlined]="mode() !== 'light'" [disabled]="loading" (click)="mode.set('light')" />
+                    <p-button type="button" size="small" [label]="'theme.palette.dark' | translate"
+                        [outlined]="mode() !== 'dark'" [disabled]="loading" (click)="mode.set('dark')" />
                 </div>
-                }
             </div>
+            <p class="preview-hint">{{'theme.preview.hint' | translate}}</p>
+
+            <app-mobile-theme-preview [palette]="mode() === 'light' ? lightPalette() : darkPalette()"
+                [activeKey]="activePreviewKey()"
+                (regionClick)="openColorPicker($event.key, $event.sourceEvent)" />
         </div>
 
-        <!-- Dark Theme Palette -->
-        <div class="form-section">
-            <h4>{{'theme.palette.dark' | translate}}</h4>
-            <div class="palette-grid" formGroupName="dark">
-                @for (field of paletteFields; track field.key) {
-                <div class="color-field">
-                    <label [for]="'dark-' + field.key" class="color-label">{{field.labelKey | translate}}</label>
-                    <p-colorpicker [formControlName]="field.key" [inputId]="'dark-' + field.key" [disabled]="loading" />
-                    @if (hasError('dark.' + field.key)) {
-                    <p-message severity="error" size="small" variant="simple">
-                        {{getErrorMessage('dark.' + field.key)}}
-                    </p-message>
-                    }
-                </div>
+        <p-popover #colorPopover appendTo="body" (onHide)="onColorPopoverHide()">
+            @if (getActivePaletteControl(); as activeControl) {
+            <div class="color-popover-content">
+                <span class="color-popover-label">{{ getActivePaletteLabel() | translate }}</span>
+                <p-colorpicker [formControl]="activeControl" inline [disabled]="loading" />
+                <input pInputText type="text" [formControl]="activeControl" class="hex-input" maxlength="7"
+                    autocomplete="off" [disabled]="loading" />
+                @if (activePreviewKey() && hasError(mode() + '.' + activePreviewKey())) {
+                <p-message severity="error" size="small" variant="simple">
+                    {{getErrorMessage(mode() + '.' + activePreviewKey())}}
+                </p-message>
                 }
             </div>
-        </div>
+            }
+        </p-popover>
 
         <div class="dialog-footer">
             <p-button [label]="'theme.button.cancel' | translate" severity="secondary" type="button"
