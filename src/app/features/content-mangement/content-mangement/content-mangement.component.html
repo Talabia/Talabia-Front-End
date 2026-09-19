@@ -96,7 +96,8 @@
 
 <!-- View Details Dialog -->
 <p-dialog [header]="'contentManagement.dialog.header' | translate" [modal]="true" [(visible)]="viewDialogVisible"
-  [style]="{ width: '50rem' }" [closable]="!loading" [draggable]="false" [resizable]="false">
+  [style]="{ width: '50rem' }" [breakpoints]="{ '960px': '75vw', '640px': '95vw' }" [closable]="!loading"
+  [draggable]="false" [resizable]="false">
   @if (selectedOffer) {
   <div class="details-container">
     <div class="detail-row">
@@ -111,9 +112,26 @@
       <label class="detail-label">{{'contentManagement.dialog.price' | translate}}:</label>
       <span class="detail-value">{{selectedOffer.price | number:'1.2-2'}}</span>
     </div>
-    <div class="detail-row">
-      <label class="detail-label">{{'contentManagement.dialog.vehicleMaker' | translate}}:</label>
+    <div class="detail-row detail-row--top">
+      <label class="detail-label">{{'contentManagement.dialog.vehicleCompatibilities' | translate}}:</label>
+      @if (selectedOffer.vehicleCompatibilities.length > 0) {
+      <div class="vehicle-compatibility-list">
+        @for (maker of selectedOffer.vehicleCompatibilities; track maker.vehicleMakerId) {
+        <div class="vehicle-compatibility-item">
+          <span class="vehicle-maker-name">{{maker.vehicleMakerName}}</span>
+          <div class="vehicle-models">
+            @for (model of maker.models; track model.vehicleModelId) {
+            <p-tag severity="secondary" [value]="model.vehicleModelName" />
+            }
+          </div>
+        </div>
+        }
+      </div>
+      } @else if (selectedOffer.vehicleMaker) {
       <span class="detail-value">{{selectedOffer.vehicleMaker}}</span>
+      } @else {
+      <span class="detail-value">{{'common.notAvailable' | translate}}</span>
+      }
     </div>
     <div class="detail-row">
       <label class="detail-label">{{'contentManagement.dialog.category' | translate}}:</label>
@@ -185,16 +203,67 @@
       <span class="detail-value">{{selectedOffer.lastRefreshedAt | date:'medium'}}</span>
     </div>
     }
-    @if (selectedOffer.offerImages && selectedOffer.offerImages.length > 0) {
-    <div class="detail-row">
+    <div class="detail-row detail-row--top">
       <label class="detail-label">{{'contentManagement.dialog.offerImages' | translate}}:</label>
-      <div class="offer-images-container" style="display: flex; gap: 8px; flex-wrap: wrap;">
-        @for (image of selectedOffer.offerImages; track image) {
-        <p-image [src]="image" alt="Image" width="100" [preview]="true" />
+      @if (selectedOfferImages.length > 0) {
+      <div class="offer-images-container">
+        @for (image of selectedOfferImages; track $index) {
+        <p-image [src]="image.thumbnailSrc" [previewImageSrc]="image.previewSrc" [alt]="selectedOffer.title"
+          width="100" height="100" imageClass="offer-image-thumb" [preview]="true" loading="lazy" />
         }
       </div>
+      } @else {
+      <span class="detail-value">{{'common.notAvailable' | translate}}</span>
+      }
     </div>
-    }
+    <div class="detail-row detail-row--top">
+      <label class="detail-label">{{'contentManagement.dialog.attachments' | translate}}:</label>
+      @if (selectedOfferAttachments.length > 0) {
+      <ul class="attachments-list">
+        @for (attachment of selectedOfferAttachments; track attachment.publicId) {
+        <li class="attachment-item">
+          @if (attachment.thumbnailSrc) {
+          <button type="button" class="attachment-thumb" (click)="previewAttachment(attachment)"
+            [attr.aria-label]="'contentManagement.button.previewAttachment' | translate">
+            <img [src]="attachment.thumbnailSrc" [alt]="attachment.fileName" loading="lazy" />
+          </button>
+          } @else {
+          <span class="attachment-icon attachment-icon--{{attachment.kind}}">
+            <i [class]="attachment.icon"></i>
+          </span>
+          }
+          <div class="attachment-info">
+            <span class="attachment-name" dir="auto" [pTooltip]="attachment.fileName"
+              tooltipPosition="top">{{attachment.fileName}}</span>
+            <span class="attachment-type">{{('contentManagement.attachment.type.' + attachment.kind) | translate}}
+              @if (attachment.extension) {· {{attachment.extension}}}</span>
+          </div>
+          <div class="attachment-actions">
+            @if (attachment.canPreview) {
+            <p-button icon="pi pi-eye" [text]="true" [rounded]="true" severity="secondary"
+              [ariaLabel]="'contentManagement.button.previewAttachment' | translate"
+              [pTooltip]="'contentManagement.button.previewAttachment' | translate" tooltipPosition="top"
+              (click)="previewAttachment(attachment)" />
+            }
+            @if (attachment.canOpenInNewTab) {
+            <a pButton [href]="attachment.url" target="_blank" rel="noopener noreferrer" icon="pi pi-external-link"
+              [text]="true" [rounded]="true" severity="secondary"
+              [attr.aria-label]="'contentManagement.button.openAttachment' | translate"
+              [pTooltip]="'contentManagement.button.openAttachment' | translate" tooltipPosition="top"></a>
+            }
+            <p-button icon="pi pi-download" [text]="true" [rounded]="true"
+              [loading]="downloadingAttachmentIds.has(attachment.publicId)"
+              [ariaLabel]="'contentManagement.button.downloadAttachment' | translate"
+              [pTooltip]="'contentManagement.button.downloadAttachment' | translate" tooltipPosition="top"
+              (click)="downloadAttachment(attachment)" />
+          </div>
+        </li>
+        }
+      </ul>
+      } @else {
+      <span class="detail-value">{{'contentManagement.dialog.noAttachments' | translate}}</span>
+      }
+    </div>
   </div>
 
   <div class="dialog-footer">
@@ -203,6 +272,62 @@
       [label]="selectedOffer.isPromoted ? ('contentManagement.button.unpromote' | translate) : ('contentManagement.button.promote' | translate)"
       [severity]="selectedOffer.isPromoted ? 'secondary' : 'success'" [disabled]="loading"
       (click)="togglePromote(selectedOffer, $event); closeViewDialog()" />
+  </div>
+  }
+</p-dialog>
+
+<!-- Attachment Preview Dialog (images, PDFs & Excel) -->
+<p-dialog [header]="attachmentPreview?.attachment?.fileName ?? ''" [modal]="true"
+  [(visible)]="attachmentPreviewVisible" (onHide)="closeAttachmentPreview()" [style]="{ width: '60rem' }"
+  [breakpoints]="{ '960px': '85vw', '640px': '95vw' }" [draggable]="false" [resizable]="false"
+  [dismissableMask]="true" styleClass="attachment-preview-dialog">
+  @if (attachmentPreview) {
+  <div class="attachment-preview-body">
+    @if (attachmentPreview.attachment.kind === 'image') {
+    <img class="attachment-preview-image" [src]="attachmentPreview.attachment.previewSrc"
+      [alt]="attachmentPreview.attachment.fileName" />
+    } @else if (attachmentPreview.docViewer && attachmentPreview.attachment.previewSrc) {
+    <ngx-doc-viewer class="attachment-preview-doc" [url]="attachmentPreview.attachment.previewSrc"
+      [viewer]="attachmentPreview.docViewer" [officeAutoRetry]="true"
+      [loadingText]="'contentManagement.attachment.previewLoading' | translate"
+      [officeReloadButtonTitle]="'contentManagement.attachment.reload' | translate">
+      <ng-template #loadingContent>
+        <div class="doc-viewer-state">
+          <p-progressSpinner strokeWidth="4" [style]="{ width: '2.5rem', height: '2.5rem' }" />
+          <span>{{'contentManagement.attachment.previewLoading' | translate}}</span>
+        </div>
+      </ng-template>
+      <ng-template #errorContent let-state>
+        <div class="doc-viewer-state">
+          <i class="pi pi-exclamation-circle"></i>
+          <span>{{'contentManagement.attachment.previewError' | translate}}</span>
+          <div class="doc-viewer-state-actions">
+            <p-button [label]="'contentManagement.attachment.retry' | translate" icon="pi pi-refresh"
+              severity="secondary" [outlined]="true" size="small" (click)="state.retry()" />
+            <p-button [label]="'contentManagement.button.downloadAttachment' | translate" icon="pi pi-download"
+              size="small" (click)="downloadAttachment(attachmentPreview.attachment)" />
+          </div>
+        </div>
+      </ng-template>
+    </ngx-doc-viewer>
+    }
+  </div>
+  @if (attachmentPreview.docViewer === 'office') {
+  <small class="doc-viewer-note">
+    <i class="pi pi-info-circle"></i> {{'contentManagement.attachment.officeViewerNote' | translate}}
+  </small>
+  }
+
+  <div class="dialog-footer">
+    <p-button [label]="'contentManagement.button.close' | translate" severity="secondary"
+      (click)="closeAttachmentPreview()" />
+    @if (attachmentPreview.attachment.canOpenInNewTab) {
+    <p-button [label]="'contentManagement.button.openAttachment' | translate" icon="pi pi-external-link"
+      severity="secondary" [outlined]="true" (click)="openAttachmentInNewTab(attachmentPreview.attachment)" />
+    }
+    <p-button [label]="'contentManagement.button.downloadAttachment' | translate" icon="pi pi-download"
+      [loading]="downloadingAttachmentIds.has(attachmentPreview.attachment.publicId)"
+      (click)="downloadAttachment(attachmentPreview.attachment)" />
   </div>
   }
 </p-dialog>

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/shared/components/phone-input/phone-input.component.scss"],
+  "sourcesContent": [".phone-input {\n  display: flex;\n  flex-direction: column;\n  gap: 0.4rem;\n  width: 100%;\n}\n\n.phone-input-label {\n  font-size: 0.875rem;\n  color: var(--p-text-muted-color);\n}\n\n.phone-input-row {\n  display: flex;\n  gap: 0.5rem;\n  align-items: stretch;\n}\n\n.phone-input-country {\n  flex: 0 0 auto;\n  min-width: 7rem;\n}\n\n.phone-input-number {\n  flex: 1 1 auto;\n  width: 100%;\n}\n\n.phone-input-flag {\n  display: inline-block;\n  width: 1.333em;\n  height: 1em;\n  margin-inline-end: 0.5rem;\n  border-radius: 2px;\n  background-size: contain;\n  background-position: 50%;\n  background-repeat: no-repeat;\n  vertical-align: middle;\n}\n\n.phone-input-country-name {\n  margin-inline-end: 0.5rem;\n}\n\n.phone-input-dialcode {\n  color: var(--p-text-muted-color);\n}\n"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA;AACA,kBAAA;AACA,OAAA;AACA,SAAA;;AAGF,CAAA;AACE,aAAA;AACA,SAAA,IAAA;;AAGF,CAAA;AACE,WAAA;AACA,OAAA;AACA,eAAA;;AAGF,CAAA;AACE,QAAA,EAAA,EAAA;AACA,aAAA;;AAGF,CAAA;AACE,QAAA,EAAA,EAAA;AACA,SAAA;;AAGF,CAAA;AACE,WAAA;AACA,SAAA;AACA,UAAA;AACA,qBAAA;AACA,iBAAA;AACA,mBAAA;AACA,uBAAA;AACA,qBAAA;AACA,kBAAA;;AAGF,CAAA;AACE,qBAAA;;AAGF,CAAA;AACE,SAAA,IAAA;;",
+  "names": []
+}

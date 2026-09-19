@@ -27,6 +27,15 @@ app-side-bar {
     overflow: hidden;
 }
 
+.sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 900;
+    overscroll-behavior: contain;
+    cursor: pointer;
+}
+
 .layout-content {
     flex: 1;
     overflow-y: auto;

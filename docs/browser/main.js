@@ -89,6 +89,7 @@ import {
   animateChild,
   animation,
   assertInInjectionContext,
+  assertNotInReactiveContext,
   booleanAttribute,
   bypassSanitizationTrustHtml,
   bypassSanitizationTrustResourceUrl,
@@ -193,6 +194,7 @@ import {
   ɵɵdomElement,
   ɵɵdomElementEnd,
   ɵɵdomElementStart,
+  ɵɵdomListener,
   ɵɵdomProperty,
   ɵɵelement,
   ɵɵelementContainer,
@@ -233,6 +235,7 @@ import {
   ɵɵrepeater,
   ɵɵrepeaterCreate,
   ɵɵrepeaterTrackByIdentity,
+  ɵɵrepeaterTrackByIndex,
   ɵɵresetView,
   ɵɵresolveDocument,
   ɵɵresolveWindow,
@@ -253,7 +256,7 @@ import {
   ɵɵtwoWayListener,
   ɵɵtwoWayProperty,
   ɵɵviewQuery
-} from "./chunk-TST4JLLM.js";
+} from "./chunk-ITYB4CJU.js";
 import {
   __commonJS,
   __require,
@@ -280,7 +283,7 @@ var require_moment = __commonJS({
       function isArray2(input2) {
         return input2 instanceof Array || Object.prototype.toString.call(input2) === "[object Array]";
       }
-      function isObject2(input2) {
+      function isObject3(input2) {
         return input2 != null && Object.prototype.toString.call(input2) === "[object Object]";
       }
       function hasOwnProp(a44, b8) {
@@ -531,7 +534,7 @@ var require_moment = __commonJS({
         var res = extend({}, parentConfig), prop;
         for (prop in childConfig) {
           if (hasOwnProp(childConfig, prop)) {
-            if (isObject2(parentConfig[prop]) && isObject2(childConfig[prop])) {
+            if (isObject3(parentConfig[prop]) && isObject3(childConfig[prop])) {
               res[prop] = {};
               extend(res[prop], parentConfig[prop]);
               extend(res[prop], childConfig[prop]);
@@ -543,7 +546,7 @@ var require_moment = __commonJS({
           }
         }
         for (prop in parentConfig) {
-          if (hasOwnProp(parentConfig, prop) && !hasOwnProp(childConfig, prop) && isObject2(parentConfig[prop])) {
+          if (hasOwnProp(parentConfig, prop) && !hasOwnProp(childConfig, prop) && isObject3(parentConfig[prop])) {
             res[prop] = extend({}, res[prop]);
           }
         }
@@ -2015,7 +2018,7 @@ var require_moment = __commonJS({
         }
       }
       function extractFromRFC2822Strings(yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr) {
-        var result = [
+        var result2 = [
           untruncateYear(yearStr),
           defaultLocaleMonthsShort.indexOf(monthStr),
           parseInt(dayStr, 10),
@@ -2023,9 +2026,9 @@ var require_moment = __commonJS({
           parseInt(minuteStr, 10)
         ];
         if (secondStr) {
-          result.push(parseInt(secondStr, 10));
+          result2.push(parseInt(secondStr, 10));
         }
-        return result;
+        return result2;
       }
       function untruncateYear(yearStr) {
         var year = parseInt(yearStr, 10);
@@ -2407,7 +2410,7 @@ var require_moment = __commonJS({
             return parseInt(obj, 10);
           });
           configFromArray(config);
-        } else if (isObject2(input2)) {
+        } else if (isObject3(input2)) {
           configFromObject(config);
         } else if (isNumber2(input2)) {
           config._d = new Date(input2);
@@ -2425,7 +2428,7 @@ var require_moment = __commonJS({
           strict = locale2;
           locale2 = void 0;
         }
-        if (isObject2(input2) && isObjectEmpty(input2) || isArray2(input2) && input2.length === 0) {
+        if (isObject3(input2) && isObjectEmpty(input2) || isArray2(input2) && input2.length === 0) {
           input2 = void 0;
         }
         c28._isAMomentObject = true;
@@ -2844,7 +2847,7 @@ var require_moment = __commonJS({
         return isMoment(input2) || isDate2(input2) || isString(input2) || isNumber2(input2) || isNumberOrStringArray(input2) || isMomentInputObject(input2) || input2 === null || input2 === void 0;
       }
       function isMomentInputObject(input2) {
-        var objectTest = isObject2(input2) && !isObjectEmpty(input2), propertyTest = false, properties = [
+        var objectTest = isObject3(input2) && !isObjectEmpty(input2), propertyTest = false, properties = [
           "years",
           "year",
           "y",
@@ -2886,7 +2889,7 @@ var require_moment = __commonJS({
         return arrayTest && dataTypeTest;
       }
       function isCalendarSpec(input2) {
-        var objectTest = isObject2(input2) && !isObjectEmpty(input2), propertyTest = false, properties = [
+        var objectTest = isObject3(input2) && !isObjectEmpty(input2), propertyTest = false, properties = [
           "sameDay",
           "nextDay",
           "lastDay",
@@ -5738,18 +5741,18 @@ function getThursdayThisIsoWeek(datetime) {
 }
 function weekGetter(size, monthBased = false) {
   return function(date, locale) {
-    let result;
+    let result2;
     if (monthBased) {
       const nbDaysBefore1stDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay() - 1;
       const today = date.getDate();
-      result = 1 + Math.floor((today + nbDaysBefore1stDayOfMonth) / 7);
+      result2 = 1 + Math.floor((today + nbDaysBefore1stDayOfMonth) / 7);
     } else {
       const thisThurs = getThursdayThisIsoWeek(date);
       const firstThurs = getFirstThursdayOfYear(thisThurs.getFullYear());
       const diff = thisThurs.getTime() - firstThurs.getTime();
-      result = 1 + Math.round(diff / 6048e5);
+      result2 = 1 + Math.round(diff / 6048e5);
     }
-    return padNumber(result, size, getLocaleNumberSymbol(locale, NumberSymbol.MinusSign));
+    return padNumber(result2, size, getLocaleNumberSymbol(locale, NumberSymbol.MinusSign));
   };
 }
 function weekNumberingYearGetter(size, trim = false) {
@@ -6330,11 +6333,11 @@ function roundNumber(parsedNumber, minFrac, maxFrac) {
   }
 }
 function parseIntAutoRadix(text) {
-  const result = parseInt(text);
-  if (isNaN(result)) {
+  const result2 = parseInt(text);
+  if (isNaN(result2)) {
     throw new RuntimeError(2305, ngDevMode && "Invalid integer literal when parsing " + text);
   }
-  return result;
+  return result2;
 }
 var NgLocalization = class _NgLocalization {
   static \u0275fac = function NgLocalization_Factory(__ngFactoryType__) {
@@ -8241,9 +8244,9 @@ function findAnchorFromDocument(document2, target) {
     while (currentNode) {
       const shadowRoot = currentNode.shadowRoot;
       if (shadowRoot) {
-        const result = shadowRoot.getElementById(target) || shadowRoot.querySelector(`[name="${target}"]`);
-        if (result) {
-          return result;
+        const result2 = shadowRoot.getElementById(target) || shadowRoot.querySelector(`[name="${target}"]`);
+        if (result2) {
+          return result2;
         }
       }
       currentNode = treeWalker.nextNode();
@@ -9515,9 +9518,9 @@ function removeElements(elements2) {
     element.remove();
   }
 }
-function createStyleElement(style38, doc) {
+function createStyleElement(style37, doc) {
   const styleElement = doc.createElement("style");
-  styleElement.textContent = style38;
+  styleElement.textContent = style37;
   return styleElement;
 }
 function addServerStyles(doc, appId, inline, external) {
@@ -9630,10 +9633,10 @@ var SharedStylesHost = class _SharedStylesHost {
    */
   addHost(hostNode) {
     this.hosts.add(hostNode);
-    for (const [style38, {
+    for (const [style37, {
       elements: elements2
     }] of this.inline) {
-      elements2.push(this.addElement(hostNode, createStyleElement(style38, this.doc)));
+      elements2.push(this.addElement(hostNode, createStyleElement(style37, this.doc)));
     }
     for (const [url, {
       elements: elements2
@@ -9997,18 +10000,18 @@ var DefaultDomRenderer2 = class {
   removeClass(el, name) {
     el.classList.remove(name);
   }
-  setStyle(el, style38, value, flags) {
+  setStyle(el, style37, value, flags) {
     if (flags & (RendererStyleFlags2.DashCase | RendererStyleFlags2.Important)) {
-      el.style.setProperty(style38, value, flags & RendererStyleFlags2.Important ? "important" : "");
+      el.style.setProperty(style37, value, flags & RendererStyleFlags2.Important ? "important" : "");
     } else {
-      el.style[style38] = value;
+      el.style[style37] = value;
     }
   }
-  removeStyle(el, style38, flags) {
+  removeStyle(el, style37, flags) {
     if (flags & RendererStyleFlags2.DashCase) {
-      el.style.removeProperty(style38);
+      el.style.removeProperty(style37);
     } else {
-      el.style[style38] = "";
+      el.style[style37] = "";
     }
   }
   setProperty(el, name, value) {
@@ -10077,12 +10080,12 @@ var ShadowDomRenderer = class extends DefaultDomRenderer2 {
       styles = addBaseHrefToCssSourceMap(baseHref, styles);
     }
     styles = shimStylesContent(component.id, styles);
-    for (const style38 of styles) {
+    for (const style37 of styles) {
       const styleEl = document.createElement("style");
       if (nonce) {
         styleEl.setAttribute("nonce", nonce);
       }
-      styleEl.textContent = style38;
+      styleEl.textContent = style37;
       this.shadowRoot.appendChild(styleEl);
     }
     const styleUrls = component.getExternalStyles?.();
@@ -10424,10 +10427,10 @@ var KeyEventsPlugin = class _KeyEventsPlugin extends EventManagerPlugin {
     if (parts.length != 0 || key.length === 0) {
       return null;
     }
-    const result = {};
-    result["domEventName"] = domEventName;
-    result["fullKey"] = fullKey;
-    return result;
+    const result2 = {};
+    result2["domEventName"] = domEventName;
+    result2["fullKey"] = fullKey;
+    return result2;
   }
   /**
    * Determines whether the actual keys pressed match the configured key code string.
@@ -13053,7 +13056,7 @@ var HttpResourceImpl = class extends ResourceImpl {
   headers = computed(() => this.status() === "resolved" || this.status() === "error" ? this._headers() : void 0, ...ngDevMode ? [{ debugName: "headers" }] : []);
   progress = this._progress.asReadonly();
   statusCode = this._statusCode.asReadonly();
-  constructor(injector, request, defaultValue, parse2, equal) {
+  constructor(injector, request, defaultValue, parse3, equal) {
     super(request, ({ params: request2, abortSignal }) => {
       let sub;
       const onAbort = () => sub.unsubscribe();
@@ -13073,7 +13076,7 @@ var HttpResourceImpl = class extends ResourceImpl {
               this._headers.set(event2.headers);
               this._statusCode.set(event2.status);
               try {
-                send({ value: parse2 ? parse2(event2.body) : event2.body });
+                send({ value: parse3 ? parse3(event2.body) : event2.body });
               } catch (error) {
                 send({ error: encapsulateResourceError(error) });
               }
@@ -13146,11 +13149,11 @@ var Meta = class _Meta {
    */
   addTags(tags, forceCreation = false) {
     if (!tags) return [];
-    return tags.reduce((result, tag) => {
+    return tags.reduce((result2, tag) => {
       if (tag) {
-        result.push(this._getOrCreateElement(tag, forceCreation));
+        result2.push(this._getOrCreateElement(tag, forceCreation));
       }
-      return result;
+      return result2;
     }, []);
   }
   /**
@@ -16007,15 +16010,15 @@ function getCanActivateChild(p6) {
 }
 function getTokenOrFunctionIdentity(tokenOrFunction, injector) {
   const NOT_FOUND = Symbol();
-  const result = injector.get(tokenOrFunction, NOT_FOUND);
-  if (result === NOT_FOUND) {
+  const result2 = injector.get(tokenOrFunction, NOT_FOUND);
+  if (result2 === NOT_FOUND) {
     if (typeof tokenOrFunction === "function" && !isInjectable(tokenOrFunction)) {
       return tokenOrFunction;
     } else {
       return injector.get(tokenOrFunction);
     }
   }
-  return result;
+  return result2;
 }
 function getChildRouteGuards(futureNode, currNode, contexts, futurePath, checks = {
   canDeactivateChecks: [],
@@ -16131,13 +16134,13 @@ var INITIAL_VALUE = /* @__PURE__ */ Symbol("INITIAL_VALUE");
 function prioritizedGuardValue() {
   return switchMap((obs) => {
     return combineLatest(obs.map((o88) => o88.pipe(take(1), startWith(INITIAL_VALUE)))).pipe(map((results) => {
-      for (const result of results) {
-        if (result === true) {
+      for (const result2 of results) {
+        if (result2 === true) {
           continue;
-        } else if (result === INITIAL_VALUE) {
+        } else if (result2 === INITIAL_VALUE) {
           return INITIAL_VALUE;
-        } else if (result === false || isRedirect(result)) {
-          return result;
+        } else if (result2 === false || isRedirect(result2)) {
+          return result2;
         }
       }
       return true;
@@ -16170,15 +16173,15 @@ function checkGuards(injector, forwardEvent) {
   });
 }
 function runCanDeactivateChecks(checks, futureRSS, currRSS, injector) {
-  return from(checks).pipe(mergeMap((check) => runCanDeactivate(check.component, check.route, currRSS, futureRSS, injector)), first((result) => {
-    return result !== true;
+  return from(checks).pipe(mergeMap((check) => runCanDeactivate(check.component, check.route, currRSS, futureRSS, injector)), first((result2) => {
+    return result2 !== true;
   }, true));
 }
 function runCanActivateChecks(futureSnapshot, checks, injector, forwardEvent) {
   return from(checks).pipe(concatMap((check) => {
     return concat(fireChildActivationStart(check.route.parent, forwardEvent), fireActivationStart(check.route, forwardEvent), runCanActivateChild(futureSnapshot, check.path, injector), runCanActivate(futureSnapshot, check.route, injector));
-  }), first((result) => {
-    return result !== true;
+  }), first((result2) => {
+    return result2 !== true;
   }, true));
 }
 function fireActivationStart(snapshot, forwardEvent) {
@@ -16246,10 +16249,10 @@ function runCanLoadGuards(injector, route, segments, urlSerializer) {
   return of(canLoadObservables).pipe(prioritizedGuardValue(), redirectIfUrlTree(urlSerializer));
 }
 function redirectIfUrlTree(urlSerializer) {
-  return pipe(tap((result) => {
-    if (typeof result === "boolean") return;
-    throw redirectingNavigationError(urlSerializer, result);
-  }), map((result) => result === true));
+  return pipe(tap((result2) => {
+    if (typeof result2 === "boolean") return;
+    throw redirectingNavigationError(urlSerializer, result2);
+  }), map((result2) => result2 === true));
 }
 function runCanMatchGuards(injector, route, segments, urlSerializer) {
   const canMatch = route.canMatch;
@@ -16395,12 +16398,12 @@ var noMatch = {
   positionalParamSegments: {}
 };
 function matchWithChecks(segmentGroup, route, segments, injector, urlSerializer) {
-  const result = match(segmentGroup, route, segments);
-  if (!result.matched) {
-    return of(result);
+  const result2 = match(segmentGroup, route, segments);
+  if (!result2.matched) {
+    return of(result2);
   }
   injector = getOrCreateRouteInjectorIfNeeded(route, injector);
-  return runCanMatchGuards(injector, route, segments, urlSerializer).pipe(map((v5) => v5 === true ? result : __spreadValues({}, noMatch)));
+  return runCanMatchGuards(injector, route, segments, urlSerializer).pipe(map((v5) => v5 === true ? result2 : __spreadValues({}, noMatch)));
 }
 function match(segmentGroup, route, segments) {
   if (route.path === "**") {
@@ -16669,8 +16672,8 @@ This is currently a dev mode only error but will become a call stack size exceed
     if (route.path === "**") {
       rawSegment.children = {};
     }
-    return matchResult.pipe(switchMap((result) => {
-      if (!result.matched) {
+    return matchResult.pipe(switchMap((result2) => {
+      if (!result2.matched) {
         return noMatch$1(rawSegment);
       }
       injector = route._injector ?? injector;
@@ -16682,7 +16685,7 @@ This is currently a dev mode only error but will become a call stack size exceed
           parameters,
           consumedSegments,
           remainingSegments
-        } = result;
+        } = result2;
         const snapshot = new ActivatedRouteSnapshot(consumedSegments, parameters, Object.freeze(__spreadValues({}, this.urlTree.queryParams)), this.urlTree.fragment, getData(route), getOutlet(route), route.component ?? route._loadedComponent ?? null, route, getResolve(route));
         const inherited = getInherited(snapshot, parentRoute, this.paramsInheritanceStrategy);
         snapshot.params = Object.freeze(inherited.params);
@@ -16748,26 +16751,26 @@ function hasEmptyPathConfig(node) {
   return config && config.path === "";
 }
 function mergeEmptyPathMatches(nodes) {
-  const result = [];
+  const result2 = [];
   const mergedNodes = /* @__PURE__ */ new Set();
   for (const node of nodes) {
     if (!hasEmptyPathConfig(node)) {
-      result.push(node);
+      result2.push(node);
       continue;
     }
-    const duplicateEmptyPathNode = result.find((resultNode) => node.value.routeConfig === resultNode.value.routeConfig);
+    const duplicateEmptyPathNode = result2.find((resultNode) => node.value.routeConfig === resultNode.value.routeConfig);
     if (duplicateEmptyPathNode !== void 0) {
       duplicateEmptyPathNode.children.push(...node.children);
       mergedNodes.add(duplicateEmptyPathNode);
     } else {
-      result.push(node);
+      result2.push(node);
     }
   }
   for (const mergedNode of mergedNodes) {
     const mergedChildren = mergeEmptyPathMatches(mergedNode.children);
-    result.push(new TreeNode(mergedNode.value, mergedChildren));
+    result2.push(new TreeNode(mergedNode.value, mergedChildren));
   }
-  return result.filter((n39) => !mergedNodes.has(n39));
+  return result2.filter((n39) => !mergedNodes.has(n39));
 }
 function checkOutletNameUniqueness(nodes) {
   const names2 = {};
@@ -17881,7 +17884,7 @@ function afterNextNavigation(router, action) {
     const redirecting = e59 instanceof NavigationCancel ? e59.code === NavigationCancellationCode.Redirect || e59.code === NavigationCancellationCode.SupersededByNewNavigation : false;
     return redirecting ? 2 : 1;
   }), filter(
-    (result) => result !== 2
+    (result2) => result2 !== 2
     /* NavigationResult.REDIRECTING */
   ), take(1)).subscribe(() => {
     action();
@@ -18314,11 +18317,11 @@ var Router = class _Router {
     return containsTree(this.currentUrlTree, urlTree, options);
   }
   removeEmptyProps(params) {
-    return Object.entries(params).reduce((result, [key, value]) => {
+    return Object.entries(params).reduce((result2, [key, value]) => {
       if (value !== null && value !== void 0) {
-        result[key] = value;
+        result2[key] = value;
       }
-      return result;
+      return result2;
     }, {});
   }
   scheduleNavigation(rawUrl, source, restoredState, extras, priorPromise) {
@@ -19541,7 +19544,7 @@ var AsyncAnimationRendererFactory = class _AsyncAnimationRendererFactory {
    * @internal
    */
   loadImpl() {
-    const loadFn = () => this.moduleImpl ?? import("./chunk-KRQGOWBJ.js").then((m6) => m6);
+    const loadFn = () => this.moduleImpl ?? import("./chunk-3FROS2U2.js").then((m6) => m6);
     let moduleImplPromise;
     if (this.loadingSchedulerFn) {
       moduleImplPromise = this.loadingSchedulerFn(loadFn);
@@ -19701,11 +19704,11 @@ var DynamicDelegationRenderer = class {
   removeClass(el, name) {
     this.delegate.removeClass(el, name);
   }
-  setStyle(el, style38, value, flags) {
-    this.delegate.setStyle(el, style38, value, flags);
+  setStyle(el, style37, value, flags) {
+    this.delegate.setStyle(el, style37, value, flags);
   }
-  removeStyle(el, style38, flags) {
-    this.delegate.removeStyle(el, style38, flags);
+  removeStyle(el, style37, flags) {
+    this.delegate.removeStyle(el, style37, flags);
   }
   setProperty(el, name, value) {
     if (this.shouldReplay(name)) {
@@ -21270,8 +21273,8 @@ var BaseStyle = class _BaseStyle {
   css = void 0;
   classes = {};
   inlineStyles = {};
-  load = (style38, options = {}, transform = (cs) => cs) => {
-    const computedStyle = transform(ar`${m(style38, {
+  load = (style37, options = {}, transform = (cs) => cs) => {
+    const computedStyle = transform(ar`${m(style37, {
       dt: E2
     })}`);
     return computedStyle ? this.useStyle.use(G(computedStyle), __spreadValues({
@@ -21281,8 +21284,8 @@ var BaseStyle = class _BaseStyle {
   loadCSS = (options = {}) => {
     return this.load(this.css, options);
   };
-  loadTheme = (options = {}, style38 = "") => {
-    return this.load(this.theme, options, (computedStyle = "") => S2.transformCSS(options.name || this.name, `${computedStyle}${ar`${style38}`}`));
+  loadTheme = (options = {}, style37 = "") => {
+    return this.load(this.theme, options, (computedStyle = "") => S2.transformCSS(options.name || this.name, `${computedStyle}${ar`${style37}`}`));
   };
   loadGlobalCSS = (options = {}) => {
     return this.load(css, options);
@@ -21400,7 +21403,7 @@ var ThemeProvider = class _ThemeProvider {
         primitive,
         semantic,
         global: global2,
-        style: style38
+        style: style37
       } = this.baseStyle.getCommonTheme?.() || {};
       const styleOptions = {
         nonce: this.csp?.()?.nonce
@@ -21416,7 +21419,7 @@ var ThemeProvider = class _ThemeProvider {
       }, styleOptions));
       this.baseStyle.loadGlobalTheme(__spreadValues({
         name: "global-style"
-      }, styleOptions), style38);
+      }, styleOptions), style37);
       S2.setLoadedStyleName("common");
     }
   }
@@ -29325,7 +29328,7 @@ var BaseComponent = class _BaseComponent {
         primitive,
         semantic,
         global: global2,
-        style: style38
+        style: style37
       } = this.componentStyle?.getCommonTheme?.() || {};
       this.baseStyle.load(primitive?.css, __spreadValues({
         name: "primitive-variables"
@@ -29338,20 +29341,20 @@ var BaseComponent = class _BaseComponent {
       }, this.styleOptions));
       this.baseStyle.loadGlobalTheme(__spreadValues({
         name: "global-style"
-      }, this.styleOptions), style38);
+      }, this.styleOptions), style37);
       S2.setLoadedStyleName("common");
     }
     if (!S2.isStyleNameLoaded(this.componentStyle?.name) && this.componentStyle?.name) {
       const {
         css: css3,
-        style: style38
+        style: style37
       } = this.componentStyle?.getComponentTheme?.() || {};
       this.componentStyle?.load(css3, __spreadValues({
         name: `${this.componentStyle?.name}-variables`
       }, this.styleOptions));
       this.componentStyle?.loadTheme(__spreadValues({
         name: `${this.componentStyle?.name}-style`
-      }, this.styleOptions), style38);
+      }, this.styleOptions), style37);
       S2.setLoadedStyleName(this.componentStyle?.name);
     }
     if (!S2.isStyleNameLoaded("layer-order")) {
@@ -30773,55 +30776,55 @@ var DomHandler = class _DomHandler {
   static getOuterWidth(el, margin) {
     let width = el.offsetWidth;
     if (margin) {
-      let style38 = getComputedStyle(el);
-      width += parseFloat(style38.marginLeft) + parseFloat(style38.marginRight);
+      let style37 = getComputedStyle(el);
+      width += parseFloat(style37.marginLeft) + parseFloat(style37.marginRight);
     }
     return width;
   }
   static getHorizontalPadding(el) {
-    let style38 = getComputedStyle(el);
-    return parseFloat(style38.paddingLeft) + parseFloat(style38.paddingRight);
+    let style37 = getComputedStyle(el);
+    return parseFloat(style37.paddingLeft) + parseFloat(style37.paddingRight);
   }
   static getHorizontalMargin(el) {
-    let style38 = getComputedStyle(el);
-    return parseFloat(style38.marginLeft) + parseFloat(style38.marginRight);
+    let style37 = getComputedStyle(el);
+    return parseFloat(style37.marginLeft) + parseFloat(style37.marginRight);
   }
   static innerWidth(el) {
     let width = el.offsetWidth;
-    let style38 = getComputedStyle(el);
-    width += parseFloat(style38.paddingLeft) + parseFloat(style38.paddingRight);
+    let style37 = getComputedStyle(el);
+    width += parseFloat(style37.paddingLeft) + parseFloat(style37.paddingRight);
     return width;
   }
   static width(el) {
     let width = el.offsetWidth;
-    let style38 = getComputedStyle(el);
-    width -= parseFloat(style38.paddingLeft) + parseFloat(style38.paddingRight);
+    let style37 = getComputedStyle(el);
+    width -= parseFloat(style37.paddingLeft) + parseFloat(style37.paddingRight);
     return width;
   }
   static getInnerHeight(el) {
     let height = el.offsetHeight;
-    let style38 = getComputedStyle(el);
-    height += parseFloat(style38.paddingTop) + parseFloat(style38.paddingBottom);
+    let style37 = getComputedStyle(el);
+    height += parseFloat(style37.paddingTop) + parseFloat(style37.paddingBottom);
     return height;
   }
   static getOuterHeight(el, margin) {
     let height = el.offsetHeight;
     if (margin) {
-      let style38 = getComputedStyle(el);
-      height += parseFloat(style38.marginTop) + parseFloat(style38.marginBottom);
+      let style37 = getComputedStyle(el);
+      height += parseFloat(style37.marginTop) + parseFloat(style37.marginBottom);
     }
     return height;
   }
   static getHeight(el) {
     let height = el.offsetHeight;
-    let style38 = getComputedStyle(el);
-    height -= parseFloat(style38.paddingTop) + parseFloat(style38.paddingBottom) + parseFloat(style38.borderTopWidth) + parseFloat(style38.borderBottomWidth);
+    let style37 = getComputedStyle(el);
+    height -= parseFloat(style37.paddingTop) + parseFloat(style37.paddingBottom) + parseFloat(style37.borderTopWidth) + parseFloat(style37.borderBottomWidth);
     return height;
   }
   static getWidth(el) {
     let width = el.offsetWidth;
-    let style38 = getComputedStyle(el);
-    width -= parseFloat(style38.paddingLeft) + parseFloat(style38.paddingRight) + parseFloat(style38.borderLeftWidth) + parseFloat(style38.borderRightWidth);
+    let style37 = getComputedStyle(el);
+    width -= parseFloat(style37.paddingLeft) + parseFloat(style37.paddingRight) + parseFloat(style37.borderLeftWidth) + parseFloat(style37.borderRightWidth);
     return width;
   }
   static getViewport() {
@@ -30899,8 +30902,8 @@ var DomHandler = class _DomHandler {
   }
   static calculateScrollbarWidth(el) {
     if (el) {
-      let style38 = getComputedStyle(el);
-      return el.offsetWidth - el.clientWidth - parseFloat(style38.borderLeftWidth) - parseFloat(style38.borderRightWidth);
+      let style37 = getComputedStyle(el);
+      return el.offsetWidth - el.clientWidth - parseFloat(style37.borderLeftWidth) - parseFloat(style37.borderRightWidth);
     } else {
       if (this.calculatedScrollbarWidth !== null)
         return this.calculatedScrollbarWidth;
@@ -36828,28 +36831,28 @@ var ObjectUtils = class _ObjectUtils {
     return !this.isEmpty(value);
   }
   static compare(value1, value2, locale, order = 1) {
-    let result = -1;
+    let result2 = -1;
     const emptyValue1 = this.isEmpty(value1);
     const emptyValue2 = this.isEmpty(value2);
     if (emptyValue1 && emptyValue2)
-      result = 0;
+      result2 = 0;
     else if (emptyValue1)
-      result = order;
+      result2 = order;
     else if (emptyValue2)
-      result = -order;
+      result2 = -order;
     else if (typeof value1 === "string" && typeof value2 === "string")
-      result = value1.localeCompare(value2, locale, { numeric: true });
+      result2 = value1.localeCompare(value2, locale, { numeric: true });
     else
-      result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
-    return result;
+      result2 = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+    return result2;
   }
   static sort(value1, value2, order = 1, locale, nullSortOrder = 1) {
-    const result = _ObjectUtils.compare(value1, value2, locale, order);
+    const result2 = _ObjectUtils.compare(value1, value2, locale, order);
     let finalSortOrder = order;
     if (_ObjectUtils.isEmpty(value1) || _ObjectUtils.isEmpty(value2)) {
       finalSortOrder = nullSortOrder === 1 ? order : nullSortOrder;
     }
-    return finalSortOrder * result;
+    return finalSortOrder * result2;
   }
   static merge(obj1, obj2) {
     if (obj1 == void 0 && obj2 == void 0) {
@@ -41050,7 +41053,7 @@ var DatePicker = class _DatePicker extends BaseInput {
         iFormat++;
       }
       return matches;
-    }, formatNumber3 = (match2, value, len) => {
+    }, formatNumber4 = (match2, value, len) => {
       let num = "" + value;
       if (lookAhead(match2)) {
         while (num.length < len) {
@@ -41074,16 +41077,16 @@ var DatePicker = class _DatePicker extends BaseInput {
         } else {
           switch (format.charAt(iFormat)) {
             case "d":
-              output2 += formatNumber3("d", date.getDate(), 2);
+              output2 += formatNumber4("d", date.getDate(), 2);
               break;
             case "D":
               output2 += formatName("D", date.getDay(), this.getTranslation(TranslationKeys.DAY_NAMES_SHORT), this.getTranslation(TranslationKeys.DAY_NAMES));
               break;
             case "o":
-              output2 += formatNumber3("o", Math.round((new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 864e5), 3);
+              output2 += formatNumber4("o", Math.round((new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 864e5), 3);
               break;
             case "m":
-              output2 += formatNumber3("m", date.getMonth() + 1, 2);
+              output2 += formatNumber4("m", date.getMonth() + 1, 2);
               break;
             case "M":
               output2 += formatName("M", date.getMonth(), this.getTranslation(TranslationKeys.MONTH_NAMES_SHORT), this.getTranslation(TranslationKeys.MONTH_NAMES));
@@ -46844,11 +46847,11 @@ var Scroller = class _Scroller extends BaseComponent {
   }
   getContentPosition() {
     if (this.contentEl) {
-      const style38 = getComputedStyle(this.contentEl);
-      const left = parseFloat(style38.paddingLeft) + Math.max(parseFloat(style38.left) || 0, 0);
-      const right = parseFloat(style38.paddingRight) + Math.max(parseFloat(style38.right) || 0, 0);
-      const top = parseFloat(style38.paddingTop) + Math.max(parseFloat(style38.top) || 0, 0);
-      const bottom = parseFloat(style38.paddingBottom) + Math.max(parseFloat(style38.bottom) || 0, 0);
+      const style37 = getComputedStyle(this.contentEl);
+      const left = parseFloat(style37.paddingLeft) + Math.max(parseFloat(style37.left) || 0, 0);
+      const right = parseFloat(style37.paddingRight) + Math.max(parseFloat(style37.right) || 0, 0);
+      const top = parseFloat(style37.paddingTop) + Math.max(parseFloat(style37.top) || 0, 0);
+      const bottom = parseFloat(style37.paddingBottom) + Math.max(parseFloat(style37.bottom) || 0, 0);
       return {
         left,
         right,
@@ -49975,15 +49978,15 @@ var Select = class _Select extends BaseInput {
     }
   }
   flatOptions(options) {
-    return (options || []).reduce((result, option, index2) => {
-      result.push({
+    return (options || []).reduce((result2, option, index2) => {
+      result2.push({
         optionGroup: option,
         group: true,
         index: index2
       });
       const optionGroupChildren = this.getOptionGroupChildren(option);
-      optionGroupChildren && optionGroupChildren.forEach((o88) => result.push(o88));
-      return result;
+      optionGroupChildren && optionGroupChildren.forEach((o88) => result2.push(o88));
+      return result2;
     }, []);
   }
   autoUpdateModel() {
@@ -57232,13 +57235,13 @@ var Table = class _Table extends BaseComponent {
           this.value.sort((data1, data2) => {
             let value1 = ObjectUtils.resolveFieldData(data1, field);
             let value2 = ObjectUtils.resolveFieldData(data2, field);
-            let result = null;
-            if (value1 == null && value2 != null) result = -1;
-            else if (value1 != null && value2 == null) result = 1;
-            else if (value1 == null && value2 == null) result = 0;
-            else if (typeof value1 === "string" && typeof value2 === "string") result = value1.localeCompare(value2);
-            else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
-            return order * result;
+            let result2 = null;
+            if (value1 == null && value2 != null) result2 = -1;
+            else if (value1 != null && value2 == null) result2 = 1;
+            else if (value1 == null && value2 == null) result2 = 0;
+            else if (typeof value1 === "string" && typeof value2 === "string") result2 = value1.localeCompare(value2);
+            else result2 = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+            return order * result2;
           });
           this._value = [...this.value];
         }
@@ -58237,12 +58240,12 @@ var Table = class _Table extends BaseComponent {
     let innerHTML = "";
     width.forEach((width2, index2) => {
       let colWidth = index2 === colIndex ? newColumnWidth : nextColumnWidth && index2 === colIndex + 1 ? nextColumnWidth : width2;
-      let style38 = `width: ${colWidth}px !important; max-width: ${colWidth}px !important;`;
+      let style37 = `width: ${colWidth}px !important; max-width: ${colWidth}px !important;`;
       innerHTML += `
                 #${this.id}-table > .p-datatable-thead > tr > th:nth-child(${index2 + 1}),
                 #${this.id}-table > .p-datatable-tbody > tr > td:nth-child(${index2 + 1}),
                 #${this.id}-table > .p-datatable-tfoot > tr > td:nth-child(${index2 + 1}) {
-                    ${style38}
+                    ${style37}
                 }
             `;
     });
@@ -58438,12 +58441,12 @@ var Table = class _Table extends BaseComponent {
         this.createStyleElement();
         let innerHTML = "";
         widths.forEach((width, index2) => {
-          let style38 = `width: ${width}px !important; max-width: ${width}px !important`;
+          let style37 = `width: ${width}px !important; max-width: ${width}px !important`;
           innerHTML += `
                         #${this.id}-table > .p-datatable-thead > tr > th:nth-child(${index2 + 1}),
                         #${this.id}-table > .p-datatable-tbody > tr > td:nth-child(${index2 + 1}),
                         #${this.id}-table > .p-datatable-tfoot > tr > td:nth-child(${index2 + 1}) {
-                            ${style38}
+                            ${style37}
                         }
                     `;
         });
@@ -68967,6 +68970,8 @@ var TRANSLATIONS = {
     "theme.palette.secondaryFixed": "Secondary Fixed",
     "theme.palette.error": "Error",
     "theme.palette.onError": "On Error",
+    "theme.preview.title": "Interactive Preview",
+    "theme.preview.hint": "Tap any part of the mobile preview to pick its color.",
     "customerSupport.header": "Customer Support Messages",
     "customerSupport.table.name": "Name",
     "customerSupport.table.phone": "Phone",
@@ -69554,6 +69559,12 @@ var TRANSLATIONS = {
     "contentManagement.dialog.isRefreshed": "Refreshed",
     "contentManagement.dialog.lastRefreshedAt": "Last Refreshed At",
     "contentManagement.dialog.offerImages": "Offer Images",
+    "contentManagement.dialog.vehicleCompatibilities": "Compatible Vehicles",
+    "contentManagement.dialog.attachments": "Attachments",
+    "contentManagement.dialog.noAttachments": "No attachments",
+    "contentManagement.attachment.file": "File",
+    "contentManagement.button.openAttachment": "Open",
+    "contentManagement.button.downloadAttachment": "Download",
     "contentManagement.confirm.deleteMessage": 'Are you sure you want to delete the offer "{{title}}"?',
     "contentManagement.confirm.togglePromote": 'Are you sure you want to {{action}} the offer "{{title}}"?',
     "contentManagement.notification.loadError": "Failed to load offers",
@@ -69899,6 +69910,8 @@ var TRANSLATIONS = {
     "theme.palette.secondaryFixed": "\u0627\u0644\u062B\u0627\u0646\u0648\u064A \u0627\u0644\u062B\u0627\u0628\u062A",
     "theme.palette.error": "\u062E\u0637\u0623",
     "theme.palette.onError": "\u0639\u0644\u0649 \u0627\u0644\u062E\u0637\u0623",
+    "theme.preview.title": "\u0645\u0639\u0627\u064A\u0646\u0629 \u062A\u0641\u0627\u0639\u0644\u064A\u0629",
+    "theme.preview.hint": "\u0627\u0636\u063A\u0637 \u0639\u0644\u0649 \u0623\u064A \u062C\u0632\u0621 \u0645\u0646 \u0645\u0639\u0627\u064A\u0646\u0629 \u0627\u0644\u062C\u0648\u0627\u0644 \u0644\u0627\u062E\u062A\u064A\u0627\u0631 \u0644\u0648\u0646\u0647.",
     "customerSupport.header": "\u0631\u0633\u0627\u0626\u0644 \u062F\u0639\u0645 \u0627\u0644\u0639\u0645\u0644\u0627\u0621",
     "customerSupport.table.name": "\u0627\u0644\u0627\u0633\u0645",
     "customerSupport.table.phone": "\u0631\u0642\u0645 \u0627\u0644\u0647\u0627\u062A\u0641",
@@ -70486,6 +70499,12 @@ var TRANSLATIONS = {
     "contentManagement.dialog.isRefreshed": "\u062A\u0645 \u0627\u0644\u062A\u062D\u062F\u064A\u062B",
     "contentManagement.dialog.lastRefreshedAt": "\u0622\u062E\u0631 \u062A\u062D\u062F\u064A\u062B \u0641\u064A",
     "contentManagement.dialog.offerImages": "\u0635\u0648\u0631 \u0627\u0644\u0639\u0631\u0636",
+    "contentManagement.dialog.vehicleCompatibilities": "\u0627\u0644\u0645\u0631\u0643\u0628\u0627\u062A \u0627\u0644\u0645\u062A\u0648\u0627\u0641\u0642\u0629",
+    "contentManagement.dialog.attachments": "\u0627\u0644\u0645\u0631\u0641\u0642\u0627\u062A",
+    "contentManagement.dialog.noAttachments": "\u0644\u0627 \u062A\u0648\u062C\u062F \u0645\u0631\u0641\u0642\u0627\u062A",
+    "contentManagement.attachment.file": "\u0645\u0644\u0641",
+    "contentManagement.button.openAttachment": "\u0641\u062A\u062D",
+    "contentManagement.button.downloadAttachment": "\u062A\u062D\u0645\u064A\u0644",
     "contentManagement.confirm.deleteMessage": '\u0647\u0644 \u0623\u0646\u062A \u0645\u062A\u0623\u0643\u062F \u0645\u0646 \u062D\u0630\u0641 \u0627\u0644\u0639\u0631\u0636 "{{title}}\u061F',
     "contentManagement.confirm.togglePromote": '\u0647\u0644 \u0623\u0646\u062A \u0645\u062A\u0623\u0643\u062F \u0645\u0646 {{action}} \u0627\u0644\u0639\u0631\u0636 "{{title}}\u061F',
     "contentManagement.notification.loadError": "\u0641\u0634\u0644 \u0641\u064A \u062A\u062D\u0645\u064A\u0644 \u0627\u0644\u0639\u0631\u0648\u0636",
@@ -82744,6 +82763,57 @@ var AdvertisementManagementComponent = class _AdvertisementManagementComponent {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AdvertisementManagementComponent, { className: "AdvertisementManagementComponent", filePath: "src/app/features/advertisement/advertisement-management/advertisement-management.component.ts", lineNumber: 77 });
 })();
 
+// node_modules/@angular/core/fesm2022/rxjs-interop.mjs
+function toSignal(source, options) {
+  typeof ngDevMode !== "undefined" && ngDevMode && assertNotInReactiveContext(toSignal, "Invoking `toSignal` causes new subscriptions every time. Consider moving `toSignal` outside of the reactive context and read the signal value where needed.");
+  const requiresCleanup = !options?.manualCleanup;
+  if (ngDevMode && requiresCleanup && !options?.injector) {
+    assertInInjectionContext(toSignal);
+  }
+  const cleanupRef = requiresCleanup ? options?.injector?.get(DestroyRef) ?? inject(DestroyRef) : null;
+  const equal = makeToSignalEqual(options?.equal);
+  let state2;
+  if (options?.requireSync) {
+    state2 = signal({
+      kind: 0
+      /* StateKind.NoValue */
+    }, { equal });
+  } else {
+    state2 = signal({ kind: 1, value: options?.initialValue }, { equal });
+  }
+  let destroyUnregisterFn;
+  const sub = source.subscribe({
+    next: (value) => state2.set({ kind: 1, value }),
+    error: (error) => {
+      state2.set({ kind: 2, error });
+      destroyUnregisterFn?.();
+    },
+    complete: () => {
+      destroyUnregisterFn?.();
+    }
+    // Completion of the Observable is meaningless to the signal. Signals don't have a concept of
+    // "complete".
+  });
+  if (options?.requireSync && state2().kind === 0) {
+    throw new RuntimeError(601, (typeof ngDevMode === "undefined" || ngDevMode) && "`toSignal()` called with `requireSync` but `Observable` did not emit synchronously.");
+  }
+  destroyUnregisterFn = cleanupRef?.onDestroy(sub.unsubscribe.bind(sub));
+  return computed(() => {
+    const current = state2();
+    switch (current.kind) {
+      case 1:
+        return current.value;
+      case 2:
+        throw current.error;
+      case 0:
+        throw new RuntimeError(601, (typeof ngDevMode === "undefined" || ngDevMode) && "`toSignal()` called with `requireSync` but `Observable` did not emit synchronously.");
+    }
+  }, { equal: options?.equal });
+}
+function makeToSignalEqual(userEquality = Object.is) {
+  return (a44, b8) => a44.kind === 1 && b8.kind === 1 && userEquality(a44.value, b8.value);
+}
+
 // node_modules/@primeuix/styles/dist/textarea/index.mjs
 var style29 = "\n    .p-textarea {\n        font-family: inherit;\n        font-feature-settings: inherit;\n        font-size: 1rem;\n        color: dt('textarea.color');\n        background: dt('textarea.background');\n        padding-block: dt('textarea.padding.y');\n        padding-inline: dt('textarea.padding.x');\n        border: 1px solid dt('textarea.border.color');\n        transition:\n            background dt('textarea.transition.duration'),\n            color dt('textarea.transition.duration'),\n            border-color dt('textarea.transition.duration'),\n            outline-color dt('textarea.transition.duration'),\n            box-shadow dt('textarea.transition.duration');\n        appearance: none;\n        border-radius: dt('textarea.border.radius');\n        outline-color: transparent;\n        box-shadow: dt('textarea.shadow');\n    }\n\n    .p-textarea:enabled:hover {\n        border-color: dt('textarea.hover.border.color');\n    }\n\n    .p-textarea:enabled:focus {\n        border-color: dt('textarea.focus.border.color');\n        box-shadow: dt('textarea.focus.ring.shadow');\n        outline: dt('textarea.focus.ring.width') dt('textarea.focus.ring.style') dt('textarea.focus.ring.color');\n        outline-offset: dt('textarea.focus.ring.offset');\n    }\n\n    .p-textarea.p-invalid {\n        border-color: dt('textarea.invalid.border.color');\n    }\n\n    .p-textarea.p-variant-filled {\n        background: dt('textarea.filled.background');\n    }\n\n    .p-textarea.p-variant-filled:enabled:hover {\n        background: dt('textarea.filled.hover.background');\n    }\n\n    .p-textarea.p-variant-filled:enabled:focus {\n        background: dt('textarea.filled.focus.background');\n    }\n\n    .p-textarea:disabled {\n        opacity: 1;\n        background: dt('textarea.disabled.background');\n        color: dt('textarea.disabled.color');\n    }\n\n    .p-textarea::placeholder {\n        color: dt('textarea.placeholder.color');\n    }\n\n    .p-textarea.p-invalid::placeholder {\n        color: dt('textarea.invalid.placeholder.color');\n    }\n\n    .p-textarea-fluid {\n        width: 100%;\n    }\n\n    .p-textarea-resizable {\n        overflow: hidden;\n        resize: none;\n    }\n\n    .p-textarea-sm {\n        font-size: dt('textarea.sm.font.size');\n        padding-block: dt('textarea.sm.padding.y');\n        padding-inline: dt('textarea.sm.padding.x');\n    }\n\n    .p-textarea-lg {\n        font-size: dt('textarea.lg.font.size');\n        padding-block: dt('textarea.lg.padding.y');\n        padding-inline: dt('textarea.lg.padding.x');\n    }\n";
 
@@ -84021,6 +84091,1082 @@ var ColorPickerModule = class _ColorPickerModule {
   }], null, null);
 })();
 
+// node_modules/primeng/fesm2022/primeng-popover.mjs
+var _c075 = ["content"];
+var _c150 = ["*"];
+var _c235 = (a0, a1) => ({
+  showTransitionParams: a0,
+  hideTransitionParams: a1
+});
+var _c325 = (a0, a1) => ({
+  value: a0,
+  params: a1
+});
+var _c419 = (a0) => ({
+  closeCallback: a0
+});
+function Popover_div_0_3_ng_template_0_Template(rf, ctx) {
+}
+function Popover_div_0_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275template(0, Popover_div_0_3_ng_template_0_Template, 0, 0, "ng-template");
+  }
+}
+function Popover_div_0_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 1);
+    \u0275\u0275listener("click", function Popover_div_0_Template_div_click_0_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onOverlayClick($event));
+    })("@animation.start", function Popover_div_0_Template_div_animation_animation_start_0_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onAnimationStart($event));
+    })("@animation.done", function Popover_div_0_Template_div_animation_animation_done_0_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onAnimationEnd($event));
+    });
+    \u0275\u0275elementStart(1, "div", 2);
+    \u0275\u0275listener("click", function Popover_div_0_Template_div_click_1_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onContentClick($event));
+    })("mousedown", function Popover_div_0_Template_div_mousedown_1_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onContentClick($event));
+    });
+    \u0275\u0275projection(2);
+    \u0275\u0275template(3, Popover_div_0_3_Template, 1, 0, null, 3);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275classMap(ctx_r1.cn(ctx_r1.cx("root"), ctx_r1.styleClass));
+    \u0275\u0275property("ngStyle", ctx_r1.style)("@animation", \u0275\u0275pureFunction2(14, _c325, ctx_r1.overlayVisible ? "open" : "close", \u0275\u0275pureFunction2(11, _c235, ctx_r1.showTransitionOptions, ctx_r1.hideTransitionOptions)));
+    \u0275\u0275attribute("aria-modal", ctx_r1.overlayVisible)("aria-label", ctx_r1.ariaLabel)("aria-labelledBy", ctx_r1.ariaLabelledBy);
+    \u0275\u0275advance();
+    \u0275\u0275classMap(ctx_r1.cx("content"));
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngTemplateOutlet", ctx_r1.contentTemplate || ctx_r1._contentTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(17, _c419, ctx_r1.onCloseClick.bind(ctx_r1)));
+  }
+}
+var theme16 = (
+  /*css*/
+  `
+.p-popover {
+    margin-top: dt('popover.gutter');
+    background: dt('popover.background');
+    color: dt('popover.color');
+    border: 1px solid dt('popover.border.color');
+    border-radius: dt('popover.border.radius');
+    box-shadow: dt('popover.shadow');
+    position: absolute
+}
+
+.p-popover-content {
+    padding: dt('popover.content.padding');
+}
+
+.p-popover-flipped {
+    margin-top: calc(dt('popover.gutter') * -1);
+    margin-bottom: dt('popover.gutter');
+}
+
+.p-popover-enter-from {
+    opacity: 0;
+    transform: scaleY(0.8);
+}
+
+.p-popover-leave-to {
+    opacity: 0;
+}
+
+.p-popover-enter-active {
+    transition: transform 0.12s cubic-bezier(0, 0, 0.2, 1), opacity 0.12s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.p-popover-leave-active {
+    transition: opacity 0.1s linear;
+}
+
+.p-popover:after,
+.p-popover:before {
+    bottom: 100%;
+    left: calc(dt('popover.arrow.offset') + dt('popover.arrow.left'));
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.p-popover:after {
+    border-width: calc(dt('popover.gutter') - 2px);
+    margin-left: calc(-1 * (dt('popover.gutter') - 2px));
+    border-style: solid;
+    border-color: transparent;
+    border-bottom-color: dt('popover.background');
+}
+
+.p-popover:before {
+    border-width: dt('popover.gutter');
+    margin-left: calc(-1 * dt('popover.gutter'));
+    border-style: solid;
+    border-color: transparent;
+    border-bottom-color: dt('popover.border.color');
+}
+
+.p-popover-flipped:after,
+.p-popover-flipped:before {
+    bottom: auto;
+    top: 100%;
+}
+
+.p-popover.p-popover-flipped:after {
+    border-bottom-color: transparent;
+    border-top-color: dt('popover.background');
+}
+
+.p-popover.p-popover-flipped:before {
+    border-bottom-color: transparent;
+    border-top-color: dt('popover.border.color');
+}
+
+`
+);
+var classes32 = {
+  root: "p-popover p-component",
+  content: "p-popover-content"
+};
+var PopoverStyle = class _PopoverStyle extends BaseStyle {
+  name = "popover";
+  theme = theme16;
+  classes = classes32;
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275PopoverStyle_BaseFactory;
+    return function PopoverStyle_Factory(__ngFactoryType__) {
+      return (\u0275PopoverStyle_BaseFactory || (\u0275PopoverStyle_BaseFactory = \u0275\u0275getInheritedFactory(_PopoverStyle)))(__ngFactoryType__ || _PopoverStyle);
+    };
+  })();
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+    token: _PopoverStyle,
+    factory: _PopoverStyle.\u0275fac
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PopoverStyle, [{
+    type: Injectable
+  }], null, null);
+})();
+var Popover = class _Popover extends BaseComponent {
+  /**
+   * Defines a string that labels the input for accessibility.
+   * @group Props
+   */
+  ariaLabel;
+  /**
+   * Establishes relationships between the component and label(s) where its value should be one or more element IDs.
+   * @group Props
+   */
+  ariaLabelledBy;
+  /**
+   * Enables to hide the overlay when outside is clicked.
+   * @group Props
+   */
+  dismissable = true;
+  /**
+   * Inline style of the component.
+   * @group Props
+   */
+  style;
+  /**
+   * Style class of the component.
+   * @group Props
+   */
+  styleClass;
+  /**
+   * Target element to attach the panel, valid values are "body" or a local ng-template variable of another element (note: use binding with brackets for template variables, e.g. [appendTo]="mydiv" for a div element having #mydiv as variable name).
+   * @group Props
+   */
+  appendTo = "body";
+  /**
+   * Whether to automatically manage layering.
+   * @group Props
+   */
+  autoZIndex = true;
+  /**
+   * Aria label of the close icon.
+   * @group Props
+   */
+  ariaCloseLabel;
+  /**
+   * Base zIndex value to use in layering.
+   * @group Props
+   */
+  baseZIndex = 0;
+  /**
+   * When enabled, first button receives focus on show.
+   * @group Props
+   */
+  focusOnShow = true;
+  /**
+   * Transition options of the show animation.
+   * @group Props
+   */
+  showTransitionOptions = ".12s cubic-bezier(0, 0, 0.2, 1)";
+  /**
+   * Transition options of the hide animation.
+   * @group Props
+   */
+  hideTransitionOptions = ".1s linear";
+  /**
+   * Callback to invoke when an overlay becomes visible.
+   * @group Emits
+   */
+  onShow = new EventEmitter();
+  /**
+   * Callback to invoke when an overlay gets hidden.
+   * @group Emits
+   */
+  onHide = new EventEmitter();
+  container;
+  overlayVisible = false;
+  render = false;
+  isOverlayAnimationInProgress = false;
+  selfClick = false;
+  documentClickListener;
+  target;
+  willHide;
+  scrollHandler;
+  documentResizeListener;
+  /**
+   * Custom content template.
+   * @group Templates
+   */
+  contentTemplate;
+  templates;
+  _contentTemplate;
+  destroyCallback;
+  overlayEventListener;
+  overlaySubscription;
+  _componentStyle = inject(PopoverStyle);
+  zone = inject(NgZone);
+  overlayService = inject(OverlayService);
+  ngAfterContentInit() {
+    this.templates.forEach((item) => {
+      switch (item.getType()) {
+        case "content":
+          this._contentTemplate = item.template;
+          break;
+      }
+    });
+  }
+  bindDocumentClickListener() {
+    if (isPlatformBrowser(this.platformId)) {
+      if (!this.documentClickListener) {
+        let documentEvent = Ut() ? "touchstart" : "click";
+        const documentTarget = this.el ? this.el.nativeElement.ownerDocument : this.document;
+        this.documentClickListener = this.renderer.listen(documentTarget, documentEvent, (event2) => {
+          if (!this.dismissable) {
+            return;
+          }
+          if (!this.container?.contains(event2.target) && this.target !== event2.target && !this.target.contains(event2.target) && !this.selfClick) {
+            this.hide();
+          }
+          this.selfClick = false;
+          this.cd.markForCheck();
+        });
+      }
+    }
+  }
+  unbindDocumentClickListener() {
+    if (this.documentClickListener) {
+      this.documentClickListener();
+      this.documentClickListener = null;
+      this.selfClick = false;
+    }
+  }
+  /**
+   * Toggles the visibility of the panel.
+   * @param {Event} event - Browser event
+   * @param {Target} target - Target element.
+   * @group Method
+   */
+  toggle(event2, target) {
+    if (this.isOverlayAnimationInProgress) {
+      return;
+    }
+    if (this.overlayVisible) {
+      if (this.hasTargetChanged(event2, target)) {
+        this.destroyCallback = () => {
+          this.show(null, target || event2.currentTarget || event2.target);
+        };
+      }
+      this.hide();
+    } else {
+      this.show(event2, target);
+    }
+  }
+  /**
+   * Displays the panel.
+   * @param {Event} event - Browser event
+   * @param {Target} target - Target element.
+   * @group Method
+   */
+  show(event2, target) {
+    target && event2 && event2.stopPropagation();
+    if (this.isOverlayAnimationInProgress) {
+      return;
+    }
+    this.target = target || event2.currentTarget || event2.target;
+    this.overlayVisible = true;
+    this.render = true;
+    this.cd.markForCheck();
+  }
+  onOverlayClick(event2) {
+    this.overlayService.add({
+      originalEvent: event2,
+      target: this.el.nativeElement
+    });
+    this.selfClick = true;
+  }
+  onContentClick(event2) {
+    const targetElement = event2.target;
+    this.selfClick = event2.offsetX < targetElement.clientWidth && event2.offsetY < targetElement.clientHeight;
+  }
+  hasTargetChanged(event2, target) {
+    return this.target != null && this.target !== (target || event2.currentTarget || event2.target);
+  }
+  appendContainer() {
+    if (this.appendTo) {
+      if (this.appendTo === "body") this.renderer.appendChild(this.document.body, this.container);
+      else ut(this.appendTo, this.container);
+    }
+  }
+  restoreAppend() {
+    if (this.container && this.appendTo) {
+      this.renderer.appendChild(this.el.nativeElement, this.container);
+    }
+  }
+  align() {
+    if (this.autoZIndex) {
+      zindexutils.set("overlay", this.container, this.baseZIndex + this.config.zIndex.overlay);
+    }
+    D(this.container, this.target, false);
+    const containerOffset = K(this.container);
+    const targetOffset = K(this.target);
+    const borderRadius = this.document.defaultView?.getComputedStyle(this.container).getPropertyValue("border-radius");
+    let arrowLeft = 0;
+    if (containerOffset.left < targetOffset.left) {
+      arrowLeft = targetOffset.left - containerOffset.left - parseFloat(borderRadius) * 2;
+    }
+    this.container?.style.setProperty(rr("popover.arrow.left").name, `${arrowLeft}px`);
+    if (containerOffset.top < targetOffset.top) {
+      this.container.setAttribute("data-p-popover-flipped", "true");
+      W(this.container, "p-popover-flipped");
+    }
+  }
+  onAnimationStart(event2) {
+    if (event2.toState === "open") {
+      this.container = event2.element;
+      this.container?.setAttribute(this.attrSelector, "");
+      this.appendContainer();
+      this.align();
+      this.bindDocumentClickListener();
+      this.bindDocumentResizeListener();
+      this.bindScrollListener();
+      if (this.focusOnShow) {
+        this.focus();
+      }
+      this.overlayEventListener = (e59) => {
+        if (this.container && this.container.contains(e59.target)) {
+          this.selfClick = true;
+        }
+      };
+      this.overlaySubscription = this.overlayService.clickObservable.subscribe(this.overlayEventListener);
+      this.onShow.emit(null);
+    }
+    this.isOverlayAnimationInProgress = true;
+  }
+  onAnimationEnd(event2) {
+    switch (event2.toState) {
+      case "void":
+        if (this.destroyCallback) {
+          this.destroyCallback();
+          this.destroyCallback = null;
+        }
+        if (this.overlaySubscription) {
+          this.overlaySubscription.unsubscribe();
+        }
+        break;
+      case "close":
+        if (this.autoZIndex) {
+          zindexutils.clear(this.container);
+        }
+        if (this.overlaySubscription) {
+          this.overlaySubscription.unsubscribe();
+        }
+        this.onContainerDestroy();
+        this.onHide.emit({});
+        this.render = false;
+        break;
+    }
+    this.isOverlayAnimationInProgress = false;
+  }
+  focus() {
+    let focusable = z(this.container, "[autofocus]");
+    if (focusable) {
+      this.zone.runOutsideAngular(() => {
+        setTimeout(() => focusable.focus(), 5);
+      });
+    }
+  }
+  /**
+   * Hides the panel.
+   * @group Method
+   */
+  hide() {
+    this.overlayVisible = false;
+    this.cd.markForCheck();
+  }
+  onCloseClick(event2) {
+    this.hide();
+    event2.preventDefault();
+  }
+  onEscapeKeydown(event2) {
+    this.hide();
+  }
+  onWindowResize() {
+    if (this.overlayVisible && !Yt()) {
+      this.hide();
+    }
+  }
+  bindDocumentResizeListener() {
+    if (isPlatformBrowser(this.platformId)) {
+      if (!this.documentResizeListener) {
+        const window2 = this.document.defaultView;
+        this.documentResizeListener = this.renderer.listen(window2, "resize", this.onWindowResize.bind(this));
+      }
+    }
+  }
+  unbindDocumentResizeListener() {
+    if (this.documentResizeListener) {
+      this.documentResizeListener();
+      this.documentResizeListener = null;
+    }
+  }
+  bindScrollListener() {
+    if (isPlatformBrowser(this.platformId)) {
+      if (!this.scrollHandler) {
+        this.scrollHandler = new ConnectedOverlayScrollHandler(this.target, () => {
+          if (this.overlayVisible) {
+            this.hide();
+          }
+        });
+      }
+      this.scrollHandler.bindScrollListener();
+    }
+  }
+  unbindScrollListener() {
+    if (this.scrollHandler) {
+      this.scrollHandler.unbindScrollListener();
+    }
+  }
+  onContainerDestroy() {
+    if (!this.cd.destroyed) {
+      this.target = null;
+    }
+    this.unbindDocumentClickListener();
+    this.unbindDocumentResizeListener();
+    this.unbindScrollListener();
+  }
+  ngOnDestroy() {
+    if (this.scrollHandler) {
+      this.scrollHandler.destroy();
+      this.scrollHandler = null;
+    }
+    if (this.container && this.autoZIndex) {
+      zindexutils.clear(this.container);
+    }
+    if (!this.cd.destroyed) {
+      this.target = null;
+    }
+    this.destroyCallback = null;
+    if (this.container) {
+      this.restoreAppend();
+      this.onContainerDestroy();
+    }
+    if (this.overlaySubscription) {
+      this.overlaySubscription.unsubscribe();
+    }
+    super.ngOnDestroy();
+  }
+  static \u0275fac = /* @__PURE__ */ (() => {
+    let \u0275Popover_BaseFactory;
+    return function Popover_Factory(__ngFactoryType__) {
+      return (\u0275Popover_BaseFactory || (\u0275Popover_BaseFactory = \u0275\u0275getInheritedFactory(_Popover)))(__ngFactoryType__ || _Popover);
+    };
+  })();
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+    type: _Popover,
+    selectors: [["p-popover"]],
+    contentQueries: function Popover_ContentQueries(rf, ctx, dirIndex) {
+      if (rf & 1) {
+        \u0275\u0275contentQuery(dirIndex, _c075, 4);
+        \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
+      }
+      if (rf & 2) {
+        let _t;
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.contentTemplate = _t.first);
+        \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.templates = _t);
+      }
+    },
+    hostBindings: function Popover_HostBindings(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275listener("keydown.escape", function Popover_keydown_escape_HostBindingHandler($event) {
+          return ctx.onEscapeKeydown($event);
+        }, \u0275\u0275resolveDocument);
+      }
+    },
+    inputs: {
+      ariaLabel: "ariaLabel",
+      ariaLabelledBy: "ariaLabelledBy",
+      dismissable: [2, "dismissable", "dismissable", booleanAttribute],
+      style: "style",
+      styleClass: "styleClass",
+      appendTo: "appendTo",
+      autoZIndex: [2, "autoZIndex", "autoZIndex", booleanAttribute],
+      ariaCloseLabel: "ariaCloseLabel",
+      baseZIndex: [2, "baseZIndex", "baseZIndex", numberAttribute],
+      focusOnShow: [2, "focusOnShow", "focusOnShow", booleanAttribute],
+      showTransitionOptions: "showTransitionOptions",
+      hideTransitionOptions: "hideTransitionOptions"
+    },
+    outputs: {
+      onShow: "onShow",
+      onHide: "onHide"
+    },
+    features: [\u0275\u0275ProvidersFeature([PopoverStyle]), \u0275\u0275InheritDefinitionFeature],
+    ngContentSelectors: _c150,
+    decls: 1,
+    vars: 1,
+    consts: [["role", "dialog", 3, "class", "ngStyle", "click", 4, "ngIf"], ["role", "dialog", 3, "click", "ngStyle"], [3, "click", "mousedown"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"]],
+    template: function Popover_Template(rf, ctx) {
+      if (rf & 1) {
+        \u0275\u0275projectionDef();
+        \u0275\u0275template(0, Popover_div_0_Template, 4, 19, "div", 0);
+      }
+      if (rf & 2) {
+        \u0275\u0275property("ngIf", ctx.render);
+      }
+    },
+    dependencies: [CommonModule, NgIf, NgTemplateOutlet, NgStyle, SharedModule],
+    encapsulation: 2,
+    data: {
+      animation: [trigger("animation", [state("void", style({
+        transform: "scaleY(0.8)",
+        opacity: 0
+      })), state("close", style({
+        opacity: 0
+      })), state("open", style({
+        transform: "translateY(0)",
+        opacity: 1
+      })), transition("void => open", animate("{{showTransitionParams}}")), transition("open => close", animate("{{hideTransitionParams}}"))])]
+    },
+    changeDetection: 0
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Popover, [{
+    type: Component,
+    args: [{
+      selector: "p-popover",
+      standalone: true,
+      imports: [CommonModule, SharedModule],
+      template: `
+        <div
+            *ngIf="render"
+            [class]="cn(cx('root'), styleClass)"
+            [ngStyle]="style"
+            (click)="onOverlayClick($event)"
+            [@animation]="{
+                value: overlayVisible ? 'open' : 'close',
+                params: { showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions }
+            }"
+            (@animation.start)="onAnimationStart($event)"
+            (@animation.done)="onAnimationEnd($event)"
+            role="dialog"
+            [attr.aria-modal]="overlayVisible"
+            [attr.aria-label]="ariaLabel"
+            [attr.aria-labelledBy]="ariaLabelledBy"
+        >
+            <div [class]="cx('content')" (click)="onContentClick($event)" (mousedown)="onContentClick($event)">
+                <ng-content></ng-content>
+                <ng-template *ngTemplateOutlet="contentTemplate || _contentTemplate; context: { closeCallback: onCloseClick.bind(this) }"></ng-template>
+            </div>
+        </div>
+    `,
+      animations: [trigger("animation", [state("void", style({
+        transform: "scaleY(0.8)",
+        opacity: 0
+      })), state("close", style({
+        opacity: 0
+      })), state("open", style({
+        transform: "translateY(0)",
+        opacity: 1
+      })), transition("void => open", animate("{{showTransitionParams}}")), transition("open => close", animate("{{hideTransitionParams}}"))])],
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      encapsulation: ViewEncapsulation.None,
+      providers: [PopoverStyle]
+    }]
+  }], null, {
+    ariaLabel: [{
+      type: Input
+    }],
+    ariaLabelledBy: [{
+      type: Input
+    }],
+    dismissable: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    style: [{
+      type: Input
+    }],
+    styleClass: [{
+      type: Input
+    }],
+    appendTo: [{
+      type: Input
+    }],
+    autoZIndex: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    ariaCloseLabel: [{
+      type: Input
+    }],
+    baseZIndex: [{
+      type: Input,
+      args: [{
+        transform: numberAttribute
+      }]
+    }],
+    focusOnShow: [{
+      type: Input,
+      args: [{
+        transform: booleanAttribute
+      }]
+    }],
+    showTransitionOptions: [{
+      type: Input
+    }],
+    hideTransitionOptions: [{
+      type: Input
+    }],
+    onShow: [{
+      type: Output
+    }],
+    onHide: [{
+      type: Output
+    }],
+    contentTemplate: [{
+      type: ContentChild,
+      args: ["content", {
+        descendants: false
+      }]
+    }],
+    templates: [{
+      type: ContentChildren,
+      args: [PrimeTemplate]
+    }],
+    onEscapeKeydown: [{
+      type: HostListener,
+      args: ["document:keydown.escape", ["$event"]]
+    }]
+  });
+})();
+var PopoverModule = class _PopoverModule {
+  static \u0275fac = function PopoverModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _PopoverModule)();
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+    type: _PopoverModule,
+    imports: [Popover, SharedModule],
+    exports: [Popover, SharedModule]
+  });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+    imports: [Popover, SharedModule, SharedModule]
+  });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PopoverModule, [{
+    type: NgModule,
+    args: [{
+      imports: [Popover, SharedModule],
+      exports: [Popover, SharedModule]
+    }]
+  }], null, null);
+})();
+
+// src/app/features/application theme/theme management/mobile-theme-preview/mobile-theme-preview.component.ts
+var MobileThemePreviewComponent = class _MobileThemePreviewComponent {
+  palette = input.required(...ngDevMode ? [{ debugName: "palette" }] : []);
+  activeKey = input(null, ...ngDevMode ? [{ debugName: "activeKey" }] : []);
+  regionClick = output();
+  onRegionClick(key, sourceEvent) {
+    sourceEvent.stopPropagation();
+    this.regionClick.emit({ key, sourceEvent });
+  }
+  static \u0275fac = function MobileThemePreviewComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MobileThemePreviewComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MobileThemePreviewComponent, selectors: [["app-mobile-theme-preview"]], inputs: { palette: [1, "palette"], activeKey: [1, "activeKey"] }, outputs: { regionClick: "regionClick" }, decls: 43, vars: 90, consts: [[1, "phone-frame"], [1, "phone-notch"], [1, "phone-screen"], ["tabindex", "0", "role", "button", "aria-label", "Surface Container Low", 1, "region", "status-bar", 3, "click", "keydown.enter"], [1, "status-icons"], [1, "pi", "pi-wifi"], [1, "pi", "pi-mobile"], ["tabindex", "0", "role", "button", "aria-label", "Primary", 1, "region", "app-bar", 3, "click", "keydown.enter"], [1, "pi", "pi-arrow-left"], ["tabindex", "0", "role", "button", "aria-label", "On Primary", 1, "region", "app-bar-title", 3, "click", "keydown.enter"], [1, "pi", "pi-bell"], ["tabindex", "0", "role", "button", "aria-label", "Surface", 1, "region", "phone-body", 3, "click", "keydown.enter"], ["tabindex", "0", "role", "button", "aria-label", "Primary Fixed", 1, "region", "promo-banner", 3, "click", "keydown.enter"], [1, "text-block"], ["tabindex", "0", "role", "button", "aria-label", "On Surface", 1, "region", "title-text", 3, "click", "keydown.enter"], ["tabindex", "0", "role", "button", "aria-label", "On Surface Variant", 1, "region", "subtitle-text", 3, "click", "keydown.enter"], ["tabindex", "0", "role", "button", "aria-label", "Surface Container", 1, "region", "preview-card", 3, "click", "keydown.enter"], ["tabindex", "0", "role", "button", "aria-label", "Outline", 1, "region", "card-thumb", 3, "click", "keydown.enter"], [1, "card-lines"], ["tabindex", "0", "role", "button", "aria-label", "Secondary Fixed", 1, "region", "card-chip", 3, "click", "keydown.enter"], ["tabindex", "0", "role", "button", "aria-label", "On Secondary Container", 1, "region", 3, "click", "keydown.enter"], ["tabindex", "0", "role", "button", "aria-label", "Error", 1, "region", "error-banner", 3, "click", "keydown.enter"], ["tabindex", "0", "role", "button", "aria-label", "On Error", 1, "region", 3, "click", "keydown.enter"], ["type", "button", 1, "cta-button", 3, "click"], ["tabindex", "0", "role", "button", "aria-label", "Secondary", 1, "region", "fab", 3, "click", "keydown.enter"], ["tabindex", "0", "role", "button", "aria-label", "On Secondary", 1, "region", "pi", "pi-plus", 3, "click", "keydown.enter"], [1, "bottom-nav"], [1, "pi", "pi-home"], [1, "pi", "pi-search"], [1, "pi", "pi-heart"], [1, "pi", "pi-user"]], template: function MobileThemePreviewComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275domElementStart(0, "div", 0);
+      \u0275\u0275domElement(1, "div", 1);
+      \u0275\u0275domElementStart(2, "div", 2)(3, "div", 3);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_div_click_3_listener($event) {
+        return ctx.onRegionClick("surfaceContainerLow", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_div_keydown_enter_3_listener($event) {
+        return ctx.onRegionClick("surfaceContainerLow", $event);
+      });
+      \u0275\u0275domElementStart(4, "span");
+      \u0275\u0275text(5, "9:41");
+      \u0275\u0275domElementEnd();
+      \u0275\u0275domElementStart(6, "span", 4);
+      \u0275\u0275domElement(7, "i", 5)(8, "i", 6);
+      \u0275\u0275domElementEnd()();
+      \u0275\u0275domElementStart(9, "div", 7);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_div_click_9_listener($event) {
+        return ctx.onRegionClick("primary", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_div_keydown_enter_9_listener($event) {
+        return ctx.onRegionClick("primary", $event);
+      });
+      \u0275\u0275domElement(10, "i", 8);
+      \u0275\u0275domElementStart(11, "span", 9);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_span_click_11_listener($event) {
+        return ctx.onRegionClick("onPrimary", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_span_keydown_enter_11_listener($event) {
+        return ctx.onRegionClick("onPrimary", $event);
+      });
+      \u0275\u0275text(12, " Talabia ");
+      \u0275\u0275domElementEnd();
+      \u0275\u0275domElement(13, "i", 10);
+      \u0275\u0275domElementEnd();
+      \u0275\u0275domElementStart(14, "div", 11);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_div_click_14_listener($event) {
+        return ctx.onRegionClick("surface", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_div_keydown_enter_14_listener($event) {
+        return ctx.onRegionClick("surface", $event);
+      });
+      \u0275\u0275domElementStart(15, "div", 12);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_div_click_15_listener($event) {
+        return ctx.onRegionClick("primaryFixed", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_div_keydown_enter_15_listener($event) {
+        return ctx.onRegionClick("primaryFixed", $event);
+      });
+      \u0275\u0275domElementStart(16, "span");
+      \u0275\u0275text(17, "Special offer today");
+      \u0275\u0275domElementEnd()();
+      \u0275\u0275domElementStart(18, "div", 13)(19, "p", 14);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_p_click_19_listener($event) {
+        return ctx.onRegionClick("onSurface", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_p_keydown_enter_19_listener($event) {
+        return ctx.onRegionClick("onSurface", $event);
+      });
+      \u0275\u0275text(20, " Available near you ");
+      \u0275\u0275domElementEnd();
+      \u0275\u0275domElementStart(21, "p", 15);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_p_click_21_listener($event) {
+        return ctx.onRegionClick("onSurfaceVariant", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_p_keydown_enter_21_listener($event) {
+        return ctx.onRegionClick("onSurfaceVariant", $event);
+      });
+      \u0275\u0275text(22, " Updated a few minutes ago ");
+      \u0275\u0275domElementEnd()();
+      \u0275\u0275domElementStart(23, "div", 16);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_div_click_23_listener($event) {
+        return ctx.onRegionClick("surfaceContainer", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_div_keydown_enter_23_listener($event) {
+        return ctx.onRegionClick("surfaceContainer", $event);
+      });
+      \u0275\u0275domElementStart(24, "div", 17);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_div_click_24_listener($event) {
+        return ctx.onRegionClick("outline", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_div_keydown_enter_24_listener($event) {
+        return ctx.onRegionClick("outline", $event);
+      });
+      \u0275\u0275domElementEnd();
+      \u0275\u0275domElementStart(25, "div", 18);
+      \u0275\u0275domElement(26, "span")(27, "span");
+      \u0275\u0275domElementEnd();
+      \u0275\u0275domElementStart(28, "div", 19);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_div_click_28_listener($event) {
+        return ctx.onRegionClick("secondaryFixed", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_div_keydown_enter_28_listener($event) {
+        return ctx.onRegionClick("secondaryFixed", $event);
+      });
+      \u0275\u0275domElementStart(29, "span", 20);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_span_click_29_listener($event) {
+        return ctx.onRegionClick("onSecondaryContainer", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_span_keydown_enter_29_listener($event) {
+        return ctx.onRegionClick("onSecondaryContainer", $event);
+      });
+      \u0275\u0275text(30, " New ");
+      \u0275\u0275domElementEnd()()();
+      \u0275\u0275domElementStart(31, "div", 21);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_div_click_31_listener($event) {
+        return ctx.onRegionClick("error", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_div_keydown_enter_31_listener($event) {
+        return ctx.onRegionClick("error", $event);
+      });
+      \u0275\u0275domElementStart(32, "span", 22);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_span_click_32_listener($event) {
+        return ctx.onRegionClick("onError", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_span_keydown_enter_32_listener($event) {
+        return ctx.onRegionClick("onError", $event);
+      });
+      \u0275\u0275text(33, " Payment failed ");
+      \u0275\u0275domElementEnd()();
+      \u0275\u0275domElementStart(34, "button", 23);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_button_click_34_listener($event) {
+        return ctx.onRegionClick("primary", $event);
+      });
+      \u0275\u0275text(35, " Book Now ");
+      \u0275\u0275domElementEnd()();
+      \u0275\u0275domElementStart(36, "div", 24);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_div_click_36_listener($event) {
+        return ctx.onRegionClick("secondary", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_div_keydown_enter_36_listener($event) {
+        return ctx.onRegionClick("secondary", $event);
+      });
+      \u0275\u0275domElementStart(37, "i", 25);
+      \u0275\u0275domListener("click", function MobileThemePreviewComponent_Template_i_click_37_listener($event) {
+        return ctx.onRegionClick("onSecondary", $event);
+      })("keydown.enter", function MobileThemePreviewComponent_Template_i_keydown_enter_37_listener($event) {
+        return ctx.onRegionClick("onSecondary", $event);
+      });
+      \u0275\u0275domElementEnd()();
+      \u0275\u0275domElementStart(38, "div", 26);
+      \u0275\u0275domElement(39, "i", 27)(40, "i", 28)(41, "i", 29)(42, "i", 30);
+      \u0275\u0275domElementEnd()()();
+    }
+    if (rf & 2) {
+      \u0275\u0275advance(2);
+      \u0275\u0275styleProp("background", ctx.palette().surface);
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("background", ctx.palette().surfaceContainerLow);
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "surfaceContainerLow");
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("color", ctx.palette().onSurface);
+      \u0275\u0275advance(2);
+      \u0275\u0275styleProp("color", ctx.palette().onSurface);
+      \u0275\u0275advance(3);
+      \u0275\u0275styleProp("background", ctx.palette().primary);
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "primary");
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("color", ctx.palette().onPrimary);
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("color", ctx.palette().onPrimary);
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "onPrimary");
+      \u0275\u0275advance(2);
+      \u0275\u0275styleProp("color", ctx.palette().onPrimary);
+      \u0275\u0275advance();
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "surface");
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("background", ctx.palette().primaryFixed);
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "primaryFixed");
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("color", ctx.palette().onSurface);
+      \u0275\u0275advance(3);
+      \u0275\u0275styleProp("color", ctx.palette().onSurface);
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "onSurface");
+      \u0275\u0275advance(2);
+      \u0275\u0275styleProp("color", ctx.palette().onSurfaceVariant);
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "onSurfaceVariant");
+      \u0275\u0275advance(2);
+      \u0275\u0275styleProp("background", ctx.palette().surfaceContainer);
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "surfaceContainer");
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("border-color", ctx.palette().outline);
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "outline");
+      \u0275\u0275advance(2);
+      \u0275\u0275styleProp("background", ctx.palette().onSurface);
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("background", ctx.palette().onSurfaceVariant);
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("background", ctx.palette().secondaryFixed);
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "secondaryFixed");
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("color", ctx.palette().onSecondaryContainer);
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "onSecondaryContainer");
+      \u0275\u0275advance(2);
+      \u0275\u0275styleProp("background", ctx.palette().error);
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "error");
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("color", ctx.palette().onError);
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "onError");
+      \u0275\u0275advance(2);
+      \u0275\u0275styleProp("background", ctx.palette().primary)("color", ctx.palette().onPrimary);
+      \u0275\u0275advance(2);
+      \u0275\u0275styleProp("background", ctx.palette().secondary);
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "secondary");
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("color", ctx.palette().onSecondary);
+      \u0275\u0275classProp("region-active", ctx.activeKey() === "onSecondary");
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("background", ctx.palette().surfaceContainerLow)("border-top-color", ctx.palette().outline);
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("color", ctx.palette().primary);
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("color", ctx.palette().onSurfaceVariant);
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("color", ctx.palette().onSurfaceVariant);
+      \u0275\u0275advance();
+      \u0275\u0275styleProp("color", ctx.palette().onSurfaceVariant);
+    }
+  }, styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  justify-content: center;\n}\n.phone-frame[_ngcontent-%COMP%] {\n  position: relative;\n  width: 260px;\n  border: 10px solid #1a1a1a;\n  border-radius: 2.5rem;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);\n  overflow: hidden;\n  background: #1a1a1a;\n}\n.phone-notch[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0;\n  left: 50%;\n  transform: translateX(-50%);\n  width: 90px;\n  height: 18px;\n  background: #1a1a1a;\n  border-bottom-left-radius: 12px;\n  border-bottom-right-radius: 12px;\n  z-index: 2;\n}\n.phone-screen[_ngcontent-%COMP%] {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  height: 540px;\n  overflow: hidden;\n  transition: background-color 0.15s ease;\n}\n.region[_ngcontent-%COMP%] {\n  cursor: pointer;\n  outline: none;\n  transition: box-shadow 0.15s ease, transform 0.1s ease;\n}\n.region[_ngcontent-%COMP%]:hover {\n  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6) inset;\n}\n.region-active[_ngcontent-%COMP%] {\n  box-shadow: 0 0 0 2px #2196f3, 0 0 0 4px rgba(33, 150, 243, 0.35) !important;\n}\n.status-bar[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 0.6rem 1rem 0.35rem;\n  font-size: 0.7rem;\n  font-weight: 600;\n}\n.status-bar[_ngcontent-%COMP%]   .status-icons[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.35rem;\n  font-size: 0.7rem;\n}\n.app-bar[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 0.5rem;\n  padding: 0.6rem 0.85rem;\n}\n.app-bar[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 0.9rem;\n}\n.app-bar[_ngcontent-%COMP%]   .app-bar-title[_ngcontent-%COMP%] {\n  flex: 1;\n  text-align: center;\n  font-size: 0.85rem;\n  font-weight: 700;\n  padding: 0.15rem 0.25rem;\n  border-radius: 4px;\n}\n.phone-body[_ngcontent-%COMP%] {\n  flex: 1;\n  overflow-y: auto;\n  padding: 0.85rem 0.75rem 4.5rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.promo-banner[_ngcontent-%COMP%] {\n  border-radius: 10px;\n  padding: 0.75rem;\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n.text-block[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.2rem;\n}\n.text-block[_ngcontent-%COMP%]   .title-text[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.85rem;\n  font-weight: 700;\n  border-radius: 4px;\n  padding: 0.1rem 0.2rem;\n  width: fit-content;\n}\n.text-block[_ngcontent-%COMP%]   .subtitle-text[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.7rem;\n  border-radius: 4px;\n  padding: 0.1rem 0.2rem;\n  width: fit-content;\n}\n.preview-card[_ngcontent-%COMP%] {\n  border-radius: 12px;\n  padding: 0.75rem;\n  display: flex;\n  align-items: center;\n  gap: 0.65rem;\n}\n.preview-card[_ngcontent-%COMP%]   .card-thumb[_ngcontent-%COMP%] {\n  width: 42px;\n  height: 42px;\n  border-radius: 8px;\n  border: 2px solid;\n  flex-shrink: 0;\n}\n.preview-card[_ngcontent-%COMP%]   .card-lines[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 0.3rem;\n}\n.preview-card[_ngcontent-%COMP%]   .card-lines[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  display: block;\n  height: 6px;\n  border-radius: 3px;\n}\n.preview-card[_ngcontent-%COMP%]   .card-lines[_ngcontent-%COMP%]   span[_ngcontent-%COMP%]:first-child {\n  width: 80%;\n}\n.preview-card[_ngcontent-%COMP%]   .card-lines[_ngcontent-%COMP%]   span[_ngcontent-%COMP%]:last-child {\n  width: 55%;\n  opacity: 0.8;\n}\n.preview-card[_ngcontent-%COMP%]   .card-chip[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  border-radius: 999px;\n  padding: 0.2rem 0.55rem;\n}\n.preview-card[_ngcontent-%COMP%]   .card-chip[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 0.6rem;\n  font-weight: 700;\n}\n.error-banner[_ngcontent-%COMP%] {\n  border-radius: 10px;\n  padding: 0.6rem 0.75rem;\n}\n.error-banner[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 0.72rem;\n  font-weight: 600;\n}\n.cta-button[_ngcontent-%COMP%] {\n  border: none;\n  border-radius: 999px;\n  padding: 0.6rem;\n  font-size: 0.8rem;\n  font-weight: 700;\n  cursor: pointer;\n}\n.fab[_ngcontent-%COMP%] {\n  position: absolute;\n  right: 1rem;\n  bottom: 4.75rem;\n  width: 42px;\n  height: 42px;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);\n  z-index: 3;\n}\n.fab[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 0.95rem;\n}\n.bottom-nav[_ngcontent-%COMP%] {\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  display: flex;\n  align-items: center;\n  justify-content: space-around;\n  padding: 0.65rem 0.5rem;\n  border-top: 1px solid;\n  z-index: 2;\n}\n.bottom-nav[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 1rem;\n}\n/*# sourceMappingURL=mobile-theme-preview.component.css.map */"], changeDetection: 0 });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MobileThemePreviewComponent, [{
+    type: Component,
+    args: [{ selector: "app-mobile-theme-preview", standalone: true, imports: [], changeDetection: ChangeDetectionStrategy.OnPush, template: `<div class="phone-frame">\r
+    <div class="phone-notch"></div>\r
+    <div class="phone-screen" [style.background]="palette().surface">\r
+\r
+        <!-- Status bar -> surfaceContainerLow -->\r
+        <div class="region status-bar" [style.background]="palette().surfaceContainerLow"\r
+            [class.region-active]="activeKey() === 'surfaceContainerLow'" tabindex="0" role="button"\r
+            aria-label="Surface Container Low" (click)="onRegionClick('surfaceContainerLow', $event)"\r
+            (keydown.enter)="onRegionClick('surfaceContainerLow', $event)">\r
+            <span [style.color]="palette().onSurface">9:41</span>\r
+            <span class="status-icons" [style.color]="palette().onSurface">\r
+                <i class="pi pi-wifi"></i>\r
+                <i class="pi pi-mobile"></i>\r
+            </span>\r
+        </div>\r
+\r
+        <!-- App bar -> primary / onPrimary -->\r
+        <div class="region app-bar" [style.background]="palette().primary"\r
+            [class.region-active]="activeKey() === 'primary'" tabindex="0" role="button" aria-label="Primary"\r
+            (click)="onRegionClick('primary', $event)" (keydown.enter)="onRegionClick('primary', $event)">\r
+            <i class="pi pi-arrow-left" [style.color]="palette().onPrimary"></i>\r
+            <span class="region app-bar-title" [style.color]="palette().onPrimary"\r
+                [class.region-active]="activeKey() === 'onPrimary'" tabindex="0" role="button" aria-label="On Primary"\r
+                (click)="onRegionClick('onPrimary', $event)" (keydown.enter)="onRegionClick('onPrimary', $event)">\r
+                Talabia\r
+            </span>\r
+            <i class="pi pi-bell" [style.color]="palette().onPrimary"></i>\r
+        </div>\r
+\r
+        <div class="region phone-body" [class.region-active]="activeKey() === 'surface'" tabindex="0" role="button"\r
+            aria-label="Surface" (click)="onRegionClick('surface', $event)"\r
+            (keydown.enter)="onRegionClick('surface', $event)">\r
+            <!-- Promo banner -> primaryFixed -->\r
+            <div class="region promo-banner" [style.background]="palette().primaryFixed"\r
+                [class.region-active]="activeKey() === 'primaryFixed'" tabindex="0" role="button"\r
+                aria-label="Primary Fixed" (click)="onRegionClick('primaryFixed', $event)"\r
+                (keydown.enter)="onRegionClick('primaryFixed', $event)">\r
+                <span [style.color]="palette().onSurface">Special offer today</span>\r
+            </div>\r
+\r
+            <!-- Text samples -> onSurface / onSurfaceVariant -->\r
+            <div class="text-block">\r
+                <p class="region title-text" [style.color]="palette().onSurface"\r
+                    [class.region-active]="activeKey() === 'onSurface'" tabindex="0" role="button"\r
+                    aria-label="On Surface" (click)="onRegionClick('onSurface', $event)"\r
+                    (keydown.enter)="onRegionClick('onSurface', $event)">\r
+                    Available near you\r
+                </p>\r
+                <p class="region subtitle-text" [style.color]="palette().onSurfaceVariant"\r
+                    [class.region-active]="activeKey() === 'onSurfaceVariant'" tabindex="0" role="button"\r
+                    aria-label="On Surface Variant" (click)="onRegionClick('onSurfaceVariant', $event)"\r
+                    (keydown.enter)="onRegionClick('onSurfaceVariant', $event)">\r
+                    Updated a few minutes ago\r
+                </p>\r
+            </div>\r
+\r
+            <!-- Card -> surfaceContainer / outline / secondaryFixed / onSecondaryContainer -->\r
+            <div class="region preview-card" [style.background]="palette().surfaceContainer"\r
+                [class.region-active]="activeKey() === 'surfaceContainer'" tabindex="0" role="button"\r
+                aria-label="Surface Container" (click)="onRegionClick('surfaceContainer', $event)"\r
+                (keydown.enter)="onRegionClick('surfaceContainer', $event)">\r
+                <div class="region card-thumb" [style.border-color]="palette().outline"\r
+                    [class.region-active]="activeKey() === 'outline'" tabindex="0" role="button"\r
+                    aria-label="Outline" (click)="onRegionClick('outline', $event)"\r
+                    (keydown.enter)="onRegionClick('outline', $event)"></div>\r
+                <div class="card-lines">\r
+                    <span [style.background]="palette().onSurface"></span>\r
+                    <span [style.background]="palette().onSurfaceVariant"></span>\r
+                </div>\r
+                <div class="region card-chip" [style.background]="palette().secondaryFixed"\r
+                    [class.region-active]="activeKey() === 'secondaryFixed'" tabindex="0" role="button"\r
+                    aria-label="Secondary Fixed" (click)="onRegionClick('secondaryFixed', $event)"\r
+                    (keydown.enter)="onRegionClick('secondaryFixed', $event)">\r
+                    <span class="region" [style.color]="palette().onSecondaryContainer"\r
+                        [class.region-active]="activeKey() === 'onSecondaryContainer'" tabindex="0" role="button"\r
+                        aria-label="On Secondary Container" (click)="onRegionClick('onSecondaryContainer', $event)"\r
+                        (keydown.enter)="onRegionClick('onSecondaryContainer', $event)">\r
+                        New\r
+                    </span>\r
+                </div>\r
+            </div>\r
+\r
+            <!-- Error banner -> error / onError -->\r
+            <div class="region error-banner" [style.background]="palette().error"\r
+                [class.region-active]="activeKey() === 'error'" tabindex="0" role="button" aria-label="Error"\r
+                (click)="onRegionClick('error', $event)" (keydown.enter)="onRegionClick('error', $event)">\r
+                <span class="region" [style.color]="palette().onError"\r
+                    [class.region-active]="activeKey() === 'onError'" tabindex="0" role="button"\r
+                    aria-label="On Error" (click)="onRegionClick('onError', $event)"\r
+                    (keydown.enter)="onRegionClick('onError', $event)">\r
+                    Payment failed\r
+                </span>\r
+            </div>\r
+\r
+            <!-- CTA button (decorative echo of primary / onPrimary) -->\r
+            <button type="button" class="cta-button" [style.background]="palette().primary"\r
+                [style.color]="palette().onPrimary" (click)="onRegionClick('primary', $event)">\r
+                Book Now\r
+            </button>\r
+        </div>\r
+\r
+        <!-- FAB -> secondary / onSecondary -->\r
+        <div class="region fab" [style.background]="palette().secondary"\r
+            [class.region-active]="activeKey() === 'secondary'" tabindex="0" role="button" aria-label="Secondary"\r
+            (click)="onRegionClick('secondary', $event)" (keydown.enter)="onRegionClick('secondary', $event)">\r
+            <i class="region pi pi-plus" [style.color]="palette().onSecondary"\r
+                [class.region-active]="activeKey() === 'onSecondary'" tabindex="0" role="button"\r
+                aria-label="On Secondary" (click)="onRegionClick('onSecondary', $event)"\r
+                (keydown.enter)="onRegionClick('onSecondary', $event)"></i>\r
+        </div>\r
+\r
+        <!-- Bottom nav (decorative echoes) -->\r
+        <div class="bottom-nav" [style.background]="palette().surfaceContainerLow"\r
+            [style.border-top-color]="palette().outline">\r
+            <i class="pi pi-home" [style.color]="palette().primary"></i>\r
+            <i class="pi pi-search" [style.color]="palette().onSurfaceVariant"></i>\r
+            <i class="pi pi-heart" [style.color]="palette().onSurfaceVariant"></i>\r
+            <i class="pi pi-user" [style.color]="palette().onSurfaceVariant"></i>\r
+        </div>\r
+    </div>\r
+</div>\r
+`, styles: ["/* src/app/features/application theme/theme management/mobile-theme-preview/mobile-theme-preview.component.scss */\n:host {\n  display: flex;\n  justify-content: center;\n}\n.phone-frame {\n  position: relative;\n  width: 260px;\n  border: 10px solid #1a1a1a;\n  border-radius: 2.5rem;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);\n  overflow: hidden;\n  background: #1a1a1a;\n}\n.phone-notch {\n  position: absolute;\n  top: 0;\n  left: 50%;\n  transform: translateX(-50%);\n  width: 90px;\n  height: 18px;\n  background: #1a1a1a;\n  border-bottom-left-radius: 12px;\n  border-bottom-right-radius: 12px;\n  z-index: 2;\n}\n.phone-screen {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  height: 540px;\n  overflow: hidden;\n  transition: background-color 0.15s ease;\n}\n.region {\n  cursor: pointer;\n  outline: none;\n  transition: box-shadow 0.15s ease, transform 0.1s ease;\n}\n.region:hover {\n  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6) inset;\n}\n.region-active {\n  box-shadow: 0 0 0 2px #2196f3, 0 0 0 4px rgba(33, 150, 243, 0.35) !important;\n}\n.status-bar {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 0.6rem 1rem 0.35rem;\n  font-size: 0.7rem;\n  font-weight: 600;\n}\n.status-bar .status-icons {\n  display: flex;\n  gap: 0.35rem;\n  font-size: 0.7rem;\n}\n.app-bar {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 0.5rem;\n  padding: 0.6rem 0.85rem;\n}\n.app-bar i {\n  font-size: 0.9rem;\n}\n.app-bar .app-bar-title {\n  flex: 1;\n  text-align: center;\n  font-size: 0.85rem;\n  font-weight: 700;\n  padding: 0.15rem 0.25rem;\n  border-radius: 4px;\n}\n.phone-body {\n  flex: 1;\n  overflow-y: auto;\n  padding: 0.85rem 0.75rem 4.5rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.promo-banner {\n  border-radius: 10px;\n  padding: 0.75rem;\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n.text-block {\n  display: flex;\n  flex-direction: column;\n  gap: 0.2rem;\n}\n.text-block .title-text {\n  margin: 0;\n  font-size: 0.85rem;\n  font-weight: 700;\n  border-radius: 4px;\n  padding: 0.1rem 0.2rem;\n  width: fit-content;\n}\n.text-block .subtitle-text {\n  margin: 0;\n  font-size: 0.7rem;\n  border-radius: 4px;\n  padding: 0.1rem 0.2rem;\n  width: fit-content;\n}\n.preview-card {\n  border-radius: 12px;\n  padding: 0.75rem;\n  display: flex;\n  align-items: center;\n  gap: 0.65rem;\n}\n.preview-card .card-thumb {\n  width: 42px;\n  height: 42px;\n  border-radius: 8px;\n  border: 2px solid;\n  flex-shrink: 0;\n}\n.preview-card .card-lines {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 0.3rem;\n}\n.preview-card .card-lines span {\n  display: block;\n  height: 6px;\n  border-radius: 3px;\n}\n.preview-card .card-lines span:first-child {\n  width: 80%;\n}\n.preview-card .card-lines span:last-child {\n  width: 55%;\n  opacity: 0.8;\n}\n.preview-card .card-chip {\n  flex-shrink: 0;\n  border-radius: 999px;\n  padding: 0.2rem 0.55rem;\n}\n.preview-card .card-chip span {\n  font-size: 0.6rem;\n  font-weight: 700;\n}\n.error-banner {\n  border-radius: 10px;\n  padding: 0.6rem 0.75rem;\n}\n.error-banner span {\n  font-size: 0.72rem;\n  font-weight: 600;\n}\n.cta-button {\n  border: none;\n  border-radius: 999px;\n  padding: 0.6rem;\n  font-size: 0.8rem;\n  font-weight: 700;\n  cursor: pointer;\n}\n.fab {\n  position: absolute;\n  right: 1rem;\n  bottom: 4.75rem;\n  width: 42px;\n  height: 42px;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);\n  z-index: 3;\n}\n.fab i {\n  font-size: 0.95rem;\n}\n.bottom-nav {\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  display: flex;\n  align-items: center;\n  justify-content: space-around;\n  padding: 0.65rem 0.5rem;\n  border-top: 1px solid;\n  z-index: 2;\n}\n.bottom-nav i {\n  font-size: 1rem;\n}\n/*# sourceMappingURL=mobile-theme-preview.component.css.map */\n"] }]
+  }], null, null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MobileThemePreviewComponent, { className: "MobileThemePreviewComponent", filePath: "src/app/features/application theme/theme management/mobile-theme-preview/mobile-theme-preview.component.ts", lineNumber: 19 });
+})();
+
 // src/app/features/application theme/services/theme.service.ts
 var ThemeService = class _ThemeService {
   http;
@@ -84155,29 +85301,29 @@ var ThemeService = class _ThemeService {
 })();
 
 // src/app/features/application theme/theme management/theme management.component.ts
-var _c075 = () => [10, 25, 50];
-var _c150 = () => ({ width: "70rem" });
-var _c235 = (a0) => ({ keyword: a0 });
-var _forTrack03 = ($index, $item) => $item.key;
+var _c076 = ["colorPopover"];
+var _c151 = () => [10, 25, 50];
+var _c236 = () => ({ width: "70rem" });
+var _c326 = (a0) => ({ keyword: a0 });
 function ThemeManagementComponent_ng_template_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "tr")(1, "th", 11);
+    \u0275\u0275elementStart(0, "tr")(1, "th", 12);
     \u0275\u0275text(2);
     \u0275\u0275pipe(3, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "th", 12);
+    \u0275\u0275elementStart(4, "th", 13);
     \u0275\u0275text(5);
     \u0275\u0275pipe(6, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "th", 12);
+    \u0275\u0275elementStart(7, "th", 13);
     \u0275\u0275text(8);
     \u0275\u0275pipe(9, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "th", 12);
+    \u0275\u0275elementStart(10, "th", 13);
     \u0275\u0275text(11);
     \u0275\u0275pipe(12, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "th", 12);
+    \u0275\u0275elementStart(13, "th", 13);
     \u0275\u0275text(14);
     \u0275\u0275pipe(15, "translate");
     \u0275\u0275elementEnd()();
@@ -84197,7 +85343,7 @@ function ThemeManagementComponent_ng_template_7_Template(rf, ctx) {
 }
 function ThemeManagementComponent_ng_template_9_For_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "span", 27);
+    \u0275\u0275element(0, "span", 28);
   }
   if (rf & 2) {
     const key_r3 = ctx.$implicit;
@@ -84208,7 +85354,7 @@ function ThemeManagementComponent_ng_template_9_For_11_Template(rf, ctx) {
 }
 function ThemeManagementComponent_ng_template_9_For_18_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "span", 27);
+    \u0275\u0275element(0, "span", 28);
   }
   if (rf & 2) {
     const key_r5 = ctx.$implicit;
@@ -84219,7 +85365,7 @@ function ThemeManagementComponent_ng_template_9_For_18_Template(rf, ctx) {
 }
 function ThemeManagementComponent_ng_template_9_Conditional_20_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "p-tag", 18);
+    \u0275\u0275element(0, "p-tag", 19);
     \u0275\u0275pipe(1, "translate");
   }
   if (rf & 2) {
@@ -84228,7 +85374,7 @@ function ThemeManagementComponent_ng_template_9_Conditional_20_Template(rf, ctx)
 }
 function ThemeManagementComponent_ng_template_9_Conditional_21_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "p-tag", 19);
+    \u0275\u0275element(0, "p-tag", 20);
     \u0275\u0275pipe(1, "translate");
   }
   if (rf & 2) {
@@ -84237,7 +85383,7 @@ function ThemeManagementComponent_ng_template_9_Conditional_21_Template(rf, ctx)
 }
 function ThemeManagementComponent_ng_template_9_Conditional_23_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "p-tag", 20);
+    \u0275\u0275element(0, "p-tag", 21);
     \u0275\u0275pipe(1, "translate");
   }
   if (rf & 2) {
@@ -84246,7 +85392,7 @@ function ThemeManagementComponent_ng_template_9_Conditional_23_Template(rf, ctx)
 }
 function ThemeManagementComponent_ng_template_9_Conditional_24_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "p-tag", 21);
+    \u0275\u0275element(0, "p-tag", 22);
     \u0275\u0275pipe(1, "translate");
   }
   if (rf & 2) {
@@ -84259,27 +85405,27 @@ function ThemeManagementComponent_ng_template_9_Template(rf, ctx) {
     \u0275\u0275elementStart(0, "tr")(1, "td");
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "td")(4, "div", 13)(5, "div", 14)(6, "span", 15);
+    \u0275\u0275elementStart(3, "td")(4, "div", 14)(5, "div", 15)(6, "span", 16);
     \u0275\u0275text(7);
     \u0275\u0275pipe(8, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "div", 16);
-    \u0275\u0275repeaterCreate(10, ThemeManagementComponent_ng_template_9_For_11_Template, 1, 3, "span", 17, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(9, "div", 17);
+    \u0275\u0275repeaterCreate(10, ThemeManagementComponent_ng_template_9_For_11_Template, 1, 3, "span", 18, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(12, "div", 14)(13, "span", 15);
+    \u0275\u0275elementStart(12, "div", 15)(13, "span", 16);
     \u0275\u0275text(14);
     \u0275\u0275pipe(15, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "div", 16);
-    \u0275\u0275repeaterCreate(17, ThemeManagementComponent_ng_template_9_For_18_Template, 1, 3, "span", 17, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(16, "div", 17);
+    \u0275\u0275repeaterCreate(17, ThemeManagementComponent_ng_template_9_For_18_Template, 1, 3, "span", 18, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()()()();
     \u0275\u0275elementStart(19, "td");
-    \u0275\u0275conditionalCreate(20, ThemeManagementComponent_ng_template_9_Conditional_20_Template, 2, 3, "p-tag", 18)(21, ThemeManagementComponent_ng_template_9_Conditional_21_Template, 2, 3, "p-tag", 19);
+    \u0275\u0275conditionalCreate(20, ThemeManagementComponent_ng_template_9_Conditional_20_Template, 2, 3, "p-tag", 19)(21, ThemeManagementComponent_ng_template_9_Conditional_21_Template, 2, 3, "p-tag", 20);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(22, "td");
-    \u0275\u0275conditionalCreate(23, ThemeManagementComponent_ng_template_9_Conditional_23_Template, 2, 3, "p-tag", 20)(24, ThemeManagementComponent_ng_template_9_Conditional_24_Template, 2, 3, "p-tag", 21);
+    \u0275\u0275conditionalCreate(23, ThemeManagementComponent_ng_template_9_Conditional_23_Template, 2, 3, "p-tag", 21)(24, ThemeManagementComponent_ng_template_9_Conditional_24_Template, 2, 3, "p-tag", 22);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(25, "td")(26, "div", 22)(27, "p-button", 23);
+    \u0275\u0275elementStart(25, "td")(26, "div", 23)(27, "p-button", 24);
     \u0275\u0275pipe(28, "translate");
     \u0275\u0275listener("click", function ThemeManagementComponent_ng_template_9_Template_p_button_click_27_listener() {
       const theme_r4 = \u0275\u0275restoreView(_r2).$implicit;
@@ -84287,7 +85433,7 @@ function ThemeManagementComponent_ng_template_9_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r5.setAsDefault(theme_r4));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(29, "p-button", 24);
+    \u0275\u0275elementStart(29, "p-button", 25);
     \u0275\u0275pipe(30, "translate");
     \u0275\u0275pipe(31, "translate");
     \u0275\u0275listener("click", function ThemeManagementComponent_ng_template_9_Template_p_button_click_29_listener() {
@@ -84296,7 +85442,7 @@ function ThemeManagementComponent_ng_template_9_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r5.toggleActiveStatus(theme_r4, { checked: !theme_r4.isActive }));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(32, "p-button", 25);
+    \u0275\u0275elementStart(32, "p-button", 26);
     \u0275\u0275pipe(33, "translate");
     \u0275\u0275listener("click", function ThemeManagementComponent_ng_template_9_Template_p_button_click_32_listener() {
       const theme_r4 = \u0275\u0275restoreView(_r2).$implicit;
@@ -84304,7 +85450,7 @@ function ThemeManagementComponent_ng_template_9_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r5.showEditDialog(theme_r4));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(34, "p-button", 26);
+    \u0275\u0275elementStart(34, "p-button", 27);
     \u0275\u0275pipe(35, "translate");
     \u0275\u0275listener("click", function ThemeManagementComponent_ng_template_9_Template_p_button_click_34_listener($event) {
       const theme_r4 = \u0275\u0275restoreView(_r2).$implicit;
@@ -84342,8 +85488,8 @@ function ThemeManagementComponent_ng_template_9_Template(rf, ctx) {
 }
 function ThemeManagementComponent_ng_template_11_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 29);
-    \u0275\u0275element(1, "i", 30);
+    \u0275\u0275elementStart(0, "div", 30);
+    \u0275\u0275element(1, "i", 31);
     \u0275\u0275elementStart(2, "h4");
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "translate");
@@ -84352,13 +85498,13 @@ function ThemeManagementComponent_ng_template_11_Conditional_2_Template(rf, ctx)
   if (rf & 2) {
     const ctx_r5 = \u0275\u0275nextContext(2);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 1, "theme.empty.search", \u0275\u0275pureFunction1(4, _c235, ctx_r5.searchKeyword)));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 1, "theme.empty.search", \u0275\u0275pureFunction1(4, _c326, ctx_r5.searchKeyword)));
   }
 }
 function ThemeManagementComponent_ng_template_11_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 29);
-    \u0275\u0275element(1, "i", 31);
+    \u0275\u0275elementStart(0, "div", 30);
+    \u0275\u0275element(1, "i", 32);
     \u0275\u0275elementStart(2, "h4");
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "translate");
@@ -84371,8 +85517,8 @@ function ThemeManagementComponent_ng_template_11_Conditional_3_Template(rf, ctx)
 }
 function ThemeManagementComponent_ng_template_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "tr")(1, "td", 28);
-    \u0275\u0275conditionalCreate(2, ThemeManagementComponent_ng_template_11_Conditional_2_Template, 5, 6, "div", 29)(3, ThemeManagementComponent_ng_template_11_Conditional_3_Template, 5, 3, "div", 29);
+    \u0275\u0275elementStart(0, "tr")(1, "td", 29);
+    \u0275\u0275conditionalCreate(2, ThemeManagementComponent_ng_template_11_Conditional_2_Template, 5, 6, "div", 30)(3, ThemeManagementComponent_ng_template_11_Conditional_3_Template, 5, 3, "div", 30);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -84383,7 +85529,7 @@ function ThemeManagementComponent_ng_template_11_Template(rf, ctx) {
 }
 function ThemeManagementComponent_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 9);
+    \u0275\u0275elementStart(0, "div", 10);
     \u0275\u0275element(1, "p-progressSpinner");
     \u0275\u0275elementStart(2, "span");
     \u0275\u0275text(3);
@@ -84397,7 +85543,7 @@ function ThemeManagementComponent_Conditional_13_Template(rf, ctx) {
 }
 function ThemeManagementComponent_Conditional_14_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p-message", 38);
+    \u0275\u0275elementStart(0, "p-message", 39);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -84409,7 +85555,7 @@ function ThemeManagementComponent_Conditional_14_Conditional_13_Template(rf, ctx
 }
 function ThemeManagementComponent_Conditional_14_Conditional_21_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p-message", 38);
+    \u0275\u0275elementStart(0, "p-message", 39);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -84421,7 +85567,7 @@ function ThemeManagementComponent_Conditional_14_Conditional_21_Template(rf, ctx
 }
 function ThemeManagementComponent_Conditional_14_Conditional_29_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p-message", 38);
+    \u0275\u0275elementStart(0, "p-message", 39);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -84433,7 +85579,7 @@ function ThemeManagementComponent_Conditional_14_Conditional_29_Template(rf, ctx
 }
 function ThemeManagementComponent_Conditional_14_Conditional_37_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p-message", 38);
+    \u0275\u0275elementStart(0, "p-message", 39);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -84443,197 +85589,190 @@ function ThemeManagementComponent_Conditional_14_Conditional_37_Template(rf, ctx
     \u0275\u0275textInterpolate1(" ", ctx_r5.getErrorMessage("descriptionAr"), " ");
   }
 }
-function ThemeManagementComponent_Conditional_14_For_44_Conditional_5_Template(rf, ctx) {
+function ThemeManagementComponent_Conditional_14_Conditional_54_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p-message", 38);
+    \u0275\u0275elementStart(0, "p-message", 39);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const field_r8 = \u0275\u0275nextContext().$implicit;
-    const ctx_r5 = \u0275\u0275nextContext(2);
+    const ctx_r5 = \u0275\u0275nextContext(3);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", ctx_r5.getErrorMessage("light." + field_r8.key), " ");
+    \u0275\u0275textInterpolate1(" ", ctx_r5.getErrorMessage(ctx_r5.mode() + "." + ctx_r5.activePreviewKey()), " ");
   }
 }
-function ThemeManagementComponent_Conditional_14_For_44_Template(rf, ctx) {
+function ThemeManagementComponent_Conditional_14_Conditional_54_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 46)(1, "label", 51);
+    \u0275\u0275elementStart(0, "div", 52)(1, "span", 56);
     \u0275\u0275text(2);
     \u0275\u0275pipe(3, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(4, "p-colorpicker", 52);
-    \u0275\u0275conditionalCreate(5, ThemeManagementComponent_Conditional_14_For_44_Conditional_5_Template, 2, 1, "p-message", 38);
+    \u0275\u0275element(4, "p-colorpicker", 57)(5, "input", 58);
+    \u0275\u0275conditionalCreate(6, ThemeManagementComponent_Conditional_14_Conditional_54_Conditional_6_Template, 2, 1, "p-message", 39);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const field_r8 = ctx.$implicit;
+    const activeControl_r8 = ctx;
     const ctx_r5 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275property("for", "light-" + field_r8.key);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(3, 6, field_r8.labelKey));
     \u0275\u0275advance(2);
-    \u0275\u0275property("formControlName", field_r8.key)("inputId", "light-" + field_r8.key)("disabled", ctx_r5.loading);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r5.hasError("light." + field_r8.key) ? 5 : -1);
-  }
-}
-function ThemeManagementComponent_Conditional_14_For_51_Conditional_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p-message", 38);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const field_r9 = \u0275\u0275nextContext().$implicit;
-    const ctx_r5 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", ctx_r5.getErrorMessage("dark." + field_r9.key), " ");
-  }
-}
-function ThemeManagementComponent_Conditional_14_For_51_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 46)(1, "label", 51);
-    \u0275\u0275text(2);
-    \u0275\u0275pipe(3, "translate");
-    \u0275\u0275elementEnd();
-    \u0275\u0275element(4, "p-colorpicker", 52);
-    \u0275\u0275conditionalCreate(5, ThemeManagementComponent_Conditional_14_For_51_Conditional_5_Template, 2, 1, "p-message", 38);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const field_r9 = ctx.$implicit;
-    const ctx_r5 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275property("for", "dark-" + field_r9.key);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(3, 6, field_r9.labelKey));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(3, 6, ctx_r5.getActivePaletteLabel()));
     \u0275\u0275advance(2);
-    \u0275\u0275property("formControlName", field_r9.key)("inputId", "dark-" + field_r9.key)("disabled", ctx_r5.loading);
+    \u0275\u0275property("formControl", activeControl_r8)("disabled", ctx_r5.loading);
     \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r5.hasError("dark." + field_r9.key) ? 5 : -1);
+    \u0275\u0275property("formControl", activeControl_r8)("disabled", ctx_r5.loading);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r5.activePreviewKey() && ctx_r5.hasError(ctx_r5.mode() + "." + ctx_r5.activePreviewKey()) ? 6 : -1);
   }
 }
 function ThemeManagementComponent_Conditional_14_Template(rf, ctx) {
   if (rf & 1) {
     const _r7 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "form", 32);
+    \u0275\u0275elementStart(0, "form", 33);
     \u0275\u0275listener("ngSubmit", function ThemeManagementComponent_Conditional_14_Template_form_ngSubmit_0_listener() {
       \u0275\u0275restoreView(_r7);
       const ctx_r5 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r5.saveTheme());
     });
-    \u0275\u0275elementStart(1, "div", 33)(2, "h4");
+    \u0275\u0275elementStart(1, "div", 34)(2, "h4");
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "div", 34)(6, "div", 35)(7, "label", 36);
+    \u0275\u0275elementStart(5, "div", 35)(6, "div", 36)(7, "label", 37);
     \u0275\u0275text(8);
     \u0275\u0275pipe(9, "translate");
     \u0275\u0275elementStart(10, "span");
     \u0275\u0275text(11, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(12, "input", 37);
-    \u0275\u0275conditionalCreate(13, ThemeManagementComponent_Conditional_14_Conditional_13_Template, 2, 1, "p-message", 38);
+    \u0275\u0275element(12, "input", 38);
+    \u0275\u0275conditionalCreate(13, ThemeManagementComponent_Conditional_14_Conditional_13_Template, 2, 1, "p-message", 39);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "div", 35)(15, "label", 39);
+    \u0275\u0275elementStart(14, "div", 36)(15, "label", 40);
     \u0275\u0275text(16);
     \u0275\u0275pipe(17, "translate");
     \u0275\u0275elementStart(18, "span");
     \u0275\u0275text(19, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(20, "input", 40);
-    \u0275\u0275conditionalCreate(21, ThemeManagementComponent_Conditional_14_Conditional_21_Template, 2, 1, "p-message", 38);
+    \u0275\u0275element(20, "input", 41);
+    \u0275\u0275conditionalCreate(21, ThemeManagementComponent_Conditional_14_Conditional_21_Template, 2, 1, "p-message", 39);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "div", 35)(23, "label", 41);
+    \u0275\u0275elementStart(22, "div", 36)(23, "label", 42);
     \u0275\u0275text(24);
     \u0275\u0275pipe(25, "translate");
     \u0275\u0275elementStart(26, "span");
     \u0275\u0275text(27, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(28, "textarea", 42);
-    \u0275\u0275conditionalCreate(29, ThemeManagementComponent_Conditional_14_Conditional_29_Template, 2, 1, "p-message", 38);
+    \u0275\u0275element(28, "textarea", 43);
+    \u0275\u0275conditionalCreate(29, ThemeManagementComponent_Conditional_14_Conditional_29_Template, 2, 1, "p-message", 39);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(30, "div", 35)(31, "label", 43);
+    \u0275\u0275elementStart(30, "div", 36)(31, "label", 44);
     \u0275\u0275text(32);
     \u0275\u0275pipe(33, "translate");
     \u0275\u0275elementStart(34, "span");
     \u0275\u0275text(35, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(36, "textarea", 44);
-    \u0275\u0275conditionalCreate(37, ThemeManagementComponent_Conditional_14_Conditional_37_Template, 2, 1, "p-message", 38);
+    \u0275\u0275element(36, "textarea", 45);
+    \u0275\u0275conditionalCreate(37, ThemeManagementComponent_Conditional_14_Conditional_37_Template, 2, 1, "p-message", 39);
     \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(38, "div", 33)(39, "h4");
-    \u0275\u0275text(40);
-    \u0275\u0275pipe(41, "translate");
+    \u0275\u0275elementStart(38, "div", 34)(39, "div", 46)(40, "h4");
+    \u0275\u0275text(41);
+    \u0275\u0275pipe(42, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(42, "div", 45);
-    \u0275\u0275repeaterCreate(43, ThemeManagementComponent_Conditional_14_For_44_Template, 6, 8, "div", 46, _forTrack03);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(45, "div", 33)(46, "h4");
-    \u0275\u0275text(47);
-    \u0275\u0275pipe(48, "translate");
+    \u0275\u0275elementStart(43, "div", 47)(44, "p-button", 48);
+    \u0275\u0275pipe(45, "translate");
+    \u0275\u0275listener("click", function ThemeManagementComponent_Conditional_14_Template_p_button_click_44_listener() {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r5 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r5.mode.set("light"));
+    });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(49, "div", 47);
-    \u0275\u0275repeaterCreate(50, ThemeManagementComponent_Conditional_14_For_51_Template, 6, 8, "div", 46, _forTrack03);
+    \u0275\u0275elementStart(46, "p-button", 48);
+    \u0275\u0275pipe(47, "translate");
+    \u0275\u0275listener("click", function ThemeManagementComponent_Conditional_14_Template_p_button_click_46_listener() {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r5 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r5.mode.set("dark"));
+    });
+    \u0275\u0275elementEnd()()();
+    \u0275\u0275elementStart(48, "p", 49);
+    \u0275\u0275text(49);
+    \u0275\u0275pipe(50, "translate");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(51, "app-mobile-theme-preview", 50);
+    \u0275\u0275listener("regionClick", function ThemeManagementComponent_Conditional_14_Template_app_mobile_theme_preview_regionClick_51_listener($event) {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r5 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r5.openColorPicker($event.key, $event.sourceEvent));
+    });
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(52, "div", 48)(53, "p-button", 49);
-    \u0275\u0275pipe(54, "translate");
-    \u0275\u0275listener("click", function ThemeManagementComponent_Conditional_14_Template_p_button_click_53_listener() {
+    \u0275\u0275elementStart(52, "p-popover", 51, 2);
+    \u0275\u0275listener("onHide", function ThemeManagementComponent_Conditional_14_Template_p_popover_onHide_52_listener() {
+      \u0275\u0275restoreView(_r7);
+      const ctx_r5 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r5.onColorPopoverHide());
+    });
+    \u0275\u0275conditionalCreate(54, ThemeManagementComponent_Conditional_14_Conditional_54_Template, 7, 8, "div", 52);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(55, "div", 53)(56, "p-button", 54);
+    \u0275\u0275pipe(57, "translate");
+    \u0275\u0275listener("click", function ThemeManagementComponent_Conditional_14_Template_p_button_click_56_listener() {
       \u0275\u0275restoreView(_r7);
       const ctx_r5 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r5.cancelDialog());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275element(55, "p-button", 50);
-    \u0275\u0275pipe(56, "translate");
-    \u0275\u0275pipe(57, "translate");
+    \u0275\u0275element(58, "p-button", 55);
+    \u0275\u0275pipe(59, "translate");
+    \u0275\u0275pipe(60, "translate");
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
+    let tmp_32_0;
     const ctx_r5 = \u0275\u0275nextContext();
     \u0275\u0275property("formGroup", ctx_r5.themeForm);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(4, 27, "theme.form.basicInfo"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(4, 36, "theme.form.basicInfo"));
     \u0275\u0275advance(5);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(9, 29, "theme.form.nameEn"), " ");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(9, 38, "theme.form.nameEn"), " ");
     \u0275\u0275advance(4);
     \u0275\u0275property("disabled", ctx_r5.loading)("invalid", ctx_r5.hasError("nameEn"));
     \u0275\u0275advance();
     \u0275\u0275conditional(ctx_r5.hasError("nameEn") ? 13 : -1);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(17, 31, "theme.form.nameAr"), " ");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(17, 40, "theme.form.nameAr"), " ");
     \u0275\u0275advance(4);
     \u0275\u0275property("disabled", ctx_r5.loading)("invalid", ctx_r5.hasError("nameAr"));
     \u0275\u0275advance();
     \u0275\u0275conditional(ctx_r5.hasError("nameAr") ? 21 : -1);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(25, 33, "theme.form.descriptionEn"), " ");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(25, 42, "theme.form.descriptionEn"), " ");
     \u0275\u0275advance(4);
     \u0275\u0275classProp("p-invalid", ctx_r5.hasError("descriptionEn"));
     \u0275\u0275property("disabled", ctx_r5.loading);
     \u0275\u0275advance();
     \u0275\u0275conditional(ctx_r5.hasError("descriptionEn") ? 29 : -1);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(33, 35, "theme.form.descriptionAr"), " ");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(33, 44, "theme.form.descriptionAr"), " ");
     \u0275\u0275advance(4);
     \u0275\u0275classProp("p-invalid", ctx_r5.hasError("descriptionAr"));
     \u0275\u0275property("disabled", ctx_r5.loading);
     \u0275\u0275advance();
     \u0275\u0275conditional(ctx_r5.hasError("descriptionAr") ? 37 : -1);
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(41, 37, "theme.palette.light"));
-    \u0275\u0275advance(3);
-    \u0275\u0275repeater(ctx_r5.paletteFields);
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(48, 39, "theme.palette.dark"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(42, 46, "theme.preview.title"));
     \u0275\u0275advance(3);
-    \u0275\u0275repeater(ctx_r5.paletteFields);
-    \u0275\u0275advance(3);
-    \u0275\u0275property("label", \u0275\u0275pipeBind1(54, 41, "theme.button.cancel"))("disabled", ctx_r5.loading);
+    \u0275\u0275property("label", \u0275\u0275pipeBind1(45, 48, "theme.palette.light"))("outlined", ctx_r5.mode() !== "light")("disabled", ctx_r5.loading);
     \u0275\u0275advance(2);
-    \u0275\u0275property("label", ctx_r5.isEditMode ? \u0275\u0275pipeBind1(56, 43, "theme.button.update") : \u0275\u0275pipeBind1(57, 45, "theme.button.create"))("loading", ctx_r5.loading)("disabled", ctx_r5.isSaveDisabled());
+    \u0275\u0275property("label", \u0275\u0275pipeBind1(47, 50, "theme.palette.dark"))("outlined", ctx_r5.mode() !== "dark")("disabled", ctx_r5.loading);
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(50, 52, "theme.preview.hint"));
+    \u0275\u0275advance(2);
+    \u0275\u0275property("palette", ctx_r5.mode() === "light" ? ctx_r5.lightPalette() : ctx_r5.darkPalette())("activeKey", ctx_r5.activePreviewKey());
+    \u0275\u0275advance(3);
+    \u0275\u0275conditional((tmp_32_0 = ctx_r5.getActivePaletteControl()) ? 54 : -1, tmp_32_0);
+    \u0275\u0275advance(2);
+    \u0275\u0275property("label", \u0275\u0275pipeBind1(57, 54, "theme.button.cancel"))("disabled", ctx_r5.loading);
+    \u0275\u0275advance(2);
+    \u0275\u0275property("label", ctx_r5.isEditMode ? \u0275\u0275pipeBind1(59, 56, "theme.button.update") : \u0275\u0275pipeBind1(60, 58, "theme.button.create"))("loading", ctx_r5.loading)("disabled", ctx_r5.isSaveDisabled());
   }
 }
 var ThemeManagementComponent = class _ThemeManagementComponent {
@@ -84664,6 +85803,12 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
   // Form properties
   themeForm;
   submitted = false;
+  // Interactive preview properties
+  colorPopover;
+  mode = signal("light", ...ngDevMode ? [{ debugName: "mode" }] : []);
+  activePreviewKey = signal(null, ...ngDevMode ? [{ debugName: "activePreviewKey" }] : []);
+  lightPalette;
+  darkPalette;
   palettePreviewKeys = ["primary", "secondary", "surface", "onSurface"];
   paletteFields = [
     { key: "primary", labelKey: "theme.palette.primary" },
@@ -84725,6 +85870,7 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
     this.fb = fb;
     this.languageService = languageService;
     this.initializeForm();
+    this.initializePreviewSignals();
     this.setupSearchDebounce();
     this.updateDialogTitle();
     this.pageReportTemplate = this.languageService.translate("table.currentPageReport");
@@ -84757,6 +85903,18 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
       descriptionAr: ["", [Validators.required, Validators.minLength(5)]],
       light: this.createPaletteGroup(this.defaultLightPalette),
       dark: this.createPaletteGroup(this.defaultDarkPalette)
+    });
+  }
+  /**
+   * Bridge the light/dark palette FormGroups into signals so the OnPush preview
+   * updates live without manual valueChanges subscriptions + markForCheck() calls.
+   */
+  initializePreviewSignals() {
+    this.lightPalette = toSignal(this.themeForm.get("light").valueChanges, {
+      initialValue: this.themeForm.get("light").getRawValue()
+    });
+    this.darkPalette = toSignal(this.themeForm.get("dark").valueChanges, {
+      initialValue: this.themeForm.get("dark").getRawValue()
     });
   }
   createPaletteGroup(defaults2) {
@@ -84877,6 +86035,7 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
       light: this.defaultLightPalette,
       dark: this.defaultDarkPalette
     });
+    this.resetPreviewState();
     this.submitted = false;
     this.visible = true;
   }
@@ -84887,6 +86046,7 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
     this.isEditMode = true;
     this.updateDialogTitle();
     this.dialogLoading = true;
+    this.loading = true;
     this.themeService.getThemeById(theme19.id).pipe(takeUntil(this.destroy$)).subscribe({
       next: (details) => {
         this.themeForm.patchValue({
@@ -84899,6 +86059,8 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
           dark: details.darkTheme
         });
         this.themeForm.markAsPristine();
+        this.resetPreviewState();
+        this.loading = false;
         this.dialogLoading = false;
         this.submitted = false;
         this.visible = true;
@@ -84906,6 +86068,7 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
       },
       error: (error) => {
         this.dialogLoading = false;
+        this.loading = false;
         this.messageService.add({
           severity: "error",
           summary: this.t("common.error"),
@@ -85009,6 +86172,7 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
    */
   toggleActiveStatus(theme19, event2) {
     const newStatus = event2.checked;
+    this.loading = true;
     this.themeService.setActiveStatus({ id: theme19.id, status: newStatus }).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         if (newStatus) {
@@ -85018,6 +86182,7 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
         } else {
           this.themes = this.themes.map((t44) => t44.id === theme19.id ? __spreadProps(__spreadValues({}, t44), { isActive: false }) : t44);
         }
+        this.loading = false;
         this.messageService.add({
           severity: "success",
           summary: this.t("common.success"),
@@ -85027,6 +86192,7 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
         this.cdr.detectChanges();
       },
       error: (error) => {
+        this.loading = false;
         this.messageService.add({
           severity: "error",
           summary: this.t("common.error"),
@@ -85041,11 +86207,13 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
    * Set theme as default
    */
   setAsDefault(theme19) {
+    this.loading = true;
     this.themeService.setDefaultTheme({ id: theme19.id }).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         this.themes = this.themes.map((t44) => __spreadProps(__spreadValues({}, t44), {
           isDefault: t44.id === theme19.id
         }));
+        this.loading = false;
         this.messageService.add({
           severity: "success",
           summary: this.t("common.success"),
@@ -85055,6 +86223,7 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
         this.cdr.detectChanges();
       },
       error: (error) => {
+        this.loading = false;
         this.messageService.add({
           severity: "error",
           summary: this.t("common.error"),
@@ -85130,6 +86299,7 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
       light: this.defaultLightPalette,
       dark: this.defaultDarkPalette
     });
+    this.resetPreviewState();
   }
   /**
    * Mark all form controls as touched for validation display
@@ -85146,6 +86316,43 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
    */
   getFormControl(controlName) {
     return this.themeForm.get(controlName);
+  }
+  /**
+   * Open the shared color picker popover for a clicked preview region/chip
+   */
+  openColorPicker(key, sourceEvent) {
+    this.activePreviewKey.set(key);
+    this.colorPopover?.toggle(sourceEvent);
+  }
+  /**
+   * Clear the active preview key once the popover closes
+   */
+  onColorPopoverHide() {
+    this.activePreviewKey.set(null);
+  }
+  /**
+   * Form control bound to the popover's color picker, based on the active mode + key
+   */
+  getActivePaletteControl() {
+    const key = this.activePreviewKey();
+    if (!key)
+      return null;
+    return this.themeForm.get([this.mode(), key]);
+  }
+  /**
+   * Translated label for the currently active preview key
+   */
+  getActivePaletteLabel() {
+    const key = this.activePreviewKey();
+    return this.paletteFields.find((field) => field.key === key)?.labelKey ?? "";
+  }
+  /**
+   * Reset preview state (mode + active key) and close the popover
+   */
+  resetPreviewState() {
+    this.mode.set("light");
+    this.activePreviewKey.set(null);
+    this.colorPopover?.hide();
   }
   /**
    * Check if form control has error
@@ -85206,32 +86413,40 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
   static \u0275fac = function ThemeManagementComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ThemeManagementComponent)(\u0275\u0275directiveInject(ThemeService), \u0275\u0275directiveInject(ChangeDetectorRef), \u0275\u0275directiveInject(ConfirmationService), \u0275\u0275directiveInject(MessageService), \u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(LanguageService));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ThemeManagementComponent, selectors: [["app-theme-management"]], features: [\u0275\u0275ProvidersFeature([ConfirmationService, MessageService])], decls: 17, vars: 29, consts: [["header", ""], ["body", ""], [3, "header"], [1, "card"], [1, "action-container"], ["icon", "pi pi-plus", 3, "click", "label", "disabled"], ["showGridlines", "", "stripedRows", "", "scrollHeight", "600px", "paginatorPosition", "bottom", 3, "onPage", "value", "scrollable", "paginator", "rows", "first", "totalRecords", "lazy", "currentPageReportTemplate", "rowsPerPageOptions", "loading", "showCurrentPageReport"], ["pTemplate", "emptymessage"], [3, "visibleChange", "header", "modal", "visible", "closable", "draggable", "resizable"], [1, "dialog-loading"], [3, "formGroup"], [2, "min-width", "200px"], [2, "min-width", "100px"], [1, "color-display"], [1, "palette-section"], [1, "palette-title"], [1, "color-preview"], [1, "color-square", 3, "background-color", "title"], ["severity", "success", 3, "value"], ["severity", "danger", 3, "value"], ["severity", "info", 3, "value"], ["severity", "secondary", 3, "value"], [1, "table-actions"], [3, "click", "pTooltip", "icon", "disabled"], [3, "click", "pTooltip", "icon", "severity", "disabled"], ["severity", "success", "icon", "pi pi-pencil", 3, "click", "pTooltip", "disabled"], ["severity", "danger", "icon", "pi pi-trash", 3, "click", "pTooltip", "disabled"], [1, "color-square", 3, "title"], ["colspan", "5"], [1, "empty-container"], [1, "pi", "pi-search"], [1, "pi", "pi-info-circle"], [3, "ngSubmit", "formGroup"], [1, "form-section"], [1, "input-grid"], [1, "input-container"], ["for", "nameEn", 1, "font-semibold"], ["pInputText", "", "id", "nameEn", "formControlName", "nameEn", "autocomplete", "off", 1, "flex-auto", 3, "disabled", "invalid"], ["severity", "error", "size", "small", "variant", "simple"], ["for", "nameAr", 1, "font-semibold"], ["pInputText", "", "id", "nameAr", "formControlName", "nameAr", "autocomplete", "off", 1, "flex-auto", 3, "disabled", "invalid"], ["for", "descriptionEn", 1, "font-semibold"], ["pTextarea", "", "id", "descriptionEn", "formControlName", "descriptionEn", "rows", "2", 3, "disabled"], ["for", "descriptionAr", 1, "font-semibold"], ["pTextarea", "", "id", "descriptionAr", "formControlName", "descriptionAr", "rows", "2", 3, "disabled"], ["formGroupName", "light", 1, "palette-grid"], [1, "color-field"], ["formGroupName", "dark", 1, "palette-grid"], [1, "dialog-footer"], ["severity", "secondary", "type", "button", 3, "click", "label", "disabled"], ["type", "submit", 3, "label", "loading", "disabled"], [1, "color-label", 3, "for"], [3, "formControlName", "inputId", "disabled"]], template: function ThemeManagementComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ThemeManagementComponent, selectors: [["app-theme-management"]], viewQuery: function ThemeManagementComponent_Query(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275viewQuery(_c076, 5);
+    }
+    if (rf & 2) {
+      let _t;
+      \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.colorPopover = _t.first);
+    }
+  }, features: [\u0275\u0275ProvidersFeature([ConfirmationService, MessageService])], decls: 17, vars: 29, consts: [["header", ""], ["body", ""], ["colorPopover", ""], [3, "header"], [1, "card"], [1, "action-container"], ["icon", "pi pi-plus", 3, "click", "label", "disabled"], ["showGridlines", "", "stripedRows", "", "scrollHeight", "600px", "paginatorPosition", "bottom", 3, "onPage", "value", "scrollable", "paginator", "rows", "first", "totalRecords", "lazy", "currentPageReportTemplate", "rowsPerPageOptions", "loading", "showCurrentPageReport"], ["pTemplate", "emptymessage"], [3, "visibleChange", "header", "modal", "visible", "closable", "draggable", "resizable"], [1, "dialog-loading"], [3, "formGroup"], [2, "min-width", "200px"], [2, "min-width", "100px"], [1, "color-display"], [1, "palette-section"], [1, "palette-title"], [1, "color-preview"], [1, "color-square", 3, "background-color", "title"], ["severity", "success", 3, "value"], ["severity", "danger", 3, "value"], ["severity", "info", 3, "value"], ["severity", "secondary", 3, "value"], [1, "table-actions"], [3, "click", "pTooltip", "icon", "disabled"], [3, "click", "pTooltip", "icon", "severity", "disabled"], ["severity", "success", "icon", "pi pi-pencil", 3, "click", "pTooltip", "disabled"], ["severity", "danger", "icon", "pi pi-trash", 3, "click", "pTooltip", "disabled"], [1, "color-square", 3, "title"], ["colspan", "5"], [1, "empty-container"], [1, "pi", "pi-search"], [1, "pi", "pi-info-circle"], [3, "ngSubmit", "formGroup"], [1, "form-section"], [1, "input-grid"], [1, "input-container"], ["for", "nameEn", 1, "font-semibold"], ["pInputText", "", "id", "nameEn", "formControlName", "nameEn", "autocomplete", "off", 1, "flex-auto", 3, "disabled", "invalid"], ["severity", "error", "size", "small", "variant", "simple"], ["for", "nameAr", 1, "font-semibold"], ["pInputText", "", "id", "nameAr", "formControlName", "nameAr", "autocomplete", "off", 1, "flex-auto", 3, "disabled", "invalid"], ["for", "descriptionEn", 1, "font-semibold"], ["pTextarea", "", "id", "descriptionEn", "formControlName", "descriptionEn", "rows", "2", 3, "disabled"], ["for", "descriptionAr", 1, "font-semibold"], ["pTextarea", "", "id", "descriptionAr", "formControlName", "descriptionAr", "rows", "2", 3, "disabled"], [1, "preview-header"], [1, "mode-toggle"], ["type", "button", "size", "small", 3, "click", "label", "outlined", "disabled"], [1, "preview-hint"], [3, "regionClick", "palette", "activeKey"], ["appendTo", "body", 3, "onHide"], [1, "color-popover-content"], [1, "dialog-footer"], ["severity", "secondary", "type", "button", 3, "click", "label", "disabled"], ["type", "submit", 3, "label", "loading", "disabled"], [1, "color-popover-label"], ["inline", "", 3, "formControl", "disabled"], ["pInputText", "", "type", "text", "maxlength", "7", "autocomplete", "off", 1, "hex-input", 3, "formControl", "disabled"]], template: function ThemeManagementComponent_Template(rf, ctx) {
     if (rf & 1) {
       const _r1 = \u0275\u0275getCurrentView();
-      \u0275\u0275elementStart(0, "p-card", 2);
+      \u0275\u0275elementStart(0, "p-card", 3);
       \u0275\u0275pipe(1, "translate");
-      \u0275\u0275elementStart(2, "div", 3)(3, "div", 4)(4, "p-button", 5);
+      \u0275\u0275elementStart(2, "div", 4)(3, "div", 5)(4, "p-button", 6);
       \u0275\u0275pipe(5, "translate");
       \u0275\u0275listener("click", function ThemeManagementComponent_Template_p_button_click_4_listener() {
         \u0275\u0275restoreView(_r1);
         return \u0275\u0275resetView(ctx.showCreateDialog());
       });
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(6, "p-table", 6);
+      \u0275\u0275elementStart(6, "p-table", 7);
       \u0275\u0275listener("onPage", function ThemeManagementComponent_Template_p_table_onPage_6_listener($event) {
         \u0275\u0275restoreView(_r1);
         return \u0275\u0275resetView(ctx.pageChange($event));
       });
-      \u0275\u0275template(7, ThemeManagementComponent_ng_template_7_Template, 16, 15, "ng-template", null, 0, \u0275\u0275templateRefExtractor)(9, ThemeManagementComponent_ng_template_9_Template, 36, 30, "ng-template", null, 1, \u0275\u0275templateRefExtractor)(11, ThemeManagementComponent_ng_template_11_Template, 4, 1, "ng-template", 7);
+      \u0275\u0275template(7, ThemeManagementComponent_ng_template_7_Template, 16, 15, "ng-template", null, 0, \u0275\u0275templateRefExtractor)(9, ThemeManagementComponent_ng_template_9_Template, 36, 30, "ng-template", null, 1, \u0275\u0275templateRefExtractor)(11, ThemeManagementComponent_ng_template_11_Template, 4, 1, "ng-template", 8);
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(12, "p-dialog", 8);
+      \u0275\u0275elementStart(12, "p-dialog", 9);
       \u0275\u0275twoWayListener("visibleChange", function ThemeManagementComponent_Template_p_dialog_visibleChange_12_listener($event) {
         \u0275\u0275restoreView(_r1);
         \u0275\u0275twoWayBindingSet(ctx.visible, $event) || (ctx.visible = $event);
         return \u0275\u0275resetView($event);
       });
-      \u0275\u0275conditionalCreate(13, ThemeManagementComponent_Conditional_13_Template, 5, 3, "div", 9)(14, ThemeManagementComponent_Conditional_14_Template, 58, 47, "form", 10);
+      \u0275\u0275conditionalCreate(13, ThemeManagementComponent_Conditional_13_Template, 5, 3, "div", 10)(14, ThemeManagementComponent_Conditional_14_Template, 61, 60, "form", 11);
       \u0275\u0275elementEnd();
       \u0275\u0275element(15, "p-toast")(16, "p-confirmpopup");
     }
@@ -85240,9 +86455,9 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
       \u0275\u0275advance(4);
       \u0275\u0275property("label", \u0275\u0275pipeBind1(5, 25, "theme.addButton"))("disabled", ctx.loading);
       \u0275\u0275advance(2);
-      \u0275\u0275property("value", ctx.themes)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(27, _c075))("loading", ctx.loading)("showCurrentPageReport", true);
+      \u0275\u0275property("value", ctx.themes)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(27, _c151))("loading", ctx.loading)("showCurrentPageReport", true);
       \u0275\u0275advance(6);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(28, _c150));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(28, _c236));
       \u0275\u0275property("header", ctx.dialogTitle)("modal", true);
       \u0275\u0275twoWayProperty("visible", ctx.visible);
       \u0275\u0275property("closable", !ctx.loading)("draggable", false)("resizable", false);
@@ -85264,10 +86479,11 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
     DefaultValueAccessor,
     NgControlStatus,
     NgControlStatusGroup,
+    MaxLengthValidator,
     ReactiveFormsModule,
+    FormControlDirective,
     FormGroupDirective,
     FormControlName,
-    FormGroupName,
     DividerModule,
     DialogModule,
     Dialog,
@@ -85284,10 +86500,12 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
     TagModule,
     Tag,
     ColorPicker,
+    Popover,
     TextareaModule,
     Textarea,
+    MobileThemePreviewComponent,
     TranslatePipe
-  ], styles: ["\n\n[_nghost-%COMP%] {\n  display: block;\n}\n.empty-container[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  font-size: 1rem;\n  font-weight: 600;\n}\n.action-container[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n  margin-block: 0.5rem;\n}\n.cursor-pointer[_ngcontent-%COMP%] {\n  cursor: pointer;\n}\n.table-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  align-items: center;\n}\n.input-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n  gap: 0.25rem;\n  margin-block: 0.75rem;\n}\n.input-container[_ngcontent-%COMP%]   label[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: var(--p-red-700);\n}\n.dialog-footer[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  gap: 0.75rem;\n  margin-block-start: 1.5rem;\n  padding-top: 1rem;\n}\n.color-display[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.color-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n.color-square[_ngcontent-%COMP%] {\n  width: 20px;\n  height: 20px;\n  border-radius: 4px;\n  border: 1px solid var(--p-surface-border);\n  box-shadow: 0.5px 0.5px 4px 0px var(--p-surface-400);\n  display: inline-block;\n  flex-shrink: 0;\n}\n.my-app-dark[_nghost-%COMP%]   .color-square[_ngcontent-%COMP%], .my-app-dark   [_nghost-%COMP%]   .color-square[_ngcontent-%COMP%] {\n  border: 1px solid var(--p-surface-border);\n  box-shadow: 0.5px 0.5px 4px 0px var(--p-surface-700);\n}\n.color-label[_ngcontent-%COMP%] {\n  font-size: 0.875rem;\n  color: var(--p-text-color);\n}\n.form-section[_ngcontent-%COMP%] {\n  margin-bottom: 2rem;\n}\n.form-section[_ngcontent-%COMP%]   h4[_ngcontent-%COMP%] {\n  margin-bottom: 1rem;\n  color: var(--p-text-color);\n  font-weight: 600;\n  border-bottom: 1px solid var(--p-surface-border);\n  padding-bottom: 0.5rem;\n}\n.input-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  gap: 1rem;\n}\n.palette-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(5, minmax(200px, 1fr));\n  gap: 1rem;\n}\n.color-field[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  flex-direction: column;\n  background:\n    linear-gradient(\n      45deg,\n      var(--p-neutral-200) 0%,\n      var(--p-neutral-100) 50%,\n      var(--p-neutral-50) 100%);\n  border: 2px dashed var(--p-neutral-300);\n  border-radius: 4px;\n  padding: 0.5rem;\n}\n.my-app-dark[_nghost-%COMP%]   .color-field[_ngcontent-%COMP%], .my-app-dark   [_nghost-%COMP%]   .color-field[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      45deg,\n      var(--p-neutral-900) 0%,\n      var(--p-neutral-800) 100%);\n  border: 2px dashed var(--p-neutral-800);\n}\n.color-field[_ngcontent-%COMP%]   .color-label[_ngcontent-%COMP%] {\n  font-size: 0.875rem;\n  font-weight: 500;\n  color: var(--p-text-color);\n}\n.palette-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.palette-section[_ngcontent-%COMP%]   .palette-title[_ngcontent-%COMP%] {\n  font-size: 0.875rem;\n  font-weight: 600;\n  color: var(--p-text-color);\n}\n.palette-section[_ngcontent-%COMP%]   .color-preview[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.25rem;\n}\n.dialog-loading[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1rem;\n  padding: 2rem;\n}\n.dialog-loading[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: var(--p-text-muted-color);\n}\n/*# sourceMappingURL=theme%20management.component.css.map */"], changeDetection: 0 });
+  ], styles: ["\n\n[_nghost-%COMP%] {\n  display: block;\n}\n.empty-container[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  font-size: 1rem;\n  font-weight: 600;\n}\n.action-container[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n  margin-block: 0.5rem;\n}\n.cursor-pointer[_ngcontent-%COMP%] {\n  cursor: pointer;\n}\n.table-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  align-items: center;\n}\n.input-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n  gap: 0.25rem;\n  margin-block: 0.75rem;\n}\n.input-container[_ngcontent-%COMP%]   label[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: var(--p-red-700);\n}\n.dialog-footer[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  gap: 0.75rem;\n  margin-block-start: 1.5rem;\n  padding-top: 1rem;\n}\n.color-display[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.color-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n.color-square[_ngcontent-%COMP%] {\n  width: 20px;\n  height: 20px;\n  border-radius: 4px;\n  border: 1px solid var(--p-surface-border);\n  box-shadow: 0.5px 0.5px 4px 0px var(--p-surface-400);\n  display: inline-block;\n  flex-shrink: 0;\n}\n.my-app-dark[_nghost-%COMP%]   .color-square[_ngcontent-%COMP%], .my-app-dark   [_nghost-%COMP%]   .color-square[_ngcontent-%COMP%] {\n  border: 1px solid var(--p-surface-border);\n  box-shadow: 0.5px 0.5px 4px 0px var(--p-surface-700);\n}\n.color-label[_ngcontent-%COMP%] {\n  font-size: 0.875rem;\n  color: var(--p-text-color);\n}\n.form-section[_ngcontent-%COMP%] {\n  margin-bottom: 2rem;\n}\n.form-section[_ngcontent-%COMP%]   h4[_ngcontent-%COMP%] {\n  margin-bottom: 1rem;\n  color: var(--p-text-color);\n  font-weight: 600;\n  border-bottom: 1px solid var(--p-surface-border);\n  padding-bottom: 0.5rem;\n}\n.input-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  gap: 1rem;\n}\n.preview-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n.preview-header[_ngcontent-%COMP%]   h4[_ngcontent-%COMP%] {\n  margin: 0;\n  border-bottom: none;\n  padding-bottom: 0;\n}\n.mode-toggle[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n}\n.preview-hint[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: var(--p-text-muted-color);\n  margin: 0.25rem 0 1rem;\n}\n.color-popover-content[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n  gap: 0.5rem;\n  padding: 0.5rem;\n  min-width: 220px;\n}\n.color-popover-label[_ngcontent-%COMP%] {\n  font-size: 0.875rem;\n  font-weight: 600;\n  color: var(--p-text-color);\n}\n.hex-input[_ngcontent-%COMP%] {\n  width: 100%;\n  text-transform: lowercase;\n}\n.palette-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.palette-section[_ngcontent-%COMP%]   .palette-title[_ngcontent-%COMP%] {\n  font-size: 0.875rem;\n  font-weight: 600;\n  color: var(--p-text-color);\n}\n.palette-section[_ngcontent-%COMP%]   .color-preview[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.25rem;\n}\n.dialog-loading[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1rem;\n  padding: 2rem;\n}\n.dialog-loading[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: var(--p-text-muted-color);\n}\n/*# sourceMappingURL=theme%20management.component.css.map */"], changeDetection: 0 });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ThemeManagementComponent, [{
@@ -85308,8 +86526,10 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
       ProgressSpinnerModule,
       TagModule,
       ColorPicker,
+      Popover,
       TextareaModule,
-      TranslatePipe
+      TranslatePipe,
+      MobileThemePreviewComponent
     ], providers: [ConfirmationService, MessageService], changeDetection: ChangeDetectionStrategy.OnPush, template: `<p-card [header]="'theme.header' | translate">\r
     <div class="card">\r
         <div class="action-container">\r
@@ -85472,42 +86692,39 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
             </div>\r
         </div>\r
 \r
-        <!-- Light Theme Palette -->\r
+        <!-- Interactive Theme Preview -->\r
         <div class="form-section">\r
-            <h4>{{'theme.palette.light' | translate}}</h4>\r
-            <div class="palette-grid" formGroupName="light">\r
-                @for (field of paletteFields; track field.key) {\r
-                <div class="color-field">\r
-                    <label [for]="'light-' + field.key" class="color-label">{{field.labelKey | translate}}</label>\r
-                    <p-colorpicker [formControlName]="field.key" [inputId]="'light-' + field.key"\r
-                        [disabled]="loading" />\r
-                    @if (hasError('light.' + field.key)) {\r
-                    <p-message severity="error" size="small" variant="simple">\r
-                        {{getErrorMessage('light.' + field.key)}}\r
-                    </p-message>\r
-                    }\r
+            <div class="preview-header">\r
+                <h4>{{'theme.preview.title' | translate}}</h4>\r
+                <div class="mode-toggle">\r
+                    <p-button type="button" size="small" [label]="'theme.palette.light' | translate"\r
+                        [outlined]="mode() !== 'light'" [disabled]="loading" (click)="mode.set('light')" />\r
+                    <p-button type="button" size="small" [label]="'theme.palette.dark' | translate"\r
+                        [outlined]="mode() !== 'dark'" [disabled]="loading" (click)="mode.set('dark')" />\r
                 </div>\r
-                }\r
             </div>\r
+            <p class="preview-hint">{{'theme.preview.hint' | translate}}</p>\r
+\r
+            <app-mobile-theme-preview [palette]="mode() === 'light' ? lightPalette() : darkPalette()"\r
+                [activeKey]="activePreviewKey()"\r
+                (regionClick)="openColorPicker($event.key, $event.sourceEvent)" />\r
         </div>\r
 \r
-        <!-- Dark Theme Palette -->\r
-        <div class="form-section">\r
-            <h4>{{'theme.palette.dark' | translate}}</h4>\r
-            <div class="palette-grid" formGroupName="dark">\r
-                @for (field of paletteFields; track field.key) {\r
-                <div class="color-field">\r
-                    <label [for]="'dark-' + field.key" class="color-label">{{field.labelKey | translate}}</label>\r
-                    <p-colorpicker [formControlName]="field.key" [inputId]="'dark-' + field.key" [disabled]="loading" />\r
-                    @if (hasError('dark.' + field.key)) {\r
-                    <p-message severity="error" size="small" variant="simple">\r
-                        {{getErrorMessage('dark.' + field.key)}}\r
-                    </p-message>\r
-                    }\r
-                </div>\r
+        <p-popover #colorPopover appendTo="body" (onHide)="onColorPopoverHide()">\r
+            @if (getActivePaletteControl(); as activeControl) {\r
+            <div class="color-popover-content">\r
+                <span class="color-popover-label">{{ getActivePaletteLabel() | translate }}</span>\r
+                <p-colorpicker [formControl]="activeControl" inline [disabled]="loading" />\r
+                <input pInputText type="text" [formControl]="activeControl" class="hex-input" maxlength="7"\r
+                    autocomplete="off" [disabled]="loading" />\r
+                @if (activePreviewKey() && hasError(mode() + '.' + activePreviewKey())) {\r
+                <p-message severity="error" size="small" variant="simple">\r
+                    {{getErrorMessage(mode() + '.' + activePreviewKey())}}\r
+                </p-message>\r
                 }\r
             </div>\r
-        </div>\r
+            }\r
+        </p-popover>\r
 \r
         <div class="dialog-footer">\r
             <p-button [label]="'theme.button.cancel' | translate" severity="secondary" type="button"\r
@@ -85520,11 +86737,14 @@ var ThemeManagementComponent = class _ThemeManagementComponent {
 </p-dialog>\r
 \r
 <p-toast />\r
-<p-confirmpopup />`, styles: ["/* src/app/features/application theme/theme management/theme management.component.scss */\n:host {\n  display: block;\n}\n.empty-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  font-size: 1rem;\n  font-weight: 600;\n}\n.action-container {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n  margin-block: 0.5rem;\n}\n.cursor-pointer {\n  cursor: pointer;\n}\n.table-actions {\n  display: flex;\n  gap: 0.5rem;\n  align-items: center;\n}\n.input-container {\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n  gap: 0.25rem;\n  margin-block: 0.75rem;\n}\n.input-container label span {\n  color: var(--p-red-700);\n}\n.dialog-footer {\n  display: flex;\n  justify-content: center;\n  gap: 0.75rem;\n  margin-block-start: 1.5rem;\n  padding-top: 1rem;\n}\n.color-display {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.color-item {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n.color-square {\n  width: 20px;\n  height: 20px;\n  border-radius: 4px;\n  border: 1px solid var(--p-surface-border);\n  box-shadow: 0.5px 0.5px 4px 0px var(--p-surface-400);\n  display: inline-block;\n  flex-shrink: 0;\n}\n:host-context(.my-app-dark) .color-square {\n  border: 1px solid var(--p-surface-border);\n  box-shadow: 0.5px 0.5px 4px 0px var(--p-surface-700);\n}\n.color-label {\n  font-size: 0.875rem;\n  color: var(--p-text-color);\n}\n.form-section {\n  margin-bottom: 2rem;\n}\n.form-section h4 {\n  margin-bottom: 1rem;\n  color: var(--p-text-color);\n  font-weight: 600;\n  border-bottom: 1px solid var(--p-surface-border);\n  padding-bottom: 0.5rem;\n}\n.input-grid {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  gap: 1rem;\n}\n.palette-grid {\n  display: grid;\n  grid-template-columns: repeat(5, minmax(200px, 1fr));\n  gap: 1rem;\n}\n.color-field {\n  display: flex;\n  align-items: flex-start;\n  flex-direction: column;\n  background:\n    linear-gradient(\n      45deg,\n      var(--p-neutral-200) 0%,\n      var(--p-neutral-100) 50%,\n      var(--p-neutral-50) 100%);\n  border: 2px dashed var(--p-neutral-300);\n  border-radius: 4px;\n  padding: 0.5rem;\n}\n:host-context(.my-app-dark) .color-field {\n  background:\n    linear-gradient(\n      45deg,\n      var(--p-neutral-900) 0%,\n      var(--p-neutral-800) 100%);\n  border: 2px dashed var(--p-neutral-800);\n}\n.color-field .color-label {\n  font-size: 0.875rem;\n  font-weight: 500;\n  color: var(--p-text-color);\n}\n.palette-section {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.palette-section .palette-title {\n  font-size: 0.875rem;\n  font-weight: 600;\n  color: var(--p-text-color);\n}\n.palette-section .color-preview {\n  display: flex;\n  gap: 0.25rem;\n}\n.dialog-loading {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1rem;\n  padding: 2rem;\n}\n.dialog-loading span {\n  color: var(--p-text-muted-color);\n}\n/*# sourceMappingURL=theme%20management.component.css.map */\n"] }]
-  }], () => [{ type: ThemeService }, { type: ChangeDetectorRef }, { type: ConfirmationService }, { type: MessageService }, { type: FormBuilder }, { type: LanguageService }], null);
+<p-confirmpopup />`, styles: ["/* src/app/features/application theme/theme management/theme management.component.scss */\n:host {\n  display: block;\n}\n.empty-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  font-size: 1rem;\n  font-weight: 600;\n}\n.action-container {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n  margin-block: 0.5rem;\n}\n.cursor-pointer {\n  cursor: pointer;\n}\n.table-actions {\n  display: flex;\n  gap: 0.5rem;\n  align-items: center;\n}\n.input-container {\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n  gap: 0.25rem;\n  margin-block: 0.75rem;\n}\n.input-container label span {\n  color: var(--p-red-700);\n}\n.dialog-footer {\n  display: flex;\n  justify-content: center;\n  gap: 0.75rem;\n  margin-block-start: 1.5rem;\n  padding-top: 1rem;\n}\n.color-display {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.color-item {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n.color-square {\n  width: 20px;\n  height: 20px;\n  border-radius: 4px;\n  border: 1px solid var(--p-surface-border);\n  box-shadow: 0.5px 0.5px 4px 0px var(--p-surface-400);\n  display: inline-block;\n  flex-shrink: 0;\n}\n:host-context(.my-app-dark) .color-square {\n  border: 1px solid var(--p-surface-border);\n  box-shadow: 0.5px 0.5px 4px 0px var(--p-surface-700);\n}\n.color-label {\n  font-size: 0.875rem;\n  color: var(--p-text-color);\n}\n.form-section {\n  margin-bottom: 2rem;\n}\n.form-section h4 {\n  margin-bottom: 1rem;\n  color: var(--p-text-color);\n  font-weight: 600;\n  border-bottom: 1px solid var(--p-surface-border);\n  padding-bottom: 0.5rem;\n}\n.input-grid {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  gap: 1rem;\n}\n.preview-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n.preview-header h4 {\n  margin: 0;\n  border-bottom: none;\n  padding-bottom: 0;\n}\n.mode-toggle {\n  display: flex;\n  gap: 0.5rem;\n}\n.preview-hint {\n  font-size: 0.8rem;\n  color: var(--p-text-muted-color);\n  margin: 0.25rem 0 1rem;\n}\n.color-popover-content {\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n  gap: 0.5rem;\n  padding: 0.5rem;\n  min-width: 220px;\n}\n.color-popover-label {\n  font-size: 0.875rem;\n  font-weight: 600;\n  color: var(--p-text-color);\n}\n.hex-input {\n  width: 100%;\n  text-transform: lowercase;\n}\n.palette-section {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.palette-section .palette-title {\n  font-size: 0.875rem;\n  font-weight: 600;\n  color: var(--p-text-color);\n}\n.palette-section .color-preview {\n  display: flex;\n  gap: 0.25rem;\n}\n.dialog-loading {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1rem;\n  padding: 2rem;\n}\n.dialog-loading span {\n  color: var(--p-text-muted-color);\n}\n/*# sourceMappingURL=theme%20management.component.css.map */\n"] }]
+  }], () => [{ type: ThemeService }, { type: ChangeDetectorRef }, { type: ConfirmationService }, { type: MessageService }, { type: FormBuilder }, { type: LanguageService }], { colorPopover: [{
+    type: ViewChild,
+    args: ["colorPopover"]
+  }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ThemeManagementComponent, { className: "ThemeManagementComponent", filePath: "src/app/features/application theme/theme management/theme management.component.ts", lineNumber: 67 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ThemeManagementComponent, { className: "ThemeManagementComponent", filePath: "src/app/features/application theme/theme management/theme management.component.ts", lineNumber: 81 });
 })();
 
 // src/app/shared/pipes/date-time.pipe.ts
@@ -85668,8 +86888,8 @@ var CustomerSupportService = class _CustomerSupportService {
 })();
 
 // src/app/features/customer-support/customer-support-mangement/customer-support-mangement.component.ts
-var _c076 = () => [10, 25, 50];
-var _c151 = () => ({ width: "40rem" });
+var _c077 = () => [10, 25, 50];
+var _c156 = () => ({ width: "40rem" });
 function CustomerSupportMangementComponent_ng_template_4_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "tr")(1, "th", 7);
@@ -86167,9 +87387,9 @@ var CustomerSupportMangementComponent = class _CustomerSupportMangementComponent
     if (rf & 2) {
       \u0275\u0275property("header", \u0275\u0275pipeBind1(1, 21, "customerSupport.header"));
       \u0275\u0275advance(3);
-      \u0275\u0275property("value", ctx.contacts)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(25, _c076))("loading", ctx.loading)("showCurrentPageReport", true);
+      \u0275\u0275property("value", ctx.contacts)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(25, _c077))("loading", ctx.loading)("showCurrentPageReport", true);
       \u0275\u0275advance(6);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(26, _c151));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(26, _c156));
       \u0275\u0275property("header", \u0275\u0275pipeBind1(10, 23, "customerSupport.dialog.header"))("modal", true);
       \u0275\u0275twoWayProperty("visible", ctx.viewDialogVisible);
       \u0275\u0275property("closable", !ctx.loading)("draggable", false)("resizable", false);
@@ -86495,10 +87715,10 @@ var UsersService = class _UsersService {
 })();
 
 // src/app/features/users/user-account-management/user-account-management.component.ts
-var _c077 = () => ({ width: "100%" });
-var _c156 = () => [10, 25, 50];
-var _c236 = () => ({ width: "45rem" });
-var _c325 = (a0) => ({ keyword: a0 });
+var _c078 = () => ({ width: "100%" });
+var _c157 = () => [10, 25, 50];
+var _c237 = () => ({ width: "45rem" });
+var _c327 = (a0) => ({ keyword: a0 });
 function UserAccountManagementComponent_ng_template_15_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "tr")(1, "th", 14);
@@ -86726,7 +87946,7 @@ function UserAccountManagementComponent_ng_template_19_Conditional_2_Template(rf
   if (rf & 2) {
     const ctx_r3 = \u0275\u0275nextContext(2);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 1, "users.empty.search", \u0275\u0275pureFunction1(4, _c325, ctx_r3.searchKeyword)));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 1, "users.empty.search", \u0275\u0275pureFunction1(4, _c327, ctx_r3.searchKeyword)));
   }
 }
 function UserAccountManagementComponent_ng_template_19_Conditional_3_Template(rf, ctx) {
@@ -87372,7 +88592,7 @@ var UserAccountManagementComponent = class _UserAccountManagementComponent {
     if (rf & 2) {
       \u0275\u0275property("header", \u0275\u0275pipeBind1(1, 39, "users.header"));
       \u0275\u0275advance(6);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(51, _c077));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(51, _c078));
       \u0275\u0275property("placeholder", \u0275\u0275pipeBind1(7, 41, "users.filters.searchPlaceholder"));
       \u0275\u0275twoWayProperty("ngModel", ctx.searchKeyword);
       \u0275\u0275property("disabled", ctx.loading);
@@ -87387,9 +88607,9 @@ var UserAccountManagementComponent = class _UserAccountManagementComponent {
       \u0275\u0275advance(2);
       \u0275\u0275property("label", \u0275\u0275pipeBind1(13, 47, "users.button.export"))("disabled", ctx.loading);
       \u0275\u0275advance(2);
-      \u0275\u0275property("value", ctx.users)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(52, _c156))("loading", ctx.loading)("showCurrentPageReport", true);
+      \u0275\u0275property("value", ctx.users)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(52, _c157))("loading", ctx.loading)("showCurrentPageReport", true);
       \u0275\u0275advance(6);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(53, _c236));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(53, _c237));
       \u0275\u0275property("header", \u0275\u0275pipeBind1(21, 49, "users.dialog.title"))("modal", true);
       \u0275\u0275twoWayProperty("visible", ctx.viewDialogVisible);
       \u0275\u0275property("closable", !ctx.loading)("draggable", false)("resizable", false);
@@ -88413,20 +89633,20 @@ function niceNum(range) {
   return niceFraction * niceRange;
 }
 function _factorize(value) {
-  const result = [];
+  const result2 = [];
   const sqrt = Math.sqrt(value);
   let i30;
   for (i30 = 1; i30 < sqrt; i30++) {
     if (value % i30 === 0) {
-      result.push(i30);
-      result.push(value / i30);
+      result2.push(i30);
+      result2.push(value / i30);
     }
   }
   if (sqrt === (sqrt | 0)) {
-    result.push(sqrt);
+    result2.push(sqrt);
   }
-  result.sort((a44, b8) => a44 - b8).pop();
-  return result;
+  result2.sort((a44, b8) => a44 - b8).pop();
+  return result2;
 }
 function isNonPrimitive(n39) {
   return typeof n39 === "symbol" || typeof n39 === "object" && n39 !== null && !(Symbol.toPrimitive in n39 || "toString" in n39 || "valueOf" in n39);
@@ -89206,17 +90426,17 @@ function drawPoint(ctx, options, x2, y3) {
 }
 function drawPointLegend(ctx, options, x2, y3, w3) {
   let type, xOffset, yOffset, size, cornerRadius, width, xOffsetW, yOffsetW;
-  const style38 = options.pointStyle;
+  const style37 = options.pointStyle;
   const rotation = options.rotation;
   const radius = options.radius;
   let rad = (rotation || 0) * RAD_PER_DEG;
-  if (style38 && typeof style38 === "object") {
-    type = style38.toString();
+  if (style37 && typeof style37 === "object") {
+    type = style37.toString();
     if (type === "[object HTMLImageElement]" || type === "[object HTMLCanvasElement]") {
       ctx.save();
       ctx.translate(x2, y3);
       ctx.rotate(rad);
-      ctx.drawImage(style38, -style38.width / 2, -style38.height / 2, style38.width, style38.height);
+      ctx.drawImage(style37, -style37.width / 2, -style37.height / 2, style37.width, style37.height);
       ctx.restore();
       return;
     }
@@ -89225,7 +90445,7 @@ function drawPointLegend(ctx, options, x2, y3, w3) {
     return;
   }
   ctx.beginPath();
-  switch (style38) {
+  switch (style37) {
     // Default includes circle
     default:
       if (w3) {
@@ -89498,16 +90718,16 @@ function toFont(options, fallback) {
   if (typeof size === "string") {
     size = parseInt(size, 10);
   }
-  let style38 = valueOrDefault(options.style, fallback.style);
-  if (style38 && !("" + style38).match(FONT_STYLE)) {
-    console.warn('Invalid font style specified: "' + style38 + '"');
-    style38 = void 0;
+  let style37 = valueOrDefault(options.style, fallback.style);
+  if (style37 && !("" + style37).match(FONT_STYLE)) {
+    console.warn('Invalid font style specified: "' + style37 + '"');
+    style37 = void 0;
   }
   const font = {
     family: valueOrDefault(options.family, fallback.family),
     lineHeight: toLineHeight(valueOrDefault(options.lineHeight, fallback.lineHeight), size),
     size,
-    style: style38,
+    style: style37,
     weight: valueOrDefault(options.weight, fallback.weight),
     string: ""
   };
@@ -90038,16 +91258,16 @@ var positions = [
   "bottom",
   "left"
 ];
-function getPositionedStyle(styles, style38, suffix) {
-  const result = {};
+function getPositionedStyle(styles, style37, suffix) {
+  const result2 = {};
   suffix = suffix ? "-" + suffix : "";
   for (let i30 = 0; i30 < 4; i30++) {
     const pos = positions[i30];
-    result[pos] = parseFloat(styles[style38 + "-" + pos + suffix]) || 0;
+    result2[pos] = parseFloat(styles[style37 + "-" + pos + suffix]) || 0;
   }
-  result.width = result.left + result.right;
-  result.height = result.top + result.bottom;
-  return result;
+  result2.width = result2.left + result2.right;
+  result2.height = result2.top + result2.bottom;
+  return result2;
 }
 var useOffsetPos = (x2, y3, target) => (x2 > 0 || y3 > 0) && (!target || !target.shadowRoot);
 function getCanvasPosition(e59, canvas) {
@@ -90076,10 +91296,10 @@ function getRelativePosition(event2, chart) {
     return event2;
   }
   const { canvas, currentDevicePixelRatio } = chart;
-  const style38 = getComputedStyle2(canvas);
-  const borderBox = style38.boxSizing === "border-box";
-  const paddings = getPositionedStyle(style38, "padding");
-  const borders = getPositionedStyle(style38, "border", "width");
+  const style37 = getComputedStyle2(canvas);
+  const borderBox = style37.boxSizing === "border-box";
+  const paddings = getPositionedStyle(style37, "padding");
+  const borders = getPositionedStyle(style37, "border", "width");
   const { x: x2, y: y3, box } = getCanvasPosition(event2, canvas);
   const xOffset = paddings.left + (box && borders.left);
   const yOffset = paddings.top + (box && borders.top);
@@ -90120,15 +91340,15 @@ function getContainerSize(canvas, width, height) {
 }
 var round1 = (v5) => Math.round(v5 * 10) / 10;
 function getMaximumSize(canvas, bbWidth, bbHeight, aspectRatio) {
-  const style38 = getComputedStyle2(canvas);
-  const margins = getPositionedStyle(style38, "margin");
-  const maxWidth = parseMaxStyle(style38.maxWidth, canvas, "clientWidth") || INFINITY;
-  const maxHeight = parseMaxStyle(style38.maxHeight, canvas, "clientHeight") || INFINITY;
+  const style37 = getComputedStyle2(canvas);
+  const margins = getPositionedStyle(style37, "margin");
+  const maxWidth = parseMaxStyle(style37.maxWidth, canvas, "clientWidth") || INFINITY;
+  const maxHeight = parseMaxStyle(style37.maxHeight, canvas, "clientHeight") || INFINITY;
   const containerSize = getContainerSize(canvas, bbWidth, bbHeight);
   let { width, height } = containerSize;
-  if (style38.boxSizing === "content-box") {
-    const borders = getPositionedStyle(style38, "border", "width");
-    const paddings = getPositionedStyle(style38, "padding");
+  if (style37.boxSizing === "content-box") {
+    const borders = getPositionedStyle(style37, "border", "width");
+    const paddings = getPositionedStyle(style37, "padding");
     width -= paddings.width + borders.width;
     height -= paddings.height + borders.height;
   }
@@ -90263,14 +91483,14 @@ function getRtlAdapter(rtl, rectX, width) {
   return rtl ? getRightToLeftAdapter(rectX, width) : getLeftToRightAdapter();
 }
 function overrideTextDirection(ctx, direction) {
-  let style38, original;
+  let style37, original;
   if (direction === "ltr" || direction === "rtl") {
-    style38 = ctx.canvas.style;
+    style37 = ctx.canvas.style;
     original = [
-      style38.getPropertyValue("direction"),
-      style38.getPropertyPriority("direction")
+      style37.getPropertyValue("direction"),
+      style37.getPropertyPriority("direction")
     ];
-    style38.setProperty("direction", direction, "important");
+    style37.setProperty("direction", direction, "important");
     ctx.prevTextDirection = original;
   }
 }
@@ -90294,12 +91514,12 @@ function propertyFn(property) {
     normalize: (x2) => x2
   };
 }
-function normalizeSegment({ start, end, count, loop, style: style38 }) {
+function normalizeSegment({ start, end, count, loop, style: style37 }) {
   return {
     start: start % count,
     end: end % count,
     loop: loop && (end - start + 1) % count === 0,
-    style: style38
+    style: style37
   };
 }
 function getSegment(segment, points, bounds) {
@@ -90340,8 +91560,8 @@ function _boundSegment(segment, points, bounds) {
   const { property, start: startBound, end: endBound } = bounds;
   const count = points.length;
   const { compare: compare2, between, normalize } = propertyFn(property);
-  const { start, end, loop, style: style38 } = getSegment(segment, points, bounds);
-  const result = [];
+  const { start, end, loop, style: style37 } = getSegment(segment, points, bounds);
+  const result2 = [];
   let inside = false;
   let subStart = null;
   let value, point, prevValue;
@@ -90363,12 +91583,12 @@ function _boundSegment(segment, points, bounds) {
       subStart = compare2(value, startBound) === 0 ? i30 : prev;
     }
     if (subStart !== null && shouldStop()) {
-      result.push(normalizeSegment({
+      result2.push(normalizeSegment({
         start: subStart,
         end: i30,
         loop,
         count,
-        style: style38
+        style: style37
       }));
       subStart = null;
     }
@@ -90376,26 +91596,26 @@ function _boundSegment(segment, points, bounds) {
     prevValue = value;
   }
   if (subStart !== null) {
-    result.push(normalizeSegment({
+    result2.push(normalizeSegment({
       start: subStart,
       end,
       loop,
       count,
-      style: style38
+      style: style37
     }));
   }
-  return result;
+  return result2;
 }
 function _boundSegments(line, bounds) {
-  const result = [];
+  const result2 = [];
   const segments = line.segments;
   for (let i30 = 0; i30 < segments.length; i30++) {
     const sub = _boundSegment(segments[i30], line.points, bounds);
     if (sub.length) {
-      result.push(...sub);
+      result2.push(...sub);
     }
   }
-  return result;
+  return result2;
 }
 function findStartAndEnd(points, count, loop, spanGaps) {
   let start = 0;
@@ -90423,7 +91643,7 @@ function findStartAndEnd(points, count, loop, spanGaps) {
 }
 function solidSegments(points, start, max, loop) {
   const count = points.length;
-  const result = [];
+  const result2 = [];
   let last3 = start;
   let prev = points[start];
   let end;
@@ -90432,7 +91652,7 @@ function solidSegments(points, start, max, loop) {
     if (cur.skip || cur.stop) {
       if (!prev.skip) {
         loop = false;
-        result.push({
+        result2.push({
           start: start % count,
           end: (end - 1) % count,
           loop
@@ -90448,13 +91668,13 @@ function solidSegments(points, start, max, loop) {
     prev = cur;
   }
   if (last3 !== null) {
-    result.push({
+    result2.push({
       start: start % count,
       end: last3 % count,
       loop
     });
   }
-  return result;
+  return result2;
 }
 function _computeSegments(line, segmentOptions) {
   const points = line.points;
@@ -90489,7 +91709,7 @@ function doSplitByStyles(line, segments, points, segmentOptions) {
   const baseStyle = readStyle(line.options);
   const { _datasetIndex: datasetIndex, options: { spanGaps } } = line;
   const count = points.length;
-  const result = [];
+  const result2 = [];
   let prevStyle = baseStyle;
   let start = segments[0].start;
   let i30 = start;
@@ -90506,7 +91726,7 @@ function doSplitByStyles(line, segments, points, segmentOptions) {
       e59 += dir;
     }
     if (s14 % count !== e59 % count) {
-      result.push({
+      result2.push({
         start: s14 % count,
         end: e59 % count,
         loop: l19,
@@ -90519,10 +91739,10 @@ function doSplitByStyles(line, segments, points, segmentOptions) {
   for (const segment of segments) {
     start = spanGaps ? start : segment.start;
     let prev = points[start % count];
-    let style38;
+    let style37;
     for (i30 = start + 1; i30 <= segment.end; i30++) {
       const pt = points[i30 % count];
-      style38 = readStyle(segmentOptions.setContext(createContext(chartContext, {
+      style37 = readStyle(segmentOptions.setContext(createContext(chartContext, {
         type: "segment",
         p0: prev,
         p1: pt,
@@ -90530,17 +91750,17 @@ function doSplitByStyles(line, segments, points, segmentOptions) {
         p1DataIndex: i30 % count,
         datasetIndex
       })));
-      if (styleChanged(style38, prevStyle)) {
+      if (styleChanged(style37, prevStyle)) {
         addStyle(start, i30 - 1, segment.loop, prevStyle);
       }
       prev = pt;
-      prevStyle = style38;
+      prevStyle = style37;
     }
     if (start < i30 - 1) {
       addStyle(start, i30 - 1, segment.loop, prevStyle);
     }
   }
-  return result;
+  return result2;
 }
 function readStyle(options) {
   return {
@@ -90553,7 +91773,7 @@ function readStyle(options) {
     borderColor: options.borderColor
   };
 }
-function styleChanged(style38, prevStyle) {
+function styleChanged(style37, prevStyle) {
   if (!prevStyle) {
     return false;
   }
@@ -90567,7 +91787,7 @@ function styleChanged(style38, prevStyle) {
     }
     return cache.indexOf(value);
   };
-  return JSON.stringify(style38, replacer) !== JSON.stringify(prevStyle, replacer);
+  return JSON.stringify(style37, replacer) !== JSON.stringify(prevStyle, replacer);
 }
 function getSizeForArea(scale, chartArea, field) {
   return scale.options.clip ? scale[field] : chartArea[field];
@@ -92445,20 +93665,20 @@ var DoughnutController = class extends DatasetController {
             if (data.labels.length && data.datasets.length) {
               return data.labels.map((label, i30) => {
                 const meta = chart.getDatasetMeta(0);
-                const style38 = meta.controller.getStyle(i30);
+                const style37 = meta.controller.getStyle(i30);
                 return {
                   text: label,
-                  fillStyle: style38.backgroundColor,
+                  fillStyle: style37.backgroundColor,
                   fontColor: color2,
                   hidden: !chart.getDataVisibility(i30),
-                  lineDash: style38.borderDash,
-                  lineDashOffset: style38.borderDashOffset,
-                  lineJoin: style38.borderJoinStyle,
-                  lineWidth: style38.borderWidth,
-                  strokeStyle: style38.borderColor,
+                  lineDash: style37.borderDash,
+                  lineDashOffset: style37.borderDashOffset,
+                  lineJoin: style37.borderJoinStyle,
+                  lineWidth: style37.borderWidth,
+                  strokeStyle: style37.borderColor,
                   textAlign,
                   pointStyle,
-                  borderRadius: useBorderRadius && (borderRadius || style38.borderRadius),
+                  borderRadius: useBorderRadius && (borderRadius || style37.borderRadius),
                   index: i30
                 };
               });
@@ -92811,13 +94031,13 @@ var PolarAreaController = class extends DatasetController {
               const { labels: { pointStyle, color: color2 } } = chart.legend.options;
               return data.labels.map((label, i30) => {
                 const meta = chart.getDatasetMeta(0);
-                const style38 = meta.controller.getStyle(i30);
+                const style37 = meta.controller.getStyle(i30);
                 return {
                   text: label,
-                  fillStyle: style38.backgroundColor,
-                  strokeStyle: style38.borderColor,
+                  fillStyle: style37.backgroundColor,
+                  strokeStyle: style37.borderColor,
                   fontColor: color2,
-                  lineWidth: style38.borderWidth,
+                  lineWidth: style37.borderWidth,
                   pointStyle,
                   hidden: !chart.getDataVisibility(i30),
                   index: i30
@@ -93233,16 +94453,16 @@ function binarySearch(metaset, axis, value, intersect) {
   if (iScale && axis === iScale.axis && axis !== "r" && _sorted && data.length) {
     const lookupMethod = iScale._reversePixels ? _rlookupByKey : _lookupByKey;
     if (!intersect) {
-      const result = lookupMethod(data, axis, value);
+      const result2 = lookupMethod(data, axis, value);
       if (spanGaps) {
         const { vScale } = controller._cachedMeta;
         const { _parsed } = metaset;
-        const distanceToDefinedLo = _parsed.slice(0, result.lo + 1).reverse().findIndex((point) => !isNullOrUndef(point[vScale.axis]));
-        result.lo -= Math.max(0, distanceToDefinedLo);
-        const distanceToDefinedHi = _parsed.slice(result.hi).findIndex((point) => !isNullOrUndef(point[vScale.axis]));
-        result.hi += Math.max(0, distanceToDefinedHi);
+        const distanceToDefinedLo = _parsed.slice(0, result2.lo + 1).reverse().findIndex((point) => !isNullOrUndef(point[vScale.axis]));
+        result2.lo -= Math.max(0, distanceToDefinedLo);
+        const distanceToDefinedHi = _parsed.slice(result2.hi).findIndex((point) => !isNullOrUndef(point[vScale.axis]));
+        result2.hi += Math.max(0, distanceToDefinedHi);
       }
-      return result;
+      return result2;
     } else if (controller._sharedOptions) {
       const el = data[0];
       const range = typeof el.getRange === "function" && el.getRange(axis);
@@ -93832,7 +95052,7 @@ var EVENT_TYPES = {
 };
 var isNullOrEmpty = (value) => value === null || value === "";
 function initCanvas(canvas, aspectRatio) {
-  const style38 = canvas.style;
+  const style37 = canvas.style;
   const renderHeight = canvas.getAttribute("height");
   const renderWidth = canvas.getAttribute("width");
   canvas[EXPANDO_KEY] = {
@@ -93840,14 +95060,14 @@ function initCanvas(canvas, aspectRatio) {
       height: renderHeight,
       width: renderWidth,
       style: {
-        display: style38.display,
-        height: style38.height,
-        width: style38.width
+        display: style37.display,
+        height: style37.height,
+        width: style37.width
       }
     }
   };
-  style38.display = style38.display || "block";
-  style38.boxSizing = style38.boxSizing || "border-box";
+  style37.display = style37.display || "block";
+  style37.boxSizing = style37.boxSizing || "border-box";
   if (isNullOrEmpty(renderWidth)) {
     const displayWidth = readUsedSize(canvas, "width");
     if (displayWidth !== void 0) {
@@ -94029,9 +95249,9 @@ var DomPlatform = class extends BasePlatform {
         canvas.setAttribute(prop, value);
       }
     });
-    const style38 = initial.style || {};
-    Object.keys(style38).forEach((key) => {
-      canvas.style[key] = style38[key];
+    const style37 = initial.style || {};
+    Object.keys(style37).forEach((key) => {
+      canvas.style[key] = style37[key];
     });
     canvas.width = canvas.width;
     delete canvas[EXPANDO_KEY];
@@ -94163,14 +95383,14 @@ function calculateSpacing(majorIndices, ticks, ticksLimit) {
   return Math.max(spacing, 1);
 }
 function getMajorIndices(ticks) {
-  const result = [];
+  const result2 = [];
   let i30, ilen;
   for (i30 = 0, ilen = ticks.length; i30 < ilen; i30++) {
     if (ticks[i30].major) {
-      result.push(i30);
+      result2.push(i30);
     }
   }
-  return result;
+  return result2;
 }
 function skipMajors(ticks, newTicks, majorIndices, spacing) {
   let count = 0;
@@ -94225,14 +95445,14 @@ var reverseAlign = (align) => align === "left" ? "right" : align === "right" ? "
 var offsetFromEdge = (scale, edge, offset) => edge === "top" || edge === "left" ? scale[edge] + offset : scale[edge] - offset;
 var getTicksLimit = (ticksLength, maxTicksLimit) => Math.min(maxTicksLimit || ticksLength, ticksLength);
 function sample(arr, numItems) {
-  const result = [];
+  const result2 = [];
   const increment = arr.length / numItems;
   const len = arr.length;
   let i30 = 0;
   for (; i30 < len; i30 += increment) {
-    result.push(arr[Math.floor(i30)]);
+    result2.push(arr[Math.floor(i30)]);
   }
-  return result;
+  return result2;
 }
 function getPixelForGridLine(scale, index2, offsetGridLines) {
   const length = scale.ticks.length;
@@ -95301,15 +96521,15 @@ var Scale = class _Scale extends Element2 {
     const ctx = this.ctx;
     const items = this._gridLineItems || (this._gridLineItems = this._computeGridLineItems(chartArea));
     let i30, ilen;
-    const drawLine = (p1, p22, style38) => {
-      if (!style38.width || !style38.color) {
+    const drawLine = (p1, p22, style37) => {
+      if (!style37.width || !style37.color) {
         return;
       }
       ctx.save();
-      ctx.lineWidth = style38.width;
-      ctx.strokeStyle = style38.color;
-      ctx.setLineDash(style38.borderDash || []);
-      ctx.lineDashOffset = style38.borderDashOffset;
+      ctx.lineWidth = style37.width;
+      ctx.strokeStyle = style37.color;
+      ctx.setLineDash(style37.borderDash || []);
+      ctx.lineDashOffset = style37.borderDashOffset;
       ctx.beginPath();
       ctx.moveTo(p1.x, p1.y);
       ctx.lineTo(p22.x, p22.y);
@@ -95476,15 +96696,15 @@ var Scale = class _Scale extends Element2 {
   getMatchingVisibleMetas(type) {
     const metas = this.chart.getSortedVisibleDatasetMetas();
     const axisID = this.axis + "AxisID";
-    const result = [];
+    const result2 = [];
     let i30, ilen;
     for (i30 = 0, ilen = metas.length; i30 < ilen; ++i30) {
       const meta = metas[i30];
       if (meta[axisID] === this.id && (!type || meta.type === type)) {
-        result.push(meta);
+        result2.push(meta);
       }
     }
-    return result;
+    return result2;
   }
   _resolveTickFontOptions(index2) {
     const opts = this.options.ticks.setContext(this.getContext(index2));
@@ -95681,13 +96901,13 @@ var PluginService = class {
       return;
     }
     const descriptors2 = filter2 ? this._descriptors(chart).filter(filter2) : this._descriptors(chart);
-    const result = this._notify(descriptors2, chart, hook, args);
+    const result2 = this._notify(descriptors2, chart, hook, args);
     if (hook === "afterDestroy") {
       this._notify(descriptors2, chart, "stop");
       this._notify(this._init, chart, "uninstall");
       this._init = void 0;
     }
-    return result;
+    return result2;
   }
   _notify(descriptors2, chart, hook, args) {
     args = args || {};
@@ -95763,7 +96983,7 @@ function getOpts(options, all) {
   return options;
 }
 function createDescriptors(chart, { plugins: plugins2, localIds }, options, all) {
-  const result = [];
+  const result2 = [];
   const context = chart.getContext();
   for (const plugin of plugins2) {
     const id = plugin.id;
@@ -95771,7 +96991,7 @@ function createDescriptors(chart, { plugins: plugins2, localIds }, options, all)
     if (opts === null) {
       continue;
     }
-    result.push({
+    result2.push({
       plugin,
       options: pluginOpts(chart.config, {
         plugin,
@@ -95779,7 +96999,7 @@ function createDescriptors(chart, { plugins: plugins2, localIds }, options, all)
       }, opts, context)
     });
   }
-  return result;
+  return result2;
 }
 function pluginOpts(config, { plugin, local }, opts, context) {
   const keys = config.pluginScopeKeys(plugin);
@@ -96072,21 +97292,21 @@ var Config = class {
   resolveNamedOptions(scopes, names2, context, prefixes = [
     ""
   ]) {
-    const result = {
+    const result2 = {
       $shared: true
     };
     const { resolver, subPrefixes } = getResolver2(this._resolverCache, scopes, prefixes);
     let options = resolver;
     if (needContext(resolver, names2)) {
-      result.$shared = false;
+      result2.$shared = false;
       context = isFunction2(context) ? context() : context;
       const subResolver = this.createResolver(scopes, context, subPrefixes);
       options = _attachContext(resolver, context, subResolver);
     }
     for (const prop of names2) {
-      result[prop] = options[prop];
+      result2[prop] = options[prop];
     }
-    return result;
+    return result2;
   }
   createResolver(scopes, context, prefixes = [
     ""
@@ -96666,15 +97886,15 @@ var Chart = class {
   }
   _getSortedDatasetMetas(filterVisible) {
     const metasets = this._sortedMetasets;
-    const result = [];
+    const result2 = [];
     let i30, ilen;
     for (i30 = 0, ilen = metasets.length; i30 < ilen; ++i30) {
       const meta = metasets[i30];
       if (!filterVisible || meta.visible) {
-        result.push(meta);
+        result2.push(meta);
       }
     }
-    return result;
+    return result2;
   }
   getSortedVisibleDatasetMetas() {
     return this._getSortedDatasetMetas(true);
@@ -97316,13 +98536,13 @@ var ArcElement = class extends Element2 {
     ctx.restore();
   }
 };
-function setStyle(ctx, options, style38 = options) {
-  ctx.lineCap = valueOrDefault(style38.borderCapStyle, options.borderCapStyle);
-  ctx.setLineDash(valueOrDefault(style38.borderDash, options.borderDash));
-  ctx.lineDashOffset = valueOrDefault(style38.borderDashOffset, options.borderDashOffset);
-  ctx.lineJoin = valueOrDefault(style38.borderJoinStyle, options.borderJoinStyle);
-  ctx.lineWidth = valueOrDefault(style38.borderWidth, options.borderWidth);
-  ctx.strokeStyle = valueOrDefault(style38.borderColor, options.borderColor);
+function setStyle(ctx, options, style37 = options) {
+  ctx.lineCap = valueOrDefault(style37.borderCapStyle, options.borderCapStyle);
+  ctx.setLineDash(valueOrDefault(style37.borderDash, options.borderDash));
+  ctx.lineDashOffset = valueOrDefault(style37.borderDashOffset, options.borderDashOffset);
+  ctx.lineJoin = valueOrDefault(style37.borderJoinStyle, options.borderJoinStyle);
+  ctx.lineWidth = valueOrDefault(style37.borderWidth, options.borderWidth);
+  ctx.strokeStyle = valueOrDefault(style37.borderColor, options.borderColor);
 }
 function lineTo(ctx, previous, target) {
   ctx.lineTo(target.x, target.y);
@@ -97551,7 +98771,7 @@ var LineElement = class extends Element2 {
     if (!segments.length) {
       return;
     }
-    const result = [];
+    const result2 = [];
     const _interpolate = _getInterpolationMethod(options);
     let i30, ilen;
     for (i30 = 0, ilen = segments.length; i30 < ilen; ++i30) {
@@ -97559,15 +98779,15 @@ var LineElement = class extends Element2 {
       const p1 = points[start];
       const p22 = points[end];
       if (p1 === p22) {
-        result.push(p1);
+        result2.push(p1);
         continue;
       }
       const t44 = Math.abs((value - p1[property]) / (p22[property] - p1[property]));
       const interpolated = _interpolate(p1, p22, t44, options.stepped);
       interpolated[property] = point[property];
-      result.push(interpolated);
+      result2.push(interpolated);
     }
-    return result.length === 1 ? result[0] : result;
+    return result2.length === 1 ? result2[0] : result2;
   }
   pathSegment(ctx, segment, params) {
     const segmentMethod = _getSegmentMethod(this);
@@ -99308,23 +100528,23 @@ var plugin_legend = {
         const datasets = chart.data.datasets;
         const { labels: { usePointStyle, pointStyle, textAlign, color: color2, useBorderRadius, borderRadius } } = chart.legend.options;
         return chart._getSortedDatasetMetas().map((meta) => {
-          const style38 = meta.controller.getStyle(usePointStyle ? 0 : void 0);
-          const borderWidth = toPadding(style38.borderWidth);
+          const style37 = meta.controller.getStyle(usePointStyle ? 0 : void 0);
+          const borderWidth = toPadding(style37.borderWidth);
           return {
             text: datasets[meta.index].label,
-            fillStyle: style38.backgroundColor,
+            fillStyle: style37.backgroundColor,
             fontColor: color2,
             hidden: !meta.visible,
-            lineCap: style38.borderCapStyle,
-            lineDash: style38.borderDash,
-            lineDashOffset: style38.borderDashOffset,
-            lineJoin: style38.borderJoinStyle,
+            lineCap: style37.borderCapStyle,
+            lineDash: style37.borderDash,
+            lineDashOffset: style37.borderDashOffset,
+            lineJoin: style37.borderJoinStyle,
             lineWidth: (borderWidth.width + borderWidth.height) / 4,
-            strokeStyle: style38.borderColor,
-            pointStyle: pointStyle || style38.pointStyle,
-            rotation: style38.rotation,
-            textAlign: textAlign || style38.textAlign,
-            borderRadius: useBorderRadius && (borderRadius || style38.borderRadius),
+            strokeStyle: style37.borderColor,
+            pointStyle: pointStyle || style37.pointStyle,
+            rotation: style37.rotation,
+            textAlign: textAlign || style37.textAlign,
+            borderRadius: useBorderRadius && (borderRadius || style37.borderRadius),
             datasetIndex: meta.index
           };
         }, this);
@@ -99835,11 +101055,11 @@ var defaultCallbacks = {
   afterFooter: noop2
 };
 function invokeCallbackWithFallback(callbacks, name, ctx, arg) {
-  const result = callbacks[name].call(ctx, arg);
-  if (typeof result === "undefined") {
+  const result2 = callbacks[name].call(ctx, arg);
+  if (typeof result2 === "undefined") {
     return defaultCallbacks[name].call(ctx, arg);
   }
-  return result;
+  return result2;
 }
 var Tooltip2 = class extends Element2 {
   static positioners = positioners;
@@ -102109,12 +103329,12 @@ var inlineStyles6 = {
     height: instance.height
   })
 };
-var classes32 = {
+var classes33 = {
   root: "p-chart"
 };
 var ChartStyle = class _ChartStyle extends BaseStyle {
   name = "chart";
-  classes = classes32;
+  classes = classes33;
   inlineStyles = inlineStyles6;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275ChartStyle_BaseFactory;
@@ -103362,10 +104582,10 @@ var ReportsService = class _ReportsService {
 })();
 
 // src/app/features/reports/reports-mangement/reports-mangement.component.ts
-var _c078 = () => [10, 25, 50];
-var _c157 = () => ({ width: "50rem" });
-var _c237 = () => ({ width: "30rem" });
-var _c326 = (a0) => ({ count: a0 });
+var _c079 = () => [10, 25, 50];
+var _c158 = () => ({ width: "50rem" });
+var _c238 = () => ({ width: "30rem" });
+var _c328 = (a0) => ({ count: a0 });
 function ReportsMangementComponent_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
@@ -103380,7 +104600,7 @@ function ReportsMangementComponent_Conditional_12_Template(rf, ctx) {
   }
   if (rf & 2) {
     const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275property("label", \u0275\u0275pipeBind2(1, 2, "reports.bulk.changeStatus", \u0275\u0275pureFunction1(5, _c326, ctx_r2.selectedReports.length)))("disabled", ctx_r2.loading);
+    \u0275\u0275property("label", \u0275\u0275pipeBind2(1, 2, "reports.bulk.changeStatus", \u0275\u0275pureFunction1(5, _c328, ctx_r2.selectedReports.length)))("disabled", ctx_r2.loading);
   }
 }
 function ReportsMangementComponent_ng_template_15_Template(rf, ctx) {
@@ -104396,16 +105616,16 @@ var ReportsMangementComponent = class _ReportsMangementComponent {
       \u0275\u0275advance();
       \u0275\u0275property("value", ctx.reports);
       \u0275\u0275twoWayProperty("selection", ctx.selectedReports);
-      \u0275\u0275property("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", \u0275\u0275pipeBind1(14, 83, "table.currentPageReport"))("rowsPerPageOptions", \u0275\u0275pureFunction0(105, _c078))("loading", ctx.loading)("showCurrentPageReport", true);
+      \u0275\u0275property("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", \u0275\u0275pipeBind1(14, 83, "table.currentPageReport"))("rowsPerPageOptions", \u0275\u0275pureFunction0(105, _c079))("loading", ctx.loading)("showCurrentPageReport", true);
       \u0275\u0275advance(7);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(106, _c157));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(106, _c158));
       \u0275\u0275property("header", \u0275\u0275pipeBind1(21, 85, "reports.dialog.view.title"))("modal", true);
       \u0275\u0275twoWayProperty("visible", ctx.viewDialogVisible);
       \u0275\u0275property("closable", !ctx.loading)("draggable", false)("resizable", false);
       \u0275\u0275advance(2);
       \u0275\u0275conditional(ctx.selectedReport ? 22 : -1);
       \u0275\u0275advance();
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(107, _c237));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(107, _c238));
       \u0275\u0275property("header", \u0275\u0275pipeBind1(24, 87, "reports.dialog.status.title"))("modal", true);
       \u0275\u0275twoWayProperty("visible", ctx.statusDialogVisible);
       \u0275\u0275property("closable", !ctx.loading)("draggable", false)("resizable", false);
@@ -104827,11 +106047,11 @@ var UserVerificationsService = class _UserVerificationsService {
 })();
 
 // src/app/features/users/user-verifications/user-verifications.component.ts
-var _c079 = () => ({ width: "100%" });
-var _c158 = () => [10, 25, 50];
-var _c238 = () => ({ width: "60rem" });
-var _c327 = () => ({ width: "40rem" });
-var _c419 = (a0) => ({ keyword: a0 });
+var _c080 = () => ({ width: "100%" });
+var _c159 = () => [10, 25, 50];
+var _c239 = () => ({ width: "60rem" });
+var _c329 = () => ({ width: "40rem" });
+var _c420 = (a0) => ({ keyword: a0 });
 function UserVerificationsComponent_ng_template_13_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "tr")(1, "th", 22);
@@ -104973,7 +106193,7 @@ function UserVerificationsComponent_ng_template_17_Conditional_2_Template(rf, ct
   if (rf & 2) {
     const ctx_r3 = \u0275\u0275nextContext(2);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 1, "verifications.empty.search", \u0275\u0275pureFunction1(4, _c419, ctx_r3.searchKeyword)));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 1, "verifications.empty.search", \u0275\u0275pureFunction1(4, _c420, ctx_r3.searchKeyword)));
   }
 }
 function UserVerificationsComponent_ng_template_17_Conditional_3_Template(rf, ctx) {
@@ -105845,7 +107065,7 @@ var UserVerificationsComponent = class _UserVerificationsComponent {
       let tmp_52_0;
       \u0275\u0275property("header", \u0275\u0275pipeBind1(1, 63, "verifications.header"));
       \u0275\u0275advance(6);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(91, _c079));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(91, _c080));
       \u0275\u0275property("placeholder", \u0275\u0275pipeBind1(7, 65, "verifications.filters.searchPlaceholder"));
       \u0275\u0275twoWayProperty("ngModel", ctx.searchKeyword);
       \u0275\u0275property("disabled", ctx.loading);
@@ -105857,16 +107077,16 @@ var UserVerificationsComponent = class _UserVerificationsComponent {
       \u0275\u0275twoWayProperty("ngModel", ctx.selectedStatus);
       \u0275\u0275property("placeholder", \u0275\u0275pipeBind1(11, 69, "verifications.filters.statusPlaceholder"))("disabled", ctx.loading)("showClear", true);
       \u0275\u0275advance(2);
-      \u0275\u0275property("value", ctx.verifications)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(92, _c158))("loading", ctx.loading)("showCurrentPageReport", true);
+      \u0275\u0275property("value", ctx.verifications)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(92, _c159))("loading", ctx.loading)("showCurrentPageReport", true);
       \u0275\u0275advance(6);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(93, _c238));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(93, _c239));
       \u0275\u0275property("header", \u0275\u0275pipeBind1(19, 71, "verifications.detailsDialog.title"))("modal", true);
       \u0275\u0275twoWayProperty("visible", ctx.viewDialogVisible);
       \u0275\u0275property("closable", !ctx.loading)("draggable", false)("resizable", false);
       \u0275\u0275advance(2);
       \u0275\u0275conditional(ctx.selectedVerificationDetails ? 20 : -1);
       \u0275\u0275advance();
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(94, _c327));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(94, _c329));
       \u0275\u0275property("header", \u0275\u0275pipeBind1(22, 73, "verifications.reviewDialog.title"))("modal", true);
       \u0275\u0275twoWayProperty("visible", ctx.reviewDialogVisible);
       \u0275\u0275property("closable", !ctx.loading)("draggable", false)("resizable", false);
@@ -106263,10 +107483,10 @@ var VerificationsStatisticsService = class _VerificationsStatisticsService {
 })();
 
 // src/app/features/analytics-statistics/verifications-statistics/verifications-statistics.component.ts
-var _c080 = ["submissionsChart"];
-var _c159 = ["statusChart"];
-var _c239 = ["approvalChart"];
-var _c328 = () => ({ "min-width": "200px" });
+var _c081 = ["submissionsChart"];
+var _c160 = ["statusChart"];
+var _c240 = ["approvalChart"];
+var _c330 = () => ({ "min-width": "200px" });
 function VerificationsStatisticsComponent_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 8);
@@ -106862,9 +108082,9 @@ var VerificationsStatisticsComponent = class _VerificationsStatisticsComponent {
   };
   static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _VerificationsStatisticsComponent, selectors: [["app-verifications-statistics"]], viewQuery: function VerificationsStatisticsComponent_Query(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275viewQuery(_c080, 5);
-      \u0275\u0275viewQuery(_c159, 5);
-      \u0275\u0275viewQuery(_c239, 5);
+      \u0275\u0275viewQuery(_c081, 5);
+      \u0275\u0275viewQuery(_c160, 5);
+      \u0275\u0275viewQuery(_c240, 5);
     }
     if (rf & 2) {
       let _t;
@@ -106900,7 +108120,7 @@ var VerificationsStatisticsComponent = class _VerificationsStatisticsComponent {
     if (rf & 2) {
       \u0275\u0275property("header", \u0275\u0275pipeBind1(1, 10, "analytics.verifications.header"));
       \u0275\u0275advance(4);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(14, _c328));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(14, _c330));
       \u0275\u0275property("options", ctx.filterOptions);
       \u0275\u0275twoWayProperty("ngModel", ctx.selectedFilter);
       \u0275\u0275advance();
@@ -107292,8 +108512,8 @@ var StatisticsService = class _StatisticsService {
 })();
 
 // src/app/features/analytics-statistics/business-statistics/business-statistics.component.ts
-var _c081 = (a0, a1, a210) => ({ "trend-positive": a0, "trend-negative": a1, "trend-neutral": a210 });
-var _c160 = () => ({ "direction": "ltr" });
+var _c082 = (a0, a1, a210) => ({ "trend-positive": a0, "trend-negative": a1, "trend-neutral": a210 });
+var _c161 = () => ({ "direction": "ltr" });
 function BusinessStatisticsComponent_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 4);
@@ -107444,7 +108664,7 @@ function BusinessStatisticsComponent_Conditional_7_Conditional_92_Template(rf, c
   }
   if (rf & 2) {
     const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275styleMap(\u0275\u0275pureFunction0(4, _c160));
+    \u0275\u0275styleMap(\u0275\u0275pureFunction0(4, _c161));
     \u0275\u0275property("data", ctx_r0.citiesChartData)("options", ctx_r0.barChartOptions);
   }
 }
@@ -107628,7 +108848,7 @@ function BusinessStatisticsComponent_Conditional_7_Template(rf, ctx) {
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(10, 46, "analytics.business.newOffersToday"));
     \u0275\u0275advance(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(69, _c081, ctx_r0.dashboardData.newOffersTodayChangePercent > 0, ctx_r0.dashboardData.newOffersTodayChangePercent < 0, ctx_r0.dashboardData.newOffersTodayChangePercent === 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(69, _c082, ctx_r0.dashboardData.newOffersTodayChangePercent > 0, ctx_r0.dashboardData.newOffersTodayChangePercent < 0, ctx_r0.dashboardData.newOffersTodayChangePercent === 0));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate3(" ", ctx_r0.dashboardData.newOffersTodayChangePercent > 0 ? "\u2191" : ctx_r0.dashboardData.newOffersTodayChangePercent < 0 ? "\u2193" : "\u2192", " ", ctx_r0.dashboardData.newOffersTodayChangePercent > 0 ? "+" : "", "", ctx_r0.dashboardData.newOffersTodayChangePercent, "% ");
     \u0275\u0275advance(7);
@@ -107636,7 +108856,7 @@ function BusinessStatisticsComponent_Conditional_7_Template(rf, ctx) {
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(22, 48, "analytics.business.newOrdersToday"));
     \u0275\u0275advance(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(73, _c081, ctx_r0.dashboardData.newOrdersTodayChangePercent > 0, ctx_r0.dashboardData.newOrdersTodayChangePercent < 0, ctx_r0.dashboardData.newOrdersTodayChangePercent === 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(73, _c082, ctx_r0.dashboardData.newOrdersTodayChangePercent > 0, ctx_r0.dashboardData.newOrdersTodayChangePercent < 0, ctx_r0.dashboardData.newOrdersTodayChangePercent === 0));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate3(" ", ctx_r0.dashboardData.newOrdersTodayChangePercent > 0 ? "\u2191" : ctx_r0.dashboardData.newOrdersTodayChangePercent < 0 ? "\u2193" : "\u2192", " ", ctx_r0.dashboardData.newOrdersTodayChangePercent > 0 ? "+" : "", "", ctx_r0.dashboardData.newOrdersTodayChangePercent, "% ");
     \u0275\u0275advance(7);
@@ -108399,9 +109619,9 @@ var BusinessStatisticsComponent = class _BusinessStatisticsComponent {
 })();
 
 // src/app/features/analytics-statistics/user-statistics/user-statistics.component.ts
-var _c082 = (a0, a1, a210) => ({ "trend-positive": a0, "trend-negative": a1, "trend-neutral": a210 });
-var _c161 = () => ({ "margin-left": "0.5rem" });
-var _c240 = () => ({ "direction": "ltr" });
+var _c083 = (a0, a1, a210) => ({ "trend-positive": a0, "trend-negative": a1, "trend-neutral": a210 });
+var _c164 = () => ({ "margin-left": "0.5rem" });
+var _c241 = () => ({ "direction": "ltr" });
 function UserStatisticsComponent_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 4);
@@ -108489,7 +109709,7 @@ function UserStatisticsComponent_Conditional_7_Conditional_100_ng_template_2_Con
     \u0275\u0275element(0, "p-tag", 37);
   }
   if (rf & 2) {
-    \u0275\u0275styleMap(\u0275\u0275pureFunction0(2, _c161));
+    \u0275\u0275styleMap(\u0275\u0275pureFunction0(2, _c164));
   }
 }
 function UserStatisticsComponent_Conditional_7_Conditional_100_ng_template_2_Template(rf, ctx) {
@@ -108549,7 +109769,7 @@ function UserStatisticsComponent_Conditional_7_Conditional_105_Conditional_8_Tem
   }
   if (rf & 2) {
     const ctx_r0 = \u0275\u0275nextContext(3);
-    \u0275\u0275styleMap(\u0275\u0275pureFunction0(4, _c240));
+    \u0275\u0275styleMap(\u0275\u0275pureFunction0(4, _c241));
     \u0275\u0275property("data", ctx_r0.ratingDistributionChartData)("options", ctx_r0.horizontalBarChartOptions);
   }
 }
@@ -108985,7 +110205,7 @@ function UserStatisticsComponent_Conditional_7_Template(rf, ctx) {
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(10, 42, "analytics.user.dailyActiveUsers"));
     \u0275\u0275advance(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(72, _c082, ctx_r0.registrationsData.dailyActiveUsersChangePercent > 0, ctx_r0.registrationsData.dailyActiveUsersChangePercent < 0, ctx_r0.registrationsData.dailyActiveUsersChangePercent === 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(72, _c083, ctx_r0.registrationsData.dailyActiveUsersChangePercent > 0, ctx_r0.registrationsData.dailyActiveUsersChangePercent < 0, ctx_r0.registrationsData.dailyActiveUsersChangePercent === 0));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate3(" ", ctx_r0.registrationsData.dailyActiveUsersChangePercent > 0 ? "\u2191" : ctx_r0.registrationsData.dailyActiveUsersChangePercent < 0 ? "\u2193" : "\u2192", " ", ctx_r0.registrationsData.dailyActiveUsersChangePercent > 0 ? "+" : "", "", ctx_r0.registrationsData.dailyActiveUsersChangePercent, "% ");
     \u0275\u0275advance(7);
@@ -109843,7 +111063,7 @@ var UserStatisticsComponent = class _UserStatisticsComponent {
 })();
 
 // src/app/features/analytics-statistics/vehicle-statistics/vehicle-statistics.component.ts
-var _c083 = () => ({ "direction": "ltr" });
+var _c084 = () => ({ "direction": "ltr" });
 function VehicleStatisticsComponent_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 5);
@@ -109873,7 +111093,7 @@ function VehicleStatisticsComponent_Conditional_8_Conditional_12_Template(rf, ct
   }
   if (rf & 2) {
     const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275styleMap(\u0275\u0275pureFunction0(4, _c083));
+    \u0275\u0275styleMap(\u0275\u0275pureFunction0(4, _c084));
     \u0275\u0275property("data", ctx_r0.makersChartData)("options", ctx_r0.barChartOptions);
   }
 }
@@ -110667,7 +111887,7 @@ var NavigationService = class _NavigationService {
 })();
 
 // src/app/features/notifications/notifications-center/notifications-center.component.ts
-var _c084 = () => [10, 25, 50];
+var _c085 = () => [10, 25, 50];
 function NotificationsCenterComponent_ng_template_9_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "tr")(1, "th", 9);
@@ -111014,7 +112234,7 @@ var NotificationsCenterComponent = class _NotificationsCenterComponent {
       \u0275\u0275advance(2);
       \u0275\u0275property("label", \u0275\u0275pipeBind1(7, 23, "notificationsCenter.button.send"))("disabled", ctx.loading);
       \u0275\u0275advance(2);
-      \u0275\u0275property("value", ctx.notifications)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(25, _c084))("loading", ctx.loading)("showCurrentPageReport", true);
+      \u0275\u0275property("value", ctx.notifications)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(25, _c085))("loading", ctx.loading)("showCurrentPageReport", true);
     }
   }, dependencies: [
     CardModule,
@@ -111132,10 +112352,10 @@ var AdminNotificationTargetAudience;
 })(AdminNotificationTargetAudience || (AdminNotificationTargetAudience = {}));
 
 // src/app/features/notifications/send-notification/send-notification.component.ts
-var _c085 = () => ({ width: "100%" });
-var _c164 = () => ({ standalone: true });
-var _c241 = () => [10, 25, 50];
-var _c329 = (a0) => ({ count: a0 });
+var _c086 = () => ({ width: "100%" });
+var _c165 = () => ({ standalone: true });
+var _c244 = () => [10, 25, 50];
+var _c331 = (a0) => ({ count: a0 });
 function SendNotificationComponent_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "p-message", 8);
@@ -111193,7 +112413,7 @@ function SendNotificationComponent_Conditional_14_Conditional_5_Template(rf, ctx
   if (rf & 2) {
     const ctx_r0 = \u0275\u0275nextContext(2);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(2, 1, "sendNotification.usersTable.selectedCount", \u0275\u0275pureFunction1(4, _c329, ctx_r0.selectedUsers.length)));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(2, 1, "sendNotification.usersTable.selectedCount", \u0275\u0275pureFunction1(4, _c331, ctx_r0.selectedUsers.length)));
   }
 }
 function SendNotificationComponent_Conditional_14_ng_template_13_Template(rf, ctx) {
@@ -111229,7 +112449,7 @@ function SendNotificationComponent_Conditional_14_ng_template_13_Template(rf, ct
     const ctx_r0 = \u0275\u0275nextContext(2);
     \u0275\u0275advance(2);
     \u0275\u0275twoWayProperty("ngModel", ctx_r0.selectAllUsers);
-    \u0275\u0275property("ngModelOptions", \u0275\u0275pureFunction0(13, _c164))("binary", true)("disabled", ctx_r0.usersLoading || ctx_r0.users.length === 0);
+    \u0275\u0275property("ngModelOptions", \u0275\u0275pureFunction0(13, _c165))("binary", true)("disabled", ctx_r0.usersLoading || ctx_r0.users.length === 0);
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(5, 7, "sendNotification.usersTable.userName"));
     \u0275\u0275advance(3);
@@ -111263,7 +112483,7 @@ function SendNotificationComponent_Conditional_14_ng_template_15_Template(rf, ct
     const ctx_r0 = \u0275\u0275nextContext(2);
     \u0275\u0275classProp("selected-row", ctx_r0.isUserSelected(user_r5));
     \u0275\u0275advance(2);
-    \u0275\u0275property("ngModel", ctx_r0.isUserSelected(user_r5))("ngModelOptions", \u0275\u0275pureFunction0(8, _c164))("binary", true);
+    \u0275\u0275property("ngModel", ctx_r0.isUserSelected(user_r5))("ngModelOptions", \u0275\u0275pureFunction0(8, _c165))("binary", true);
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(user_r5.userName);
     \u0275\u0275advance(2);
@@ -111328,12 +112548,12 @@ function SendNotificationComponent_Conditional_14_Template(rf, ctx) {
     \u0275\u0275advance(2);
     \u0275\u0275conditional(ctx_r0.selectedUsers.length > 0 ? 5 : -1);
     \u0275\u0275advance(4);
-    \u0275\u0275styleMap(\u0275\u0275pureFunction0(25, _c085));
+    \u0275\u0275styleMap(\u0275\u0275pureFunction0(25, _c086));
     \u0275\u0275property("placeholder", \u0275\u0275pipeBind1(10, 21, "common.search"));
     \u0275\u0275twoWayProperty("ngModel", ctx_r0.usersSearchKeyword);
-    \u0275\u0275property("ngModelOptions", \u0275\u0275pureFunction0(26, _c164))("disabled", ctx_r0.usersLoading);
+    \u0275\u0275property("ngModelOptions", \u0275\u0275pureFunction0(26, _c165))("disabled", ctx_r0.usersLoading);
     \u0275\u0275advance(2);
-    \u0275\u0275property("value", ctx_r0.users)("scrollable", true)("paginator", true)("rows", ctx_r0.usersRows)("first", ctx_r0.usersFirst)("totalRecords", ctx_r0.usersTotalRecords)("lazy", true)("currentPageReportTemplate", \u0275\u0275pipeBind1(12, 23, "table.currentPageReport"))("rowsPerPageOptions", \u0275\u0275pureFunction0(27, _c241))("loading", ctx_r0.usersLoading)("showCurrentPageReport", true);
+    \u0275\u0275property("value", ctx_r0.users)("scrollable", true)("paginator", true)("rows", ctx_r0.usersRows)("first", ctx_r0.usersFirst)("totalRecords", ctx_r0.usersTotalRecords)("lazy", true)("currentPageReportTemplate", \u0275\u0275pipeBind1(12, 23, "table.currentPageReport"))("rowsPerPageOptions", \u0275\u0275pureFunction0(27, _c244))("loading", ctx_r0.usersLoading)("showCurrentPageReport", true);
   }
 }
 function SendNotificationComponent_Conditional_22_Template(rf, ctx) {
@@ -112157,10 +113377,10 @@ var languageGuard = (route) => {
 var style31 = "\n    .p-scrollpanel-content-container {\n        overflow: hidden;\n        width: 100%;\n        height: 100%;\n        position: relative;\n        z-index: 1;\n        float: left;\n    }\n\n    .p-scrollpanel-content {\n        height: calc(100% + calc(2 * dt('scrollpanel.bar.size')));\n        width: calc(100% + calc(2 * dt('scrollpanel.bar.size')));\n        padding-inline: 0 calc(2 * dt('scrollpanel.bar.size'));\n        padding-block: 0 calc(2 * dt('scrollpanel.bar.size'));\n        position: relative;\n        overflow: auto;\n        box-sizing: border-box;\n        scrollbar-width: none;\n    }\n\n    .p-scrollpanel-content::-webkit-scrollbar {\n        display: none;\n    }\n\n    .p-scrollpanel-bar {\n        position: relative;\n        border-radius: dt('scrollpanel.bar.border.radius');\n        z-index: 2;\n        cursor: pointer;\n        opacity: 0;\n        outline-color: transparent;\n        background: dt('scrollpanel.bar.background');\n        border: 0 none;\n        transition:\n            outline-color dt('scrollpanel.transition.duration'),\n            opacity dt('scrollpanel.transition.duration');\n    }\n\n    .p-scrollpanel-bar:focus-visible {\n        box-shadow: dt('scrollpanel.bar.focus.ring.shadow');\n        outline: dt('scrollpanel.barfocus.ring.width') dt('scrollpanel.bar.focus.ring.style') dt('scrollpanel.bar.focus.ring.color');\n        outline-offset: dt('scrollpanel.barfocus.ring.offset');\n    }\n\n    .p-scrollpanel-bar-y {\n        width: dt('scrollpanel.bar.size');\n        inset-block-start: 0;\n    }\n\n    .p-scrollpanel-bar-x {\n        height: dt('scrollpanel.bar.size');\n        inset-block-end: 0;\n    }\n\n    .p-scrollpanel-hidden {\n        visibility: hidden;\n    }\n\n    .p-scrollpanel:hover .p-scrollpanel-bar,\n    .p-scrollpanel:active .p-scrollpanel-bar {\n        opacity: 1;\n    }\n\n    .p-scrollpanel-grabbed {\n        user-select: none;\n    }\n";
 
 // node_modules/primeng/fesm2022/primeng-scrollpanel.mjs
-var _c086 = ["content"];
-var _c165 = ["xBar"];
-var _c244 = ["yBar"];
-var _c330 = ["*"];
+var _c087 = ["content"];
+var _c166 = ["xBar"];
+var _c245 = ["yBar"];
+var _c333 = ["*"];
 function ScrollPanel_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275projection(0);
@@ -112171,7 +113391,7 @@ function ScrollPanel_ng_container_4_Template(rf, ctx) {
     \u0275\u0275elementContainer(0);
   }
 }
-var theme16 = (
+var theme17 = (
   /*css*/
   `
     ${style31}
@@ -112181,7 +113401,7 @@ var theme16 = (
     }
 `
 );
-var classes33 = {
+var classes34 = {
   root: "p-scrollpanel p-component",
   contentContainer: "p-scrollpanel-content-container",
   content: "p-scrollpanel-content",
@@ -112190,8 +113410,8 @@ var classes33 = {
 };
 var ScrollPanelStyle = class _ScrollPanelStyle extends BaseStyle {
   name = "scrollpanel";
-  theme = theme16;
-  classes = classes33;
+  theme = theme17;
+  classes = classes34;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275ScrollPanelStyle_BaseFactory;
     return function ScrollPanelStyle_Factory(__ngFactoryType__) {
@@ -112570,7 +113790,7 @@ var ScrollPanel = class _ScrollPanel extends BaseComponent {
     selectors: [["p-scroll-panel"], ["p-scrollPanel"], ["p-scrollpanel"]],
     contentQueries: function ScrollPanel_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
-        \u0275\u0275contentQuery(dirIndex, _c086, 4);
+        \u0275\u0275contentQuery(dirIndex, _c087, 4);
         \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
       }
       if (rf & 2) {
@@ -112581,9 +113801,9 @@ var ScrollPanel = class _ScrollPanel extends BaseComponent {
     },
     viewQuery: function ScrollPanel_Query(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275viewQuery(_c086, 5);
-        \u0275\u0275viewQuery(_c165, 5);
-        \u0275\u0275viewQuery(_c244, 5);
+        \u0275\u0275viewQuery(_c087, 5);
+        \u0275\u0275viewQuery(_c166, 5);
+        \u0275\u0275viewQuery(_c245, 5);
       }
       if (rf & 2) {
         let _t;
@@ -112604,7 +113824,7 @@ var ScrollPanel = class _ScrollPanel extends BaseComponent {
       step: [2, "step", "step", numberAttribute]
     },
     features: [\u0275\u0275ProvidersFeature([ScrollPanelStyle]), \u0275\u0275InheritDefinitionFeature],
-    ngContentSelectors: _c330,
+    ngContentSelectors: _c333,
     decls: 9,
     vars: 20,
     consts: [["content", ""], ["xBar", ""], ["yBar", ""], [3, "mouseenter", "scroll"], [4, "ngTemplateOutlet"], ["tabindex", "0", "role", "scrollbar", 3, "mousedown", "keydown", "keyup", "focus", "blur"], ["tabindex", "0", "role", "scrollbar", 3, "mousedown", "keydown", "keyup", "focus"]],
@@ -112795,7 +114015,7 @@ var ScrollPanelModule = class _ScrollPanelModule {
 var style32 = "\n    .p-avatar {\n        display: inline-flex;\n        align-items: center;\n        justify-content: center;\n        width: dt('avatar.width');\n        height: dt('avatar.height');\n        font-size: dt('avatar.font.size');\n        background: dt('avatar.background');\n        color: dt('avatar.color');\n        border-radius: dt('avatar.border.radius');\n    }\n\n    .p-avatar-image {\n        background: transparent;\n    }\n\n    .p-avatar-circle {\n        border-radius: 50%;\n    }\n\n    .p-avatar-circle img {\n        border-radius: 50%;\n    }\n\n    .p-avatar-icon {\n        font-size: dt('avatar.icon.size');\n        width: dt('avatar.icon.size');\n        height: dt('avatar.icon.size');\n    }\n\n    .p-avatar img {\n        width: 100%;\n        height: 100%;\n    }\n\n    .p-avatar-lg {\n        width: dt('avatar.lg.width');\n        height: dt('avatar.lg.width');\n        font-size: dt('avatar.lg.font.size');\n    }\n\n    .p-avatar-lg .p-avatar-icon {\n        font-size: dt('avatar.lg.icon.size');\n        width: dt('avatar.lg.icon.size');\n        height: dt('avatar.lg.icon.size');\n    }\n\n    .p-avatar-xl {\n        width: dt('avatar.xl.width');\n        height: dt('avatar.xl.width');\n        font-size: dt('avatar.xl.font.size');\n    }\n\n    .p-avatar-xl .p-avatar-icon {\n        font-size: dt('avatar.xl.icon.size');\n        width: dt('avatar.xl.icon.size');\n        height: dt('avatar.xl.icon.size');\n    }\n\n    .p-avatar-group {\n        display: flex;\n        align-items: center;\n    }\n\n    .p-avatar-group .p-avatar + .p-avatar {\n        margin-inline-start: dt('avatar.group.offset');\n    }\n\n    .p-avatar-group .p-avatar {\n        border: 2px solid dt('avatar.group.border.color');\n    }\n\n    .p-avatar-group .p-avatar-lg + .p-avatar-lg {\n        margin-inline-start: dt('avatar.lg.group.offset');\n    }\n\n    .p-avatar-group .p-avatar-xl + .p-avatar-xl {\n        margin-inline-start: dt('avatar.xl.group.offset');\n    }\n";
 
 // node_modules/primeng/fesm2022/primeng-avatar.mjs
-var _c087 = ["*"];
+var _c088 = ["*"];
 function Avatar_span_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
@@ -112855,7 +114075,7 @@ function Avatar_ng_template_4_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ctx_r0.image);
   }
 }
-var classes34 = {
+var classes35 = {
   root: ({
     instance
   }) => ["p-avatar p-component", {
@@ -112870,7 +114090,7 @@ var classes34 = {
 var AvatarStyle = class _AvatarStyle extends BaseStyle {
   name = "avatar";
   theme = style32;
-  classes = classes34;
+  classes = classes35;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275AvatarStyle_BaseFactory;
     return function AvatarStyle_Factory(__ngFactoryType__) {
@@ -112975,7 +114195,7 @@ var Avatar = class _Avatar extends BaseComponent {
       onImageError: "onImageError"
     },
     features: [\u0275\u0275ProvidersFeature([AvatarStyle]), \u0275\u0275InheritDefinitionFeature],
-    ngContentSelectors: _c087,
+    ngContentSelectors: _c088,
     decls: 6,
     vars: 2,
     consts: [["iconTemplate", ""], ["imageTemplate", ""], [3, "class", 4, "ngIf", "ngIfElse"], [3, "class", "ngClass", 4, "ngIf", "ngIfElse"], [3, "ngClass"], [3, "src", "error", 4, "ngIf"], [3, "error", "src"]],
@@ -113179,16 +114399,16 @@ var ChatReviewService = class _ChatReviewService {
 })();
 
 // src/app/features/message-chat-review/chat-reivew/chat-reivew.component.ts
-var _c088 = ["messagesContainer"];
-var _c166 = () => ({ width: "100%" });
-var _c245 = () => ({ maxWidth: "280px" });
-var _c331 = () => [10, 25, 50];
-var _c420 = () => ({ width: "40rem" });
+var _c089 = ["messagesContainer"];
+var _c167 = () => ({ width: "100%" });
+var _c246 = () => ({ maxWidth: "280px" });
+var _c334 = () => [10, 25, 50];
+var _c421 = () => ({ width: "40rem" });
 var _c518 = () => ({ width: "24px", height: "24px" });
 var _c615 = () => ({ width: "16px", height: "16px" });
 var _c710 = (a0) => ({ "own-message": a0 });
 var _c89 = () => ({ "background-color": "#dee9fc", color: "#1a2551" });
-var _forTrack04 = ($index, $item) => $item.id;
+var _forTrack03 = ($index, $item) => $item.id;
 var _forTrack1 = ($index, $item) => $item.userId;
 function ChatReivewComponent_ng_template_14_Template(rf, ctx) {
   if (rf & 1) {
@@ -113893,7 +115113,7 @@ var ChatReivewComponent = class _ChatReivewComponent {
   };
   static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ChatReivewComponent, selectors: [["app-chat-reivew"]], viewQuery: function ChatReivewComponent_Query(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275viewQuery(_c088, 5);
+      \u0275\u0275viewQuery(_c089, 5);
     }
     if (rf & 2) {
       let _t;
@@ -113956,7 +115176,7 @@ var ChatReivewComponent = class _ChatReivewComponent {
       });
       \u0275\u0275conditionalCreate(23, ChatReivewComponent_Conditional_23_Template, 5, 6, "div", 17);
       \u0275\u0275conditionalCreate(24, ChatReivewComponent_Conditional_24_Template, 5, 6, "div", 18);
-      \u0275\u0275repeaterCreate(25, ChatReivewComponent_For_26_Template, 11, 11, "div", 19, _forTrack04);
+      \u0275\u0275repeaterCreate(25, ChatReivewComponent_For_26_Template, 11, 11, "div", 19, _forTrack03);
       \u0275\u0275conditionalCreate(27, ChatReivewComponent_Conditional_27_Template, 5, 3, "div", 20);
       \u0275\u0275elementEnd();
       \u0275\u0275template(28, ChatReivewComponent_ng_template_28_Template, 2, 3, "ng-template", null, 3, \u0275\u0275templateRefExtractor);
@@ -113967,19 +115187,19 @@ var ChatReivewComponent = class _ChatReivewComponent {
       \u0275\u0275advance();
       \u0275\u0275property("header", \u0275\u0275pipeBind1(2, 37, "chatReview.header"));
       \u0275\u0275advance(6);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(47, _c166));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(47, _c167));
       \u0275\u0275property("placeholder", \u0275\u0275pipeBind1(8, 39, "chatReview.searchPlaceholder"))("value", ctx.searchKeyword)("disabled", ctx.loading);
       \u0275\u0275advance(2);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(48, _c245));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(48, _c246));
       \u0275\u0275property("options", ctx.timeFilterOptions);
       \u0275\u0275twoWayProperty("ngModel", ctx.timeFilter);
       \u0275\u0275property("placeholder", \u0275\u0275pipeBind1(10, 41, "chatReview.filters.placeholder"))("disabled", ctx.loading)("showClear", true);
       \u0275\u0275advance(2);
       \u0275\u0275property("label", \u0275\u0275pipeBind1(12, 43, "common.refresh"))("disabled", ctx.loading);
       \u0275\u0275advance(2);
-      \u0275\u0275property("value", ctx.chats)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(49, _c331))("loading", ctx.loading)("showCurrentPageReport", true);
+      \u0275\u0275property("value", ctx.chats)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(49, _c334))("loading", ctx.loading)("showCurrentPageReport", true);
       \u0275\u0275advance(6);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(50, _c420));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(50, _c421));
       \u0275\u0275property("header", \u0275\u0275pipeBind1(20, 45, "chatReview.viewer.header"));
       \u0275\u0275twoWayProperty("visible", ctx.chatViewerVisible);
       \u0275\u0275property("modal", true)("draggable", false)("resizable", false)("dismissableMask", true);
@@ -114228,6 +115448,9 @@ var ChatReivewComponent = class _ChatReivewComponent {
 })();
 
 // src/app/features/content-mangement/models/content-mangement.models.ts
+function resolveOfferImageUrl(image, variant) {
+  return image.variants?.[variant] || image.url;
+}
 var DateRangeDuration;
 (function(DateRangeDuration2) {
   DateRangeDuration2[DateRangeDuration2["Last24Hours"] = 1] = "Last24Hours";
@@ -114285,7 +115508,19 @@ var ContentMangementService = class _ContentMangementService {
    */
   getAdminOfferById(id) {
     const params = new HttpParams().set("Id", id);
-    return this.http.get(`${this.baseUrl}AdminOffers/get/details`, { params }).pipe(map((response) => response.data || response), catchError(this.handleError));
+    return this.http.get(`${this.baseUrl}AdminOffers/get/details`, { params }).pipe(map((response) => this.normalizeOfferDetails(response.data || response)), catchError(this.handleError));
+  }
+  /**
+   * Guarantee collections are arrays and images use the object shape
+   * (older responses returned offerImages as plain url strings).
+   */
+  normalizeOfferDetails(raw) {
+    const offerImages = (raw.offerImages ?? []).map((image) => typeof image === "string" ? { url: image, publicId: "", variants: null } : image).filter((image) => !!image?.url);
+    return __spreadProps(__spreadValues({}, raw), {
+      offerImages,
+      attachments: (raw.attachments ?? []).filter((attachment) => !!attachment?.url),
+      vehicleCompatibilities: raw.vehicleCompatibilities ?? []
+    });
   }
   /**
    * Delete admin offer by ID
@@ -114372,49 +115607,53 @@ var ContentMangementService = class _ContentMangementService {
 })();
 
 // src/app/features/content-mangement/content-mangement/content-mangement.component.ts
-var _c089 = () => [10, 25, 50];
-var _c167 = () => ({ width: "50rem" });
-var _c246 = () => ({ width: "35rem" });
-var _c333 = () => ({ width: "16px", height: "16px" });
+var _c090 = () => [10, 25, 50];
+var _c168 = () => ({ width: "50rem" });
+var _c247 = () => ({ "960px": "75vw", "640px": "95vw" });
+var _c335 = () => ({ width: "35rem" });
+var _c423 = () => ({ width: "16px", height: "16px" });
+var _forTrack04 = ($index, $item) => $item.vehicleMakerId;
+var _forTrack12 = ($index, $item) => $item.vehicleModelId;
+var _forTrack2 = ($index, $item) => $item.publicId;
 function ContentMangementComponent_ng_template_17_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "tr")(1, "th", 13);
+    \u0275\u0275elementStart(0, "tr")(1, "th", 14);
     \u0275\u0275text(2);
     \u0275\u0275pipe(3, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "th", 14);
+    \u0275\u0275elementStart(4, "th", 15);
     \u0275\u0275text(5);
     \u0275\u0275pipe(6, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "th", 15);
+    \u0275\u0275elementStart(7, "th", 16);
     \u0275\u0275text(8);
     \u0275\u0275pipe(9, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "th", 15);
+    \u0275\u0275elementStart(10, "th", 16);
     \u0275\u0275text(11);
     \u0275\u0275pipe(12, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "th", 15);
+    \u0275\u0275elementStart(13, "th", 16);
     \u0275\u0275text(14);
     \u0275\u0275pipe(15, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "th", 15);
+    \u0275\u0275elementStart(16, "th", 16);
     \u0275\u0275text(17);
     \u0275\u0275pipe(18, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(19, "th", 14);
+    \u0275\u0275elementStart(19, "th", 15);
     \u0275\u0275text(20);
     \u0275\u0275pipe(21, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "th", 15);
+    \u0275\u0275elementStart(22, "th", 16);
     \u0275\u0275text(23);
     \u0275\u0275pipe(24, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(25, "th", 14);
+    \u0275\u0275elementStart(25, "th", 15);
     \u0275\u0275text(26);
     \u0275\u0275pipe(27, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "th", 16);
+    \u0275\u0275elementStart(28, "th", 17);
     \u0275\u0275text(29);
     \u0275\u0275pipe(30, "translate");
     \u0275\u0275elementEnd()();
@@ -114465,16 +115704,16 @@ function ContentMangementComponent_ng_template_19_Template(rf, ctx) {
     \u0275\u0275text(13);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(14, "td");
-    \u0275\u0275element(15, "p-tag", 17);
+    \u0275\u0275element(15, "p-tag", 18);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(16, "td");
-    \u0275\u0275element(17, "p-tag", 17);
+    \u0275\u0275element(17, "p-tag", 18);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(18, "td");
     \u0275\u0275text(19);
     \u0275\u0275pipe(20, "dateTime");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(21, "td")(22, "div", 18)(23, "p-button", 19);
+    \u0275\u0275elementStart(21, "td")(22, "div", 19)(23, "p-button", 20);
     \u0275\u0275pipe(24, "translate");
     \u0275\u0275listener("click", function ContentMangementComponent_ng_template_19_Template_p_button_click_23_listener() {
       const offer_r3 = \u0275\u0275restoreView(_r2).$implicit;
@@ -114482,7 +115721,7 @@ function ContentMangementComponent_ng_template_19_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r3.showViewDialog(offer_r3));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(25, "p-button", 20);
+    \u0275\u0275elementStart(25, "p-button", 21);
     \u0275\u0275pipe(26, "translate");
     \u0275\u0275pipe(27, "translate");
     \u0275\u0275listener("click", function ContentMangementComponent_ng_template_19_Template_p_button_click_25_listener($event) {
@@ -114491,7 +115730,7 @@ function ContentMangementComponent_ng_template_19_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r3.togglePromote(offer_r3, $event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "p-button", 21);
+    \u0275\u0275elementStart(28, "p-button", 22);
     \u0275\u0275pipe(29, "translate");
     \u0275\u0275listener("click", function ContentMangementComponent_ng_template_19_Template_p_button_click_28_listener($event) {
       const offer_r3 = \u0275\u0275restoreView(_r2).$implicit;
@@ -114531,8 +115770,8 @@ function ContentMangementComponent_ng_template_19_Template(rf, ctx) {
 }
 function ContentMangementComponent_ng_template_21_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "tr")(1, "td", 22)(2, "div", 23);
-    \u0275\u0275element(3, "i", 24);
+    \u0275\u0275elementStart(0, "tr")(1, "td", 23)(2, "div", 24);
+    \u0275\u0275element(3, "i", 25);
     \u0275\u0275elementStart(4, "h4");
     \u0275\u0275text(5);
     \u0275\u0275pipe(6, "translate");
@@ -114543,21 +115782,59 @@ function ContentMangementComponent_ng_template_21_Template(rf, ctx) {
     \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(6, 1, "contentManagement.empty.default"));
   }
 }
-function ContentMangementComponent_Conditional_24_Conditional_67_Template(rf, ctx) {
+function ContentMangementComponent_Conditional_24_Conditional_24_For_2_For_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 29);
-    \u0275\u0275element(1, "p-image", 33);
+    \u0275\u0275element(0, "p-tag", 41);
+  }
+  if (rf & 2) {
+    const model_r6 = ctx.$implicit;
+    \u0275\u0275property("value", model_r6.vehicleModelName);
+  }
+}
+function ContentMangementComponent_Conditional_24_Conditional_24_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 38)(1, "span", 39);
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "div", 40);
+    \u0275\u0275repeaterCreate(4, ContentMangementComponent_Conditional_24_Conditional_24_For_2_For_5_Template, 1, 1, "p-tag", 41, _forTrack12);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const maker_r7 = ctx.$implicit;
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(maker_r7.vehicleMakerName);
+    \u0275\u0275advance(2);
+    \u0275\u0275repeater(maker_r7.models);
+  }
+}
+function ContentMangementComponent_Conditional_24_Conditional_24_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 31);
+    \u0275\u0275repeaterCreate(1, ContentMangementComponent_Conditional_24_Conditional_24_For_2_Template, 6, 1, "div", 38, _forTrack04);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r3 = \u0275\u0275nextContext(2);
     \u0275\u0275advance();
-    \u0275\u0275property("src", ctx_r3.selectedOffer.profileLogo)("preview", true);
+    \u0275\u0275repeater(ctx_r3.selectedOffer.vehicleCompatibilities);
   }
 }
-function ContentMangementComponent_Conditional_24_Conditional_68_Template(rf, ctx) {
+function ContentMangementComponent_Conditional_24_Conditional_25_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 28);
+    \u0275\u0275elementStart(0, "span", 29);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r3 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r3.selectedOffer.vehicleMaker);
+  }
+}
+function ContentMangementComponent_Conditional_24_Conditional_26_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 29);
     \u0275\u0275text(1);
     \u0275\u0275pipe(2, "translate");
     \u0275\u0275elementEnd();
@@ -114567,13 +115844,37 @@ function ContentMangementComponent_Conditional_24_Conditional_68_Template(rf, ct
     \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(2, 1, "common.notAvailable"));
   }
 }
-function ContentMangementComponent_Conditional_24_Conditional_107_Template(rf, ctx) {
+function ContentMangementComponent_Conditional_24_Conditional_68_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 26)(1, "label", 27);
+    \u0275\u0275elementStart(0, "div", 32);
+    \u0275\u0275element(1, "p-image", 42);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r3 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275property("src", ctx_r3.selectedOffer.profileLogo)("preview", true);
+  }
+}
+function ContentMangementComponent_Conditional_24_Conditional_69_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 29);
+    \u0275\u0275text(1);
+    \u0275\u0275pipe(2, "translate");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(2, 1, "common.notAvailable"));
+  }
+}
+function ContentMangementComponent_Conditional_24_Conditional_108_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 27)(1, "label", 28);
     \u0275\u0275text(2);
     \u0275\u0275pipe(3, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "span", 28);
+    \u0275\u0275elementStart(4, "span", 29);
     \u0275\u0275text(5);
     \u0275\u0275pipe(6, "date");
     \u0275\u0275elementEnd()();
@@ -114586,173 +115887,262 @@ function ContentMangementComponent_Conditional_24_Conditional_107_Template(rf, c
     \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(6, 4, ctx_r3.selectedOffer.lastRefreshedAt, "medium"));
   }
 }
-function ContentMangementComponent_Conditional_24_Conditional_108_For_6_Template(rf, ctx) {
+function ContentMangementComponent_Conditional_24_Conditional_113_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "p-image", 34);
+    \u0275\u0275element(0, "p-image", 43);
   }
   if (rf & 2) {
-    const image_r6 = ctx.$implicit;
-    \u0275\u0275property("src", image_r6)("preview", true);
+    const image_r8 = ctx.$implicit;
+    const ctx_r3 = \u0275\u0275nextContext(3);
+    \u0275\u0275property("src", image_r8.thumbnailSrc)("previewImageSrc", image_r8.previewSrc)("alt", ctx_r3.selectedOffer.title)("preview", true);
   }
 }
-function ContentMangementComponent_Conditional_24_Conditional_108_Template(rf, ctx) {
+function ContentMangementComponent_Conditional_24_Conditional_113_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 26)(1, "label", 27);
-    \u0275\u0275text(2);
-    \u0275\u0275pipe(3, "translate");
+    \u0275\u0275elementStart(0, "div", 33);
+    \u0275\u0275repeaterCreate(1, ContentMangementComponent_Conditional_24_Conditional_113_For_2_Template, 1, 4, "p-image", 43, \u0275\u0275repeaterTrackByIndex);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "div", 29);
-    \u0275\u0275repeaterCreate(5, ContentMangementComponent_Conditional_24_Conditional_108_For_6_Template, 1, 2, "p-image", 34, \u0275\u0275repeaterTrackByIdentity);
-    \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
     const ctx_r3 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275repeater(ctx_r3.selectedOfferImages);
+  }
+}
+function ContentMangementComponent_Conditional_24_Conditional_114_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 29);
+    \u0275\u0275text(1);
+    \u0275\u0275pipe(2, "translate");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(2, 1, "common.notAvailable"));
+  }
+}
+function ContentMangementComponent_Conditional_24_Conditional_119_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r9 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "li", 44)(1, "span", 45);
+    \u0275\u0275element(2, "i");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "div", 46)(4, "span", 47);
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(6, "span", 48);
+    \u0275\u0275text(7);
+    \u0275\u0275pipe(8, "translate");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(9, "div", 49);
+    \u0275\u0275element(10, "a", 50);
+    \u0275\u0275pipe(11, "translate");
+    \u0275\u0275pipe(12, "translate");
+    \u0275\u0275elementStart(13, "p-button", 51);
+    \u0275\u0275pipe(14, "translate");
+    \u0275\u0275pipe(15, "translate");
+    \u0275\u0275listener("click", function ContentMangementComponent_Conditional_24_Conditional_119_For_2_Template_p_button_click_13_listener() {
+      const attachment_r10 = \u0275\u0275restoreView(_r9).$implicit;
+      const ctx_r3 = \u0275\u0275nextContext(3);
+      return \u0275\u0275resetView(ctx_r3.downloadAttachment(attachment_r10));
+    });
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const attachment_r10 = ctx.$implicit;
+    const ctx_r3 = \u0275\u0275nextContext(3);
+    \u0275\u0275advance();
+    \u0275\u0275classProp("attachment-icon--pdf", attachment_r10.extension === "PDF");
+    \u0275\u0275advance();
+    \u0275\u0275classMap(attachment_r10.icon);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(3, 1, "contentManagement.dialog.offerImages"), ":");
+    \u0275\u0275property("pTooltip", attachment_r10.fileName);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(attachment_r10.fileName);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(attachment_r10.extension || \u0275\u0275pipeBind1(8, 17, "contentManagement.attachment.file"));
     \u0275\u0275advance(3);
-    \u0275\u0275repeater(ctx_r3.selectedOffer.offerImages);
+    \u0275\u0275property("href", attachment_r10.url, \u0275\u0275sanitizeUrl)("text", true)("rounded", true)("pTooltip", \u0275\u0275pipeBind1(11, 19, "contentManagement.button.openAttachment"));
+    \u0275\u0275attribute("aria-label", \u0275\u0275pipeBind1(12, 21, "contentManagement.button.openAttachment"));
+    \u0275\u0275advance(3);
+    \u0275\u0275property("text", true)("rounded", true)("loading", ctx_r3.downloadingAttachmentIds.has(attachment_r10.publicId));
+    \u0275\u0275ariaProperty("ariaLabel", \u0275\u0275pipeBind1(14, 23, "contentManagement.button.downloadAttachment"));
+    \u0275\u0275property("pTooltip", \u0275\u0275pipeBind1(15, 25, "contentManagement.button.downloadAttachment"));
+  }
+}
+function ContentMangementComponent_Conditional_24_Conditional_119_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "ul", 34);
+    \u0275\u0275repeaterCreate(1, ContentMangementComponent_Conditional_24_Conditional_119_For_2_Template, 16, 27, "li", 44, _forTrack2);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r3 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275repeater(ctx_r3.selectedOfferAttachments);
+  }
+}
+function ContentMangementComponent_Conditional_24_Conditional_120_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 29);
+    \u0275\u0275text(1);
+    \u0275\u0275pipe(2, "translate");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(2, 1, "contentManagement.dialog.noAttachments"));
   }
 }
 function ContentMangementComponent_Conditional_24_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 25)(1, "div", 26)(2, "label", 27);
+    \u0275\u0275elementStart(0, "div", 26)(1, "div", 27)(2, "label", 28);
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "span", 28);
+    \u0275\u0275elementStart(5, "span", 29);
     \u0275\u0275text(6);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(7, "div", 26)(8, "label", 27);
+    \u0275\u0275elementStart(7, "div", 27)(8, "label", 28);
     \u0275\u0275text(9);
     \u0275\u0275pipe(10, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "span", 28);
+    \u0275\u0275elementStart(11, "span", 29);
     \u0275\u0275text(12);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(13, "div", 26)(14, "label", 27);
+    \u0275\u0275elementStart(13, "div", 27)(14, "label", 28);
     \u0275\u0275text(15);
     \u0275\u0275pipe(16, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(17, "span", 28);
+    \u0275\u0275elementStart(17, "span", 29);
     \u0275\u0275text(18);
     \u0275\u0275pipe(19, "number");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(20, "div", 26)(21, "label", 27);
+    \u0275\u0275elementStart(20, "div", 30)(21, "label", 28);
     \u0275\u0275text(22);
     \u0275\u0275pipe(23, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "span", 28);
-    \u0275\u0275text(25);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(26, "div", 26)(27, "label", 27);
-    \u0275\u0275text(28);
-    \u0275\u0275pipe(29, "translate");
+    \u0275\u0275conditionalCreate(24, ContentMangementComponent_Conditional_24_Conditional_24_Template, 3, 0, "div", 31)(25, ContentMangementComponent_Conditional_24_Conditional_25_Template, 2, 1, "span", 29)(26, ContentMangementComponent_Conditional_24_Conditional_26_Template, 3, 3, "span", 29);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(30, "span", 28);
-    \u0275\u0275text(31);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(32, "div", 26)(33, "label", 27);
-    \u0275\u0275text(34);
-    \u0275\u0275pipe(35, "translate");
+    \u0275\u0275elementStart(27, "div", 27)(28, "label", 28);
+    \u0275\u0275text(29);
+    \u0275\u0275pipe(30, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(36, "span", 28);
-    \u0275\u0275text(37);
+    \u0275\u0275elementStart(31, "span", 29);
+    \u0275\u0275text(32);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(38, "div", 26)(39, "label", 27);
-    \u0275\u0275text(40);
-    \u0275\u0275pipe(41, "translate");
+    \u0275\u0275elementStart(33, "div", 27)(34, "label", 28);
+    \u0275\u0275text(35);
+    \u0275\u0275pipe(36, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(42, "span", 28);
-    \u0275\u0275text(43);
+    \u0275\u0275elementStart(37, "span", 29);
+    \u0275\u0275text(38);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(44, "div", 26)(45, "label", 27);
-    \u0275\u0275text(46);
-    \u0275\u0275pipe(47, "translate");
+    \u0275\u0275elementStart(39, "div", 27)(40, "label", 28);
+    \u0275\u0275text(41);
+    \u0275\u0275pipe(42, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(48, "span", 28);
-    \u0275\u0275text(49);
+    \u0275\u0275elementStart(43, "span", 29);
+    \u0275\u0275text(44);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(50, "div", 26)(51, "label", 27);
-    \u0275\u0275text(52);
-    \u0275\u0275pipe(53, "translate");
+    \u0275\u0275elementStart(45, "div", 27)(46, "label", 28);
+    \u0275\u0275text(47);
+    \u0275\u0275pipe(48, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(54, "span", 28);
-    \u0275\u0275text(55);
+    \u0275\u0275elementStart(49, "span", 29);
+    \u0275\u0275text(50);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(56, "div", 26)(57, "label", 27);
-    \u0275\u0275text(58);
-    \u0275\u0275pipe(59, "translate");
+    \u0275\u0275elementStart(51, "div", 27)(52, "label", 28);
+    \u0275\u0275text(53);
+    \u0275\u0275pipe(54, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(60, "p-tag", 17);
-    \u0275\u0275pipe(61, "translate");
+    \u0275\u0275elementStart(55, "span", 29);
+    \u0275\u0275text(56);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(57, "div", 27)(58, "label", 28);
+    \u0275\u0275text(59);
+    \u0275\u0275pipe(60, "translate");
+    \u0275\u0275elementEnd();
+    \u0275\u0275element(61, "p-tag", 18);
     \u0275\u0275pipe(62, "translate");
+    \u0275\u0275pipe(63, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(63, "div", 26)(64, "label", 27);
-    \u0275\u0275text(65);
-    \u0275\u0275pipe(66, "translate");
+    \u0275\u0275elementStart(64, "div", 27)(65, "label", 28);
+    \u0275\u0275text(66);
+    \u0275\u0275pipe(67, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(67, ContentMangementComponent_Conditional_24_Conditional_67_Template, 2, 2, "div", 29)(68, ContentMangementComponent_Conditional_24_Conditional_68_Template, 3, 3, "span", 28);
+    \u0275\u0275conditionalCreate(68, ContentMangementComponent_Conditional_24_Conditional_68_Template, 2, 2, "div", 32)(69, ContentMangementComponent_Conditional_24_Conditional_69_Template, 3, 3, "span", 29);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(69, "div", 26)(70, "label", 27);
-    \u0275\u0275text(71);
-    \u0275\u0275pipe(72, "translate");
+    \u0275\u0275elementStart(70, "div", 27)(71, "label", 28);
+    \u0275\u0275text(72);
+    \u0275\u0275pipe(73, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(73, "span", 28);
-    \u0275\u0275text(74);
-    \u0275\u0275pipe(75, "dateTime");
+    \u0275\u0275elementStart(74, "span", 29);
+    \u0275\u0275text(75);
+    \u0275\u0275pipe(76, "dateTime");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(76, "div", 26)(77, "label", 27);
-    \u0275\u0275text(78);
-    \u0275\u0275pipe(79, "translate");
+    \u0275\u0275elementStart(77, "div", 27)(78, "label", 28);
+    \u0275\u0275text(79);
+    \u0275\u0275pipe(80, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(80, "p-tag", 17);
+    \u0275\u0275element(81, "p-tag", 18);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(81, "div", 26)(82, "label", 27);
-    \u0275\u0275text(83);
-    \u0275\u0275pipe(84, "translate");
+    \u0275\u0275elementStart(82, "div", 27)(83, "label", 28);
+    \u0275\u0275text(84);
+    \u0275\u0275pipe(85, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(85, "p-tag", 17);
+    \u0275\u0275element(86, "p-tag", 18);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(86, "div", 26)(87, "label", 27);
-    \u0275\u0275text(88);
-    \u0275\u0275pipe(89, "translate");
+    \u0275\u0275elementStart(87, "div", 27)(88, "label", 28);
+    \u0275\u0275text(89);
+    \u0275\u0275pipe(90, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(90, "p-tag", 17);
-    \u0275\u0275pipe(91, "translate");
+    \u0275\u0275element(91, "p-tag", 18);
     \u0275\u0275pipe(92, "translate");
+    \u0275\u0275pipe(93, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(93, "div", 26)(94, "label", 27);
-    \u0275\u0275text(95);
-    \u0275\u0275pipe(96, "translate");
+    \u0275\u0275elementStart(94, "div", 27)(95, "label", 28);
+    \u0275\u0275text(96);
+    \u0275\u0275pipe(97, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(97, "p-tag", 17);
-    \u0275\u0275pipe(98, "translate");
+    \u0275\u0275element(98, "p-tag", 18);
     \u0275\u0275pipe(99, "translate");
+    \u0275\u0275pipe(100, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(100, "div", 26)(101, "label", 27);
-    \u0275\u0275text(102);
-    \u0275\u0275pipe(103, "translate");
+    \u0275\u0275elementStart(101, "div", 27)(102, "label", 28);
+    \u0275\u0275text(103);
+    \u0275\u0275pipe(104, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(104, "p-tag", 17);
-    \u0275\u0275pipe(105, "translate");
+    \u0275\u0275element(105, "p-tag", 18);
     \u0275\u0275pipe(106, "translate");
+    \u0275\u0275pipe(107, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(107, ContentMangementComponent_Conditional_24_Conditional_107_Template, 7, 7, "div", 26);
-    \u0275\u0275conditionalCreate(108, ContentMangementComponent_Conditional_24_Conditional_108_Template, 7, 3, "div", 26);
+    \u0275\u0275conditionalCreate(108, ContentMangementComponent_Conditional_24_Conditional_108_Template, 7, 7, "div", 27);
+    \u0275\u0275elementStart(109, "div", 30)(110, "label", 28);
+    \u0275\u0275text(111);
+    \u0275\u0275pipe(112, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(109, "div", 30)(110, "p-button", 31);
-    \u0275\u0275pipe(111, "translate");
-    \u0275\u0275listener("click", function ContentMangementComponent_Conditional_24_Template_p_button_click_110_listener() {
+    \u0275\u0275conditionalCreate(113, ContentMangementComponent_Conditional_24_Conditional_113_Template, 3, 0, "div", 33)(114, ContentMangementComponent_Conditional_24_Conditional_114_Template, 3, 3, "span", 29);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(115, "div", 30)(116, "label", 28);
+    \u0275\u0275text(117);
+    \u0275\u0275pipe(118, "translate");
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(119, ContentMangementComponent_Conditional_24_Conditional_119_Template, 3, 0, "ul", 34)(120, ContentMangementComponent_Conditional_24_Conditional_120_Template, 3, 3, "span", 29);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(121, "div", 35)(122, "p-button", 36);
+    \u0275\u0275pipe(123, "translate");
+    \u0275\u0275listener("click", function ContentMangementComponent_Conditional_24_Template_p_button_click_122_listener() {
       \u0275\u0275restoreView(_r5);
       const ctx_r3 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r3.closeViewDialog());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(112, "p-button", 32);
-    \u0275\u0275pipe(113, "translate");
-    \u0275\u0275pipe(114, "translate");
-    \u0275\u0275listener("click", function ContentMangementComponent_Conditional_24_Template_p_button_click_112_listener($event) {
+    \u0275\u0275elementStart(124, "p-button", 37);
+    \u0275\u0275pipe(125, "translate");
+    \u0275\u0275pipe(126, "translate");
+    \u0275\u0275listener("click", function ContentMangementComponent_Conditional_24_Template_p_button_click_124_listener($event) {
       \u0275\u0275restoreView(_r5);
       const ctx_r3 = \u0275\u0275nextContext();
       ctx_r3.togglePromote(ctx_r3.selectedOffer, $event);
@@ -114763,91 +116153,97 @@ function ContentMangementComponent_Conditional_24_Template(rf, ctx) {
   if (rf & 2) {
     const ctx_r3 = \u0275\u0275nextContext();
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(4, 46, "contentManagement.dialog.title"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(4, 49, "contentManagement.dialog.title"), ":");
     \u0275\u0275advance(3);
     \u0275\u0275textInterpolate(ctx_r3.selectedOffer.title);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(10, 48, "contentManagement.dialog.description"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(10, 51, "contentManagement.dialog.description"), ":");
     \u0275\u0275advance(3);
     \u0275\u0275textInterpolate(ctx_r3.selectedOffer.description);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(16, 50, "contentManagement.dialog.price"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(16, 53, "contentManagement.dialog.price"), ":");
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(19, 52, ctx_r3.selectedOffer.price, "1.2-2"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(19, 55, ctx_r3.selectedOffer.price, "1.2-2"));
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(23, 55, "contentManagement.dialog.vehicleMaker"), ":");
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(ctx_r3.selectedOffer.vehicleMaker);
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(29, 57, "contentManagement.dialog.category"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(23, 58, "contentManagement.dialog.vehicleCompatibilities"), ":");
+    \u0275\u0275advance(2);
+    \u0275\u0275conditional(ctx_r3.selectedOffer.vehicleCompatibilities.length > 0 ? 24 : ctx_r3.selectedOffer.vehicleMaker ? 25 : 26);
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(30, 60, "contentManagement.dialog.category"), ":");
     \u0275\u0275advance(3);
     \u0275\u0275textInterpolate(ctx_r3.selectedOffer.category);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(35, 59, "contentManagement.dialog.city"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(36, 62, "contentManagement.dialog.city"), ":");
     \u0275\u0275advance(3);
     \u0275\u0275textInterpolate(ctx_r3.selectedOffer.city);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(41, 61, "contentManagement.dialog.userName"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(42, 64, "contentManagement.dialog.userName"), ":");
     \u0275\u0275advance(3);
     \u0275\u0275textInterpolate(ctx_r3.selectedOffer.userName);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(47, 63, "contentManagement.dialog.userEmail"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(48, 66, "contentManagement.dialog.userEmail"), ":");
     \u0275\u0275advance(3);
     \u0275\u0275textInterpolate(ctx_r3.selectedOffer.userEmail);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(53, 65, "contentManagement.dialog.phone"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(54, 68, "contentManagement.dialog.phone"), ":");
     \u0275\u0275advance(3);
     \u0275\u0275textInterpolate(ctx_r3.selectedOffer.phone);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(59, 67, "contentManagement.dialog.displayPhone"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(60, 70, "contentManagement.dialog.displayPhone"), ":");
     \u0275\u0275advance(2);
-    \u0275\u0275property("severity", ctx_r3.selectedOffer.displayPhone ? "success" : "secondary")("value", ctx_r3.selectedOffer.displayPhone ? \u0275\u0275pipeBind1(61, 69, "common.yes") : \u0275\u0275pipeBind1(62, 71, "common.no"));
+    \u0275\u0275property("severity", ctx_r3.selectedOffer.displayPhone ? "success" : "secondary")("value", ctx_r3.selectedOffer.displayPhone ? \u0275\u0275pipeBind1(62, 72, "common.yes") : \u0275\u0275pipeBind1(63, 74, "common.no"));
     \u0275\u0275advance(5);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(66, 73, "contentManagement.dialog.profileLogo"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(67, 76, "contentManagement.dialog.profileLogo"), ":");
     \u0275\u0275advance(2);
-    \u0275\u0275conditional(ctx_r3.selectedOffer.profileLogo ? 67 : 68);
+    \u0275\u0275conditional(ctx_r3.selectedOffer.profileLogo ? 68 : 69);
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(72, 75, "contentManagement.dialog.createdFrom"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(73, 78, "contentManagement.dialog.createdFrom"), ":");
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(75, 77, ctx_r3.selectedOffer.createdAt));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(76, 80, ctx_r3.selectedOffer.createdAt));
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(79, 79, "contentManagement.dialog.status"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(80, 82, "contentManagement.dialog.status"), ":");
     \u0275\u0275advance(2);
     \u0275\u0275property("severity", ctx_r3.getActiveSeverity(ctx_r3.selectedOffer.isActive))("value", ctx_r3.getActiveText(ctx_r3.selectedOffer.isActive));
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(84, 81, "contentManagement.dialog.promoted"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(85, 84, "contentManagement.dialog.promoted"), ":");
     \u0275\u0275advance(2);
     \u0275\u0275property("severity", ctx_r3.getPromotedSeverity(ctx_r3.selectedOffer.isPromoted))("value", ctx_r3.getPromotedText(ctx_r3.selectedOffer.isPromoted));
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(89, 83, "contentManagement.dialog.isNew"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(90, 86, "contentManagement.dialog.isNew"), ":");
     \u0275\u0275advance(2);
-    \u0275\u0275property("severity", ctx_r3.selectedOffer.isNew ? "info" : "secondary")("value", ctx_r3.selectedOffer.isNew ? \u0275\u0275pipeBind1(91, 85, "common.yes") : \u0275\u0275pipeBind1(92, 87, "common.no"));
+    \u0275\u0275property("severity", ctx_r3.selectedOffer.isNew ? "info" : "secondary")("value", ctx_r3.selectedOffer.isNew ? \u0275\u0275pipeBind1(92, 88, "common.yes") : \u0275\u0275pipeBind1(93, 90, "common.no"));
     \u0275\u0275advance(5);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(96, 89, "contentManagement.dialog.isFavorite"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(97, 92, "contentManagement.dialog.isFavorite"), ":");
     \u0275\u0275advance(2);
-    \u0275\u0275property("severity", ctx_r3.selectedOffer.isFavorite ? "warning" : "secondary")("value", ctx_r3.selectedOffer.isFavorite ? \u0275\u0275pipeBind1(98, 91, "common.yes") : \u0275\u0275pipeBind1(99, 93, "common.no"));
+    \u0275\u0275property("severity", ctx_r3.selectedOffer.isFavorite ? "warning" : "secondary")("value", ctx_r3.selectedOffer.isFavorite ? \u0275\u0275pipeBind1(99, 94, "common.yes") : \u0275\u0275pipeBind1(100, 96, "common.no"));
     \u0275\u0275advance(5);
-    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(103, 95, "contentManagement.dialog.isRefreshed"), ":");
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(104, 98, "contentManagement.dialog.isRefreshed"), ":");
     \u0275\u0275advance(2);
-    \u0275\u0275property("severity", ctx_r3.selectedOffer.isRefreshed ? "success" : "secondary")("value", ctx_r3.selectedOffer.isRefreshed ? \u0275\u0275pipeBind1(105, 97, "common.yes") : \u0275\u0275pipeBind1(106, 99, "common.no"));
+    \u0275\u0275property("severity", ctx_r3.selectedOffer.isRefreshed ? "success" : "secondary")("value", ctx_r3.selectedOffer.isRefreshed ? \u0275\u0275pipeBind1(106, 100, "common.yes") : \u0275\u0275pipeBind1(107, 102, "common.no"));
     \u0275\u0275advance(3);
-    \u0275\u0275conditional(ctx_r3.selectedOffer.lastRefreshedAt ? 107 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r3.selectedOffer.offerImages && ctx_r3.selectedOffer.offerImages.length > 0 ? 108 : -1);
+    \u0275\u0275conditional(ctx_r3.selectedOffer.lastRefreshedAt ? 108 : -1);
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(112, 104, "contentManagement.dialog.offerImages"), ":");
     \u0275\u0275advance(2);
-    \u0275\u0275property("label", \u0275\u0275pipeBind1(111, 101, "contentManagement.button.close"));
+    \u0275\u0275conditional(ctx_r3.selectedOfferImages.length > 0 ? 113 : 114);
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(118, 106, "contentManagement.dialog.attachments"), ":");
     \u0275\u0275advance(2);
-    \u0275\u0275property("label", ctx_r3.selectedOffer.isPromoted ? \u0275\u0275pipeBind1(113, 103, "contentManagement.button.unpromote") : \u0275\u0275pipeBind1(114, 105, "contentManagement.button.promote"))("severity", ctx_r3.selectedOffer.isPromoted ? "secondary" : "success")("disabled", ctx_r3.loading);
+    \u0275\u0275conditional(ctx_r3.selectedOfferAttachments.length > 0 ? 119 : 120);
+    \u0275\u0275advance(3);
+    \u0275\u0275property("label", \u0275\u0275pipeBind1(123, 108, "contentManagement.button.close"));
+    \u0275\u0275advance(2);
+    \u0275\u0275property("label", ctx_r3.selectedOffer.isPromoted ? \u0275\u0275pipeBind1(125, 110, "contentManagement.button.unpromote") : \u0275\u0275pipeBind1(126, 112, "contentManagement.button.promote"))("severity", ctx_r3.selectedOffer.isPromoted ? "secondary" : "success")("disabled", ctx_r3.loading);
   }
 }
 function ContentMangementComponent_Conditional_27_Conditional_10_Template(rf, ctx) {
   if (rf & 1) {
-    const _r8 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 38);
-    \u0275\u0275element(1, "img", 42);
-    \u0275\u0275elementStart(2, "p-button", 43);
+    const _r12 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 55);
+    \u0275\u0275element(1, "img", 59);
+    \u0275\u0275elementStart(2, "p-button", 60);
     \u0275\u0275listener("click", function ContentMangementComponent_Conditional_27_Conditional_10_Template_p_button_click_2_listener() {
-      \u0275\u0275restoreView(_r8);
+      \u0275\u0275restoreView(_r12);
       const ctx_r3 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r3.removePromotionImage());
     });
@@ -114863,45 +116259,45 @@ function ContentMangementComponent_Conditional_27_Conditional_10_Template(rf, ct
 }
 function ContentMangementComponent_Conditional_27_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "p-progressSpinner", 44);
+    \u0275\u0275element(0, "p-progressSpinner", 61);
   }
   if (rf & 2) {
-    \u0275\u0275styleMap(\u0275\u0275pureFunction0(2, _c333));
+    \u0275\u0275styleMap(\u0275\u0275pureFunction0(2, _c423));
   }
 }
 function ContentMangementComponent_Conditional_27_Template(rf, ctx) {
   if (rf & 1) {
-    const _r7 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 35)(1, "div", 26)(2, "label", 27);
+    const _r11 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 52)(1, "div", 27)(2, "label", 28);
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "translate");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "span", 28);
+    \u0275\u0275elementStart(5, "span", 29);
     \u0275\u0275text(6);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(7, "div", 36)(8, "p-fileupload", 37);
+    \u0275\u0275elementStart(7, "div", 53)(8, "p-fileupload", 54);
     \u0275\u0275pipe(9, "translate");
     \u0275\u0275listener("onSelect", function ContentMangementComponent_Conditional_27_Template_p_fileupload_onSelect_8_listener($event) {
-      \u0275\u0275restoreView(_r7);
+      \u0275\u0275restoreView(_r11);
       const ctx_r3 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r3.onPromotionImageUpload($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(10, ContentMangementComponent_Conditional_27_Conditional_10_Template, 3, 3, "div", 38);
-    \u0275\u0275conditionalCreate(11, ContentMangementComponent_Conditional_27_Conditional_11_Template, 1, 3, "p-progressSpinner", 39);
+    \u0275\u0275conditionalCreate(10, ContentMangementComponent_Conditional_27_Conditional_10_Template, 3, 3, "div", 55);
+    \u0275\u0275conditionalCreate(11, ContentMangementComponent_Conditional_27_Conditional_11_Template, 1, 3, "p-progressSpinner", 56);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(12, "div", 30)(13, "p-button", 40);
+    \u0275\u0275elementStart(12, "div", 35)(13, "p-button", 57);
     \u0275\u0275pipe(14, "translate");
     \u0275\u0275listener("click", function ContentMangementComponent_Conditional_27_Template_p_button_click_13_listener() {
-      \u0275\u0275restoreView(_r7);
+      \u0275\u0275restoreView(_r11);
       const ctx_r3 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r3.cancelPromoteDialog());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(15, "p-button", 41);
+    \u0275\u0275elementStart(15, "p-button", 58);
     \u0275\u0275pipe(16, "translate");
     \u0275\u0275listener("click", function ContentMangementComponent_Conditional_27_Template_p_button_click_15_listener() {
-      \u0275\u0275restoreView(_r7);
+      \u0275\u0275restoreView(_r11);
       const ctx_r3 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r3.confirmPromote());
     });
@@ -114925,6 +116321,15 @@ function ContentMangementComponent_Conditional_27_Template(rf, ctx) {
     \u0275\u0275property("label", \u0275\u0275pipeBind1(16, 18, "contentManagement.button.promote"))("loading", ctx_r3.loading)("disabled", !ctx_r3.uploadedPromotionImageUrl);
   }
 }
+var ATTACHMENT_ICONS = {
+  pdf: "pi pi-file-pdf",
+  doc: "pi pi-file-word",
+  docx: "pi pi-file-word",
+  xls: "pi pi-file-excel",
+  xlsx: "pi pi-file-excel",
+  csv: "pi pi-file-excel"
+};
+var IMAGE_EXTENSIONS = /* @__PURE__ */ new Set(["jpg", "jpeg", "png", "gif", "webp", "bmp", "svg", "heic", "avif"]);
 var ContentMangementComponent = class _ContentMangementComponent {
   contentManagementService;
   cdr;
@@ -114952,6 +116357,9 @@ var ContentMangementComponent = class _ContentMangementComponent {
   // Dialog properties
   viewDialogVisible = false;
   selectedOffer = null;
+  selectedOfferImages = [];
+  selectedOfferAttachments = [];
+  downloadingAttachmentIds = /* @__PURE__ */ new Set();
   // Promotion dialog properties
   promoteDialogVisible = false;
   selectedOfferForPromotion = null;
@@ -115148,7 +116556,14 @@ var ContentMangementComponent = class _ContentMangementComponent {
     this.contentManagementService.getAdminOfferById(offer.id).pipe(takeUntil(this.destroy$)).subscribe({
       next: (detailedOffer) => {
         console.log("Offer details loaded:", detailedOffer);
-        this.selectedOffer = detailedOffer;
+        this.selectedOffer = __spreadProps(__spreadValues({}, detailedOffer), {
+          isPromoted: detailedOffer.isPromoted ?? offer.isPromoted
+        });
+        this.selectedOfferImages = detailedOffer.offerImages.map((image) => ({
+          thumbnailSrc: resolveOfferImageUrl(image, "Thumbnail"),
+          previewSrc: resolveOfferImageUrl(image, "Detail")
+        }));
+        this.selectedOfferAttachments = detailedOffer.attachments.map((attachment) => this.toAttachmentView(attachment));
         this.viewDialogVisible = true;
         this.loading = false;
         this.cdr.detectChanges();
@@ -115416,6 +116831,57 @@ var ContentMangementComponent = class _ContentMangementComponent {
   closeViewDialog() {
     this.viewDialogVisible = false;
     this.selectedOffer = null;
+    this.selectedOfferImages = [];
+    this.selectedOfferAttachments = [];
+  }
+  /**
+   * Download an attachment under its original file name.
+   * Cross-origin URLs ignore the `download` attribute, so the file is fetched as a blob.
+   * Native fetch is used to bypass HttpClient interceptors (no auth header to a third-party host).
+   * Falls back to opening the file in a new tab if the fetch fails (e.g. CORS).
+   */
+  async downloadAttachment(attachment) {
+    if (this.downloadingAttachmentIds.has(attachment.publicId))
+      return;
+    this.downloadingAttachmentIds.add(attachment.publicId);
+    this.cdr.markForCheck();
+    try {
+      const response = await fetch(attachment.url);
+      if (!response.ok)
+        throw new Error(`HTTP ${response.status}`);
+      const objectUrl = URL.createObjectURL(await response.blob());
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = attachment.fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 1e3);
+    } catch (error) {
+      console.error("Attachment download failed, opening in a new tab instead:", error);
+      window.open(attachment.url, "_blank", "noopener");
+    } finally {
+      this.downloadingAttachmentIds.delete(attachment.publicId);
+      this.cdr.markForCheck();
+    }
+  }
+  toAttachmentView(attachment) {
+    const fileName = attachment.fileName || attachment.publicId?.split("/").pop() || this.t("contentManagement.attachment.file");
+    const extension = this.getFileExtension(fileName) || this.getFileExtension(attachment.url);
+    const isImage = IMAGE_EXTENSIONS.has(extension);
+    return {
+      url: attachment.url,
+      publicId: attachment.publicId || attachment.url,
+      fileName,
+      extension: extension.toUpperCase(),
+      icon: isImage ? "pi pi-image" : ATTACHMENT_ICONS[extension] ?? "pi pi-file",
+      isImage
+    };
+  }
+  getFileExtension(value) {
+    const name = (value ?? "").split(/[?#]/)[0].split("/").pop() ?? "";
+    const dotIndex = name.lastIndexOf(".");
+    return dotIndex > 0 ? name.slice(dotIndex + 1).toLowerCase() : "";
   }
   t(key, params) {
     return this.languageService.translate(key, params);
@@ -115423,7 +116889,7 @@ var ContentMangementComponent = class _ContentMangementComponent {
   static \u0275fac = function ContentMangementComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ContentMangementComponent)(\u0275\u0275directiveInject(ContentMangementService), \u0275\u0275directiveInject(ChangeDetectorRef), \u0275\u0275directiveInject(ConfirmationService), \u0275\u0275directiveInject(MessageService), \u0275\u0275directiveInject(LanguageService));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ContentMangementComponent, selectors: [["app-content-mangement"]], features: [\u0275\u0275ProvidersFeature([ConfirmationService, MessageService])], decls: 30, vars: 72, consts: [["header", ""], ["body", ""], [3, "header"], [1, "card"], [1, "action-container"], [1, "flex-grow"], [1, "pi", "pi-search"], ["type", "text", "pInputText", "", 2, "width", "100%", 3, "ngModelChange", "input", "placeholder", "ngModel", "disabled"], ["selectionMode", "range", "showIcon", "", "iconDisplay", "input", 1, "flex-grow", 3, "ngModelChange", "onSelect", "onClear", "ngModel", "readonlyInput", "showClear", "placeholder", "disabled"], ["optionLabel", "label", "optionValue", "value", 1, "flex-grow", 3, "ngModelChange", "onChange", "options", "ngModel", "placeholder", "disabled", "showClear"], ["showGridlines", "", "stripedRows", "", "scrollHeight", "600px", "paginatorPosition", "bottom", 3, "onPage", "value", "scrollable", "paginator", "rows", "first", "totalRecords", "lazy", "currentPageReportTemplate", "rowsPerPageOptions", "loading", "showCurrentPageReport"], ["pTemplate", "emptymessage"], [3, "visibleChange", "header", "modal", "visible", "closable", "draggable", "resizable"], [2, "min-width", "200px"], [2, "min-width", "120px"], [2, "min-width", "150px"], [2, "min-width", "300px"], [3, "severity", "value"], [1, "table-actions"], ["icon", "pi pi-eye", 3, "click", "pTooltip", "disabled"], ["icon", "pi pi-star", 3, "click", "pTooltip", "severity", "disabled"], ["icon", "pi pi-trash", "severity", "danger", 3, "click", "pTooltip", "disabled"], ["colspan", "10"], [1, "empty-container"], [1, "pi", "pi-info-circle"], [1, "details-container"], [1, "detail-row"], [1, "detail-label"], [1, "detail-value"], [1, "offer-images-container", 2, "display", "flex", "gap", "8px", "flex-wrap", "wrap"], [1, "dialog-footer"], ["severity", "secondary", 3, "click", "label"], [3, "click", "label", "severity", "disabled"], ["alt", "Profile Logo", "width", "100", 3, "src", "preview"], ["alt", "Image", "width", "100", 3, "src", "preview"], [1, "promote-dialog-content"], [1, "input-container"], ["mode", "basic", "name", "promotionImage", "chooseIcon", "pi pi-upload", "accept", "image/*", "maxFileSize", "5000000", 3, "onSelect", "auto", "chooseLabel", "disabled"], [1, "uploaded-image-container"], ["strokeWidth", "5", 3, "style"], ["severity", "secondary", 3, "click", "label", "disabled"], ["severity", "success", 3, "click", "label", "loading", "disabled"], [1, "uploaded-image", 3, "src"], ["icon", "pi pi-times", "severity", "danger", "size", "small", 3, "click", "text", "disabled"], ["strokeWidth", "5"]], template: function ContentMangementComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ContentMangementComponent, selectors: [["app-content-mangement"]], features: [\u0275\u0275ProvidersFeature([ConfirmationService, MessageService])], decls: 30, vars: 74, consts: [["header", ""], ["body", ""], [3, "header"], [1, "card"], [1, "action-container"], [1, "flex-grow"], [1, "pi", "pi-search"], ["type", "text", "pInputText", "", 2, "width", "100%", 3, "ngModelChange", "input", "placeholder", "ngModel", "disabled"], ["selectionMode", "range", "showIcon", "", "iconDisplay", "input", 1, "flex-grow", 3, "ngModelChange", "onSelect", "onClear", "ngModel", "readonlyInput", "showClear", "placeholder", "disabled"], ["optionLabel", "label", "optionValue", "value", 1, "flex-grow", 3, "ngModelChange", "onChange", "options", "ngModel", "placeholder", "disabled", "showClear"], ["showGridlines", "", "stripedRows", "", "scrollHeight", "600px", "paginatorPosition", "bottom", 3, "onPage", "value", "scrollable", "paginator", "rows", "first", "totalRecords", "lazy", "currentPageReportTemplate", "rowsPerPageOptions", "loading", "showCurrentPageReport"], ["pTemplate", "emptymessage"], [3, "visibleChange", "header", "modal", "visible", "breakpoints", "closable", "draggable", "resizable"], [3, "visibleChange", "header", "modal", "visible", "closable", "draggable", "resizable"], [2, "min-width", "200px"], [2, "min-width", "120px"], [2, "min-width", "150px"], [2, "min-width", "300px"], [3, "severity", "value"], [1, "table-actions"], ["icon", "pi pi-eye", 3, "click", "pTooltip", "disabled"], ["icon", "pi pi-star", 3, "click", "pTooltip", "severity", "disabled"], ["icon", "pi pi-trash", "severity", "danger", 3, "click", "pTooltip", "disabled"], ["colspan", "10"], [1, "empty-container"], [1, "pi", "pi-info-circle"], [1, "details-container"], [1, "detail-row"], [1, "detail-label"], [1, "detail-value"], [1, "detail-row", "detail-row--top"], [1, "vehicle-compatibility-list"], [1, "offer-images-container", 2, "display", "flex", "gap", "8px", "flex-wrap", "wrap"], [1, "offer-images-container"], [1, "attachments-list"], [1, "dialog-footer"], ["severity", "secondary", 3, "click", "label"], [3, "click", "label", "severity", "disabled"], [1, "vehicle-compatibility-item"], [1, "vehicle-maker-name"], [1, "vehicle-models"], ["severity", "secondary", 3, "value"], ["alt", "Profile Logo", "width", "100", 3, "src", "preview"], ["width", "100", "height", "100", "imageClass", "offer-image-thumb", "loading", "lazy", 3, "src", "previewImageSrc", "alt", "preview"], [1, "attachment-item"], [1, "attachment-icon"], [1, "attachment-info"], ["dir", "auto", "tooltipPosition", "top", 1, "attachment-name", 3, "pTooltip"], [1, "attachment-type"], [1, "attachment-actions"], ["pButton", "", "target", "_blank", "rel", "noopener noreferrer", "icon", "pi pi-external-link", "severity", "secondary", "tooltipPosition", "top", 3, "href", "text", "rounded", "pTooltip"], ["icon", "pi pi-download", "tooltipPosition", "top", 3, "click", "text", "rounded", "loading", "ariaLabel", "pTooltip"], [1, "promote-dialog-content"], [1, "input-container"], ["mode", "basic", "name", "promotionImage", "chooseIcon", "pi pi-upload", "accept", "image/*", "maxFileSize", "5000000", 3, "onSelect", "auto", "chooseLabel", "disabled"], [1, "uploaded-image-container"], ["strokeWidth", "5", 3, "style"], ["severity", "secondary", 3, "click", "label", "disabled"], ["severity", "success", 3, "click", "label", "loading", "disabled"], [1, "uploaded-image", 3, "src"], ["icon", "pi pi-times", "severity", "danger", "size", "small", 3, "click", "text", "disabled"], ["strokeWidth", "5"]], template: function ContentMangementComponent_Template(rf, ctx) {
     if (rf & 1) {
       const _r1 = \u0275\u0275getCurrentView();
       \u0275\u0275elementStart(0, "p-card", 2);
@@ -115507,9 +116973,9 @@ var ContentMangementComponent = class _ContentMangementComponent {
         \u0275\u0275twoWayBindingSet(ctx.viewDialogVisible, $event) || (ctx.viewDialogVisible = $event);
         return \u0275\u0275resetView($event);
       });
-      \u0275\u0275conditionalCreate(24, ContentMangementComponent_Conditional_24_Template, 115, 107);
+      \u0275\u0275conditionalCreate(24, ContentMangementComponent_Conditional_24_Template, 127, 114);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(25, "p-dialog", 12);
+      \u0275\u0275elementStart(25, "p-dialog", 13);
       \u0275\u0275pipe(26, "translate");
       \u0275\u0275twoWayListener("visibleChange", function ContentMangementComponent_Template_p_dialog_visibleChange_25_listener($event) {
         \u0275\u0275restoreView(_r1);
@@ -115521,38 +116987,38 @@ var ContentMangementComponent = class _ContentMangementComponent {
       \u0275\u0275element(28, "p-toast")(29, "p-confirmpopup");
     }
     if (rf & 2) {
-      \u0275\u0275property("header", \u0275\u0275pipeBind1(1, 53, "contentManagement.header"));
+      \u0275\u0275property("header", \u0275\u0275pipeBind1(1, 54, "contentManagement.header"));
       \u0275\u0275advance(6);
-      \u0275\u0275property("placeholder", \u0275\u0275pipeBind1(7, 55, "contentManagement.filters.searchPlaceholder"));
+      \u0275\u0275property("placeholder", \u0275\u0275pipeBind1(7, 56, "contentManagement.filters.searchPlaceholder"));
       \u0275\u0275twoWayProperty("ngModel", ctx.searchKeyword);
       \u0275\u0275property("disabled", ctx.loading);
       \u0275\u0275advance(2);
       \u0275\u0275twoWayProperty("ngModel", ctx.rangeDates);
-      \u0275\u0275property("readonlyInput", true)("showClear", true)("placeholder", \u0275\u0275pipeBind1(9, 57, "contentManagement.filters.datePlaceholder"))("disabled", ctx.loading);
+      \u0275\u0275property("readonlyInput", true)("showClear", true)("placeholder", \u0275\u0275pipeBind1(9, 58, "contentManagement.filters.datePlaceholder"))("disabled", ctx.loading);
       \u0275\u0275advance(2);
       \u0275\u0275property("options", ctx.durationFilterOptions);
       \u0275\u0275twoWayProperty("ngModel", ctx.selectedDuration);
-      \u0275\u0275property("placeholder", \u0275\u0275pipeBind1(11, 59, "contentManagement.filters.durationPlaceholder"))("disabled", ctx.loading)("showClear", true);
+      \u0275\u0275property("placeholder", \u0275\u0275pipeBind1(11, 60, "contentManagement.filters.durationPlaceholder"))("disabled", ctx.loading)("showClear", true);
       \u0275\u0275advance(2);
       \u0275\u0275property("options", ctx.activeFilterOptions);
       \u0275\u0275twoWayProperty("ngModel", ctx.selectedIsActive);
-      \u0275\u0275property("placeholder", \u0275\u0275pipeBind1(13, 61, "contentManagement.filters.statusPlaceholder"))("disabled", ctx.loading)("showClear", true);
+      \u0275\u0275property("placeholder", \u0275\u0275pipeBind1(13, 62, "contentManagement.filters.statusPlaceholder"))("disabled", ctx.loading)("showClear", true);
       \u0275\u0275advance(2);
       \u0275\u0275property("options", ctx.promotedFilterOptions);
       \u0275\u0275twoWayProperty("ngModel", ctx.selectedIsPromoted);
-      \u0275\u0275property("placeholder", \u0275\u0275pipeBind1(15, 63, "contentManagement.filters.promotedPlaceholder"))("disabled", ctx.loading)("showClear", true);
+      \u0275\u0275property("placeholder", \u0275\u0275pipeBind1(15, 64, "contentManagement.filters.promotedPlaceholder"))("disabled", ctx.loading)("showClear", true);
       \u0275\u0275advance(2);
-      \u0275\u0275property("value", ctx.offers)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(69, _c089))("loading", ctx.loading)("showCurrentPageReport", true);
+      \u0275\u0275property("value", ctx.offers)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(70, _c090))("loading", ctx.loading)("showCurrentPageReport", true);
       \u0275\u0275advance(6);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(70, _c167));
-      \u0275\u0275property("header", \u0275\u0275pipeBind1(23, 65, "contentManagement.dialog.header"))("modal", true);
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(71, _c168));
+      \u0275\u0275property("header", \u0275\u0275pipeBind1(23, 66, "contentManagement.dialog.header"))("modal", true);
       \u0275\u0275twoWayProperty("visible", ctx.viewDialogVisible);
-      \u0275\u0275property("closable", !ctx.loading)("draggable", false)("resizable", false);
+      \u0275\u0275property("breakpoints", \u0275\u0275pureFunction0(72, _c247))("closable", !ctx.loading)("draggable", false)("resizable", false);
       \u0275\u0275advance(2);
       \u0275\u0275conditional(ctx.selectedOffer ? 24 : -1);
       \u0275\u0275advance();
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(71, _c246));
-      \u0275\u0275property("header", \u0275\u0275pipeBind1(26, 67, "contentManagement.dialog.promoteHeader"))("modal", true);
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(73, _c335));
+      \u0275\u0275property("header", \u0275\u0275pipeBind1(26, 68, "contentManagement.dialog.promoteHeader"))("modal", true);
       \u0275\u0275twoWayProperty("visible", ctx.promoteDialogVisible);
       \u0275\u0275property("closable", !ctx.loading)("draggable", false)("resizable", false);
       \u0275\u0275advance(2);
@@ -115565,6 +117031,7 @@ var ContentMangementComponent = class _ContentMangementComponent {
     TableModule,
     Table,
     ButtonModule,
+    ButtonDirective,
     Button,
     DialogModule,
     Dialog,
@@ -115596,7 +117063,7 @@ var ContentMangementComponent = class _ContentMangementComponent {
     DatePipe,
     TranslatePipe,
     DateTimePipe
-  ], styles: ["\n\n[_nghost-%COMP%] {\n  display: block;\n}\n.action-container[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n  margin-block: 0.5rem;\n}\n.action-container[_ngcontent-%COMP%]   .flex-grow[_ngcontent-%COMP%] {\n  flex: 1;\n  flex-grow: 1;\n  min-width: 120px;\n}\n.empty-container[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  font-size: 1rem;\n  font-weight: 600;\n}\n.table-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  align-items: center;\n  flex-wrap: wrap;\n}\n.details-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  padding: 1rem 0;\n}\n.detail-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n}\n.detail-label[_ngcontent-%COMP%] {\n  font-weight: 600;\n  color: var(--p-text-color);\n  min-width: 140px;\n}\n.detail-value[_ngcontent-%COMP%] {\n  color: var(--p-text-muted-color);\n}\n.dialog-footer[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  gap: 0.75rem;\n  margin-block-start: 1.5rem;\n  padding-top: 1rem;\n}\n.promote-dialog-content[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  padding: 1rem 0;\n}\n.input-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.image-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n.image-container[_ngcontent-%COMP%]   .ad-image[_ngcontent-%COMP%] {\n  width: 100px;\n  height: 80px;\n  object-fit: cover !important;\n  object-position: center !important;\n  border-radius: 0.5rem;\n  border: 1px solid var(--p-zinc-200);\n}\n.no-image-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 0.25rem;\n  color: var(--p-text-muted-color);\n  font-size: 0.8rem;\n}\n.no-image-container[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 1.3rem;\n}\n.uploaded-image-container[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  border: 1px solid var(--p-zinc-200);\n  border-radius: 0.5rem;\n  padding: 0.15rem 0.5rem;\n  margin-block: 0.5rem;\n}\n.uploaded-image-container[_ngcontent-%COMP%]   .uploaded-image[_ngcontent-%COMP%] {\n  width: 100px;\n  height: 80px;\n  object-fit: cover !important;\n  object-position: center !important;\n  border-radius: 0.5rem;\n}\n/*# sourceMappingURL=content-mangement.component.css.map */"], changeDetection: 0 });
+  ], styles: ["\n\n[_nghost-%COMP%] {\n  display: block;\n}\n.action-container[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n  margin-block: 0.5rem;\n}\n.action-container[_ngcontent-%COMP%]   .flex-grow[_ngcontent-%COMP%] {\n  flex: 1;\n  flex-grow: 1;\n  min-width: 120px;\n}\n.empty-container[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  font-size: 1rem;\n  font-weight: 600;\n}\n.table-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  align-items: center;\n  flex-wrap: wrap;\n}\n.details-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  padding: 1rem 0;\n}\n.detail-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n}\n.detail-row--top[_ngcontent-%COMP%] {\n  align-items: flex-start;\n}\n.detail-row--top[_ngcontent-%COMP%]    > .detail-label[_ngcontent-%COMP%] {\n  padding-top: 0.35rem;\n}\n.detail-label[_ngcontent-%COMP%] {\n  font-weight: 600;\n  color: var(--p-text-color);\n  min-width: 140px;\n}\n.vehicle-compatibility-list[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n  flex: 1;\n  min-width: 0;\n}\n.vehicle-compatibility-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n.vehicle-compatibility-item[_ngcontent-%COMP%]   .vehicle-maker-name[_ngcontent-%COMP%] {\n  font-weight: 500;\n  color: var(--p-text-color);\n}\n.vehicle-compatibility-item[_ngcontent-%COMP%]   .vehicle-models[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.25rem;\n}\n.offer-images-container[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n}\n.offer-images-container[_ngcontent-%COMP%]     .offer-image-thumb {\n  width: 100px;\n  height: 100px;\n  object-fit: cover;\n  border-radius: 0.5rem;\n  border: 1px solid var(--p-content-border-color);\n}\n.attachments-list[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n  flex: 1;\n  min-width: 0;\n}\n.attachment-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.5rem 0.75rem;\n  border: 1px solid var(--p-content-border-color);\n  border-radius: 0.5rem;\n  background: var(--p-content-background);\n  transition: background-color 0.15s ease;\n}\n.attachment-item[_ngcontent-%COMP%]:hover {\n  background: var(--p-content-hover-background);\n}\n.attachment-icon[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n  width: 2.5rem;\n  height: 2.5rem;\n  border-radius: 0.5rem;\n  background: var(--p-primary-50);\n  color: var(--p-primary-color);\n}\n.attachment-icon[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 1.25rem;\n}\n.attachment-icon--pdf[_ngcontent-%COMP%] {\n  background: var(--p-red-50);\n  color: var(--p-red-500);\n}\n.attachment-info[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-width: 0;\n}\n.attachment-info[_ngcontent-%COMP%]   .attachment-name[_ngcontent-%COMP%] {\n  color: var(--p-text-color);\n  font-weight: 500;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.attachment-info[_ngcontent-%COMP%]   .attachment-type[_ngcontent-%COMP%] {\n  color: var(--p-text-muted-color);\n  font-size: 0.75rem;\n}\n.attachment-actions[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  flex-shrink: 0;\n  gap: 0.25rem;\n}\n@media (max-width: 640px) {\n  .detail-row--top[_ngcontent-%COMP%] {\n    flex-direction: column;\n    gap: 0.5rem;\n  }\n  .detail-row--top[_ngcontent-%COMP%]    > .detail-label[_ngcontent-%COMP%] {\n    padding-top: 0;\n  }\n  .detail-row--top[_ngcontent-%COMP%]    > .attachments-list[_ngcontent-%COMP%], \n   .detail-row--top[_ngcontent-%COMP%]    > .vehicle-compatibility-list[_ngcontent-%COMP%] {\n    width: 100%;\n  }\n}\n.detail-value[_ngcontent-%COMP%] {\n  color: var(--p-text-muted-color);\n}\n.dialog-footer[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  gap: 0.75rem;\n  margin-block-start: 1.5rem;\n  padding-top: 1rem;\n}\n.promote-dialog-content[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  padding: 1rem 0;\n}\n.input-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.image-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n.image-container[_ngcontent-%COMP%]   .ad-image[_ngcontent-%COMP%] {\n  width: 100px;\n  height: 80px;\n  object-fit: cover !important;\n  object-position: center !important;\n  border-radius: 0.5rem;\n  border: 1px solid var(--p-zinc-200);\n}\n.no-image-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 0.25rem;\n  color: var(--p-text-muted-color);\n  font-size: 0.8rem;\n}\n.no-image-container[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 1.3rem;\n}\n.uploaded-image-container[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  border: 1px solid var(--p-zinc-200);\n  border-radius: 0.5rem;\n  padding: 0.15rem 0.5rem;\n  margin-block: 0.5rem;\n}\n.uploaded-image-container[_ngcontent-%COMP%]   .uploaded-image[_ngcontent-%COMP%] {\n  width: 100px;\n  height: 80px;\n  object-fit: cover !important;\n  object-position: center !important;\n  border-radius: 0.5rem;\n}\n/*# sourceMappingURL=content-mangement.component.css.map */"], changeDetection: 0 });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ContentMangementComponent, [{
@@ -115720,7 +117187,8 @@ var ContentMangementComponent = class _ContentMangementComponent {
 \r
 <!-- View Details Dialog -->\r
 <p-dialog [header]="'contentManagement.dialog.header' | translate" [modal]="true" [(visible)]="viewDialogVisible"\r
-  [style]="{ width: '50rem' }" [closable]="!loading" [draggable]="false" [resizable]="false">\r
+  [style]="{ width: '50rem' }" [breakpoints]="{ '960px': '75vw', '640px': '95vw' }" [closable]="!loading"\r
+  [draggable]="false" [resizable]="false">\r
   @if (selectedOffer) {\r
   <div class="details-container">\r
     <div class="detail-row">\r
@@ -115735,9 +117203,26 @@ var ContentMangementComponent = class _ContentMangementComponent {
       <label class="detail-label">{{'contentManagement.dialog.price' | translate}}:</label>\r
       <span class="detail-value">{{selectedOffer.price | number:'1.2-2'}}</span>\r
     </div>\r
-    <div class="detail-row">\r
-      <label class="detail-label">{{'contentManagement.dialog.vehicleMaker' | translate}}:</label>\r
+    <div class="detail-row detail-row--top">\r
+      <label class="detail-label">{{'contentManagement.dialog.vehicleCompatibilities' | translate}}:</label>\r
+      @if (selectedOffer.vehicleCompatibilities.length > 0) {\r
+      <div class="vehicle-compatibility-list">\r
+        @for (maker of selectedOffer.vehicleCompatibilities; track maker.vehicleMakerId) {\r
+        <div class="vehicle-compatibility-item">\r
+          <span class="vehicle-maker-name">{{maker.vehicleMakerName}}</span>\r
+          <div class="vehicle-models">\r
+            @for (model of maker.models; track model.vehicleModelId) {\r
+            <p-tag severity="secondary" [value]="model.vehicleModelName" />\r
+            }\r
+          </div>\r
+        </div>\r
+        }\r
+      </div>\r
+      } @else if (selectedOffer.vehicleMaker) {\r
       <span class="detail-value">{{selectedOffer.vehicleMaker}}</span>\r
+      } @else {\r
+      <span class="detail-value">{{'common.notAvailable' | translate}}</span>\r
+      }\r
     </div>\r
     <div class="detail-row">\r
       <label class="detail-label">{{'contentManagement.dialog.category' | translate}}:</label>\r
@@ -115809,16 +117294,51 @@ var ContentMangementComponent = class _ContentMangementComponent {
       <span class="detail-value">{{selectedOffer.lastRefreshedAt | date:'medium'}}</span>\r
     </div>\r
     }\r
-    @if (selectedOffer.offerImages && selectedOffer.offerImages.length > 0) {\r
-    <div class="detail-row">\r
+    <div class="detail-row detail-row--top">\r
       <label class="detail-label">{{'contentManagement.dialog.offerImages' | translate}}:</label>\r
-      <div class="offer-images-container" style="display: flex; gap: 8px; flex-wrap: wrap;">\r
-        @for (image of selectedOffer.offerImages; track image) {\r
-        <p-image [src]="image" alt="Image" width="100" [preview]="true" />\r
+      @if (selectedOfferImages.length > 0) {\r
+      <div class="offer-images-container">\r
+        @for (image of selectedOfferImages; track $index) {\r
+        <p-image [src]="image.thumbnailSrc" [previewImageSrc]="image.previewSrc" [alt]="selectedOffer.title"\r
+          width="100" height="100" imageClass="offer-image-thumb" [preview]="true" loading="lazy" />\r
         }\r
       </div>\r
+      } @else {\r
+      <span class="detail-value">{{'common.notAvailable' | translate}}</span>\r
+      }\r
     </div>\r
-    }\r
+    <div class="detail-row detail-row--top">\r
+      <label class="detail-label">{{'contentManagement.dialog.attachments' | translate}}:</label>\r
+      @if (selectedOfferAttachments.length > 0) {\r
+      <ul class="attachments-list">\r
+        @for (attachment of selectedOfferAttachments; track attachment.publicId) {\r
+        <li class="attachment-item">\r
+          <span class="attachment-icon" [class.attachment-icon--pdf]="attachment.extension === 'PDF'">\r
+            <i [class]="attachment.icon"></i>\r
+          </span>\r
+          <div class="attachment-info">\r
+            <span class="attachment-name" dir="auto" [pTooltip]="attachment.fileName"\r
+              tooltipPosition="top">{{attachment.fileName}}</span>\r
+            <span class="attachment-type">{{attachment.extension || ('contentManagement.attachment.file' | translate)}}</span>\r
+          </div>\r
+          <div class="attachment-actions">\r
+            <a pButton [href]="attachment.url" target="_blank" rel="noopener noreferrer" icon="pi pi-external-link"\r
+              [text]="true" [rounded]="true" severity="secondary"\r
+              [attr.aria-label]="'contentManagement.button.openAttachment' | translate"\r
+              [pTooltip]="'contentManagement.button.openAttachment' | translate" tooltipPosition="top"></a>\r
+            <p-button icon="pi pi-download" [text]="true" [rounded]="true"\r
+              [loading]="downloadingAttachmentIds.has(attachment.publicId)"\r
+              [ariaLabel]="'contentManagement.button.downloadAttachment' | translate"\r
+              [pTooltip]="'contentManagement.button.downloadAttachment' | translate" tooltipPosition="top"\r
+              (click)="downloadAttachment(attachment)" />\r
+          </div>\r
+        </li>\r
+        }\r
+      </ul>\r
+      } @else {\r
+      <span class="detail-value">{{'contentManagement.dialog.noAttachments' | translate}}</span>\r
+      }\r
+    </div>\r
   </div>\r
 \r
   <div class="dialog-footer">\r
@@ -115874,21 +117394,21 @@ var ContentMangementComponent = class _ContentMangementComponent {
 </p-dialog>\r
 \r
 <p-toast />\r
-<p-confirmpopup />`, styles: ["/* src/app/features/content-mangement/content-mangement/content-mangement.component.scss */\n:host {\n  display: block;\n}\n.action-container {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n  margin-block: 0.5rem;\n}\n.action-container .flex-grow {\n  flex: 1;\n  flex-grow: 1;\n  min-width: 120px;\n}\n.empty-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  font-size: 1rem;\n  font-weight: 600;\n}\n.table-actions {\n  display: flex;\n  gap: 0.5rem;\n  align-items: center;\n  flex-wrap: wrap;\n}\n.details-container {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  padding: 1rem 0;\n}\n.detail-row {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n}\n.detail-label {\n  font-weight: 600;\n  color: var(--p-text-color);\n  min-width: 140px;\n}\n.detail-value {\n  color: var(--p-text-muted-color);\n}\n.dialog-footer {\n  display: flex;\n  justify-content: center;\n  gap: 0.75rem;\n  margin-block-start: 1.5rem;\n  padding-top: 1rem;\n}\n.promote-dialog-content {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  padding: 1rem 0;\n}\n.input-container {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.image-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n.image-container .ad-image {\n  width: 100px;\n  height: 80px;\n  object-fit: cover !important;\n  object-position: center !important;\n  border-radius: 0.5rem;\n  border: 1px solid var(--p-zinc-200);\n}\n.no-image-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 0.25rem;\n  color: var(--p-text-muted-color);\n  font-size: 0.8rem;\n}\n.no-image-container i {\n  font-size: 1.3rem;\n}\n.uploaded-image-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  border: 1px solid var(--p-zinc-200);\n  border-radius: 0.5rem;\n  padding: 0.15rem 0.5rem;\n  margin-block: 0.5rem;\n}\n.uploaded-image-container .uploaded-image {\n  width: 100px;\n  height: 80px;\n  object-fit: cover !important;\n  object-position: center !important;\n  border-radius: 0.5rem;\n}\n/*# sourceMappingURL=content-mangement.component.css.map */\n"] }]
+<p-confirmpopup />`, styles: ["/* src/app/features/content-mangement/content-mangement/content-mangement.component.scss */\n:host {\n  display: block;\n}\n.action-container {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n  margin-block: 0.5rem;\n}\n.action-container .flex-grow {\n  flex: 1;\n  flex-grow: 1;\n  min-width: 120px;\n}\n.empty-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  font-size: 1rem;\n  font-weight: 600;\n}\n.table-actions {\n  display: flex;\n  gap: 0.5rem;\n  align-items: center;\n  flex-wrap: wrap;\n}\n.details-container {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  padding: 1rem 0;\n}\n.detail-row {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n}\n.detail-row--top {\n  align-items: flex-start;\n}\n.detail-row--top > .detail-label {\n  padding-top: 0.35rem;\n}\n.detail-label {\n  font-weight: 600;\n  color: var(--p-text-color);\n  min-width: 140px;\n}\n.vehicle-compatibility-list {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n  flex: 1;\n  min-width: 0;\n}\n.vehicle-compatibility-item {\n  display: flex;\n  align-items: center;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n.vehicle-compatibility-item .vehicle-maker-name {\n  font-weight: 500;\n  color: var(--p-text-color);\n}\n.vehicle-compatibility-item .vehicle-models {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.25rem;\n}\n.offer-images-container {\n  display: flex;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n}\n.offer-images-container ::ng-deep .offer-image-thumb {\n  width: 100px;\n  height: 100px;\n  object-fit: cover;\n  border-radius: 0.5rem;\n  border: 1px solid var(--p-content-border-color);\n}\n.attachments-list {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n  flex: 1;\n  min-width: 0;\n}\n.attachment-item {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.5rem 0.75rem;\n  border: 1px solid var(--p-content-border-color);\n  border-radius: 0.5rem;\n  background: var(--p-content-background);\n  transition: background-color 0.15s ease;\n}\n.attachment-item:hover {\n  background: var(--p-content-hover-background);\n}\n.attachment-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n  width: 2.5rem;\n  height: 2.5rem;\n  border-radius: 0.5rem;\n  background: var(--p-primary-50);\n  color: var(--p-primary-color);\n}\n.attachment-icon i {\n  font-size: 1.25rem;\n}\n.attachment-icon--pdf {\n  background: var(--p-red-50);\n  color: var(--p-red-500);\n}\n.attachment-info {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-width: 0;\n}\n.attachment-info .attachment-name {\n  color: var(--p-text-color);\n  font-weight: 500;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.attachment-info .attachment-type {\n  color: var(--p-text-muted-color);\n  font-size: 0.75rem;\n}\n.attachment-actions {\n  display: flex;\n  align-items: center;\n  flex-shrink: 0;\n  gap: 0.25rem;\n}\n@media (max-width: 640px) {\n  .detail-row--top {\n    flex-direction: column;\n    gap: 0.5rem;\n  }\n  .detail-row--top > .detail-label {\n    padding-top: 0;\n  }\n  .detail-row--top > .attachments-list,\n  .detail-row--top > .vehicle-compatibility-list {\n    width: 100%;\n  }\n}\n.detail-value {\n  color: var(--p-text-muted-color);\n}\n.dialog-footer {\n  display: flex;\n  justify-content: center;\n  gap: 0.75rem;\n  margin-block-start: 1.5rem;\n  padding-top: 1rem;\n}\n.promote-dialog-content {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  padding: 1rem 0;\n}\n.input-container {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.image-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n.image-container .ad-image {\n  width: 100px;\n  height: 80px;\n  object-fit: cover !important;\n  object-position: center !important;\n  border-radius: 0.5rem;\n  border: 1px solid var(--p-zinc-200);\n}\n.no-image-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 0.25rem;\n  color: var(--p-text-muted-color);\n  font-size: 0.8rem;\n}\n.no-image-container i {\n  font-size: 1.3rem;\n}\n.uploaded-image-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  border: 1px solid var(--p-zinc-200);\n  border-radius: 0.5rem;\n  padding: 0.15rem 0.5rem;\n  margin-block: 0.5rem;\n}\n.uploaded-image-container .uploaded-image {\n  width: 100px;\n  height: 80px;\n  object-fit: cover !important;\n  object-position: center !important;\n  border-radius: 0.5rem;\n}\n/*# sourceMappingURL=content-mangement.component.css.map */\n"] }]
   }], () => [{ type: ContentMangementService }, { type: ChangeDetectorRef }, { type: ConfirmationService }, { type: MessageService }, { type: LanguageService }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ContentMangementComponent, { className: "ContentMangementComponent", filePath: "src/app/features/content-mangement/content-mangement/content-mangement.component.ts", lineNumber: 67 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ContentMangementComponent, { className: "ContentMangementComponent", filePath: "src/app/features/content-mangement/content-mangement/content-mangement.component.ts", lineNumber: 96 });
 })();
 
 // node_modules/@primeuix/styles/dist/toolbar/index.mjs
 var style33 = "\n    .p-toolbar {\n        display: flex;\n        align-items: center;\n        justify-content: space-between;\n        flex-wrap: wrap;\n        padding: dt('toolbar.padding');\n        background: dt('toolbar.background');\n        border: 1px solid dt('toolbar.border.color');\n        color: dt('toolbar.color');\n        border-radius: dt('toolbar.border.radius');\n        gap: dt('toolbar.gap');\n    }\n\n    .p-toolbar-start,\n    .p-toolbar-center,\n    .p-toolbar-end {\n        display: flex;\n        align-items: center;\n    }\n";
 
 // node_modules/primeng/fesm2022/primeng-toolbar.mjs
-var _c090 = ["start"];
-var _c168 = ["end"];
-var _c247 = ["center"];
-var _c334 = ["*"];
+var _c091 = ["start"];
+var _c169 = ["end"];
+var _c248 = ["center"];
+var _c336 = ["*"];
 function Toolbar_div_1_ng_container_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainer(0);
@@ -115946,7 +117466,7 @@ function Toolbar_div_3_Template(rf, ctx) {
     \u0275\u0275property("ngTemplateOutlet", ctx_r0.endTemplate || ctx_r0._endTemplate);
   }
 }
-var classes35 = {
+var classes36 = {
   root: () => ["p-toolbar p-component"],
   start: "p-toolbar-start",
   center: "p-toolbar-center",
@@ -115955,7 +117475,7 @@ var classes35 = {
 var ToolbarStyle = class _ToolbarStyle extends BaseStyle {
   name = "toolbar";
   theme = style33;
-  classes = classes35;
+  classes = classes36;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275ToolbarStyle_BaseFactory;
     return function ToolbarStyle_Factory(__ngFactoryType__) {
@@ -116042,9 +117562,9 @@ var Toolbar = class _Toolbar extends BaseComponent {
     selectors: [["p-toolbar"]],
     contentQueries: function Toolbar_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
-        \u0275\u0275contentQuery(dirIndex, _c090, 4);
-        \u0275\u0275contentQuery(dirIndex, _c168, 4);
-        \u0275\u0275contentQuery(dirIndex, _c247, 4);
+        \u0275\u0275contentQuery(dirIndex, _c091, 4);
+        \u0275\u0275contentQuery(dirIndex, _c169, 4);
+        \u0275\u0275contentQuery(dirIndex, _c248, 4);
         \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
       }
       if (rf & 2) {
@@ -116068,7 +117588,7 @@ var Toolbar = class _Toolbar extends BaseComponent {
       ariaLabelledBy: "ariaLabelledBy"
     },
     features: [\u0275\u0275ProvidersFeature([ToolbarStyle]), \u0275\u0275InheritDefinitionFeature],
-    ngContentSelectors: _c334,
+    ngContentSelectors: _c336,
     decls: 4,
     vars: 3,
     consts: [[3, "class", 4, "ngIf"], [4, "ngTemplateOutlet"]],
@@ -116234,7 +117754,7 @@ var AuthService = class _AuthService {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("authToken");
     this.currentUser.set(null);
-    this.router.navigate(["/login"]);
+    this.router.navigate(["/login"], { replaceUrl: true });
   }
   setCurrentUser(user) {
     localStorage.setItem("currentUser", JSON.stringify(user));
@@ -116536,14 +118056,14 @@ var HeaderComponent = class _HeaderComponent {
 var style34 = "\n    .p-panelmenu {\n        display: flex;\n        flex-direction: column;\n        gap: dt('panelmenu.gap');\n    }\n\n    .p-panelmenu-panel {\n        background: dt('panelmenu.panel.background');\n        border-width: dt('panelmenu.panel.border.width');\n        border-style: solid;\n        border-color: dt('panelmenu.panel.border.color');\n        color: dt('panelmenu.panel.color');\n        border-radius: dt('panelmenu.panel.border.radius');\n        padding: dt('panelmenu.panel.padding');\n    }\n\n    .p-panelmenu-panel:first-child {\n        border-width: dt('panelmenu.panel.first.border.width');\n        border-start-start-radius: dt('panelmenu.panel.first.top.border.radius');\n        border-start-end-radius: dt('panelmenu.panel.first.top.border.radius');\n    }\n\n    .p-panelmenu-panel:last-child {\n        border-width: dt('panelmenu.panel.last.border.width');\n        border-end-start-radius: dt('panelmenu.panel.last.bottom.border.radius');\n        border-end-end-radius: dt('panelmenu.panel.last.bottom.border.radius');\n    }\n\n    .p-panelmenu-header {\n        outline: 0 none;\n    }\n\n    .p-panelmenu-header-content {\n        border-radius: dt('panelmenu.item.border.radius');\n        transition:\n            background dt('panelmenu.transition.duration'),\n            color dt('panelmenu.transition.duration'),\n            outline-color dt('panelmenu.transition.duration'),\n            box-shadow dt('panelmenu.transition.duration');\n        outline-color: transparent;\n        color: dt('panelmenu.item.color');\n    }\n\n    .p-panelmenu-header-link {\n        display: flex;\n        gap: dt('panelmenu.item.gap');\n        padding: dt('panelmenu.item.padding');\n        align-items: center;\n        user-select: none;\n        cursor: pointer;\n        position: relative;\n        text-decoration: none;\n        color: inherit;\n    }\n\n    .p-panelmenu-header-icon,\n    .p-panelmenu-item-icon {\n        color: dt('panelmenu.item.icon.color');\n    }\n\n    .p-panelmenu-submenu-icon {\n        color: dt('panelmenu.submenu.icon.color');\n    }\n\n    .p-panelmenu-submenu-icon:dir(rtl) {\n        transform: rotate(180deg);\n    }\n\n    .p-panelmenu-header:not(.p-disabled):focus-visible .p-panelmenu-header-content {\n        background: dt('panelmenu.item.focus.background');\n        color: dt('panelmenu.item.focus.color');\n    }\n\n    .p-panelmenu-header:not(.p-disabled):focus-visible .p-panelmenu-header-content .p-panelmenu-header-icon {\n        color: dt('panelmenu.item.icon.focus.color');\n    }\n\n    .p-panelmenu-header:not(.p-disabled):focus-visible .p-panelmenu-header-content .p-panelmenu-submenu-icon {\n        color: dt('panelmenu.submenu.icon.focus.color');\n    }\n\n    .p-panelmenu-header:not(.p-disabled) .p-panelmenu-header-content:hover {\n        background: dt('panelmenu.item.focus.background');\n        color: dt('panelmenu.item.focus.color');\n    }\n\n    .p-panelmenu-header:not(.p-disabled) .p-panelmenu-header-content:hover .p-panelmenu-header-icon {\n        color: dt('panelmenu.item.icon.focus.color');\n    }\n\n    .p-panelmenu-header:not(.p-disabled) .p-panelmenu-header-content:hover .p-panelmenu-submenu-icon {\n        color: dt('panelmenu.submenu.icon.focus.color');\n    }\n\n    .p-panelmenu-submenu {\n        margin: 0;\n        padding: 0 0 0 dt('panelmenu.submenu.indent');\n        outline: 0;\n        list-style: none;\n    }\n\n    .p-panelmenu-submenu:dir(rtl) {\n        padding: 0 dt('panelmenu.submenu.indent') 0 0;\n    }\n\n    .p-panelmenu-item-link {\n        display: flex;\n        gap: dt('panelmenu.item.gap');\n        padding: dt('panelmenu.item.padding');\n        align-items: center;\n        user-select: none;\n        cursor: pointer;\n        text-decoration: none;\n        color: inherit;\n        position: relative;\n        overflow: hidden;\n    }\n\n    .p-panelmenu-item-label {\n        line-height: 1;\n    }\n\n    .p-panelmenu-item-content {\n        border-radius: dt('panelmenu.item.border.radius');\n        transition:\n            background dt('panelmenu.transition.duration'),\n            color dt('panelmenu.transition.duration'),\n            outline-color dt('panelmenu.transition.duration'),\n            box-shadow dt('panelmenu.transition.duration');\n        color: dt('panelmenu.item.color');\n        outline-color: transparent;\n    }\n\n    .p-panelmenu-item.p-focus > .p-panelmenu-item-content {\n        background: dt('panelmenu.item.focus.background');\n        color: dt('panelmenu.item.focus.color');\n    }\n\n    .p-panelmenu-item.p-focus > .p-panelmenu-item-content .p-panelmenu-item-icon {\n        color: dt('panelmenu.item.focus.color');\n    }\n\n    .p-panelmenu-item.p-focus > .p-panelmenu-item-content .p-panelmenu-submenu-icon {\n        color: dt('panelmenu.submenu.icon.focus.color');\n    }\n\n    .p-panelmenu-item:not(.p-disabled) > .p-panelmenu-item-content:hover {\n        background: dt('panelmenu.item.focus.background');\n        color: dt('panelmenu.item.focus.color');\n    }\n\n    .p-panelmenu-item:not(.p-disabled) > .p-panelmenu-item-content:hover .p-panelmenu-item-icon {\n        color: dt('panelmenu.item.icon.focus.color');\n    }\n\n    .p-panelmenu-item:not(.p-disabled) > .p-panelmenu-item-content:hover .p-panelmenu-submenu-icon {\n        color: dt('panelmenu.submenu.icon.focus.color');\n    }\n";
 
 // node_modules/primeng/fesm2022/primeng-panelmenu.mjs
-var _c091 = ["list"];
-var _c169 = (a0) => ({
+var _c092 = ["list"];
+var _c170 = (a0) => ({
   processedItem: a0
 });
-var _c248 = () => ({
+var _c249 = () => ({
   exact: false
 });
-var _c335 = (a0) => ({
+var _c337 = (a0) => ({
   $implicit: a0
 });
 function PanelMenuSub_ng_template_2_li_0_Template(rf, ctx) {
@@ -116623,7 +118143,7 @@ function PanelMenuSub_ng_template_2_li_1_ng_container_2_a_1_span_2_Template(rf, 
   if (rf & 2) {
     const processedItem_r2 = \u0275\u0275nextContext(4).$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275classMap(ctx_r2.cx("itemIcon", \u0275\u0275pureFunction1(3, _c169, processedItem_r2)));
+    \u0275\u0275classMap(ctx_r2.cx("itemIcon", \u0275\u0275pureFunction1(3, _c170, processedItem_r2)));
     \u0275\u0275property("ngStyle", ctx_r2.getItemProp(processedItem_r2, "iconStyle"));
   }
 }
@@ -116779,7 +118299,7 @@ function PanelMenuSub_ng_template_2_li_1_ng_container_2_a_2_Template(rf, ctx) {
     const processedItem_r2 = \u0275\u0275nextContext(3).$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275classMap(ctx_r2.cx("itemLink"));
-    \u0275\u0275property("routerLink", ctx_r2.getItemProp(processedItem_r2, "routerLink"))("queryParams", ctx_r2.getItemProp(processedItem_r2, "queryParams"))("routerLinkActive", "p-panelmenu-item-link-active")("routerLinkActiveOptions", ctx_r2.getItemProp(processedItem_r2, "routerLinkActiveOptions") || \u0275\u0275pureFunction0(20, _c248))("target", ctx_r2.getItemProp(processedItem_r2, "target"))("fragment", ctx_r2.getItemProp(processedItem_r2, "fragment"))("queryParamsHandling", ctx_r2.getItemProp(processedItem_r2, "queryParamsHandling"))("preserveFragment", ctx_r2.getItemProp(processedItem_r2, "preserveFragment"))("skipLocationChange", ctx_r2.getItemProp(processedItem_r2, "skipLocationChange"))("replaceUrl", ctx_r2.getItemProp(processedItem_r2, "replaceUrl"))("state", ctx_r2.getItemProp(processedItem_r2, "state"));
+    \u0275\u0275property("routerLink", ctx_r2.getItemProp(processedItem_r2, "routerLink"))("queryParams", ctx_r2.getItemProp(processedItem_r2, "queryParams"))("routerLinkActive", "p-panelmenu-item-link-active")("routerLinkActiveOptions", ctx_r2.getItemProp(processedItem_r2, "routerLinkActiveOptions") || \u0275\u0275pureFunction0(20, _c249))("target", ctx_r2.getItemProp(processedItem_r2, "target"))("fragment", ctx_r2.getItemProp(processedItem_r2, "fragment"))("queryParamsHandling", ctx_r2.getItemProp(processedItem_r2, "queryParamsHandling"))("preserveFragment", ctx_r2.getItemProp(processedItem_r2, "preserveFragment"))("skipLocationChange", ctx_r2.getItemProp(processedItem_r2, "skipLocationChange"))("replaceUrl", ctx_r2.getItemProp(processedItem_r2, "replaceUrl"))("state", ctx_r2.getItemProp(processedItem_r2, "state"));
     \u0275\u0275attribute("title", ctx_r2.getItemProp(processedItem_r2, "title"))("data-pc-section", "action")("tabindex", !!ctx_r2.parentExpanded ? "0" : "-1");
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", ctx_r2.isItemGroup(processedItem_r2));
@@ -116823,7 +118343,7 @@ function PanelMenuSub_ng_template_2_li_1_ng_container_3_Template(rf, ctx) {
     const processedItem_r2 = \u0275\u0275nextContext(2).$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r2.itemTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(2, _c335, processedItem_r2.item));
+    \u0275\u0275property("ngTemplateOutlet", ctx_r2.itemTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(2, _c337, processedItem_r2.item));
   }
 }
 function PanelMenuSub_ng_template_2_li_1_p_panelmenu_sub_5_Template(rf, ctx) {
@@ -116864,7 +118384,7 @@ function PanelMenuSub_ng_template_2_li_1_Template(rf, ctx) {
     const processedItem_r2 = ctx_r6.$implicit;
     const index_r8 = ctx_r6.index;
     const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275classMap(ctx_r2.cn(ctx_r2.cx("item", \u0275\u0275pureFunction1(18, _c169, processedItem_r2)), ctx_r2.getItemProp(processedItem_r2, "styleClass")));
+    \u0275\u0275classMap(ctx_r2.cn(ctx_r2.cx("item", \u0275\u0275pureFunction1(18, _c170, processedItem_r2)), ctx_r2.getItemProp(processedItem_r2, "styleClass")));
     \u0275\u0275property("ngStyle", ctx_r2.getItemProp(processedItem_r2, "style"))("pTooltip", ctx_r2.getItemProp(processedItem_r2, "tooltip"))("tooltipOptions", ctx_r2.getItemProp(processedItem_r2, "tooltipOptions"));
     \u0275\u0275attribute("id", ctx_r2.getItemId(processedItem_r2))("aria-label", ctx_r2.getItemProp(processedItem_r2, "label"))("aria-expanded", ctx_r2.isItemGroup(processedItem_r2) ? ctx_r2.isItemActive(processedItem_r2) : void 0)("aria-level", ctx_r2.level + 1)("aria-setsize", ctx_r2.getAriaSetSize())("aria-posinset", ctx_r2.getAriaPosInset(index_r8))("data-p-disabled", ctx_r2.isItemDisabled(processedItem_r2));
     \u0275\u0275advance();
@@ -116891,7 +118411,7 @@ function PanelMenuSub_ng_template_2_Template(rf, ctx) {
     \u0275\u0275property("ngIf", !processedItem_r2.separator && ctx_r2.isItemVisible(processedItem_r2));
   }
 }
-var _c421 = ["submenu"];
+var _c424 = ["submenu"];
 var _c519 = ["submenuicon"];
 var _c616 = ["headericon"];
 var _c711 = ["item"];
@@ -117163,7 +118683,7 @@ function PanelMenu_ng_container_0_div_1_a_5_Template(rf, ctx) {
     const item_r3 = \u0275\u0275nextContext(2).$implicit;
     const ctx_r4 = \u0275\u0275nextContext();
     \u0275\u0275classMap(ctx_r4.cx("headerLink"));
-    \u0275\u0275property("routerLink", ctx_r4.getItemProp(item_r3, "routerLink"))("queryParams", ctx_r4.getItemProp(item_r3, "queryParams"))("routerLinkActive", "p-panelmenu-item-link-active")("routerLinkActiveOptions", ctx_r4.getItemProp(item_r3, "routerLinkActiveOptions") || \u0275\u0275pureFunction0(20, _c248))("target", ctx_r4.getItemProp(item_r3, "target"))("fragment", ctx_r4.getItemProp(item_r3, "fragment"))("queryParamsHandling", ctx_r4.getItemProp(item_r3, "queryParamsHandling"))("preserveFragment", ctx_r4.getItemProp(item_r3, "preserveFragment"))("skipLocationChange", ctx_r4.getItemProp(item_r3, "skipLocationChange"))("replaceUrl", ctx_r4.getItemProp(item_r3, "replaceUrl"))("state", ctx_r4.getItemProp(item_r3, "state"));
+    \u0275\u0275property("routerLink", ctx_r4.getItemProp(item_r3, "routerLink"))("queryParams", ctx_r4.getItemProp(item_r3, "queryParams"))("routerLinkActive", "p-panelmenu-item-link-active")("routerLinkActiveOptions", ctx_r4.getItemProp(item_r3, "routerLinkActiveOptions") || \u0275\u0275pureFunction0(20, _c249))("target", ctx_r4.getItemProp(item_r3, "target"))("fragment", ctx_r4.getItemProp(item_r3, "fragment"))("queryParamsHandling", ctx_r4.getItemProp(item_r3, "queryParamsHandling"))("preserveFragment", ctx_r4.getItemProp(item_r3, "preserveFragment"))("skipLocationChange", ctx_r4.getItemProp(item_r3, "skipLocationChange"))("replaceUrl", ctx_r4.getItemProp(item_r3, "replaceUrl"))("state", ctx_r4.getItemProp(item_r3, "state"));
     \u0275\u0275attribute("tabindex", -1)("data-pc-section", "headeraction");
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", ctx_r4.isItemGroup(item_r3));
@@ -117197,7 +118717,7 @@ function PanelMenu_ng_container_0_div_1_div_6_Template(rf, ctx) {
     const item_r3 = ctx_r1.$implicit;
     const i_r4 = ctx_r1.index;
     const ctx_r4 = \u0275\u0275nextContext();
-    \u0275\u0275classMap(ctx_r4.cx("contentContainer", \u0275\u0275pureFunction1(17, _c169, item_r3)));
+    \u0275\u0275classMap(ctx_r4.cx("contentContainer", \u0275\u0275pureFunction1(17, _c170, item_r3)));
     \u0275\u0275property("@rootItem", ctx_r4.getAnimation(item_r3));
     \u0275\u0275attribute("id", ctx_r4.getContentId(item_r3, i_r4))("aria-labelledby", ctx_r4.getHeaderId(item_r3, i_r4))("data-pc-section", "toggleablecontent");
     \u0275\u0275advance();
@@ -117249,7 +118769,7 @@ function PanelMenu_ng_container_0_div_1_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", !ctx_r4.itemTemplate && !ctx_r4._itemTemplate);
     \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r4.itemTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(27, _c335, item_r3));
+    \u0275\u0275property("ngTemplateOutlet", ctx_r4.itemTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction1(27, _c337, item_r3));
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", ctx_r4.getItemProp(item_r3, "routerLink"));
     \u0275\u0275advance();
@@ -117269,7 +118789,7 @@ function PanelMenu_ng_container_0_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ctx_r4.isItemVisible(item_r3));
   }
 }
-var theme17 = (
+var theme18 = (
   /*css*/
   `
     ${style34}
@@ -117289,7 +118809,7 @@ var theme17 = (
     }
 `
 );
-var classes36 = {
+var classes37 = {
   root: () => ["p-panelmenu p-component"],
   panel: "p-panelmenu-panel",
   header: ({
@@ -117329,8 +118849,8 @@ var classes36 = {
 };
 var PanelMenuStyle = class _PanelMenuStyle extends BaseStyle {
   name = "panelmenu";
-  theme = theme17;
-  classes = classes36;
+  theme = theme18;
+  classes = classes37;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275PanelMenuStyle_BaseFactory;
     return function PanelMenuStyle_Factory(__ngFactoryType__) {
@@ -117470,7 +118990,7 @@ var PanelMenuSub = class _PanelMenuSub extends BaseComponent {
     selectors: [["p-panelMenuSub"], ["p-panelmenu-sub"]],
     viewQuery: function PanelMenuSub_Query(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275viewQuery(_c091, 5);
+        \u0275\u0275viewQuery(_c092, 5);
       }
       if (rf & 2) {
         let _t;
@@ -118069,7 +119589,7 @@ var PanelMenuList = class _PanelMenuList extends BaseComponent {
     selectors: [["p-panelMenuList"], ["p-panel-menu-list"]],
     viewQuery: function PanelMenuList_Query(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275viewQuery(_c421, 5);
+        \u0275\u0275viewQuery(_c424, 5);
       }
       if (rf & 2) {
         let _t;
@@ -118733,7 +120253,7 @@ var PanelMenuModule = class _PanelMenuModule {
 })();
 
 // src/app/layout/side-bar/side-bar.component.ts
-var _c092 = () => ({ marginBlock: "0.5rem" });
+var _c093 = () => ({ marginBlock: "0.5rem" });
 var SideBarComponent = class _SideBarComponent {
   languageService;
   navigationService;
@@ -118943,10 +120463,10 @@ var SideBarComponent = class _SideBarComponent {
       \u0275\u0275advance(2);
       \u0275\u0275property("model", ctx.menuItems);
       \u0275\u0275advance();
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(6, _c092));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(6, _c093));
       \u0275\u0275property("model", ctx.items);
     }
-  }, dependencies: [PanelMenuModule, PanelMenu, CommonModule], styles: ["\n\n[_nghost-%COMP%] {\n  display: block;\n}\n.layout-sidebar[_ngcontent-%COMP%] {\n  background: var(--p-toolbar-background);\n  border-inline: 1px solid var(--p-toolbar-border-color);\n  width: 280px;\n  height: 100vh;\n  padding-block: 0.5rem;\n  z-index: 10000;\n  transition: all 0.3s ease;\n}\n.layout-sidebar[_ngcontent-%COMP%]   .menu-container[_ngcontent-%COMP%] {\n  height: calc(100vh - 5rem);\n  padding: 1rem 0.75rem;\n  overflow-y: auto;\n}\n.layout-sidebar.hidden[_ngcontent-%COMP%] {\n  width: 0 !important;\n  overflow: hidden;\n  visibility: hidden;\n  transform: translateX(-100%);\n  transition: all 0.3s ease;\n}\n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-item-link.p-panelmenu-item-link-active, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-header-content > a.p-panelmenu-item-link-active, \n.layout-sidebar[_ngcontent-%COMP%]     a.p-panelmenu-item-link-active {\n  background: var(--p-primary-color) !important;\n  color: #ffffff !important;\n  border-radius: 6px;\n}\n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-item-link.p-panelmenu-item-link-active .p-menuitem-icon, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-item-link.p-panelmenu-item-link-active .p-menuitem-text, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-item-link.p-panelmenu-item-link-active .p-panelmenu-header-label, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-item-link.p-panelmenu-item-link-active span, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-item-link.p-panelmenu-item-link-active i, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active .p-menuitem-icon, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active .p-menuitem-text, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active .p-panelmenu-header-label, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active span, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active i, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-header-content > a.p-panelmenu-item-link-active .p-menuitem-icon, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-header-content > a.p-panelmenu-item-link-active .p-menuitem-text, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-header-content > a.p-panelmenu-item-link-active .p-panelmenu-header-label, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-header-content > a.p-panelmenu-item-link-active span, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-header-content > a.p-panelmenu-item-link-active i, \n.layout-sidebar[_ngcontent-%COMP%]     a.p-panelmenu-item-link-active .p-menuitem-icon, \n.layout-sidebar[_ngcontent-%COMP%]     a.p-panelmenu-item-link-active .p-menuitem-text, \n.layout-sidebar[_ngcontent-%COMP%]     a.p-panelmenu-item-link-active .p-panelmenu-header-label, \n.layout-sidebar[_ngcontent-%COMP%]     a.p-panelmenu-item-link-active span, \n.layout-sidebar[_ngcontent-%COMP%]     a.p-panelmenu-item-link-active i {\n  color: #ffffff !important;\n}\n@media (max-width: 768px) {\n  .layout-sidebar[_ngcontent-%COMP%] {\n    position: fixed;\n    top: 0px;\n    left: 0;\n    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n    transform: translateX(0);\n    transition: transform 0.3s ease;\n  }\n}\n/*# sourceMappingURL=side-bar.component.css.map */"], changeDetection: 0 });
+  }, dependencies: [PanelMenuModule, PanelMenu, CommonModule], styles: ["\n\n[_nghost-%COMP%] {\n  display: block;\n}\n.layout-sidebar[_ngcontent-%COMP%] {\n  background: var(--p-toolbar-background);\n  border-inline: 1px solid var(--p-toolbar-border-color);\n  width: 280px;\n  height: 100vh;\n  padding-block: 0.5rem;\n  transition: all 0.3s ease;\n}\n.layout-sidebar[_ngcontent-%COMP%]   .menu-container[_ngcontent-%COMP%] {\n  height: calc(100vh - 5rem);\n  padding: 1rem 0.75rem;\n  overflow-y: auto;\n}\n.layout-sidebar.hidden[_ngcontent-%COMP%] {\n  width: 0 !important;\n  overflow: hidden;\n  visibility: hidden;\n  transform: translateX(-100%);\n  transition: all 0.3s ease;\n}\n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-item-link.p-panelmenu-item-link-active, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-header-content > a.p-panelmenu-item-link-active, \n.layout-sidebar[_ngcontent-%COMP%]     a.p-panelmenu-item-link-active {\n  background: var(--p-primary-color) !important;\n  color: #ffffff !important;\n  border-radius: 6px;\n}\n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-item-link.p-panelmenu-item-link-active .p-menuitem-icon, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-item-link.p-panelmenu-item-link-active .p-menuitem-text, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-item-link.p-panelmenu-item-link-active .p-panelmenu-header-label, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-item-link.p-panelmenu-item-link-active span, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-item-link.p-panelmenu-item-link-active i, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active .p-menuitem-icon, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active .p-menuitem-text, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active .p-panelmenu-header-label, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active span, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active i, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-header-content > a.p-panelmenu-item-link-active .p-menuitem-icon, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-header-content > a.p-panelmenu-item-link-active .p-menuitem-text, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-header-content > a.p-panelmenu-item-link-active .p-panelmenu-header-label, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-header-content > a.p-panelmenu-item-link-active span, \n.layout-sidebar[_ngcontent-%COMP%]     .p-panelmenu-header-content > a.p-panelmenu-item-link-active i, \n.layout-sidebar[_ngcontent-%COMP%]     a.p-panelmenu-item-link-active .p-menuitem-icon, \n.layout-sidebar[_ngcontent-%COMP%]     a.p-panelmenu-item-link-active .p-menuitem-text, \n.layout-sidebar[_ngcontent-%COMP%]     a.p-panelmenu-item-link-active .p-panelmenu-header-label, \n.layout-sidebar[_ngcontent-%COMP%]     a.p-panelmenu-item-link-active span, \n.layout-sidebar[_ngcontent-%COMP%]     a.p-panelmenu-item-link-active i {\n  color: #ffffff !important;\n}\n@media (max-width: 1024px) {\n  .layout-sidebar[_ngcontent-%COMP%] {\n    position: fixed;\n    top: 0;\n    inset-inline-start: 0;\n    z-index: 950;\n    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n    transform: translateX(0);\n    transition: transform 0.3s ease;\n  }\n  .layout-sidebar.hidden[_ngcontent-%COMP%] {\n    width: 280px !important;\n    transform: translateX(-100%);\n  }\n  .layout-sidebar.hidden[_ngcontent-%COMP%]:dir(rtl) {\n    transform: translateX(100%);\n  }\n}\n/*# sourceMappingURL=side-bar.component.css.map */"], changeDetection: 0 });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(SideBarComponent, [{
@@ -118956,7 +120476,7 @@ var SideBarComponent = class _SideBarComponent {
     <p-panelmenu [model]="menuItems"></p-panelmenu>\r
     <p-panelmenu [model]="items" [style]="{ marginBlock: '0.5rem' }" />\r
   </div>\r
-</aside>`, styles: ["/* src/app/layout/side-bar/side-bar.component.scss */\n:host {\n  display: block;\n}\n.layout-sidebar {\n  background: var(--p-toolbar-background);\n  border-inline: 1px solid var(--p-toolbar-border-color);\n  width: 280px;\n  height: 100vh;\n  padding-block: 0.5rem;\n  z-index: 10000;\n  transition: all 0.3s ease;\n}\n.layout-sidebar .menu-container {\n  height: calc(100vh - 5rem);\n  padding: 1rem 0.75rem;\n  overflow-y: auto;\n}\n.layout-sidebar.hidden {\n  width: 0 !important;\n  overflow: hidden;\n  visibility: hidden;\n  transform: translateX(-100%);\n  transition: all 0.3s ease;\n}\n.layout-sidebar ::ng-deep .p-panelmenu-item-link.p-panelmenu-item-link-active,\n.layout-sidebar ::ng-deep .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active,\n.layout-sidebar ::ng-deep .p-panelmenu-header-content > a.p-panelmenu-item-link-active,\n.layout-sidebar ::ng-deep a.p-panelmenu-item-link-active {\n  background: var(--p-primary-color) !important;\n  color: #ffffff !important;\n  border-radius: 6px;\n}\n.layout-sidebar ::ng-deep .p-panelmenu-item-link.p-panelmenu-item-link-active .p-menuitem-icon,\n.layout-sidebar ::ng-deep .p-panelmenu-item-link.p-panelmenu-item-link-active .p-menuitem-text,\n.layout-sidebar ::ng-deep .p-panelmenu-item-link.p-panelmenu-item-link-active .p-panelmenu-header-label,\n.layout-sidebar ::ng-deep .p-panelmenu-item-link.p-panelmenu-item-link-active span,\n.layout-sidebar ::ng-deep .p-panelmenu-item-link.p-panelmenu-item-link-active i,\n.layout-sidebar ::ng-deep .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active .p-menuitem-icon,\n.layout-sidebar ::ng-deep .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active .p-menuitem-text,\n.layout-sidebar ::ng-deep .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active .p-panelmenu-header-label,\n.layout-sidebar ::ng-deep .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active span,\n.layout-sidebar ::ng-deep .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active i,\n.layout-sidebar ::ng-deep .p-panelmenu-header-content > a.p-panelmenu-item-link-active .p-menuitem-icon,\n.layout-sidebar ::ng-deep .p-panelmenu-header-content > a.p-panelmenu-item-link-active .p-menuitem-text,\n.layout-sidebar ::ng-deep .p-panelmenu-header-content > a.p-panelmenu-item-link-active .p-panelmenu-header-label,\n.layout-sidebar ::ng-deep .p-panelmenu-header-content > a.p-panelmenu-item-link-active span,\n.layout-sidebar ::ng-deep .p-panelmenu-header-content > a.p-panelmenu-item-link-active i,\n.layout-sidebar ::ng-deep a.p-panelmenu-item-link-active .p-menuitem-icon,\n.layout-sidebar ::ng-deep a.p-panelmenu-item-link-active .p-menuitem-text,\n.layout-sidebar ::ng-deep a.p-panelmenu-item-link-active .p-panelmenu-header-label,\n.layout-sidebar ::ng-deep a.p-panelmenu-item-link-active span,\n.layout-sidebar ::ng-deep a.p-panelmenu-item-link-active i {\n  color: #ffffff !important;\n}\n@media (max-width: 768px) {\n  .layout-sidebar {\n    position: fixed;\n    top: 0px;\n    left: 0;\n    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n    transform: translateX(0);\n    transition: transform 0.3s ease;\n  }\n}\n/*# sourceMappingURL=side-bar.component.css.map */\n"] }]
+</aside>`, styles: ["/* src/app/layout/side-bar/side-bar.component.scss */\n:host {\n  display: block;\n}\n.layout-sidebar {\n  background: var(--p-toolbar-background);\n  border-inline: 1px solid var(--p-toolbar-border-color);\n  width: 280px;\n  height: 100vh;\n  padding-block: 0.5rem;\n  transition: all 0.3s ease;\n}\n.layout-sidebar .menu-container {\n  height: calc(100vh - 5rem);\n  padding: 1rem 0.75rem;\n  overflow-y: auto;\n}\n.layout-sidebar.hidden {\n  width: 0 !important;\n  overflow: hidden;\n  visibility: hidden;\n  transform: translateX(-100%);\n  transition: all 0.3s ease;\n}\n.layout-sidebar ::ng-deep .p-panelmenu-item-link.p-panelmenu-item-link-active,\n.layout-sidebar ::ng-deep .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active,\n.layout-sidebar ::ng-deep .p-panelmenu-header-content > a.p-panelmenu-item-link-active,\n.layout-sidebar ::ng-deep a.p-panelmenu-item-link-active {\n  background: var(--p-primary-color) !important;\n  color: #ffffff !important;\n  border-radius: 6px;\n}\n.layout-sidebar ::ng-deep .p-panelmenu-item-link.p-panelmenu-item-link-active .p-menuitem-icon,\n.layout-sidebar ::ng-deep .p-panelmenu-item-link.p-panelmenu-item-link-active .p-menuitem-text,\n.layout-sidebar ::ng-deep .p-panelmenu-item-link.p-panelmenu-item-link-active .p-panelmenu-header-label,\n.layout-sidebar ::ng-deep .p-panelmenu-item-link.p-panelmenu-item-link-active span,\n.layout-sidebar ::ng-deep .p-panelmenu-item-link.p-panelmenu-item-link-active i,\n.layout-sidebar ::ng-deep .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active .p-menuitem-icon,\n.layout-sidebar ::ng-deep .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active .p-menuitem-text,\n.layout-sidebar ::ng-deep .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active .p-panelmenu-header-label,\n.layout-sidebar ::ng-deep .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active span,\n.layout-sidebar ::ng-deep .p-panelmenu-panel > .p-panelmenu-header > .p-panelmenu-header-link.p-panelmenu-item-link-active i,\n.layout-sidebar ::ng-deep .p-panelmenu-header-content > a.p-panelmenu-item-link-active .p-menuitem-icon,\n.layout-sidebar ::ng-deep .p-panelmenu-header-content > a.p-panelmenu-item-link-active .p-menuitem-text,\n.layout-sidebar ::ng-deep .p-panelmenu-header-content > a.p-panelmenu-item-link-active .p-panelmenu-header-label,\n.layout-sidebar ::ng-deep .p-panelmenu-header-content > a.p-panelmenu-item-link-active span,\n.layout-sidebar ::ng-deep .p-panelmenu-header-content > a.p-panelmenu-item-link-active i,\n.layout-sidebar ::ng-deep a.p-panelmenu-item-link-active .p-menuitem-icon,\n.layout-sidebar ::ng-deep a.p-panelmenu-item-link-active .p-menuitem-text,\n.layout-sidebar ::ng-deep a.p-panelmenu-item-link-active .p-panelmenu-header-label,\n.layout-sidebar ::ng-deep a.p-panelmenu-item-link-active span,\n.layout-sidebar ::ng-deep a.p-panelmenu-item-link-active i {\n  color: #ffffff !important;\n}\n@media (max-width: 1024px) {\n  .layout-sidebar {\n    position: fixed;\n    top: 0;\n    inset-inline-start: 0;\n    z-index: 950;\n    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n    transform: translateX(0);\n    transition: transform 0.3s ease;\n  }\n  .layout-sidebar.hidden {\n    width: 280px !important;\n    transform: translateX(-100%);\n  }\n  .layout-sidebar.hidden:dir(rtl) {\n    transform: translateX(100%);\n  }\n}\n/*# sourceMappingURL=side-bar.component.css.map */\n"] }]
   }], () => [{ type: LanguageService }, { type: NavigationService }, { type: ChangeDetectorRef }], { hidden: [{
     type: Input
   }] });
@@ -119026,27 +120546,74 @@ var GlobalLoaderComponent = class _GlobalLoaderComponent {
 })();
 
 // src/app/layout/main-layout/main-layout.component.ts
+function MainLayoutComponent_Conditional_4_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 6);
+    \u0275\u0275listener("click", function MainLayoutComponent_Conditional_4_Template_div_click_0_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.closeMobileSidebar());
+    });
+    \u0275\u0275elementEnd();
+  }
+}
+var OVERLAY_MEDIA_QUERY = "(max-width: 1024px)";
 var MainLayoutComponent = class _MainLayoutComponent {
-  sidebarState = "open";
-  constructor() {
+  router;
+  sidebarState = signal("open", ...ngDevMode ? [{ debugName: "sidebarState" }] : []);
+  mobileSidebarOpen = signal(false, ...ngDevMode ? [{ debugName: "mobileSidebarOpen" }] : []);
+  isOverlayMode = signal(false, ...ngDevMode ? [{ debugName: "isOverlayMode" }] : []);
+  hidden = computed(() => this.isOverlayMode() ? !this.mobileSidebarOpen() : this.sidebarState() === "hidden", ...ngDevMode ? [{ debugName: "hidden" }] : []);
+  showBackdrop = computed(() => this.isOverlayMode() && this.mobileSidebarOpen(), ...ngDevMode ? [{ debugName: "showBackdrop" }] : []);
+  destroy$ = new Subject();
+  mediaQueryList;
+  onMediaQueryChange = (event2) => {
+    this.isOverlayMode.set(event2.matches);
+  };
+  constructor(router) {
+    this.router = router;
   }
   ngOnInit() {
     const savedState = localStorage.getItem("sidebarState");
     if (savedState) {
-      this.sidebarState = savedState;
+      this.sidebarState.set(savedState);
     }
+    this.mediaQueryList = window.matchMedia(OVERLAY_MEDIA_QUERY);
+    this.isOverlayMode.set(this.mediaQueryList.matches);
+    this.mediaQueryList.addEventListener("change", this.onMediaQueryChange);
+    this.router.events.pipe(filter((event2) => event2 instanceof NavigationEnd), takeUntil(this.destroy$)).subscribe(() => this.closeMobileSidebar());
+  }
+  ngOnDestroy() {
+    this.mediaQueryList?.removeEventListener("change", this.onMediaQueryChange);
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+  onEscapeKey() {
+    this.closeMobileSidebar();
   }
   toggleHideSidebar() {
-    this.sidebarState = this.sidebarState === "hidden" ? "open" : "hidden";
-    localStorage.setItem("sidebarState", this.sidebarState);
+    if (this.isOverlayMode()) {
+      this.mobileSidebarOpen.update((open2) => !open2);
+      return;
+    }
+    const next = this.sidebarState() === "hidden" ? "open" : "hidden";
+    this.sidebarState.set(next);
+    localStorage.setItem("sidebarState", next);
   }
-  get hidden() {
-    return this.sidebarState === "hidden";
+  closeMobileSidebar() {
+    this.mobileSidebarOpen.set(false);
   }
   static \u0275fac = function MainLayoutComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _MainLayoutComponent)();
+    return new (__ngFactoryType__ || _MainLayoutComponent)(\u0275\u0275directiveInject(Router));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MainLayoutComponent, selectors: [["app-main-layout"]], decls: 7, vars: 1, consts: [[1, "layout-container"], [3, "toggleHideSidebar"], [1, "layout-body"], [3, "hidden"], [1, "layout-content"]], template: function MainLayoutComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MainLayoutComponent, selectors: [["app-main-layout"]], hostBindings: function MainLayoutComponent_HostBindings(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275listener("keydown.escape", function MainLayoutComponent_keydown_escape_HostBindingHandler() {
+        return ctx.onEscapeKey();
+      }, \u0275\u0275resolveDocument);
+    }
+  }, decls: 8, vars: 2, consts: [[1, "layout-container"], [3, "toggleHideSidebar"], [1, "layout-body"], [3, "hidden"], [1, "sidebar-backdrop"], [1, "layout-content"], [1, "sidebar-backdrop", 3, "click"]], template: function MainLayoutComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0)(1, "app-header", 1);
       \u0275\u0275listener("toggleHideSidebar", function MainLayoutComponent_Template_app_header_toggleHideSidebar_1_listener() {
@@ -119055,165 +120622,4646 @@ var MainLayoutComponent = class _MainLayoutComponent {
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(2, "div", 2);
       \u0275\u0275element(3, "app-side-bar", 3);
-      \u0275\u0275elementStart(4, "main", 4);
-      \u0275\u0275element(5, "router-outlet");
+      \u0275\u0275conditionalCreate(4, MainLayoutComponent_Conditional_4_Template, 1, 0, "div", 4);
+      \u0275\u0275elementStart(5, "main", 5);
+      \u0275\u0275element(6, "router-outlet");
       \u0275\u0275elementEnd()()();
-      \u0275\u0275element(6, "app-global-loader");
+      \u0275\u0275element(7, "app-global-loader");
     }
     if (rf & 2) {
       \u0275\u0275advance(3);
-      \u0275\u0275property("hidden", ctx.hidden);
+      \u0275\u0275property("hidden", ctx.hidden());
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.showBackdrop() ? 4 : -1);
     }
-  }, dependencies: [RouterOutlet, CommonModule, HeaderComponent, SideBarComponent, GlobalLoaderComponent], styles: ["\n\n[_nghost-%COMP%] {\n  display: block;\n  height: 100vh;\n}\n.layout-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n  overflow: hidden;\n}\napp-side-bar[_ngcontent-%COMP%] {\n  transition: width 0.3s ease;\n}\n.layout-body[_ngcontent-%COMP%] {\n  display: flex;\n  flex: 1;\n  overflow: hidden;\n}\n.layout-content[_ngcontent-%COMP%] {\n  flex: 1;\n  overflow-y: auto;\n  padding: 1rem;\n  transition: margin-left 0.2s;\n  background-color: var(--surface-ground);\n}\n/*# sourceMappingURL=main-layout.component.css.map */"] });
+  }, dependencies: [RouterOutlet, CommonModule, HeaderComponent, SideBarComponent, GlobalLoaderComponent], styles: ["\n\n[_nghost-%COMP%] {\n  display: block;\n  height: 100vh;\n}\n.layout-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n  overflow: hidden;\n}\napp-side-bar[_ngcontent-%COMP%] {\n  transition: width 0.3s ease;\n}\n.layout-body[_ngcontent-%COMP%] {\n  display: flex;\n  flex: 1;\n  overflow: hidden;\n}\n.sidebar-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 900;\n  overscroll-behavior: contain;\n  cursor: pointer;\n}\n.layout-content[_ngcontent-%COMP%] {\n  flex: 1;\n  overflow-y: auto;\n  padding: 1rem;\n  transition: margin-left 0.2s;\n  background-color: var(--surface-ground);\n}\n/*# sourceMappingURL=main-layout.component.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MainLayoutComponent, [{
     type: Component,
-    args: [{ selector: "app-main-layout", standalone: true, imports: [RouterOutlet, CommonModule, HeaderComponent, SideBarComponent, GlobalLoaderComponent], template: '<div class="layout-container">\r\n    <!-- Header -->\r\n    <app-header (toggleHideSidebar)="toggleHideSidebar()"></app-header>\r\n    <!-- Sidebar + Main Content -->\r\n    <div class="layout-body">\r\n        <app-side-bar [hidden]="hidden"></app-side-bar>\r\n        <main class="layout-content">\r\n            <router-outlet />\r\n        </main>\r\n    </div>\r\n</div>\r\n\r\n<!-- Global Loader -->\r\n<app-global-loader />', styles: ["/* src/app/layout/main-layout/main-layout.component.scss */\n:host {\n  display: block;\n  height: 100vh;\n}\n.layout-container {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n  overflow: hidden;\n}\napp-side-bar {\n  transition: width 0.3s ease;\n}\n.layout-body {\n  display: flex;\n  flex: 1;\n  overflow: hidden;\n}\n.layout-content {\n  flex: 1;\n  overflow-y: auto;\n  padding: 1rem;\n  transition: margin-left 0.2s;\n  background-color: var(--surface-ground);\n}\n/*# sourceMappingURL=main-layout.component.css.map */\n"] }]
-  }], () => [], null);
+    args: [{ selector: "app-main-layout", standalone: true, imports: [RouterOutlet, CommonModule, HeaderComponent, SideBarComponent, GlobalLoaderComponent], template: '<div class="layout-container">\r\n    <!-- Header -->\r\n    <app-header (toggleHideSidebar)="toggleHideSidebar()"></app-header>\r\n    <!-- Sidebar + Main Content -->\r\n    <div class="layout-body">\r\n        <app-side-bar [hidden]="hidden()"></app-side-bar>\r\n        @if (showBackdrop()) {\r\n            <div class="sidebar-backdrop" (click)="closeMobileSidebar()"></div>\r\n        }\r\n        <main class="layout-content">\r\n            <router-outlet />\r\n        </main>\r\n    </div>\r\n</div>\r\n\r\n<!-- Global Loader -->\r\n<app-global-loader />', styles: ["/* src/app/layout/main-layout/main-layout.component.scss */\n:host {\n  display: block;\n  height: 100vh;\n}\n.layout-container {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n  overflow: hidden;\n}\napp-side-bar {\n  transition: width 0.3s ease;\n}\n.layout-body {\n  display: flex;\n  flex: 1;\n  overflow: hidden;\n}\n.sidebar-backdrop {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 900;\n  overscroll-behavior: contain;\n  cursor: pointer;\n}\n.layout-content {\n  flex: 1;\n  overflow-y: auto;\n  padding: 1rem;\n  transition: margin-left 0.2s;\n  background-color: var(--surface-ground);\n}\n/*# sourceMappingURL=main-layout.component.css.map */\n"] }]
+  }], () => [{ type: Router }], { onEscapeKey: [{
+    type: HostListener,
+    args: ["document:keydown.escape"]
+  }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MainLayoutComponent, { className: "MainLayoutComponent", filePath: "src/app/layout/main-layout/main-layout.component.ts", lineNumber: 15 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MainLayoutComponent, { className: "MainLayoutComponent", filePath: "src/app/layout/main-layout/main-layout.component.ts", lineNumber: 18 });
 })();
 
-// node_modules/@primeuix/styles/dist/floatlabel/index.mjs
-var style35 = "\n    .p-floatlabel {\n        display: block;\n        position: relative;\n    }\n\n    .p-floatlabel label {\n        position: absolute;\n        pointer-events: none;\n        top: 50%;\n        transform: translateY(-50%);\n        transition-property: all;\n        transition-timing-function: ease;\n        line-height: 1;\n        font-weight: dt('floatlabel.font.weight');\n        inset-inline-start: dt('floatlabel.position.x');\n        color: dt('floatlabel.color');\n        transition-duration: dt('floatlabel.transition.duration');\n    }\n\n    .p-floatlabel:has(.p-textarea) label {\n        top: dt('floatlabel.position.y');\n        transform: translateY(0);\n    }\n\n    .p-floatlabel:has(.p-inputicon:first-child) label {\n        inset-inline-start: calc((dt('form.field.padding.x') * 2) + dt('icon.size'));\n    }\n\n    .p-floatlabel:has(input:focus) label,\n    .p-floatlabel:has(input.p-filled) label,\n    .p-floatlabel:has(input:-webkit-autofill) label,\n    .p-floatlabel:has(textarea:focus) label,\n    .p-floatlabel:has(textarea.p-filled) label,\n    .p-floatlabel:has(.p-inputwrapper-focus) label,\n    .p-floatlabel:has(.p-inputwrapper-filled) label,\n    .p-floatlabel:has(input[placeholder]) label,\n    .p-floatlabel:has(textarea[placeholder]) label {\n        top: dt('floatlabel.over.active.top');\n        transform: translateY(0);\n        font-size: dt('floatlabel.active.font.size');\n        font-weight: dt('floatlabel.active.font.weight');\n    }\n\n    .p-floatlabel:has(input.p-filled) label,\n    .p-floatlabel:has(textarea.p-filled) label,\n    .p-floatlabel:has(.p-inputwrapper-filled) label {\n        color: dt('floatlabel.active.color');\n    }\n\n    .p-floatlabel:has(input:focus) label,\n    .p-floatlabel:has(input:-webkit-autofill) label,\n    .p-floatlabel:has(textarea:focus) label,\n    .p-floatlabel:has(.p-inputwrapper-focus) label {\n        color: dt('floatlabel.focus.color');\n    }\n\n    .p-floatlabel-in .p-inputtext,\n    .p-floatlabel-in .p-textarea,\n    .p-floatlabel-in .p-select-label,\n    .p-floatlabel-in .p-multiselect-label,\n    .p-floatlabel-in .p-autocomplete-input-multiple,\n    .p-floatlabel-in .p-cascadeselect-label,\n    .p-floatlabel-in .p-treeselect-label {\n        padding-block-start: dt('floatlabel.in.input.padding.top');\n        padding-block-end: dt('floatlabel.in.input.padding.bottom');\n    }\n\n    .p-floatlabel-in:has(input:focus) label,\n    .p-floatlabel-in:has(input.p-filled) label,\n    .p-floatlabel-in:has(input:-webkit-autofill) label,\n    .p-floatlabel-in:has(textarea:focus) label,\n    .p-floatlabel-in:has(textarea.p-filled) label,\n    .p-floatlabel-in:has(.p-inputwrapper-focus) label,\n    .p-floatlabel-in:has(.p-inputwrapper-filled) label,\n    .p-floatlabel-in:has(input[placeholder]) label,\n    .p-floatlabel-in:has(textarea[placeholder]) label {\n        top: dt('floatlabel.in.active.top');\n    }\n\n    .p-floatlabel-on:has(input:focus) label,\n    .p-floatlabel-on:has(input.p-filled) label,\n    .p-floatlabel-on:has(input:-webkit-autofill) label,\n    .p-floatlabel-on:has(textarea:focus) label,\n    .p-floatlabel-on:has(textarea.p-filled) label,\n    .p-floatlabel-on:has(.p-inputwrapper-focus) label,\n    .p-floatlabel-on:has(.p-inputwrapper-filled) label,\n    .p-floatlabel-on:has(input[placeholder]) label,\n    .p-floatlabel-on:has(textarea[placeholder]) label {\n        top: 0;\n        transform: translateY(-50%);\n        border-radius: dt('floatlabel.on.border.radius');\n        background: dt('floatlabel.on.active.background');\n        padding: dt('floatlabel.on.active.padding');\n    }\n\n    .p-floatlabel:has([class^='p-'][class$='-fluid']) {\n        width: 100%;\n    }\n\n    .p-floatlabel:has(.p-invalid) label {\n        color: dt('floatlabel.invalid.color');\n    }\n";
+// node_modules/libphonenumber-js/metadata.min.json.js
+var metadata_min_json_default = { "version": 4, "country_calling_codes": { "1": ["US", "AG", "AI", "AS", "BB", "BM", "BS", "CA", "DM", "DO", "GD", "GU", "JM", "KN", "KY", "LC", "MP", "MS", "PR", "SX", "TC", "TT", "VC", "VG", "VI"], "7": ["RU", "KZ"], "20": ["EG"], "27": ["ZA"], "30": ["GR"], "31": ["NL"], "32": ["BE"], "33": ["FR"], "34": ["ES"], "36": ["HU"], "39": ["IT", "VA"], "40": ["RO"], "41": ["CH"], "43": ["AT"], "44": ["GB", "GG", "IM", "JE"], "45": ["DK"], "46": ["SE"], "47": ["NO", "SJ"], "48": ["PL"], "49": ["DE"], "51": ["PE"], "52": ["MX"], "53": ["CU"], "54": ["AR"], "55": ["BR"], "56": ["CL"], "57": ["CO"], "58": ["VE"], "60": ["MY"], "61": ["AU", "CC", "CX"], "62": ["ID"], "63": ["PH"], "64": ["NZ"], "65": ["SG"], "66": ["TH"], "81": ["JP"], "82": ["KR"], "84": ["VN"], "86": ["CN"], "90": ["TR"], "91": ["IN"], "92": ["PK"], "93": ["AF"], "94": ["LK"], "95": ["MM"], "98": ["IR"], "211": ["SS"], "212": ["MA", "EH"], "213": ["DZ"], "216": ["TN"], "218": ["LY"], "220": ["GM"], "221": ["SN"], "222": ["MR"], "223": ["ML"], "224": ["GN"], "225": ["CI"], "226": ["BF"], "227": ["NE"], "228": ["TG"], "229": ["BJ"], "230": ["MU"], "231": ["LR"], "232": ["SL"], "233": ["GH"], "234": ["NG"], "235": ["TD"], "236": ["CF"], "237": ["CM"], "238": ["CV"], "239": ["ST"], "240": ["GQ"], "241": ["GA"], "242": ["CG"], "243": ["CD"], "244": ["AO"], "245": ["GW"], "246": ["IO"], "247": ["AC"], "248": ["SC"], "249": ["SD"], "250": ["RW"], "251": ["ET"], "252": ["SO"], "253": ["DJ"], "254": ["KE"], "255": ["TZ"], "256": ["UG"], "257": ["BI"], "258": ["MZ"], "260": ["ZM"], "261": ["MG"], "262": ["RE", "YT"], "263": ["ZW"], "264": ["NA"], "265": ["MW"], "266": ["LS"], "267": ["BW"], "268": ["SZ"], "269": ["KM"], "290": ["SH", "TA"], "291": ["ER"], "297": ["AW"], "298": ["FO"], "299": ["GL"], "350": ["GI"], "351": ["PT"], "352": ["LU"], "353": ["IE"], "354": ["IS"], "355": ["AL"], "356": ["MT"], "357": ["CY"], "358": ["FI", "AX"], "359": ["BG"], "370": ["LT"], "371": ["LV"], "372": ["EE"], "373": ["MD"], "374": ["AM"], "375": ["BY"], "376": ["AD"], "377": ["MC"], "378": ["SM"], "380": ["UA"], "381": ["RS"], "382": ["ME"], "383": ["XK"], "385": ["HR"], "386": ["SI"], "387": ["BA"], "389": ["MK"], "420": ["CZ"], "421": ["SK"], "423": ["LI"], "500": ["FK"], "501": ["BZ"], "502": ["GT"], "503": ["SV"], "504": ["HN"], "505": ["NI"], "506": ["CR"], "507": ["PA"], "508": ["PM"], "509": ["HT"], "590": ["GP", "BL", "MF"], "591": ["BO"], "592": ["GY"], "593": ["EC"], "594": ["GF"], "595": ["PY"], "596": ["MQ"], "597": ["SR"], "598": ["UY"], "599": ["CW", "BQ"], "670": ["TL"], "672": ["NF"], "673": ["BN"], "674": ["NR"], "675": ["PG"], "676": ["TO"], "677": ["SB"], "678": ["VU"], "679": ["FJ"], "680": ["PW"], "681": ["WF"], "682": ["CK"], "683": ["NU"], "685": ["WS"], "686": ["KI"], "687": ["NC"], "688": ["TV"], "689": ["PF"], "690": ["TK"], "691": ["FM"], "692": ["MH"], "850": ["KP"], "852": ["HK"], "853": ["MO"], "855": ["KH"], "856": ["LA"], "880": ["BD"], "886": ["TW"], "960": ["MV"], "961": ["LB"], "962": ["JO"], "963": ["SY"], "964": ["IQ"], "965": ["KW"], "966": ["SA"], "967": ["YE"], "968": ["OM"], "970": ["PS"], "971": ["AE"], "972": ["IL"], "973": ["BH"], "974": ["QA"], "975": ["BT"], "976": ["MN"], "977": ["NP"], "992": ["TJ"], "993": ["TM"], "994": ["AZ"], "995": ["GE"], "996": ["KG"], "998": ["UZ"] }, "countries": { "AC": ["247", "00", "(?:[01589]\\d|[2-467])\\d{4}", [5, 6]], "AD": ["376", "00", "(?:1|6\\d)\\d{7}|[135-9]\\d{5}", [6, 8, 9], [["(\\d{3})(\\d{3})", "$1 $2", ["[135-9]"]], ["(\\d{4})(\\d{4})", "$1 $2", ["1"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["6"]]]], "AE": ["971", "00", "(?:[4-7]\\d|9[0-689])\\d{7}|800\\d{2,9}|[2-4679]\\d{7}", [5, 6, 7, 8, 9, 10, 11, 12], [["(\\d{3})(\\d{2,9})", "$1 $2", ["60|8"]], ["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["[236]|[479][2-8]"], "0$1"], ["(\\d{3})(\\d)(\\d{5})", "$1 $2 $3", ["[479]"]], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["5"], "0$1"]], "0"], "AF": ["93", "00", "[2-7]\\d{8}", [9], [["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[2-7]"], "0$1"]], "0"], "AG": ["1", "011", "(?:268|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([457]\\d{6})$|1", "268$1", 0, "268"], "AI": ["1", "011", "(?:264|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2457]\\d{6})$|1", "264$1", 0, "264"], "AL": ["355", "00", "(?:700\\d\\d|900)\\d{3}|8\\d{5,7}|(?:[2-5]|6\\d)\\d{7}", [6, 7, 8, 9], [["(\\d{3})(\\d{3,4})", "$1 $2", ["80|9"], "0$1"], ["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["4[2-6]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[2358][2-5]|4"], "0$1"], ["(\\d{3})(\\d{5})", "$1 $2", ["[23578]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["6"], "0$1"]], "0"], "AM": ["374", "00", "(?:[1-489]\\d|55|60|77)\\d{6}", [8], [["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["[89]0"], "0 $1"], ["(\\d{3})(\\d{5})", "$1 $2", ["2|3[12]"], "(0$1)"], ["(\\d{2})(\\d{6})", "$1 $2", ["1|47"], "(0$1)"], ["(\\d{2})(\\d{6})", "$1 $2", ["[3-9]"], "0$1"]], "0"], "AO": ["244", "00", "[29]\\d{8}", [9], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[29]"]]]], "AR": ["54", "00", "(?:11|[89]\\d\\d)\\d{8}|[2368]\\d{9}", [10, 11], [["(\\d{4})(\\d{2})(\\d{4})", "$1 $2-$3", ["2(?:2[024-9]|3[0-59]|47|6[245]|9[02-8])|3(?:3[28]|4[03-9]|5[2-46-8]|7[1-578]|8[2-9])", "2(?:[23]02|6(?:[25]|4[6-8])|9(?:[02356]|4[02568]|72|8[23]))|3(?:3[28]|4(?:[04679]|3[5-8]|5[4-68]|8[2379])|5(?:[2467]|3[237]|8[2-5])|7[1-578]|8(?:[2469]|3[2578]|5[4-8]|7[36-8]|8[5-8]))|2(?:2[24-9]|3[1-59]|47)", "2(?:[23]02|6(?:[25]|4(?:64|[78]))|9(?:[02356]|4(?:[0268]|5[2-6])|72|8[23]))|3(?:3[28]|4(?:[04679]|3[78]|5(?:4[46]|8)|8[2379])|5(?:[2467]|3[237]|8[23])|7[1-578]|8(?:[2469]|3[278]|5[56][46]|86[3-6]))|2(?:2[24-9]|3[1-59]|47)|38(?:[58][78]|7[378])|3(?:4[35][56]|58[45]|8(?:[38]5|54|76))[4-6]", "2(?:[23]02|6(?:[25]|4(?:64|[78]))|9(?:[02356]|4(?:[0268]|5[2-6])|72|8[23]))|3(?:3[28]|4(?:[04679]|3(?:5(?:4[0-25689]|[56])|[78])|58|8[2379])|5(?:[2467]|3[237]|8(?:[23]|4(?:[45]|60)|5(?:4[0-39]|5|64)))|7[1-578]|8(?:[2469]|3[278]|54(?:4|5[13-7]|6[89])|86[3-6]))|2(?:2[24-9]|3[1-59]|47)|38(?:[58][78]|7[378])|3(?:454|85[56])[46]|3(?:4(?:36|5[56])|8(?:[38]5|76))[4-6]"], "0$1", 1], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2-$3", ["1"], "0$1", 1], ["(\\d{3})(\\d{3})(\\d{4})", "$1-$2-$3", ["[68]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2-$3", ["[23]"], "0$1", 1], ["(\\d)(\\d{4})(\\d{2})(\\d{4})", "$2 15-$3-$4", ["9(?:2[2-469]|3[3-578])", "9(?:2(?:2[024-9]|3[0-59]|47|6[245]|9[02-8])|3(?:3[28]|4[03-9]|5[2-46-8]|7[1-578]|8[2-9]))", "9(?:2(?:[23]02|6(?:[25]|4[6-8])|9(?:[02356]|4[02568]|72|8[23]))|3(?:3[28]|4(?:[04679]|3[5-8]|5[4-68]|8[2379])|5(?:[2467]|3[237]|8[2-5])|7[1-578]|8(?:[2469]|3[2578]|5[4-8]|7[36-8]|8[5-8])))|92(?:2[24-9]|3[1-59]|47)", "9(?:2(?:[23]02|6(?:[25]|4(?:64|[78]))|9(?:[02356]|4(?:[0268]|5[2-6])|72|8[23]))|3(?:3[28]|4(?:[04679]|3[78]|5(?:4[46]|8)|8[2379])|5(?:[2467]|3[237]|8[23])|7[1-578]|8(?:[2469]|3[278]|5(?:[56][46]|[78])|7[378]|8(?:6[3-6]|[78]))))|92(?:2[24-9]|3[1-59]|47)|93(?:4[35][56]|58[45]|8(?:[38]5|54|76))[4-6]", "9(?:2(?:[23]02|6(?:[25]|4(?:64|[78]))|9(?:[02356]|4(?:[0268]|5[2-6])|72|8[23]))|3(?:3[28]|4(?:[04679]|3(?:5(?:4[0-25689]|[56])|[78])|5(?:4[46]|8)|8[2379])|5(?:[2467]|3[237]|8(?:[23]|4(?:[45]|60)|5(?:4[0-39]|5|64)))|7[1-578]|8(?:[2469]|3[278]|5(?:4(?:4|5[13-7]|6[89])|[56][46]|[78])|7[378]|8(?:6[3-6]|[78]))))|92(?:2[24-9]|3[1-59]|47)|93(?:4(?:36|5[56])|8(?:[38]5|76))[4-6]"], "0$1", 0, "$1 $2 $3-$4"], ["(\\d)(\\d{2})(\\d{4})(\\d{4})", "$2 15-$3-$4", ["91"], "0$1", 0, "$1 $2 $3-$4"], ["(\\d{3})(\\d{3})(\\d{5})", "$1-$2-$3", ["8"], "0$1"], ["(\\d)(\\d{3})(\\d{3})(\\d{4})", "$2 15-$3-$4", ["9"], "0$1", 0, "$1 $2 $3-$4"]], "0", 0, "0?(?:(11|2(?:2(?:02?|[13]|2[13-79]|4[1-6]|5[2457]|6[124-8]|7[1-4]|8[13-6]|9[1267])|3(?:02?|1[467]|2[03-6]|3[13-8]|[49][2-6]|5[2-8]|[67])|4(?:7[3-578]|9)|6(?:[0136]|2[24-6]|4[6-8]?|5[15-8])|80|9(?:0[1-3]|[19]|2\\d|3[1-6]|4[02568]?|5[2-4]|6[2-46]|72?|8[23]?))|3(?:3(?:2[79]|6|8[2578])|4(?:0[0-24-9]|[12]|3[5-8]?|4[24-7]|5[4-68]?|6[02-9]|7[126]|8[2379]?|9[1-36-8])|5(?:1|2[1245]|3[237]?|4[1-46-9]|6[2-4]|7[1-6]|8[2-5]?)|6[24]|7(?:[069]|1[1568]|2[15]|3[145]|4[13]|5[14-8]|7[2-57]|8[126])|8(?:[01]|2[15-7]|3[2578]?|4[13-6]|5[4-8]?|6[1-357-9]|7[36-8]?|8[5-8]?|9[124])))15)?", "9$1"], "AS": ["1", "011", "(?:[58]\\d\\d|684|900)\\d{7}", [10], 0, "1", 0, "([267]\\d{6})$|1", "684$1", 0, "684"], "AT": ["43", "00", "1\\d{3,12}|2\\d{6,12}|43(?:(?:0\\d|5[02-9])\\d{3,9}|2\\d{4,5}|[3467]\\d{4}|8\\d{4,6}|9\\d{4,7})|5\\d{4,12}|8\\d{7,12}|9\\d{8,12}|(?:[367]\\d|4[0-24-9])\\d{4,11}", [4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [["(\\d)(\\d{3,12})", "$1 $2", ["1(?:11|[2-9])"], "0$1"], ["(\\d{3})(\\d{2})", "$1 $2", ["517"], "0$1"], ["(\\d{2})(\\d{3,5})", "$1 $2", ["5[079]"], "0$1"], ["(\\d{3})(\\d{3,10})", "$1 $2", ["(?:31|4)6|51|6(?:48|5[0-3579]|[6-9])|7(?:20|32|8)|[89]", "(?:31|4)6|51|6(?:485|5[0-3579]|[6-9])|7(?:20|32|8)|[89]"], "0$1"], ["(\\d{4})(\\d{3,9})", "$1 $2", ["[2-467]|5[2-6]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["5"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4,7})", "$1 $2 $3", ["5"], "0$1"]], "0"], "AU": ["61", "001[14-689]|14(?:1[14]|34|4[17]|[56]6|7[47]|88)0011", "1(?:[0-79]\\d{7}(?:\\d(?:\\d{2})?)?|8[0-24-9]\\d{7})|[2-478]\\d{8}|1\\d{4,7}", [5, 6, 7, 8, 9, 10, 12], [["(\\d{2})(\\d{3,4})", "$1 $2", ["16"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2,4})", "$1 $2 $3", ["16"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["14|4"], "0$1"], ["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["[2378]"], "(0$1)"], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["1(?:30|[89])"]]], "0", 0, "(183[12])|0", 0, 0, 0, [["(?:(?:241|349)0\\d\\d|8(?:51(?:0(?:0[03-9]|[12479]\\d|3[2-9]|5[0-8]|6[1-9]|8[0-7])|1(?:[0235689]\\d|1[0-69]|4[0-589]|7[0-47-9])|2(?:0[0-79]|[18][13579]|2[14-9]|3[0-46-9]|[4-6]\\d|7[89]|9[0-4])|[34]\\d\\d)|91(?:(?:[0-58]\\d|6[0135-9])\\d|7(?:0[0-24-9]|[1-9]\\d)|9(?:[0-46-9]\\d|5[0-79]))))\\d{3}|(?:2(?:[0-26-9]\\d|3[0-8]|4[02-9]|5[0135-9])|3(?:[0-3589]\\d|4[0-578]|6[1-9]|7[0-35-9])|7(?:[013-57-9]\\d|2[0-8])|8(?:55|6[0-8]|[78]\\d|9[02-9]))\\d{6}", [9]], ["4(?:79[01]|83[0-36-9]|95[0-3])\\d{5}|4(?:[0-36]\\d|4[047-9]|[58][0-24-9]|7[02-8]|9[0-47-9])\\d{6}", [9]], ["180(?:0\\d{3}|2)\\d{3}", [7, 10]], ["190[0-26]\\d{6}", [10]], 0, 0, 0, ["163\\d{2,6}", [5, 6, 7, 8, 9]], ["14(?:5(?:1[0458]|[23][458])|71\\d)\\d{4}", [9]], ["13(?:00\\d{6}(?:\\d{2})?|45[0-4]\\d{3})|13\\d{4}", [6, 8, 10, 12]]], "0011"], "AW": ["297", "00", "(?:[25-79]\\d\\d|800)\\d{4}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[25-9]"]]]], "AX": ["358", "00|99(?:[01469]|5(?:[14]1|3[23]|5[59]|77|88|9[09]))", "2\\d{4,9}|35\\d{4,5}|(?:60\\d\\d|800)\\d{4,6}|7\\d{5,11}|(?:[14]\\d|3[0-46-9]|50)\\d{4,8}", [5, 6, 7, 8, 9, 10, 11, 12], 0, "0", 0, 0, 0, 0, "18", 0, "00"], "AZ": ["994", "00", "365\\d{6}|(?:[124579]\\d|60|88)\\d{7}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["90"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["1[28]|2|365|46", "1[28]|2|365[45]|46", "1[28]|2|365(?:4|5[02])|46"], "(0$1)"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[13-9]"], "0$1"]], "0"], "BA": ["387", "00", "6\\d{8}|(?:[35689]\\d|49|70)\\d{6}", [8, 9], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["6[1-3]|[7-9]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2-$3", ["[3-5]|6[56]"], "0$1"], ["(\\d{2})(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3 $4", ["6"], "0$1"]], "0"], "BB": ["1", "011", "(?:246|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2-9]\\d{6})$|1", "246$1", 0, "246"], "BD": ["880", "00", "[1-469]\\d{9}|8[0-79]\\d{7,8}|[2-79]\\d{8}|[2-9]\\d{7}|[3-9]\\d{6}|[57-9]\\d{5}", [6, 7, 8, 9, 10], [["(\\d{2})(\\d{4,6})", "$1-$2", ["31[5-8]|[459]1"], "0$1"], ["(\\d{3})(\\d{3,7})", "$1-$2", ["3(?:[67]|8[013-9])|4(?:6[168]|7|[89][18])|5(?:6[128]|9)|6(?:[15]|28|4[14])|7[2-589]|8(?:0[014-9]|[12])|9[358]|(?:3[2-5]|4[235]|5[2-578]|6[0389]|76|8[3-7]|9[24])1|(?:44|66)[01346-9]"], "0$1"], ["(\\d{4})(\\d{3,6})", "$1-$2", ["[13-9]|2[23]"], "0$1"], ["(\\d)(\\d{7,8})", "$1-$2", ["2"], "0$1"]], "0"], "BE": ["32", "00", "4\\d{8}|[1-9]\\d{7}", [8, 9], [["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["(?:80|9)0"], "0$1"], ["(\\d)(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[239]|4[23]"], "0$1"], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[15-8]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["4"], "0$1"]], "0"], "BF": ["226", "00", "[024-7]\\d{7}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[024-7]"]]]], "BG": ["359", "00", "00800\\d{7}|[2-7]\\d{6,7}|[89]\\d{6,8}|2\\d{5}", [6, 7, 8, 9, 12], [["(\\d)(\\d)(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["2"], "0$1"], ["(\\d{3})(\\d{4})", "$1 $2", ["43[1-6]|70[1-9]"], "0$1"], ["(\\d)(\\d{3})(\\d{3,4})", "$1 $2 $3", ["2"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2,3})", "$1 $2 $3", ["[356]|4[124-7]|7[1-9]|8[1-6]|9[1-7]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["(?:70|8)0"], "0$1"], ["(\\d{3})(\\d{3})(\\d{2})", "$1 $2 $3", ["43[1-7]|7"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[48]|9[08]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["9"], "0$1"]], "0"], "BH": ["973", "00", "[136-9]\\d{7}", [8], [["(\\d{4})(\\d{4})", "$1 $2", ["[13679]|8[02-4679]"]]]], "BI": ["257", "00", "(?:[267]\\d|31)\\d{6}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[2367]"]]]], "BJ": ["229", "00", "(?:01\\d|8)\\d{7}", [8, 10], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4 $5", ["0"]]]], "BL": ["590", "00", "7090\\d{5}|(?:[56]9|[89]\\d)\\d{7}", [9], 0, "0", 0, 0, 0, 0, 0, [["(?:59(?:0(?:2[7-9]|3[3-7]|5[12]|87)|87\\d)|80[6-9]\\d\\d)\\d{4}"], ["(?:69(?:0\\d\\d|1(?:2[2-9]|3[0-5]))|7090[0-4])\\d{4}"], ["80[0-5]\\d{6}"], ["8[129]\\d{7}"], 0, 0, 0, 0, ["9(?:(?:39[5-7]|76[018])\\d|475[0-6])\\d{4}"]]], "BM": ["1", "011", "(?:441|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2-9]\\d{6})$|1", "441$1", 0, "441"], "BN": ["673", "00", "[2-578]\\d{6}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[2-578]"]]]], "BO": ["591", "00(?:1\\d)?", "(?:[2-7]\\d\\d|8001)\\d{5}", [8, 9], [["(\\d)(\\d{7})", "$1 $2", ["[23]|4[46]|50"]], ["(\\d{8})", "$1", ["[5-7]"]], ["(\\d{3})(\\d{2})(\\d{4})", "$1 $2 $3", ["8"]]], "0", 0, "0(1\\d)?"], "BQ": ["599", "00", "(?:[34]1|7\\d)\\d{5}", [7], 0, 0, 0, 0, 0, 0, "[347]"], "BR": ["55", "00(?:1[245]|2[1-35]|31|4[13]|[56]5|99)", "[1-467]\\d{9,10}|55[0-46-9]\\d{8}|[34]\\d{7}|55\\d{7,8}|(?:5[0-46-9]|[89]\\d)\\d{7,9}", [8, 9, 10, 11], [["(\\d{4})(\\d{4})", "$1-$2", ["300|4(?:0[02]|37|86)", "300|4(?:0(?:0|20)|370|864)"]], ["(\\d{3})(\\d{2,3})(\\d{4})", "$1 $2 $3", ["(?:[358]|90)0"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2-$3", ["(?:[14689][1-9]|2[12478]|3[1-578]|5[13-5]|7[13-579])[2-57]"], "($1)"], ["(\\d{2})(\\d{5})(\\d{4})", "$1 $2-$3", ["[16][1-9]|[2-57-9]"], "($1)"]], "0", 0, "(?:0|90)(?:(1[245]|2[1-35]|31|4[13]|[56]5|99)(\\d{10,11}))?", "$2"], "BS": ["1", "011", "(?:242|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([3-8]\\d{6})$|1", "242$1", 0, "242"], "BT": ["975", "00", "[178]\\d{7}|[2-8]\\d{6}", [7, 8], [["(\\d)(\\d{3})(\\d{3})", "$1 $2 $3", ["[2-6]|7[246]|8[2-4]"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["1[67]|[78]"]]]], "BW": ["267", "00", "(?:0800|(?:[37]|800)\\d)\\d{6}|(?:[2-6]\\d|90)\\d{5}", [7, 8, 10], [["(\\d{2})(\\d{5})", "$1 $2", ["90"]], ["(\\d{3})(\\d{4})", "$1 $2", ["[24-6]|3[15-9]"]], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[37]"]], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["0"]], ["(\\d{3})(\\d{4})(\\d{3})", "$1 $2 $3", ["8"]]]], "BY": ["375", "810", "(?:[12]\\d|33|44|902)\\d{7}|8(?:0[0-79]\\d{5,7}|[1-7]\\d{9})|8(?:1[0-489]|[5-79]\\d)\\d{7}|8[1-79]\\d{6,7}|8[0-79]\\d{5}|8\\d{5}", [6, 7, 8, 9, 10, 11], [["(\\d{3})(\\d{3})", "$1 $2", ["800"], "8 $1"], ["(\\d{3})(\\d{2})(\\d{2,4})", "$1 $2 $3", ["800"], "8 $1"], ["(\\d{4})(\\d{2})(\\d{3})", "$1 $2-$3", ["1(?:5[169]|6[3-5]|7[179])|2(?:1[35]|2[34]|3[3-5])", "1(?:5[169]|6(?:3[1-3]|4|5[125])|7(?:1[3-9]|7[0-24-6]|9[2-7]))|2(?:1[35]|2[34]|3[3-5])"], "8 0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2-$3-$4", ["1(?:[56]|7[467])|2[1-3]"], "8 0$1"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2-$3-$4", ["[1-4]"], "8 0$1"], ["(\\d{3})(\\d{3,4})(\\d{4})", "$1 $2 $3", ["[89]"], "8 $1"]], "8", 0, "0|80?", 0, 0, 0, 0, "8~10"], "BZ": ["501", "00", "(?:0800\\d|[2-8])\\d{6}", [7, 11], [["(\\d{3})(\\d{4})", "$1-$2", ["[2-8]"]], ["(\\d)(\\d{3})(\\d{4})(\\d{3})", "$1-$2-$3-$4", ["0"]]]], "CA": ["1", "011", "[2-9]\\d{9}|3\\d{6}", [7, 10], 0, "1", 0, 0, 0, 0, 0, [["(?:2(?:04|[23]6|[48]9|5[07]|63)|3(?:06|43|54|6[578]|82)|4(?:03|1[68]|[26]8|3[178]|50|74)|5(?:06|1[49]|48|79|8[147])|6(?:04|[18]3|39|47|72)|7(?:0[59]|42|53|78|8[02])|8(?:[06]7|19|25|7[39])|9(?:0[25]|42))[2-9]\\d{6}", [10]], ["", [10]], ["8(?:00|33|44|55|66|77|88)[2-9]\\d{6}", [10]], ["900[2-9]\\d{6}", [10]], ["52(?:3(?:[2-46-9][02-9]\\d|5(?:[02-46-9]\\d|5[0-46-9]))|4(?:[2-478][02-9]\\d|5(?:[034]\\d|2[024-9]|5[0-46-9])|6(?:0[1-9]|[2-9]\\d)|9(?:[05-9]\\d|2[0-5]|49)))\\d{4}|52[34][2-9]1[02-9]\\d{4}|(?:5(?:2[125-9]|3[23]|44|66|77|88)|6(?:22|33))[2-9]\\d{6}", [10]], 0, ["310\\d{4}", [7]], 0, ["600[2-9]\\d{6}", [10]]]], "CC": ["61", "001[14-689]|14(?:1[14]|34|4[17]|[56]6|7[47]|88)0011", "1(?:[0-79]\\d{8}(?:\\d{2})?|8[0-24-9]\\d{7})|[148]\\d{8}|1\\d{5,7}", [6, 7, 8, 9, 10, 12], 0, "0", 0, "([59]\\d{7})$|0", "8$1", 0, 0, [["8(?:51(?:0(?:02|31|60|89)|1(?:18|76)|223)|91(?:0(?:1[0-2]|29)|1(?:[28]2|50|79)|2(?:10|64)|3(?:[06]8|22)|4[29]8|62\\d|70[23]|959))\\d{3}", [9]], ["4(?:79[01]|83[0-36-9]|95[0-3])\\d{5}|4(?:[0-36]\\d|4[047-9]|[58][0-24-9]|7[02-8]|9[0-47-9])\\d{6}", [9]], ["180(?:0\\d{3}|2)\\d{3}", [7, 10]], ["190[0-26]\\d{6}", [10]], 0, 0, 0, 0, ["14(?:5(?:1[0458]|[23][458])|71\\d)\\d{4}", [9]], ["13(?:00\\d{6}(?:\\d{2})?|45[0-4]\\d{3})|13\\d{4}", [6, 8, 10, 12]]], "0011"], "CD": ["243", "00", "(?:(?:[189]|5\\d)\\d|2)\\d{7}|[1-68]\\d{6}", [7, 8, 9, 10], [["(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3", ["88"], "0$1"], ["(\\d{2})(\\d{5})", "$1 $2", ["[1-6]"], "0$1"], ["(\\d{2})(\\d{2})(\\d{4})", "$1 $2 $3", ["2"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["1"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[89]"], "0$1"], ["(\\d{2})(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["5"], "0$1"]], "0"], "CF": ["236", "00", "8776\\d{4}|(?:[27]\\d|61)\\d{6}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[26-8]"]]]], "CG": ["242", "00", "222\\d{6}|(?:0\\d|80)\\d{7}", [9], [["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["8"]], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[02]"]]]], "CH": ["41", "00", "8\\d{11}|[2-9]\\d{8}", [9, 12], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["8[047]|90"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[2-79]|81"], "0$1"], ["(\\d{3})(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4 $5", ["8"], "0$1"]], "0"], "CI": ["225", "00", "[02]\\d{9}", [10], [["(\\d{2})(\\d{2})(\\d)(\\d{5})", "$1 $2 $3 $4", ["2"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{4})", "$1 $2 $3 $4", ["0"]]]], "CK": ["682", "00", "[2-578]\\d{4}", [5], [["(\\d{2})(\\d{3})", "$1 $2", ["[2-578]"]]]], "CL": ["56", "(?:0|1(?:1[0-69]|2[02-5]|5[13-58]|69|7[0167]|8[018]))0", "12300\\d{6}|6\\d{9,10}|[2-9]\\d{8}", [9, 10, 11], [["(\\d{5})(\\d{4})", "$1 $2", ["219", "2196"], "($1)"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["60|809"]], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["44"]], ["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["2[1-36]"], "($1)"], ["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["9(?:10|[2-9])"]], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["3[2-5]|[47]|5[1-3578]|6[13-57]|8(?:0[1-8]|[1-9])"], "($1)"], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["60|8"]], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["1"]], ["(\\d{3})(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3 $4", ["60"]]]], "CM": ["237", "00", "[26]\\d{8}|88\\d{6,7}", [8, 9], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["88"]], ["(\\d)(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4 $5", ["[26]|88"]]]], "CN": ["86", "00|1(?:[12]\\d|79)\\d\\d00", "(?:(?:1[03-689]|2\\d)\\d\\d|6)\\d{8}|1\\d{10}|[126]\\d{6}(?:\\d(?:\\d{2})?)?|86\\d{5,6}|(?:[3-579]\\d|8[0-57-9])\\d{5,9}", [7, 8, 9, 10, 11, 12], [["(\\d{2})(\\d{5,6})", "$1 $2", ["(?:10|2[0-57-9])[19]|3(?:[157]|35|49|9[1-68])|4(?:1[124-9]|2[179]|6[47-9]|7|8[23])|5(?:[1357]|2[37]|4[36]|6[1-46]|80)|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:07|1[236-8]|2[5-7]|[37]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|3|4[13]|5[1-5]|7[0-79]|9[0-35-9])|(?:4[35]|59|85)[1-9]", "(?:10|2[0-57-9])(?:1[02]|9[56])|8078|(?:3(?:[157]\\d|35|49|9[1-68])|4(?:1[124-9]|2[179]|[35][1-9]|6[47-9]|7\\d|8[23])|5(?:[1357]\\d|2[37]|4[36]|6[1-46]|80|9[1-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]\\d|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:1[236-8]|2[5-7]|[37]\\d|5[1-9]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|3\\d|4[13]|5[1-5]|7[0-79]|9[0-35-9]))1", "10(?:1(?:0|23)|9[56])|2[0-57-9](?:1(?:00|23)|9[56])|80781|(?:3(?:[157]\\d|35|49|9[1-68])|4(?:1[124-9]|2[179]|[35][1-9]|6[47-9]|7\\d|8[23])|5(?:[1357]\\d|2[37]|4[36]|6[1-46]|80|9[1-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]\\d|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:1[236-8]|2[5-7]|[37]\\d|5[1-9]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|3\\d|4[13]|5[1-5]|7[0-79]|9[0-35-9]))12", "10(?:1(?:0|23)|9[56])|2[0-57-9](?:1(?:00|23)|9[56])|807812|(?:3(?:[157]\\d|35|49|9[1-68])|4(?:1[124-9]|2[179]|[35][1-9]|6[47-9]|7\\d|8[23])|5(?:[1357]\\d|2[37]|4[36]|6[1-46]|80|9[1-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]\\d|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:1[236-8]|2[5-7]|[37]\\d|5[1-9]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|3\\d|4[13]|5[1-5]|7[0-79]|9[0-35-9]))123", "10(?:1(?:0|23)|9[56])|2[0-57-9](?:1(?:00|23)|9[56])|(?:3(?:[157]\\d|35|49|9[1-68])|4(?:1[124-9]|2[179]|[35][1-9]|6[47-9]|7\\d|8[23])|5(?:[1357]\\d|2[37]|4[36]|6[1-46]|80|9[1-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]\\d|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:078|1[236-8]|2[5-7]|[37]\\d|5[1-9]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|3\\d|4[13]|5[1-5]|7[0-79]|9[0-35-9]))123"], "0$1"], ["(\\d{3})(\\d{5,6})", "$1 $2", ["3(?:[157]|35|49|9[1-68])|4(?:[17]|2[179]|6[47-9]|8[23])|5(?:[1357]|2[37]|4[36]|6[1-46]|80)|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:1[236-8]|2[5-7]|[37]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|[379]|4[13]|5[1-5])|(?:4[35]|59|85)[1-9]", "(?:3(?:[157]\\d|35|49|9[1-68])|4(?:[17]\\d|2[179]|[35][1-9]|6[47-9]|8[23])|5(?:[1357]\\d|2[37]|4[36]|6[1-46]|80|9[1-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]\\d|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:1[236-8]|2[5-7]|[37]\\d|5[1-9]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|[379]\\d|4[13]|5[1-5]))[19]", "85[23](?:10|95)|(?:3(?:[157]\\d|35|49|9[1-68])|4(?:[17]\\d|2[179]|[35][1-9]|6[47-9]|8[23])|5(?:[1357]\\d|2[37]|4[36]|6[1-46]|80|9[1-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]\\d|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:1[236-8]|2[5-7]|[37]\\d|5[14-9]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|[379]\\d|4[13]|5[1-5]))(?:10|9[56])", "85[23](?:100|95)|(?:3(?:[157]\\d|35|49|9[1-68])|4(?:[17]\\d|2[179]|[35][1-9]|6[47-9]|8[23])|5(?:[1357]\\d|2[37]|4[36]|6[1-46]|80|9[1-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]\\d|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:1[236-8]|2[5-7]|[37]\\d|5[14-9]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|[379]\\d|4[13]|5[1-5]))(?:100|9[56])"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["(?:4|80)0"]], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["10|2(?:[02-57-9]|1[1-9])", "10|2(?:[02-57-9]|1[1-9])", "10[0-79]|2(?:[02-57-9]|1[1-79])|(?:10|21)8(?:0[1-9]|[1-9])"], "0$1", 1], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["3(?:[3-59]|7[02-68])|4(?:[26-8]|3[3-9]|5[2-9])|5(?:3[03-9]|[468]|7[028]|9[2-46-9])|6|7(?:[0-247]|3[04-9]|5[0-4689]|6[2368])|8(?:[1-358]|9[1-7])|9(?:[013479]|5[1-5])|(?:[34]1|55|79|87)[02-9]"], "0$1", 1], ["(\\d{3})(\\d{7,8})", "$1 $2", ["9"]], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["80"], "0$1", 1], ["(\\d{3})(\\d{4})(\\d{4})", "$1 $2 $3", ["[3-578]"], "0$1", 1], ["(\\d{3})(\\d{4})(\\d{4})", "$1 $2 $3", ["1[3-9]"]], ["(\\d{2})(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3 $4", ["[12]"], "0$1", 1]], "0", 0, "(1(?:[12]\\d|79)\\d\\d)|0", 0, 0, 0, 0, "00"], "CO": ["57", "00(?:4(?:[14]4|56)|[579])", "(?:46|60\\d\\d)\\d{6}|(?:1\\d|[39])\\d{9}", [8, 10, 11], [["(\\d{4})(\\d{4})", "$1 $2", ["46"]], ["(\\d{3})(\\d{7})", "$1 $2", ["6|90"], "($1)"], ["(\\d{3})(\\d{7})", "$1 $2", ["3[0-357]|9[14]"]], ["(\\d)(\\d{3})(\\d{7})", "$1-$2-$3", ["1"], "0$1", 0, "$1 $2 $3"]], "0", 0, "0([3579]|4(?:[14]4|56))?"], "CR": ["506", "00", "(?:8\\d|90)\\d{8}|(?:[24-8]\\d{3}|3005)\\d{4}", [8, 10], [["(\\d{4})(\\d{4})", "$1 $2", ["[2-7]|8[3-9]"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1-$2-$3", ["[89]"]]], 0, 0, "(19(?:0[0-2468]|1[09]|20|66|77|99))"], "CU": ["53", "119", "(?:[2-7]|8\\d\\d)\\d{7}|[2-47]\\d{6}|[34]\\d{5}", [6, 7, 8, 10], [["(\\d{2})(\\d{4,6})", "$1 $2", ["2[1-4]|[34]"], "(0$1)"], ["(\\d)(\\d{6,7})", "$1 $2", ["7"], "(0$1)"], ["(\\d)(\\d{7})", "$1 $2", ["[56]"], "0$1"], ["(\\d{3})(\\d{7})", "$1 $2", ["8"], "0$1"]], "0"], "CV": ["238", "0", "(?:[2-59]\\d\\d|800)\\d{4}", [7], [["(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3", ["[2-589]"]]]], "CW": ["599", "00", "(?:[34]1|60|(?:7|9\\d)\\d)\\d{5}", [7, 8], [["(\\d{3})(\\d{4})", "$1 $2", ["[3467]"]], ["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["9[4-8]"]]], 0, 0, 0, 0, 0, "[69]"], "CX": ["61", "001[14-689]|14(?:1[14]|34|4[17]|[56]6|7[47]|88)0011", "1(?:[0-79]\\d{8}(?:\\d{2})?|8[0-24-9]\\d{7})|[148]\\d{8}|1\\d{5,7}", [6, 7, 8, 9, 10, 12], 0, "0", 0, "([59]\\d{7})$|0", "8$1", 0, 0, [["8(?:51(?:0(?:01|30|59|88)|1(?:17|46|75)|2(?:22|35))|91(?:00[6-9]|1(?:[28]1|49|78)|2(?:09|63)|3(?:12|26|75)|4(?:56|97)|64\\d|7(?:0[01]|1[0-2])|958))\\d{3}", [9]], ["4(?:79[01]|83[0-36-9]|95[0-3])\\d{5}|4(?:[0-36]\\d|4[047-9]|[58][0-24-9]|7[02-8]|9[0-47-9])\\d{6}", [9]], ["180(?:0\\d{3}|2)\\d{3}", [7, 10]], ["190[0-26]\\d{6}", [10]], 0, 0, 0, 0, ["14(?:5(?:1[0458]|[23][458])|71\\d)\\d{4}", [9]], ["13(?:00\\d{6}(?:\\d{2})?|45[0-4]\\d{3})|13\\d{4}", [6, 8, 10, 12]]], "0011"], "CY": ["357", "00", "(?:[279]\\d|[58]0)\\d{6}", [8], [["(\\d{2})(\\d{6})", "$1 $2", ["[257-9]"]]]], "CZ": ["420", "00", "(?:[2-578]\\d|60)\\d{7}|9\\d{8,11}", [9, 10, 11, 12], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[2-8]|9[015-7]"]], ["(\\d{2})(\\d{3})(\\d{3})(\\d{2})", "$1 $2 $3 $4", ["96"]], ["(\\d{2})(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["9"]], ["(\\d{3})(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["9"]]]], "DE": ["49", "00", "[2579]\\d{5,14}|49(?:[34]0|69|8\\d)\\d\\d?|49(?:37|49|60|7[089]|9\\d)\\d{1,3}|49(?:2[024-9]|3[2-689]|7[1-7])\\d{1,8}|(?:1|[368]\\d|4[0-8])\\d{3,13}|49(?:[015]\\d|2[13]|31|[46][1-8])\\d{1,9}", [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], [["(\\d{2})(\\d{3,13})", "$1 $2", ["3[02]|40|[68]9"], "0$1"], ["(\\d{3})(\\d{3,12})", "$1 $2", ["2(?:0[1-389]|1[124]|2[18]|3[14])|3(?:[35-9][15]|4[015])|906|(?:2[4-9]|4[2-9]|[579][1-9]|[68][1-8])1", "2(?:0[1-389]|12[0-8])|3(?:[35-9][15]|4[015])|906|2(?:[13][14]|2[18])|(?:2[4-9]|4[2-9]|[579][1-9]|[68][1-8])1"], "0$1"], ["(\\d{4})(\\d{2,11})", "$1 $2", ["[24-6]|3(?:[3569][02-46-9]|4[2-4679]|7[2-467]|8[2-46-8])|70[2-8]|8(?:0[2-9]|[1-8])|90[7-9]|[79][1-9]", "[24-6]|3(?:3(?:0[1-467]|2[127-9]|3[124578]|7[1257-9]|8[1256]|9[145])|4(?:2[135]|4[13578]|9[1346])|5(?:0[14]|2[1-3589]|6[1-4]|7[13468]|8[13568])|6(?:2[1-489]|3[124-6]|6[13]|7[12579]|8[1-356]|9[135])|7(?:2[1-7]|4[145]|6[1-5]|7[1-4])|8(?:21|3[1468]|6|7[1467]|8[136])|9(?:0[12479]|2[1358]|4[134679]|6[1-9]|7[136]|8[147]|9[1468]))|70[2-8]|8(?:0[2-9]|[1-8])|90[7-9]|[79][1-9]|3[68]4[1347]|3(?:47|60)[1356]|3(?:3[46]|46|5[49])[1246]|3[4579]3[1357]"], "0$1"], ["(\\d{3})(\\d{4})", "$1 $2", ["138"], "0$1"], ["(\\d{5})(\\d{2,10})", "$1 $2", ["3"], "0$1"], ["(\\d{3})(\\d{5,11})", "$1 $2", ["181"], "0$1"], ["(\\d{3})(\\d)(\\d{4,10})", "$1 $2 $3", ["1(?:3|80)|9"], "0$1"], ["(\\d{3})(\\d{7,8})", "$1 $2", ["1[67]"], "0$1"], ["(\\d{3})(\\d{7,12})", "$1 $2", ["8"], "0$1"], ["(\\d{5})(\\d{6})", "$1 $2", ["185", "1850", "18500"], "0$1"], ["(\\d{3})(\\d{4})(\\d{4})", "$1 $2 $3", ["7"], "0$1"], ["(\\d{4})(\\d{7})", "$1 $2", ["18[68]"], "0$1"], ["(\\d{4})(\\d{7})", "$1 $2", ["15[1279]"], "0$1"], ["(\\d{5})(\\d{6})", "$1 $2", ["15[03568]", "15(?:[0568]|3[13])"], "0$1"], ["(\\d{3})(\\d{8})", "$1 $2", ["18"], "0$1"], ["(\\d{3})(\\d{2})(\\d{7,8})", "$1 $2 $3", ["1(?:6[023]|7)"], "0$1"], ["(\\d{4})(\\d{2})(\\d{7})", "$1 $2 $3", ["15[279]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{8})", "$1 $2 $3", ["15"], "0$1"]], "0"], "DJ": ["253", "00", "(?:2\\d|77)\\d{6}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[27]"]]]], "DK": ["45", "00", "[2-9]\\d{7}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[2-9]"]]]], "DM": ["1", "011", "(?:[58]\\d\\d|767|900)\\d{7}", [10], 0, "1", 0, "([2-7]\\d{6})$|1", "767$1", 0, "767"], "DO": ["1", "011", "(?:[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, 0, 0, 0, "8001|8[024]9"], "DZ": ["213", "00", "(?:[1-4]|[5-79]\\d|80)\\d{7}", [8, 9], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[1-4]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["9"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[5-8]"], "0$1"]], "0"], "EC": ["593", "00", "1\\d{9,10}|(?:[2-7]|9\\d)\\d{7}", [8, 9, 10, 11], [["(\\d)(\\d{3})(\\d{4})", "$1 $2-$3", ["[2-7]"], "(0$1)", 0, "$1-$2-$3"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["9"], "0$1"], ["(\\d{4})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["1"]]], "0"], "EE": ["372", "00", "8\\d{9}|[4578]\\d{7}|(?:[3-8]\\d|90)\\d{5}", [7, 8, 10], [["(\\d{3})(\\d{4})", "$1 $2", ["[369]|4[3-8]|5(?:[0-2]|5[0-478]|6[45])|7[1-9]|88", "[369]|4[3-8]|5(?:[02]|1(?:[0-8]|95)|5[0-478]|6(?:4[0-4]|5[1-589]))|7[1-9]|88"]], ["(\\d{4})(\\d{3,4})", "$1 $2", ["[45]|8(?:00|[1-49])", "[45]|8(?:00[1-9]|[1-49])"]], ["(\\d{2})(\\d{2})(\\d{4})", "$1 $2 $3", ["7"]], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["8"]]]], "EG": ["20", "00", "[189]\\d{8,9}|[24-6]\\d{8}|[135]\\d{7}", [8, 9, 10], [["(\\d)(\\d{7,8})", "$1 $2", ["[23]"], "0$1"], ["(\\d{2})(\\d{6,7})", "$1 $2", ["1[35]|[4-6]|8[2468]|9[235-7]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["[89]"], "0$1"], ["(\\d{2})(\\d{8})", "$1 $2", ["1"], "0$1"]], "0"], "EH": ["212", "00", "[5-8]\\d{8}", [9], 0, "0", 0, 0, 0, 0, 0, [["528[89]\\d{5}"], ["(?:6(?:[0-79]\\d|8[0-247-9])|7(?:[016-8]\\d|2[0-8]|3[01]|5[0-5]))\\d{6}"], ["80[0-7]\\d{6}"], ["89\\d{7}"], 0, 0, 0, 0, ["(?:592(?:4[0-2]|93)|80[89]\\d\\d)\\d{4}"]]], "ER": ["291", "00", "[178]\\d{6}", [7], [["(\\d)(\\d{3})(\\d{3})", "$1 $2 $3", ["[178]"], "0$1"]], "0"], "ES": ["34", "00", "(?:400|[5-9]\\d\\d)\\d{6}", [9], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[89]00"]], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[4-9]"]]]], "ET": ["251", "00", "(?:11|[2-57-9]\\d)\\d{7}", [9], [["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[1-57-9]"], "0$1"]], "0"], "FI": ["358", "00|99(?:[01469]|5(?:[14]1|3[23]|5[59]|77|88|9[09]))", "[1-35689]\\d{4}|7\\d{10,11}|(?:[124-7]\\d|3[0-46-9])\\d{8}|[1-9]\\d{5,8}", [5, 6, 7, 8, 9, 10, 11, 12], [["(\\d{5})", "$1", ["20[2-59]"], "0$1"], ["(\\d{3})(\\d{3,7})", "$1 $2", ["(?:[1-3]0|[68])0|70[07-9]"], "0$1"], ["(\\d{2})(\\d{4,8})", "$1 $2", ["[14]|2[09]|50|7[135]"], "0$1"], ["(\\d{2})(\\d{6,10})", "$1 $2", ["7"], "0$1"], ["(\\d)(\\d{4,9})", "$1 $2", ["(?:19|[2568])[1-8]|3(?:0[1-9]|[1-9])|9"], "0$1"]], "0", 0, 0, 0, 0, "1[03-79]|[2-9]", 0, "00"], "FJ": ["679", "0(?:0|52)", "45\\d{5}|(?:0800\\d|[235-9])\\d{6}", [7, 11], [["(\\d{3})(\\d{4})", "$1 $2", ["[235-9]|45"]], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["0"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "FK": ["500", "00", "[2-7]\\d{4}", [5]], "FM": ["691", "00", "(?:[39]\\d\\d|820)\\d{4}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[389]"]]]], "FO": ["298", "00", "[2-9]\\d{5}", [6], [["(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3", ["[2-9]"]]], 0, 0, "(10(?:01|[12]0|88))"], "FR": ["33", "00", "[1-9]\\d{8}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"], "0 $1"], ["(\\d)(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4 $5", ["[1-79]"], "0$1"]], "0"], "GA": ["241", "00", "(?:[067]\\d|11)\\d{6}|[2-7]\\d{6}", [7, 8], [["(\\d)(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[2-7]"], "0$1"], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["0"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["11|[67]"], "0$1"]], 0, 0, "0(11\\d{6}|60\\d{6}|61\\d{6}|6[256]\\d{6}|7[467]\\d{6})", "$1"], "GB": ["44", "00", "[1-357-9]\\d{9}|[18]\\d{8}|8\\d{6}", [7, 9, 10], [["(\\d{3})(\\d{4})", "$1 $2", ["800", "8001", "80011", "800111", "8001111"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3", ["845", "8454", "84546", "845464"], "0$1"], ["(\\d{3})(\\d{6})", "$1 $2", ["800"], "0$1"], ["(\\d{5})(\\d{4,5})", "$1 $2", ["1(?:38|5[23]|69|76|94)", "1(?:(?:38|69)7|5(?:24|39)|768|946)", "1(?:3873|5(?:242|39[4-6])|(?:697|768)[347]|9467)"], "0$1"], ["(\\d{4})(\\d{5,6})", "$1 $2", ["1(?:[2-69][02-9]|[78])"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["[25]|7(?:0|6[02-9])", "[25]|7(?:0|6(?:[03-9]|2[356]))"], "0$1"], ["(\\d{4})(\\d{6})", "$1 $2", ["7"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["[1389]"], "0$1"]], "0", 0, "0|180020", 0, 0, 0, [["(?:1(?:1(?:3(?:[0-58]\\d\\d|73[0-5])|4(?:(?:[0-5]\\d|70)\\d|69[7-9])|(?:(?:5[0-26-9]|[78][0-49])\\d|6(?:[0-4]\\d|5[01]))\\d)|(?:2(?:(?:0[024-9]|2[3-9]|3[3-79]|4[1-689]|[58][02-9]|6[0-47-9]|7[013-9]|9\\d)\\d|1(?:[0-7]\\d|8[0-3]))|(?:3(?:0\\d|1[0-8]|[25][02-9]|3[02-579]|[468][0-46-9]|7[1-35-79]|9[2-578])|4(?:0[03-9]|[137]\\d|[28][02-57-9]|4[02-69]|5[0-8]|[69][0-79])|5(?:0[1-35-9]|[16]\\d|2[024-9]|3[015689]|4[02-9]|5[03-9]|7[0-35-9]|8[0-468]|9[0-57-9])|6(?:0[034689]|1\\d|2[0-35689]|[38][013-9]|4[1-467]|5[0-69]|6[13-9]|7[0-8]|9[0-24578])|7(?:0[0246-9]|2\\d|3[0236-8]|4[03-9]|5[0-46-9]|6[013-9]|7[0-35-9]|8[024-9]|9[02-9])|8(?:0[35-9]|2[1-57-9]|3[02-578]|4[0-578]|5[124-9]|6[2-69]|7\\d|8[02-9]|9[02569])|9(?:0[02-589]|[18]\\d|2[02-689]|3[1-57-9]|4[2-9]|5[0-579]|6[2-47-9]|7[0-24578]|9[2-57]))\\d)\\d)|2(?:0[013478]|3[0189]|4[017]|8[0-46-9]|9[0-2])\\d{3})\\d{4}|1(?:2(?:0(?:46[1-4]|87[2-9])|545[1-79]|76(?:2\\d|3[1-8]|6[1-6])|9(?:7(?:2[0-4]|3[2-5])|8(?:2[2-8]|7[0-47-9]|8[3-5])))|3(?:6(?:38[2-5]|47[23])|8(?:47[04-9]|64[0157-9]))|4(?:044[1-7]|20(?:2[23]|8\\d)|6(?:0(?:30|5[2-57]|6[1-8]|7[2-8])|140)|8(?:052|87[1-3]))|5(?:2(?:4(?:3[2-79]|6\\d)|76\\d)|6(?:26[06-9]|686))|6(?:06(?:4\\d|7[4-79])|295[5-7]|35[34]\\d|47(?:24|61)|59(?:5[08]|6[67]|74)|9(?:55[0-4]|77[23]))|7(?:26(?:6[13-9]|7[0-7])|(?:442|688)\\d|50(?:2[0-3]|[3-68]2|76))|8(?:27[56]\\d|37(?:5[2-5]|8[239])|843[2-58])|9(?:0(?:0(?:6[1-8]|85)|52\\d)|3583|4(?:66[1-8]|9(?:2[01]|81))|63(?:23|3[1-4])|9561))\\d{3}", [9, 10]], ["7(?:457[0-57-9]|700[01]|911[028])\\d{5}|7(?:[1-3]\\d\\d|4(?:[0-46-9]\\d|5[0-689])|5(?:0[0-8]|[13-9]\\d|2[0-35-9])|7(?:0[1-9]|[1-7]\\d|8[02-9]|9[0-689])|8(?:[014-9]\\d|[23][0-8])|9(?:[024-9]\\d|1[02-9]|3[0-689]))\\d{6}", [10]], ["80[08]\\d{7}|800\\d{6}|8001111"], ["(?:8(?:4[2-5]|7[0-3])|9(?:[01]\\d|8[2-49]))\\d{7}|845464\\d", [7, 10]], ["70\\d{8}", [10]], 0, ["(?:3[0347]|55)\\d{8}", [10]], ["76(?:464|652)\\d{5}|76(?:0[0-28]|2[356]|34|4[01347]|5[49]|6[0-369]|77|8[14]|9[139])\\d{6}", [10]], ["56\\d{8}", [10]]], 0, " x"], "GD": ["1", "011", "(?:473|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2-9]\\d{6})$|1", "473$1", 0, "473"], "GE": ["995", "00", "(?:[3-57]\\d\\d|800)\\d{6}", [9], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["70"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["32"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[57]"]], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[348]"], "0$1"]], "0"], "GF": ["594", "00", "(?:694\\d|7093)\\d{5}|(?:59|[89]\\d)\\d{7}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[5-7]|80[6-9]|9[47]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[89]"], "0$1"]], "0"], "GG": ["44", "00", "(?:1481|[357-9]\\d{3})\\d{6}|8\\d{6}(?:\\d{2})?", [7, 9, 10], 0, "0", 0, "([25-9]\\d{5})$|0|180020", "1481$1", 0, 0, [["1481[25-9]\\d{5}", [10]], ["7(?:(?:781|839)\\d|911[17])\\d{5}", [10]], ["80[08]\\d{7}|800\\d{6}|8001111"], ["(?:8(?:4[2-5]|7[0-3])|9(?:[01]\\d|8[0-3]))\\d{7}|845464\\d", [7, 10]], ["70\\d{8}", [10]], 0, ["(?:3[0347]|55)\\d{8}", [10]], ["76(?:464|652)\\d{5}|76(?:0[0-28]|2[356]|34|4[01347]|5[49]|6[0-369]|77|8[14]|9[139])\\d{6}", [10]], ["56\\d{8}", [10]]]], "GH": ["233", "00", "[235]\\d{8}|800\\d{5,6}", [8, 9], [["(\\d{3})(\\d{5})", "$1 $2", ["8"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[2358]"], "0$1"]], "0"], "GI": ["350", "00", "(?:[25]\\d|60)\\d{6}", [8], [["(\\d{3})(\\d{5})", "$1 $2", ["2"]]]], "GL": ["299", "00", "(?:19|[2-689]\\d|70)\\d{4}", [6], [["(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3", ["19|[2-9]"]]]], "GM": ["220", "00", "[2-9]\\d{6}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[2-9]"]]]], "GN": ["224", "00", "722\\d{6}|(?:3|6\\d)\\d{7}", [8, 9], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["3"]], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[67]"]]]], "GP": ["590", "00", "7090\\d{5}|(?:[56]9|[89]\\d)\\d{7}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[5-79]|80[6-9]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"], "0$1"]], "0", 0, 0, 0, 0, 0, [["(?:59(?:0(?:0[1-68]|[14][0-24-9]|2[0-68]|3[1-9]|5[3-579]|[68][0-689]|7[08]|9\\d)|87\\d)|80[6-9]\\d\\d)\\d{4}"], ["(?:69(?:0\\d\\d|1(?:2[2-9]|3[0-5]))|7090[0-4])\\d{4}"], ["80[0-5]\\d{6}"], ["8[129]\\d{7}"], 0, 0, 0, 0, ["9(?:(?:39[5-7]|76[018])\\d|475[0-6])\\d{4}"]]], "GQ": ["240", "00", "222\\d{6}|(?:3\\d|55|[89]0)\\d{7}", [9], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[235]"]], ["(\\d{3})(\\d{6})", "$1 $2", ["[89]"]]]], "GR": ["30", "00", "5005000\\d{3}|8\\d{9,11}|(?:[269]\\d|70)\\d{8}", [10, 11, 12], [["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["21|7"]], ["(\\d{4})(\\d{6})", "$1 $2", ["2(?:2|3[2-57-9]|4[2-469]|5[2-59]|6[2-9]|7[2-69]|8[2-49])|5"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["[2689]"]], ["(\\d{3})(\\d{3,4})(\\d{5})", "$1 $2 $3", ["8"]]]], "GT": ["502", "00", "80\\d{6}|(?:1\\d{3}|[2-7])\\d{7}", [8, 11], [["(\\d{4})(\\d{4})", "$1 $2", ["[2-8]"]], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["1"]]]], "GU": ["1", "011", "(?:[58]\\d\\d|671|900)\\d{7}", [10], 0, "1", 0, "([2-9]\\d{6})$|1", "671$1", 0, "671"], "GW": ["245", "00", "[49]\\d{8}|4\\d{6}", [7, 9], [["(\\d{3})(\\d{4})", "$1 $2", ["40"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[49]"]]]], "GY": ["592", "001", "(?:[2-8]\\d{3}|9008)\\d{3}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[2-9]"]]]], "HK": ["852", "00(?:30|5[09]|[126-9]?)", "8[0-46-9]\\d{6,7}|9\\d{4,7}|(?:[2-7]|9\\d{3})\\d{7}", [5, 6, 7, 8, 9, 11], [["(\\d{3})(\\d{2,5})", "$1 $2", ["900", "9003"]], ["(\\d{4})(\\d{4})", "$1 $2", ["[2-7]|8[1-4]|9(?:0[1-9]|[1-8])"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["8"]], ["(\\d{3})(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["9"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "HN": ["504", "00", "8\\d{10}|[237-9]\\d{7}", [8, 11], [["(\\d{4})(\\d{4})", "$1-$2", ["[237-9]"]]]], "HR": ["385", "00", "[2-69]\\d{8}|80\\d{5,7}|[1-79]\\d{7}|6\\d{6}", [7, 8, 9], [["(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3", ["6[01]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2,3})", "$1 $2 $3", ["8"], "0$1"], ["(\\d)(\\d{4})(\\d{3})", "$1 $2 $3", ["1"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["6|7[245]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["9"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[2-57]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["8"], "0$1"]], "0"], "HT": ["509", "00", "[2-589]\\d{7}", [8], [["(\\d{2})(\\d{2})(\\d{4})", "$1 $2 $3", ["[2-589]"]]]], "HU": ["36", "00", "[235-7]\\d{8}|[1-9]\\d{7}", [8, 9], [["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["1"], "(06 $1)"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[27][2-9]|3[2-7]|4[24-9]|5[2-79]|6|8[2-57-9]|9[2-69]"], "(06 $1)"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[2-9]"], "06 $1"]], "06"], "ID": ["62", "00[89]", "00[1-9]\\d{9,14}|(?:[1-36]|8\\d{5})\\d{6}|00\\d{9}|[1-9]\\d{8,10}|[2-9]\\d{7}", [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], [["(\\d)(\\d{3})(\\d{3})", "$1 $2 $3", ["15"]], ["(\\d{2})(\\d{5,9})", "$1 $2", ["2[124]|[36]1"], "(0$1)"], ["(\\d{3})(\\d{5,7})", "$1 $2", ["800"], "0$1"], ["(\\d{3})(\\d{5,8})", "$1 $2", ["[2-79]"], "(0$1)"], ["(\\d{3})(\\d{3,4})(\\d{3})", "$1-$2-$3", ["8[1-35-9]"], "0$1"], ["(\\d{3})(\\d{6,8})", "$1 $2", ["1"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["804"], "0$1"], ["(\\d{3})(\\d)(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["80"], "0$1"], ["(\\d{3})(\\d{4})(\\d{4,5})", "$1-$2-$3", ["8"], "0$1"]], "0"], "IE": ["353", "00", "(?:1\\d|[2569])\\d{6,8}|4\\d{6,9}|7\\d{8}|8\\d{8,9}", [7, 8, 9, 10], [["(\\d{2})(\\d{5})", "$1 $2", ["2[24-9]|47|58|6[237-9]|9[35-9]"], "(0$1)"], ["(\\d{3})(\\d{5})", "$1 $2", ["[45]0"], "(0$1)"], ["(\\d)(\\d{3,4})(\\d{4})", "$1 $2 $3", ["1"], "(0$1)"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[2569]|4[1-69]|7[14]"], "(0$1)"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["70"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["81"], "(0$1)"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[78]"], "0$1"], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["1"]], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["4"], "(0$1)"], ["(\\d{2})(\\d)(\\d{3})(\\d{4})", "$1 $2 $3 $4", ["8"], "0$1"]], "0"], "IL": ["972", "0(?:0|1[2-9])", "1\\d{6}(?:\\d{3,5})?|[57]\\d{8}|[1-489]\\d{7}", [7, 8, 9, 10, 11, 12], [["(\\d{4})(\\d{3})", "$1-$2", ["125"]], ["(\\d{4})(\\d{2})(\\d{2})", "$1-$2-$3", ["121"]], ["(\\d)(\\d{3})(\\d{4})", "$1-$2-$3", ["[2-489]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1-$2-$3", ["[57]"], "0$1"], ["(\\d{4})(\\d{3})(\\d{3})", "$1-$2-$3", ["12"]], ["(\\d{4})(\\d{6})", "$1-$2", ["159"]], ["(\\d)(\\d{3})(\\d{3})(\\d{3})", "$1-$2-$3-$4", ["1[7-9]"]], ["(\\d{3})(\\d{1,2})(\\d{3})(\\d{4})", "$1-$2 $3-$4", ["15"]]], "0"], "IM": ["44", "00", "1624\\d{6}|(?:[3578]\\d|90)\\d{8}", [10], 0, "0", 0, "([25-8]\\d{5})$|0|180020", "1624$1", 0, "74576|(?:16|7[56])24"], "IN": ["91", "00", "(?:000800|[2-9]\\d\\d)\\d{7}|1\\d{7,12}", [8, 9, 10, 11, 12, 13], [["(\\d{8})", "$1", ["5(?:0|2[23]|3[03]|[67]1|88)", "5(?:0|2(?:21|3)|3(?:0|3[23])|616|717|888)", "5(?:0|2(?:21|3)|3(?:0|3[23])|616|717|8888)"], 0, 1], ["(\\d{4})(\\d{4,5})", "$1 $2", ["180", "1800"], 0, 1], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["140"], 0, 1], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["11|2[02]|33|4[04]|79[1-7]|80[2-46]", "11|2[02]|33|4[04]|79(?:[1-6]|7[19])|80(?:[2-4]|6[0-589])", "11|2[02]|33|4[04]|79(?:[124-6]|3(?:[02-9]|1[0-24-9])|7(?:1|9[1-6]))|80(?:[2-4]|6[0-589])"], "0$1", 1], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["1(?:2[0-249]|3[0-25]|4[145]|[68]|7[1257])|2(?:1[257]|3[013]|4[01]|5[0137]|6[0158]|78|8[1568])|3(?:26|4[1-3]|5[34]|6[01489]|7[02-46]|8[159])|4(?:1[36]|2[1-47]|5[12]|6[0-26-9]|7[0-24-9]|8[013-57]|9[014-7])|5(?:1[025]|22|[36][25]|4[28]|5[12]|[78]1)|6(?:12|[2-4]1|5[17]|6[13]|80)|7(?:12|3[134]|61|88)|8(?:16|2[014]|3[126]|6[136]|7[078]|8[34]|91)|(?:43|59|75)[15]|(?:1[59]|29|67)[14]", "1(?:2[0-24]|3[0-25]|4[145]|[59][14]|6[1-9]|7[1257]|8[1-57-9])|2(?:1[257]|3[013]|4[01]|5[0137]|6[058]|78|8[1568]|9[14])|3(?:26|4[1-3]|5[34]|6[01489]|7[02-46]|8[159])|4(?:1[36]|2[1-47]|3[15]|5[12]|6[0-26-9]|7[0-24-9]|8[013-57]|9[014-7])|5(?:1[025]|22|[36][25]|4[28]|[578]1|9[15])|674|7(?:(?:3[34]|5[15])[2-6]|61[346]|88[0-8])|8(?:70[2-6]|84[235-7]|91[3-7])|(?:1(?:29|60|8[06])|261|552|6(?:12|[2-47]1|5[17]|6[13]|80)|7(?:12|31)|8(?:16|2[014]|3[126]|6[136]|7[78]|83))[2-7]", "1(?:2[0-24]|3[0-25]|4[145]|[59][14]|6[1-9]|7[1257]|8[1-57-9])|2(?:1[257]|3[013]|4[01]|5[0137]|6[058]|78|8[1568]|9[14])|3(?:26|4[1-3]|5[34]|6[01489]|7[02-46]|8[159])|4(?:1[36]|2[1-47]|3[15]|5[12]|6[0-26-9]|7[0-24-9]|8[013-57]|9[014-7])|5(?:1[025]|22|[36][25]|4[28]|[578]1|9[15])|6(?:12(?:[2-6]|7[0-8])|74[2-7])|7(?:3171|5[15][2-6]|61[346]|88(?:[2-7]|82))|8(?:70[2-6]|84(?:[2356]|7[19])|91(?:[3-6]|7[19]))|73[134][2-6]|8(?:16|2[014]|3[126]|6[136]|7[78]|83)(?:[2-6]|7[19])|(?:1(?:29|60|8[06])|261|552|6(?:[2-4]1|5[17]|6[13]|7(?:1|4[0189])|80)|7(?:12|88[01]))[2-7]"], "0$1", 1], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["1(?:[2-479]|5[0235-9])|[2-5]|6(?:1[1358]|2[2457-9]|3[2-5]|4[235-7]|5[2-689]|6[24578]|7[235689]|8[1-6])|7(?:1[013-9]|3[129]|5[29]|6[02-5]|70)|807", "1(?:[2-479]|5[0235-9])|[2-5]|6(?:1[1358]|2(?:[2457]|84|95)|3(?:[2-4]|55)|4[235-7]|5[2-689]|6[24578]|7(?:[23569]|8[0-57-9])|8[1-6])|7(?:1(?:[013-8]|9[6-9])|3(?:17|2[0-49]|9[2-57])|5(?:2[1-3]|9[0-6])|6(?:0[5689]|2[5-9]|3[02-8]|4|5[0-367])|70[13-7])|807[19]", "1(?:[2-479]|5(?:[0236-9]|5[013-9]))|[2-5]|6(?:2(?:84|95)|355|8(?:28[235-7]|3))|73179|807(?:1|9[1-3])|(?:1552|6(?:(?:1[1358]|2[2457]|3[2-4]|4[235-7]|5[2-689]|6[24578])\\d|7(?:[23569]\\d|8[0-57-9])|8(?:[14-6]\\d|2[0-79]))|7(?:1(?:[013-8]\\d|9[6-9])|3(?:2[0-49]|9[2-57])|5(?:2[1-3]|9[0-6])|6(?:0[5689]|2[5-9]|3[02-8]|4\\d|5[0-367])|70[13-7]))[2-7]"], "0$1", 1], ["(\\d{5})(\\d{5})", "$1 $2", ["16|[6-9]"], "0$1", 1], ["(\\d{4})(\\d{2,4})(\\d{4})", "$1 $2 $3", ["18[06]", "18[06]0"], 0, 1], ["(\\d{4})(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["18"], 0, 1]], "0"], "IO": ["246", "00", "3\\d{6}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["3"]]]], "IQ": ["964", "00", "(?:1|7\\d\\d)\\d{7}|[2-6]\\d{7,8}", [8, 9, 10], [["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["1"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[2-6]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["7"], "0$1"]], "0"], "IR": ["98", "00", "[1-9]\\d{9}|(?:[1-8]\\d\\d|9)\\d{3,4}", [4, 5, 6, 7, 10], [["(\\d{4,5})", "$1", ["96"], "0$1"], ["(\\d{2})(\\d{4,5})", "$1 $2", ["(?:1[137]|2[13-68]|3[1458]|4[145]|5[1468]|6[16]|7[1467]|8[13467])[12689]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["9"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["[1-8]"], "0$1"]], "0"], "IS": ["354", "00|1(?:0(?:01|[12]0)|100)", "(?:38\\d|[4-9])\\d{6}", [7, 9], [["(\\d{3})(\\d{4})", "$1 $2", ["[4-9]"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["3"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "IT": ["39", "00", "0\\d{5,11}|1\\d{8,10}|3(?:[0-8]\\d{7,10}|9\\d{7,8})|(?:43|55|70)\\d{8}|8\\d{5}(?:\\d{2,4})?", [6, 7, 8, 9, 10, 11, 12], [["(\\d{2})(\\d{4,6})", "$1 $2", ["0[26]"]], ["(\\d{3})(\\d{3,6})", "$1 $2", ["0[13-57-9][0159]|8(?:03|4[17]|9[2-5])", "0[13-57-9][0159]|8(?:03|4[17]|9(?:2|3[04]|[45][0-4]))"]], ["(\\d{4})(\\d{2,6})", "$1 $2", ["0(?:[13-579][2-46-8]|8[236-8])"]], ["(\\d{4})(\\d{4})", "$1 $2", ["894"]], ["(\\d{2})(\\d{3,4})(\\d{4})", "$1 $2 $3", ["0[26]|5"]], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["1(?:44|[679])|[378]|43"]], ["(\\d{3})(\\d{3,4})(\\d{4})", "$1 $2 $3", ["0[13-57-9][0159]|14"]], ["(\\d{2})(\\d{4})(\\d{5})", "$1 $2 $3", ["0[26]"]], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["0"]], ["(\\d{3})(\\d{4})(\\d{4,5})", "$1 $2 $3", ["[03]"]]], 0, 0, 0, 0, 0, 0, [["0(?:669[0-79]\\d{1,6}|831\\d{2,8})|0(?:1(?:[0159]\\d|[27][1-5]|31|4[1-4]|6[1356]|8[2-57])|2\\d\\d|3(?:[0159]\\d|2[1-4]|3[12]|[48][1-6]|6[2-59]|7[1-7])|4(?:[0159]\\d|[23][1-9]|4[245]|6[1-5]|7[1-4]|81)|5(?:[0159]\\d|2[1-5]|3[2-6]|4[1-79]|6[4-6]|7[1-578]|8[3-8])|6(?:[0-57-9]\\d|6[0-8])|7(?:[0159]\\d|2[12]|3[1-7]|4[2-46]|6[13569]|7[13-6]|8[1-59])|8(?:[0159]\\d|2[3-578]|3[2356]|[6-8][1-5])|9(?:[0159]\\d|[238][1-5]|4[12]|6[1-8]|7[1-6]))\\d{2,7}"], ["3[2-9]\\d{7,8}|(?:31|43)\\d{8}", [9, 10]], ["80(?:0\\d{3}|3)\\d{3}", [6, 9]], ["(?:0878\\d{3}|89(?:2\\d|3[04]|4(?:[0-4]|[5-9]\\d\\d)|5[0-4]))\\d\\d|(?:1(?:44|6[346])|89(?:38|5[5-9]|9))\\d{6}", [6, 8, 9, 10]], ["1(?:78\\d|99)\\d{6}", [9, 10]], ["3[2-8]\\d{9,10}", [11, 12]], 0, 0, ["55\\d{8}", [10]], ["84(?:[08]\\d{3}|[17])\\d{3}", [6, 9]]]], "JE": ["44", "00", "1534\\d{6}|(?:[3578]\\d|90)\\d{8}", [10], 0, "0", 0, "([0-24-8]\\d{5})$|0|180020", "1534$1", 0, 0, [["1534[0-24-8]\\d{5}"], ["7(?:(?:(?:50|82)9|937)\\d|7(?:00[378]|97\\d))\\d{5}"], ["80(?:07(?:35|81)|8901)\\d{4}"], ["(?:8(?:4(?:4(?:4(?:05|42|69)|703)|5(?:041|800))|7(?:0002|1206))|90(?:066[59]|1810|71(?:07|55)))\\d{4}"], ["701511\\d{4}"], 0, ["(?:3(?:0(?:07(?:35|81)|8901)|3\\d{4}|4(?:4(?:4(?:05|42|69)|703)|5(?:041|800))|7(?:0002|1206))|55\\d{4})\\d{4}"], ["76(?:464|652)\\d{5}|76(?:0[0-28]|2[356]|34|4[01347]|5[49]|6[0-369]|77|8[14]|9[139])\\d{6}"], ["56\\d{8}"]]], "JM": ["1", "011", "(?:[58]\\d\\d|658|900)\\d{7}", [10], 0, "1", 0, 0, 0, 0, "658|876"], "JO": ["962", "00", "(?:(?:[2689]|7\\d)\\d|32|427|53)\\d{6}", [8, 9], [["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["[2356]|87"], "(0$1)"], ["(\\d{3})(\\d{5,6})", "$1 $2", ["[89]"], "0$1"], ["(\\d{2})(\\d{7})", "$1 $2", ["70"], "0$1"], ["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["[47]"], "0$1"]], "0"], "JP": ["81", "010", "00[1-9]\\d{6,14}|[25-9]\\d{9}|(?:00|[1-9]\\d\\d)\\d{6}", [8, 9, 10, 11, 12, 13, 14, 15, 16, 17], [["(\\d{3})(\\d{3})(\\d{3})", "$1-$2-$3", ["(?:12|57|99)0"], "0$1"], ["(\\d{4})(\\d)(\\d{4})", "$1-$2-$3", ["1(?:26|3[79]|4[56]|5[4-68]|6[3-5])|499|5(?:76|97)|746|8(?:3[89]|47|51)|9(?:80|9[16])", "1(?:267|3(?:7[247]|9[278])|466|5(?:47|58|64)|6(?:3[245]|48|5[4-68]))|499[2468]|5(?:76|97)9|7468|8(?:3(?:8[7-9]|96)|477|51[2-9])|9(?:802|9(?:1[23]|69))|1(?:45|58)[67]", "1(?:267|3(?:7[247]|9[278])|466|5(?:47|58|64)|6(?:3[245]|48|5[4-68]))|499[2468]|5(?:769|979[2-69])|7468|8(?:3(?:8[7-9]|96[2457-9])|477|51[2-9])|9(?:802|9(?:1[23]|69))|1(?:45|58)[67]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1-$2-$3", ["60"], "0$1"], ["(\\d)(\\d{4})(\\d{4})", "$1-$2-$3", ["3|4(?:2[09]|7[01])|6[1-9]", "3|4(?:2(?:0|9[02-69])|7(?:0[019]|1))|6[1-9]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1-$2-$3", ["1(?:1|5[45]|77|88|9[69])|2(?:2[1-37]|3[0-269]|4[59]|5|6[24]|7[1-358]|8[1369]|9[0-38])|4(?:[28][1-9]|3[0-57]|[45]|6[248]|7[2-579]|9[29])|5(?:2|3[0459]|4[0-369]|5[29]|8[02389]|9[0-389])|7(?:2[02-46-9]|34|[58]|6[0249]|7[57]|9[2-6])|8(?:2[124589]|3[26-9]|49|51|6|7[0-468]|8[68]|9[019])|9(?:[23][1-9]|4[15]|5[138]|6[1-3]|7[156]|8[189]|9[1-489])", "1(?:1|5(?:4[018]|5[017])|77|88|9[69])|2(?:2(?:[127]|3[014-9])|3[0-269]|4[59]|5(?:[1-3]|5[0-69]|9[19])|62|7(?:[1-35]|8[0189])|8(?:[16]|3[0134]|9[0-5])|9(?:[028]|17))|4(?:2(?:[13-79]|8[014-6])|3[0-57]|[45]|6[248]|7[2-47]|8[1-9]|9[29])|5(?:2|3(?:[045]|9[0-8])|4[0-369]|5[29]|8[02389]|9[0-3])|7(?:2[02-46-9]|34|[58]|6[0249]|7[57]|9(?:[23]|4[0-59]|5[01569]|6[0167]))|8(?:2(?:[1258]|4[0-39]|9[0-2469])|3(?:[29]|60)|49|51|6(?:[0-24]|36|5[0-3589]|7[23]|9[01459])|7[0-468]|8[68])|9(?:[23][1-9]|4[15]|5[138]|6[1-3]|7[156]|8[189]|9(?:[1289]|3[34]|4[0178]))|(?:264|837)[016-9]|2(?:57|93)[015-9]|(?:25[0468]|422|838)[01]|(?:47[59]|59[89]|8(?:6[68]|9))[019]", "1(?:1|5(?:4[018]|5[017])|77|88|9[69])|2(?:2[127]|3[0-269]|4[59]|5(?:[1-3]|5[0-69]|9(?:17|99))|6(?:2|4[016-9])|7(?:[1-35]|8[0189])|8(?:[16]|3[0134]|9[0-5])|9(?:[028]|17))|4(?:2(?:[13-79]|8[014-6])|3[0-57]|[45]|6[248]|7[2-47]|9[29])|5(?:2|3(?:[045]|9(?:[0-58]|6[4-9]|7[0-35689]))|4[0-369]|5[29]|8[02389]|9[0-3])|7(?:2[02-46-9]|34|[58]|6[0249]|7[57]|9(?:[23]|4[0-59]|5[01569]|6[0167]))|8(?:2(?:[1258]|4[0-39]|9[0169])|3(?:[29]|60|7(?:[017-9]|6[6-8]))|49|51|6(?:[0-24]|36[2-57-9]|5(?:[0-389]|5[23])|6(?:[01]|9[178])|7(?:2[2-468]|3[78])|9[0145])|7[0-468]|8[68])|9(?:4[15]|5[138]|7[156]|8[189]|9(?:[1289]|3(?:31|4[357])|4[0178]))|(?:8294|96)[1-3]|2(?:57|93)[015-9]|(?:223|8699)[014-9]|(?:25[0468]|422|838)[01]|(?:48|8292|9[23])[1-9]|(?:47[59]|59[89]|8(?:68|9))[019]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{4})", "$1-$2-$3", ["[14]|[289][2-9]|5[3-9]|7[2-4679]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1-$2-$3", ["800"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4})", "$1-$2-$3", ["[25-9]"], "0$1"]], "0", 0, "(000[2569]\\d{4,6})$|(?:(?:003768)0?)|0", "$1"], "KE": ["254", "000", "(?:[17]\\d\\d|900)\\d{6}|(?:2|80)0\\d{6,7}|[4-6]\\d{6,8}", [7, 8, 9, 10], [["(\\d{2})(\\d{5,7})", "$1 $2", ["[24-6]"], "0$1"], ["(\\d{3})(\\d{6})", "$1 $2", ["[17]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[89]"], "0$1"]], "0"], "KG": ["996", "00", "8\\d{9}|[235-9]\\d{8}", [9, 10], [["(\\d{4})(\\d{5})", "$1 $2", ["3(?:1[346]|[24-79])"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[235-79]|88"], "0$1"], ["(\\d{3})(\\d{3})(\\d)(\\d{2,3})", "$1 $2 $3 $4", ["8"], "0$1"]], "0"], "KH": ["855", "00[14-9]", "1\\d{9}|[1-9]\\d{7,8}", [8, 9, 10], [["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[1-9]"], "0$1"], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["1"]]], "0"], "KI": ["686", "00", "(?:[37]\\d|6[0-79])\\d{6}|(?:[2-48]\\d|50)\\d{3}", [5, 8], 0, "0"], "KM": ["269", "00", "[3478]\\d{6}", [7], [["(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3", ["[3478]"]]]], "KN": ["1", "011", "(?:[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2-7]\\d{6})$|1", "869$1", 0, "869"], "KP": ["850", "00|99", "85\\d{6}|(?:19\\d|[2-7])\\d{7}", [8, 10], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["8"], "0$1"], ["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["[2-7]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["1"], "0$1"]], "0"], "KR": ["82", "00(?:[125689]|3(?:[46]5|91)|7(?:00|27|3|55|6[126]))", "00[1-9]\\d{8,11}|(?:[12]|5\\d{3})\\d{7}|[13-6]\\d{9}|(?:[1-6]\\d|80)\\d{7}|[3-6]\\d{4,5}|(?:00|7)0\\d{8}", [5, 6, 8, 9, 10, 11, 12, 13, 14], [["(\\d{2})(\\d{3,4})", "$1-$2", ["(?:3[1-3]|[46][1-4]|5[1-5])1"], "0$1"], ["(\\d{4})(\\d{4})", "$1-$2", ["1"]], ["(\\d)(\\d{3,4})(\\d{4})", "$1-$2-$3", ["2"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1-$2-$3", ["[36]0|8"], "0$1"], ["(\\d{2})(\\d{3,4})(\\d{4})", "$1-$2-$3", ["[1346]|5[1-5]"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4})", "$1-$2-$3", ["[57]"], "0$1"], ["(\\d{2})(\\d{5})(\\d{4})", "$1-$2-$3", ["5"], "0$1"]], "0", 0, "0(8(?:[1-46-8]|5\\d\\d))?"], "KW": ["965", "00", "18\\d{5}|(?:[2569]\\d|41)\\d{6}", [7, 8], [["(\\d{4})(\\d{3,4})", "$1 $2", ["[169]|2(?:[235]|4[1-35-9])|52"]], ["(\\d{3})(\\d{5})", "$1 $2", ["[245]"]]]], "KY": ["1", "011", "(?:345|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2-9]\\d{6})$|1", "345$1", 0, "345"], "KZ": ["7", "810", "8\\d{13}|[78]\\d{9}", [10, 14], 0, "8", 0, 0, 0, 0, "7", 0, "8~10"], "LA": ["856", "00", "[23]\\d{9}|3\\d{8}|(?:[235-8]\\d|41)\\d{6}", [8, 9, 10], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["2[13]|3[14]|[4-8]"], "0$1"], ["(\\d{2})(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3 $4", ["3"], "0$1"], ["(\\d{2})(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["[23]"], "0$1"]], "0"], "LB": ["961", "00", "[27-9]\\d{7}|[13-9]\\d{6}", [7, 8], [["(\\d)(\\d{3})(\\d{3})", "$1 $2 $3", ["[13-69]|7(?:[2-57]|62|8[0-6]|9[04-9])|8[02-9]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[27-9]"]]], "0"], "LC": ["1", "011", "(?:[58]\\d\\d|758|900)\\d{7}", [10], 0, "1", 0, "([2-8]\\d{6})$|1", "758$1", 0, "758"], "LI": ["423", "00", "[68]\\d{8}|(?:[2378]\\d|90)\\d{5}", [7, 9], [["(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3", ["[2379]|8(?:0[09]|7)", "[2379]|8(?:0(?:02|9)|7)"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["8"]], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["69"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["6"]]], "0", 0, "(1001)|0"], "LK": ["94", "00", "[1-9]\\d{8}", [9], [["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["7"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[1-689]"], "0$1"]], "0"], "LR": ["231", "00", "(?:[2457]\\d|33|88)\\d{7}|(?:2\\d|[4-6])\\d{6}", [7, 8, 9], [["(\\d)(\\d{3})(\\d{3})", "$1 $2 $3", ["4[67]|[56]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["2"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[2-578]"], "0$1"]], "0"], "LS": ["266", "00", "(?:[256]\\d\\d|800)\\d{5}", [8], [["(\\d{4})(\\d{4})", "$1 $2", ["[2568]"]]]], "LT": ["370", "00", "(?:[3469]\\d|52|[78]0)\\d{6}", [8], [["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["52[0-7]"], "(0-$1)", 1], ["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["[7-9]"], "0 $1", 1], ["(\\d{2})(\\d{6})", "$1 $2", ["37|4(?:[15]|6[1-8])"], "(0-$1)", 1], ["(\\d{3})(\\d{5})", "$1 $2", ["[3-6]"], "(0-$1)", 1]], "0", 0, "[08]"], "LU": ["352", "00", "35[013-9]\\d{4,8}|6\\d{8}|35\\d{2,4}|(?:[2457-9]\\d|3[0-46-9])\\d{2,9}", [4, 5, 6, 7, 8, 9, 10, 11], [["(\\d{2})(\\d{3})", "$1 $2", ["2(?:0[2-689]|[2-9])|[3-57]|8(?:0[2-9]|[13-9])|9(?:0[89]|[2-579])"]], ["(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3", ["2(?:0[2-689]|[2-9])|[3-57]|8(?:0[2-9]|[13-9])|9(?:0[89]|[2-579])"]], ["(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3", ["20[2-689]"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{1,2})", "$1 $2 $3 $4", ["20"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{1,5})", "$1 $2 $3 $4", ["[3-57]|8[13-9]|9(?:0[89]|[2-579])|(?:2|80)[2-9]"]], ["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["80[01]|90[015]"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3 $4", ["20"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["6"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{1,2})", "$1 $2 $3 $4 $5", ["20"]]], 0, 0, "(15(?:0[06]|1[12]|[35]5|4[04]|6[26]|77|88|99)\\d)"], "LV": ["371", "00", "(?:[268]\\d|78|90)\\d{6}", [8], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[2679]|8[01]"]]]], "LY": ["218", "00", "[2-9]\\d{8}", [9], [["(\\d{2})(\\d{7})", "$1-$2", ["[2-9]"], "0$1"]], "0"], "MA": ["212", "00", "[5-8]\\d{8}", [9], [["(\\d{4})(\\d{5})", "$1-$2", ["892"], "0$1"], ["(\\d{2})(\\d{7})", "$1-$2", ["8(?:0[0-7]|9)"], "0$1"], ["(\\d)(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4 $5", ["[5-8]"], "0$1"]], "0", 0, 0, 0, 0, "[5-8]"], "MC": ["377", "00", "(?:[3489]|[67]\\d)\\d{7}", [8, 9], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["4"], "0$1"], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[389]"]], ["(\\d)(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4 $5", ["[67]"], "0$1"]], "0"], "MD": ["373", "00", "(?:[235-7]\\d|[89]0)\\d{6}", [8], [["(\\d{3})(\\d{5})", "$1 $2", ["[89]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["22|3"], "0$1"], ["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["[25-7]"], "0$1"]], "0"], "ME": ["382", "00", "(?:20|[3-79]\\d)\\d{6}|80\\d{6,7}", [8, 9], [["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[2-9]"], "0$1"]], "0"], "MF": ["590", "00", "7090\\d{5}|(?:[56]9|[89]\\d)\\d{7}", [9], 0, "0", 0, 0, 0, 0, 0, [["(?:59(?:0(?:0[079]|[14]3|[27][79]|3[03-7]|5[0-268]|87)|87\\d)|80[6-9]\\d\\d)\\d{4}"], ["(?:69(?:0\\d\\d|1(?:2[2-9]|3[0-5]))|7090[0-4])\\d{4}"], ["80[0-5]\\d{6}"], ["8[129]\\d{7}"], 0, 0, 0, 0, ["9(?:(?:39[5-7]|76[018])\\d|475[0-6])\\d{4}"]]], "MG": ["261", "00", "[23]\\d{8}", [9], [["(\\d{2})(\\d{2})(\\d{3})(\\d{2})", "$1 $2 $3 $4", ["[23]"], "0$1"]], "0", 0, "([24-9]\\d{6})$|0", "20$1"], "MH": ["692", "011", "329\\d{4}|(?:[256]\\d|45)\\d{5}", [7], [["(\\d{3})(\\d{4})", "$1-$2", ["[2-6]"]]], "1"], "MK": ["389", "00", "[2-578]\\d{7}", [8], [["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["2|34[47]|4(?:[37]7|5[47]|64)"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[347]"], "0$1"], ["(\\d{3})(\\d)(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[58]"], "0$1"]], "0"], "ML": ["223", "00", "[24-9]\\d{7}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[24-9]"]]]], "MM": ["95", "00", "1\\d{5,7}|95\\d{6}|(?:[4-7]|9[0-46-9])\\d{6,8}|(?:2|8\\d)\\d{5,8}", [6, 7, 8, 9, 10], [["(\\d)(\\d{2})(\\d{3})", "$1 $2 $3", ["16|2"], "0$1"], ["(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3", ["4(?:[2-46]|5[3-5])|5|6(?:[1-689]|7[235-7])|7(?:[0-4]|5[2-7])|8[1-5]|(?:60|86)[23]"], "0$1"], ["(\\d)(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[12]|452|678|86", "[12]|452|6788|86"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[4-7]|8[1-35]"], "0$1"], ["(\\d)(\\d{3})(\\d{4,6})", "$1 $2 $3", ["9(?:2[0-4]|[35-9]|4[137-9])"], "0$1"], ["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["2"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["8"], "0$1"], ["(\\d)(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["92"], "0$1"], ["(\\d)(\\d{5})(\\d{4})", "$1 $2 $3", ["9"], "0$1"]], "0"], "MN": ["976", "001", "[12]\\d{7,9}|[5-9]\\d{7}", [8, 9, 10], [["(\\d{2})(\\d{2})(\\d{4})", "$1 $2 $3", ["11|2[16]"], "0$1"], ["(\\d{4})(\\d{4})", "$1 $2", ["[5-9]"]], ["(\\d{3})(\\d{5,6})", "$1 $2", ["[12]2[1-3]"], "0$1"], ["(\\d{4})(\\d{5,6})", "$1 $2", ["[12](?:27|3[2-8]|4[2-68]|5[1-4689])", "[12](?:27|3[2-8]|4[2-68]|5[1-4689])[0-3]"], "0$1"], ["(\\d{5})(\\d{4,5})", "$1 $2", ["[12]"], "0$1"]], "0"], "MO": ["853", "00", "0800\\d{3}|(?:28|[68]\\d)\\d{6}", [7, 8], [["(\\d{4})(\\d{3})", "$1 $2", ["0"]], ["(\\d{4})(\\d{4})", "$1 $2", ["[268]"]]]], "MP": ["1", "011", "[58]\\d{9}|(?:67|90)0\\d{7}", [10], 0, "1", 0, "([2-9]\\d{6})$|1", "670$1", 0, "670"], "MQ": ["596", "00", "7091\\d{5}|(?:[56]9|[89]\\d)\\d{7}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[5-79]|8(?:0[6-9]|[36])"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"], "0$1"]], "0"], "MR": ["222", "00", "(?:[2-4]\\d\\d|800)\\d{5}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[2-48]"]]]], "MS": ["1", "011", "(?:[58]\\d\\d|664|900)\\d{7}", [10], 0, "1", 0, "([34]\\d{6})$|1", "664$1", 0, "664"], "MT": ["356", "00", "3550\\d{4}|(?:[2579]\\d\\d|800)\\d{5}", [8], [["(\\d{4})(\\d{4})", "$1 $2", ["[2357-9]"]]]], "MU": ["230", "0(?:0|[24-7]0|3[03])", "(?:[57]|8\\d\\d)\\d{7}|[2-468]\\d{6}", [7, 8, 10], [["(\\d{3})(\\d{4})", "$1 $2", ["[2-46]|8[013]"]], ["(\\d{4})(\\d{4})", "$1 $2", ["[57]"]], ["(\\d{5})(\\d{5})", "$1 $2", ["8"]]], 0, 0, 0, 0, 0, 0, 0, "020"], "MV": ["960", "0(?:0|19)", "(?:800|9[0-57-9]\\d)\\d{7}|[34679]\\d{6}", [7, 10], [["(\\d{3})(\\d{4})", "$1-$2", ["[34679]"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["[89]"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "MW": ["265", "00", "(?:[1289]\\d|31|77)\\d{7}|1\\d{6}", [7, 9], [["(\\d)(\\d{3})(\\d{3})", "$1 $2 $3", ["1[2-9]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[1-37-9]"], "0$1"]], "0"], "MX": ["52", "0[09]", "[2-9]\\d{9}", [10], [["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["33|5[56]|81"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["[2-9]"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "MY": ["60", "00", "1\\d{8,9}|(?:3\\d|[4-9])\\d{7}", [8, 9, 10], [["(\\d)(\\d{3})(\\d{4})", "$1-$2 $3", ["[4-79]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1-$2 $3", ["1(?:[02469]|[378][1-9]|53)|8", "1(?:[02469]|[37][1-9]|53|8(?:[1-46-9]|5[7-9]))|8"], "0$1"], ["(\\d)(\\d{4})(\\d{4})", "$1-$2 $3", ["3"], "0$1"], ["(\\d)(\\d{3})(\\d{2})(\\d{4})", "$1-$2-$3-$4", ["1(?:[367]|80)"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1-$2 $3", ["15"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4})", "$1-$2 $3", ["1"], "0$1"]], "0"], "MZ": ["258", "00", "(?:2|8\\d)\\d{7}", [8, 9], [["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["2|8[2-9]"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["8"]]]], "NA": ["264", "00", "[68]\\d{7,8}", [8, 9], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["88"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["6"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["87"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["8"], "0$1"]], "0"], "NC": ["687", "00", "(?:050|[2-57-9]\\d\\d)\\d{3}", [6], [["(\\d{2})(\\d{2})(\\d{2})", "$1.$2.$3", ["[02-57-9]"]]]], "NE": ["227", "00", "[027-9]\\d{7}", [8], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["08"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[089]|2[013]|7[0467]"]]]], "NF": ["672", "00", "[13]\\d{5}", [6], [["(\\d{2})(\\d{4})", "$1 $2", ["1[0-3]"]], ["(\\d)(\\d{5})", "$1 $2", ["[13]"]]], 0, 0, "([0-258]\\d{4})$", "3$1"], "NG": ["234", "009", "(?:20|9\\d)\\d{8}|[78]\\d{9,13}", [10, 11, 12, 13, 14], [["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[7-9]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["20[129]"], "0$1"], ["(\\d{4})(\\d{2})(\\d{4})", "$1 $2 $3", ["2"], "0$1"], ["(\\d{3})(\\d{4})(\\d{4,5})", "$1 $2 $3", ["[78]"], "0$1"], ["(\\d{3})(\\d{5})(\\d{5,6})", "$1 $2 $3", ["[78]"], "0$1"]], "0"], "NI": ["505", "00", "(?:1800|[25-8]\\d{3})\\d{4}", [8], [["(\\d{4})(\\d{4})", "$1 $2", ["[125-8]"]]]], "NL": ["31", "00", "(?:[124-7]\\d\\d|3(?:[02-9]\\d|1[0-8]))\\d{6}|8\\d{6,9}|9\\d{6,10}|1\\d{4,5}", [5, 6, 7, 8, 9, 10, 11], [["(\\d{3})(\\d{4,7})", "$1 $2", ["[89]0"], "0$1"], ["(\\d{2})(\\d{7})", "$1 $2", ["66"], "0$1"], ["(\\d)(\\d{8})", "$1 $2", ["6"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["1[16-8]|2[259]|3[124]|4[17-9]|5[124679]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[1-578]|91"], "0$1"], ["(\\d{3})(\\d{3})(\\d{5})", "$1 $2 $3", ["9"], "0$1"]], "0"], "NO": ["47", "00", "(?:0|[2-9]\\d{3})\\d{4}", [5, 8], [["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["8"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[2-79]"]]], 0, 0, 0, 0, 0, "[02-689]|7[0-8]"], "NP": ["977", "00", "(?:1\\d|9)\\d{9}|[1-9]\\d{7}", [8, 10, 11], [["(\\d)(\\d{7})", "$1-$2", ["1[2-6]"], "0$1"], ["(\\d{2})(\\d{6})", "$1-$2", ["1[01]|[2-8]|9(?:[1-59]|[67][2-6])"], "0$1"], ["(\\d{3})(\\d{7})", "$1-$2", ["9"]]], "0"], "NR": ["674", "00", "(?:222|444|(?:55|8\\d)\\d|666|777|999)\\d{4}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[24-9]"]]]], "NU": ["683", "00", "(?:[4-7]|888\\d)\\d{3}", [4, 7], [["(\\d{3})(\\d{4})", "$1 $2", ["8"]]]], "NZ": ["64", "0(?:0|161)", "[1289]\\d{9}|50\\d{5}(?:\\d{2,3})?|[27-9]\\d{7,8}|(?:[34]\\d|6[0-35-9])\\d{6}|8\\d{4,6}", [5, 6, 7, 8, 9, 10], [["(\\d{2})(\\d{3,8})", "$1 $2", ["8[1-79]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2,3})", "$1 $2 $3", ["50[036-8]|8|90", "50(?:[0367]|88)|8|90"], "0$1"], ["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["24|[346]|7[2-57-9]|9[2-9]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["2(?:10|74)|[589]"], "0$1"], ["(\\d{2})(\\d{3,4})(\\d{4})", "$1 $2 $3", ["1|2[028]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,5})", "$1 $2 $3", ["2(?:[169]|7[0-35-9])|7"], "0$1"]], "0", 0, 0, 0, 0, 0, 0, "00"], "OM": ["968", "00", "(?:1505|[279]\\d{3}|500)\\d{4}|800\\d{5,6}", [7, 8, 9], [["(\\d{3})(\\d{4,6})", "$1 $2", ["[58]"]], ["(\\d{2})(\\d{6})", "$1 $2", ["2"]], ["(\\d{4})(\\d{4})", "$1 $2", ["[179]"]]]], "PA": ["507", "00", "(?:00800|8\\d{3})\\d{6}|[68]\\d{7}|[1-57-9]\\d{6}", [7, 8, 10, 11], [["(\\d{3})(\\d{4})", "$1-$2", ["[1-57-9]"]], ["(\\d{4})(\\d{4})", "$1-$2", ["[68]"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["8"]]]], "PE": ["51", "00|19(?:1[124]|77|90)00", "(?:[14-8]|9\\d)\\d{7}", [8, 9], [["(\\d{3})(\\d{5})", "$1 $2", ["80"], "(0$1)"], ["(\\d)(\\d{7})", "$1 $2", ["1"], "(0$1)"], ["(\\d{2})(\\d{6})", "$1 $2", ["[4-8]"], "(0$1)"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["9"]]], "0", 0, 0, 0, 0, 0, 0, "00", " Anexo "], "PF": ["689", "00", "4\\d{5}(?:\\d{2})?|8\\d{7,8}", [6, 8, 9], [["(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3", ["44"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["4|8[7-9]"]], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"]]]], "PG": ["675", "00|140[1-3]", "(?:180|[78]\\d{3})\\d{4}|(?:[2-589]\\d|64)\\d{5}", [7, 8], [["(\\d{3})(\\d{4})", "$1 $2", ["18|[2-69]|85"]], ["(\\d{4})(\\d{4})", "$1 $2", ["[78]"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "PH": ["63", "00", "(?:[2-7]|9\\d)\\d{8}|2\\d{5}|(?:1800|8)\\d{7,9}", [6, 8, 9, 10, 11, 12, 13], [["(\\d)(\\d{5})", "$1 $2", ["2"], "(0$1)"], ["(\\d{4})(\\d{4,6})", "$1 $2", ["3(?:23|39|46)|4(?:2[3-6]|[35]9|4[26]|76)|544|88[245]|(?:52|64|86)2", "3(?:230|397|461)|4(?:2(?:35|[46]4|51)|396|4(?:22|63)|59[347]|76[15])|5(?:221|446)|642[23]|8(?:622|8(?:[24]2|5[13]))"], "(0$1)"], ["(\\d{5})(\\d{4})", "$1 $2", ["346|4(?:27|9[35])|883", "3469|4(?:279|9(?:30|56))|8834"], "(0$1)"], ["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["2"], "(0$1)"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[3-7]|8[2-8]"], "(0$1)"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["[89]"], "0$1"], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["1"]], ["(\\d{4})(\\d{1,2})(\\d{3})(\\d{4})", "$1 $2 $3 $4", ["1"]]], "0"], "PK": ["92", "00", "122\\d{6}|[24-8]\\d{10,11}|9(?:[013-9]\\d{8,10}|2(?:[01]\\d\\d|2(?:[06-8]\\d|1[01]))\\d{7})|(?:[2-8]\\d{3}|92(?:[0-7]\\d|8[1-9]))\\d{6}|[24-9]\\d{8}|[89]\\d{7}", [8, 9, 10, 11, 12], [["(\\d{3})(\\d{3})(\\d{2,7})", "$1 $2 $3", ["[89]0"], "0$1"], ["(\\d{4})(\\d{5})", "$1 $2", ["1"]], ["(\\d{3})(\\d{6,7})", "$1 $2", ["2(?:3[2358]|4[2-4]|9[2-8])|45[3479]|54[2-467]|60[468]|72[236]|8(?:2[2-689]|3[23578]|4[3478]|5[2356])|9(?:2[2-8]|3[27-9]|4[2-6]|6[3569]|9[25-8])", "9(?:2[3-8]|98)|(?:2(?:3[2358]|4[2-4]|9[2-8])|45[3479]|54[2-467]|60[468]|72[236]|8(?:2[2-689]|3[23578]|4[3478]|5[2356])|9(?:22|3[27-9]|4[2-6]|6[3569]|9[25-7]))[2-9]"], "(0$1)"], ["(\\d{2})(\\d{7,8})", "$1 $2", ["(?:2[125]|4[0-246-9]|5[1-35-7]|6[1-8]|7[14]|8[16]|91)[2-9]"], "(0$1)"], ["(\\d{5})(\\d{5})", "$1 $2", ["58"], "(0$1)"], ["(\\d{3})(\\d{7})", "$1 $2", ["3"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["2[125]|4[0-246-9]|5[1-35-7]|6[1-8]|7[14]|8[16]|91"], "(0$1)"], ["(\\d{3})(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["[24-9]"], "(0$1)"]], "0"], "PL": ["48", "00", "(?:6|8\\d\\d)\\d{7}|[1-9]\\d{6}(?:\\d{2})?|[26]\\d{5}", [6, 7, 8, 9, 10], [["(\\d{5})", "$1", ["19"]], ["(\\d{3})(\\d{3})", "$1 $2", ["11|20|64"]], ["(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3", ["30|(?:1[2-8]|2[2-69]|3[2-4]|4[1-468]|5[24-689]|6[1-3578]|7[14-7]|8[1-79]|9[145])1", "30|(?:1[2-8]|2[2-69]|3[2-4]|4[1-468]|5[24-689]|6[1-3578]|7[14-7]|8[1-79]|9[145])19"]], ["(\\d{3})(\\d{2})(\\d{2,3})", "$1 $2 $3", ["64"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["21|39|45|5[0137]|6[0469]|7[02389]|8(?:0[14]|8)"]], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["1[2-8]|[2-7]|8[1-79]|9[145]"]], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["8"]]]], "PM": ["508", "00", "[78]\\d{8}|[2-9]\\d{5}", [6, 9], [["(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3", ["[2-9]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["7"]], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"], "0$1"]], "0"], "PR": ["1", "011", "(?:[589]\\d\\d|787)\\d{7}", [10], 0, "1", 0, 0, 0, 0, "787|939"], "PS": ["970", "00", "[2489]2\\d{6}|(?:1\\d|5)\\d{8}", [8, 9, 10], [["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["[2489]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["5"], "0$1"], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["1"]]], "0"], "PT": ["351", "00", "1693\\d{5}|(?:[26-9]\\d|30)\\d{7}", [9], [["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["2[12]"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["16|[236-9]"]]]], "PW": ["680", "01[12]", "(?:[24-8]\\d\\d|345|900)\\d{4}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[2-9]"]]]], "PY": ["595", "00", "[36-8]\\d{5,8}|4\\d{6,8}|59\\d{6}|9\\d{5,10}|(?:2\\d|5[0-8])\\d{6,7}", [6, 7, 8, 9, 10, 11], [["(\\d{3})(\\d{3,6})", "$1 $2", ["[2-9]0"], "0$1"], ["(\\d{2})(\\d{5})", "$1 $2", ["3[289]|4[246-8]|61|7[1-3]|8[1-36]"], "(0$1)"], ["(\\d{3})(\\d{4,5})", "$1 $2", ["2[279]|3[13-5]|4[359]|5|6(?:[34]|7[1-46-8])|7[46-8]|85"], "(0$1)"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["2[14-68]|3[26-9]|4[1246-8]|6(?:1|75)|7[1-35]|8[1-36]"], "(0$1)"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["87"]], ["(\\d{3})(\\d{6})", "$1 $2", ["9(?:[5-79]|8[1-7])"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[2-8]"], "0$1"], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["9"]]], "0"], "QA": ["974", "00", "800\\d{4}|(?:2|800)\\d{6}|(?:0080|[3-7])\\d{7}", [7, 8, 9, 11], [["(\\d{3})(\\d{4})", "$1 $2", ["2[136]|8"]], ["(\\d{4})(\\d{4})", "$1 $2", ["[3-7]"]]]], "RE": ["262", "00", "709\\d{6}|(?:26|[689]\\d)\\d{7}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[26-9]"], "0$1"]], "0", 0, 0, 0, 0, 0, [["2631[0-6]\\d{4}|26(?:2\\d|30|88)\\d{5}"], ["(?:69(?:2\\d\\d|3(?:[06][0-6]|1[0-3]|2[0-2]|3[0-39]|4\\d|5[0-5]|7[0-37]|8[0-8]|9[0-479]))|7092[0-3])\\d{4}"], ["80\\d{7}"], ["89[1-37-9]\\d{6}"], 0, 0, 0, 0, ["9(?:399[0-3]|479[0-6]|76(?:2[278]|3[0-37]))\\d{4}"], ["8(?:1[019]|2[0156]|84|90)\\d{6}"]]], "RO": ["40", "00", "(?:[236-8]\\d|90)\\d{7}|[23]\\d{5}", [6, 9], [["(\\d{3})(\\d{3})", "$1 $2", ["2[3-6]", "2[3-6]\\d9"], "0$1"], ["(\\d{2})(\\d{4})", "$1 $2", ["219|31"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[23]1"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[236-9]"], "0$1"]], "0", 0, 0, 0, 0, 0, 0, 0, " int "], "RS": ["381", "00", "38[02-9]\\d{6,9}|6\\d{7,9}|90\\d{4,8}|38\\d{5,6}|(?:7\\d\\d|800)\\d{3,9}|(?:[12]\\d|3[0-79])\\d{5,10}", [6, 7, 8, 9, 10, 11, 12], [["(\\d{3})(\\d{3,9})", "$1 $2", ["(?:2[389]|39)0|[7-9]"], "0$1"], ["(\\d{2})(\\d{5,10})", "$1 $2", ["[1-36]"], "0$1"]], "0"], "RU": ["7", "810", "8\\d{13}|[347-9]\\d{9}", [10, 14], [["(\\d{4})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["7(?:1[0-8]|2[1-9])", "7(?:1(?:[0-356]2|4[29]|7|8[27])|2(?:1[23]|[2-9]2))", "7(?:1(?:[0-356]2|4[29]|7|8[27])|2(?:13[03-69]|62[013-9]))|72[1-57-9]2"], "8 ($1)", 1], ["(\\d{5})(\\d)(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["7(?:1[0-68]|2[1-9])", "7(?:1(?:[06][3-6]|[18]|2[35]|[3-5][3-5])|2(?:[13][3-5]|[24-689]|7[457]))", "7(?:1(?:0(?:[356]|4[023])|[18]|2(?:3[013-9]|5)|3[45]|43[013-79]|5(?:3[1-8]|4[1-7]|5)|6(?:3[0-35-9]|[4-6]))|2(?:1(?:3[178]|[45])|[24-689]|3[35]|7[457]))|7(?:14|23)4[0-8]|71(?:33|45)[1-79]"], "8 ($1)", 1], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["7"], "8 ($1)", 1], ["(\\d{3})(\\d{3})(\\d{2})(\\d{2})", "$1 $2-$3-$4", ["[349]|8(?:[02-7]|1[1-8])"], "8 ($1)", 1], ["(\\d{4})(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["8"], "8 ($1)"]], "8", 0, 0, 0, 0, "[3489]", 0, "8~10"], "RW": ["250", "00", "(?:06|[27]\\d\\d|[89]00)\\d{6}", [8, 9], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["0"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["2"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[7-9]"], "0$1"]], "0"], "SA": ["966", "00", "(?:[15]\\d|800|92)\\d{7}", [9, 10], [["(\\d{4})(\\d{5})", "$1 $2", ["9"]], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["1"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["5"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["8"]]], "0"], "SB": ["677", "0[01]", "[6-9]\\d{6}|[1-6]\\d{4}", [5, 7], [["(\\d{2})(\\d{5})", "$1 $2", ["6[89]|7|8[4-9]|9(?:[1-8]|9[0-8])"]]]], "SC": ["248", "010|0[0-2]", "(?:[2489]\\d|64)\\d{5}", [7], [["(\\d)(\\d{3})(\\d{3})", "$1 $2 $3", ["[246]|9[57]"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "SD": ["249", "00", "[19]\\d{8}", [9], [["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[19]"], "0$1"]], "0"], "SE": ["46", "00", "(?:[26]\\d\\d|9)\\d{9}|[1-9]\\d{8}|[1-689]\\d{7}|[1-4689]\\d{6}|2\\d{5}", [6, 7, 8, 9, 10, 12], [["(\\d{2})(\\d{2,3})(\\d{2})", "$1-$2 $3", ["20"], "0$1", 0, "$1 $2 $3"], ["(\\d{3})(\\d{4})", "$1-$2", ["9(?:00|39|44|9)"], "0$1", 0, "$1 $2"], ["(\\d{2})(\\d{3})(\\d{2})", "$1-$2 $3", ["[12][136]|3[356]|4[0246]|6[03]|90[1-9]"], "0$1", 0, "$1 $2 $3"], ["(\\d)(\\d{2,3})(\\d{2})(\\d{2})", "$1-$2 $3 $4", ["8"], "0$1", 0, "$1 $2 $3 $4"], ["(\\d{3})(\\d{2,3})(\\d{2})", "$1-$2 $3", ["1[2457]|2(?:[247-9]|5[0138])|3[0247-9]|4[1357-9]|5[0-35-9]|6(?:[125689]|4[02-57]|7[0-2])|9(?:[125-8]|3[02-5]|4[0-3])"], "0$1", 0, "$1 $2 $3"], ["(\\d{3})(\\d{2,3})(\\d{3})", "$1-$2 $3", ["9(?:00|39|44)"], "0$1", 0, "$1 $2 $3"], ["(\\d{2})(\\d{2,3})(\\d{2})(\\d{2})", "$1-$2 $3 $4", ["1[13689]|2[0136]|3[1356]|4[0246]|54|6[03]|90[1-9]"], "0$1", 0, "$1 $2 $3 $4"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1-$2 $3 $4", ["10|7"], "0$1", 0, "$1 $2 $3 $4"], ["(\\d)(\\d{3})(\\d{3})(\\d{2})", "$1-$2 $3 $4", ["8"], "0$1", 0, "$1 $2 $3 $4"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1-$2 $3 $4", ["[13-5]|2(?:[247-9]|5[0138])|6(?:[124-689]|7[0-2])|9(?:[125-8]|3[02-5]|4[0-3])"], "0$1", 0, "$1 $2 $3 $4"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{3})", "$1-$2 $3 $4", ["9"], "0$1", 0, "$1 $2 $3 $4"], ["(\\d{3})(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1-$2 $3 $4 $5", ["[26]"], "0$1", 0, "$1 $2 $3 $4 $5"]], "0"], "SG": ["65", "0[0-3]\\d", "(?:(?:1\\d|8)\\d\\d|7000)\\d{7}|[3689]\\d{7}", [8, 10, 11], [["(\\d{4})(\\d{4})", "$1 $2", ["[369]|8(?:0[1-9]|[1-9])"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["8"]], ["(\\d{4})(\\d{4})(\\d{3})", "$1 $2 $3", ["7"]], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["1"]]]], "SH": ["290", "00", "(?:[256]\\d|8)\\d{3}", [4, 5], 0, 0, 0, 0, 0, 0, "[256]"], "SI": ["386", "00|10(?:22|66|88|99)", "[1-7]\\d{7}|8\\d{4,7}|90\\d{4,6}", [5, 6, 7, 8], [["(\\d{2})(\\d{3,6})", "$1 $2", ["8[09]|9"], "0$1"], ["(\\d{3})(\\d{5})", "$1 $2", ["59|8"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[37][01]|4[013]|51|6"], "0$1"], ["(\\d)(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[1-57]"], "(0$1)"]], "0", 0, 0, 0, 0, 0, 0, "00"], "SJ": ["47", "00", "0\\d{4}|(?:[489]\\d|79)\\d{6}", [5, 8], 0, 0, 0, 0, 0, 0, "79"], "SK": ["421", "00", "[2-689]\\d{8}|[2-59]\\d{6}|[2-5]\\d{5}", [6, 7, 9], [["(\\d)(\\d{2})(\\d{3,4})", "$1 $2 $3", ["21"], "0$1"], ["(\\d{2})(\\d{2})(\\d{2,3})", "$1 $2 $3", ["[3-5][1-8]1", "[3-5][1-8]1[67]"], "0$1"], ["(\\d)(\\d{3})(\\d{3})(\\d{2})", "$1 $2 $3 $4", ["2"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[689]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[3-5]"], "0$1"]], "0"], "SL": ["232", "00", "(?:[237-9]\\d|66)\\d{6}", [8], [["(\\d{2})(\\d{6})", "$1 $2", ["[236-9]"], "(0$1)"]], "0"], "SM": ["378", "00", "(?:0549|[5-7]\\d)\\d{6}", [8, 10], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[5-7]"]], ["(\\d{4})(\\d{6})", "$1 $2", ["0"]]], 0, 0, "([89]\\d{5})$", "0549$1"], "SN": ["221", "00", "(?:[378]\\d|93)\\d{7}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"]], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[379]"]]]], "SO": ["252", "00", "[346-9]\\d{8}|[12679]\\d{7}|[1-5]\\d{6}|[1348]\\d{5}", [6, 7, 8, 9], [["(\\d{2})(\\d{4})", "$1 $2", ["8[125]"]], ["(\\d{6})", "$1", ["[134]"]], ["(\\d)(\\d{6})", "$1 $2", ["[15]|2[0-79]|3[0-46-8]|4[0-7]"]], ["(\\d{2})(\\d{5,7})", "$1 $2", ["1|28|9[2-9]"]], ["(\\d)(\\d{7})", "$1 $2", ["[267]|904"]], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[346-9]"]]], "0"], "SR": ["597", "00", "(?:[2-5]|[6-9]\\d)\\d{5}", [6, 7], [["(\\d{2})(\\d{2})(\\d{2})", "$1-$2-$3", ["56"]], ["(\\d{3})(\\d{3})", "$1-$2", ["[2-5]"]], ["(\\d{3})(\\d{4})", "$1-$2", ["[6-9]"]]]], "SS": ["211", "00", "[19]\\d{8}", [9], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[19]"], "0$1"]], "0"], "ST": ["239", "00", "(?:22|9\\d)\\d{5}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[29]"]]]], "SV": ["503", "00", "[25-7]\\d{7}|(?:80\\d|900)\\d{4}(?:\\d{4})?", [7, 8, 11], [["(\\d{3})(\\d{4})", "$1 $2", ["[89]"]], ["(\\d{4})(\\d{4})", "$1 $2", ["[25-7]"]], ["(\\d{3})(\\d{4})(\\d{4})", "$1 $2 $3", ["[89]"]]]], "SX": ["1", "011", "7215\\d{6}|(?:[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "(5\\d{6})$|1", "721$1", 0, "721"], "SY": ["963", "00", "[1-359]\\d{8}|[1-5]\\d{7}", [8, 9], [["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[1-4]|5[1-3]"], "0$1", 1], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[59]"], "0$1", 1]], "0"], "SZ": ["268", "00", "0800\\d{4}|(?:[237]\\d|900)\\d{6}", [8, 9], [["(\\d{4})(\\d{4})", "$1 $2", ["[0237]"]], ["(\\d{5})(\\d{4})", "$1 $2", ["9"]]]], "TA": ["290", "00", "8\\d{3}", [4], 0, 0, 0, 0, 0, 0, "8"], "TC": ["1", "011", "(?:[58]\\d\\d|649|900)\\d{7}", [10], 0, "1", 0, "([2-479]\\d{6})$|1", "649$1", 0, "649"], "TD": ["235", "00|16", "(?:22|[3689]\\d|77)\\d{6}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[236-9]"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "TG": ["228", "00", "[279]\\d{7}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[279]"]]]], "TH": ["66", "00[1-9]", "(?:001800|[2-57]|[689]\\d)\\d{7}|1\\d{7,9}", [8, 9, 10, 13], [["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["2"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[13-9]"], "0$1"], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["1"]]], "0"], "TJ": ["992", "810", "(?:[0-57-9]\\d|66)\\d{7}", [9], [["(\\d{6})(\\d)(\\d{2})", "$1 $2 $3", ["331", "3317"]], ["(\\d{3})(\\d{2})(\\d{4})", "$1 $2 $3", ["44[02-479]|[34]7"]], ["(\\d{4})(\\d)(\\d{4})", "$1 $2 $3", ["3(?:[1245]|3[12])"]], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["\\d"]]], 0, 0, 0, 0, 0, 0, 0, "8~10"], "TK": ["690", "00", "[2-47]\\d{3,6}", [4, 5, 6, 7]], "TL": ["670", "00", "7\\d{7}|(?:[2-47]\\d|[89]0)\\d{5}", [7, 8], [["(\\d{3})(\\d{4})", "$1 $2", ["[2-489]|70"]], ["(\\d{4})(\\d{4})", "$1 $2", ["7"]]]], "TM": ["993", "810", "[1-7]\\d{7}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2-$3-$4", ["12"], "(8 $1)"], ["(\\d{3})(\\d)(\\d{2})(\\d{2})", "$1 $2-$3-$4", ["[1-5]"], "(8 $1)"], ["(\\d{2})(\\d{6})", "$1 $2", ["[67]"], "8 $1"]], "8", 0, 0, 0, 0, 0, 0, "8~10"], "TN": ["216", "00", "[2-57-9]\\d{7}", [8], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[2-57-9]"]]]], "TO": ["676", "00", "(?:0800|(?:[5-8]\\d\\d|999)\\d)\\d{3}|[2-8]\\d{4}", [5, 7], [["(\\d{2})(\\d{3})", "$1-$2", ["[2-4]|50|6[09]|7[0-24-69]|8[05]"]], ["(\\d{4})(\\d{3})", "$1 $2", ["0"]], ["(\\d{3})(\\d{4})", "$1 $2", ["[5-9]"]]]], "TR": ["90", "00", "4\\d{6}|8\\d{11,12}|(?:[2-58]\\d\\d|900)\\d{7}", [7, 10, 12, 13], [["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["512|8[01589]|90"], "0$1", 1], ["(\\d{3})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["5[0-79]"], "0$1", 1], ["(\\d{3})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[24][1-8]|3[1-9]"], "(0$1)", 1], ["(\\d{3})(\\d{3})(\\d{6,7})", "$1 $2 $3", ["80"], "0$1", 1]], "0"], "TT": ["1", "011", "(?:[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2-46-8]\\d{6})$|1", "868$1", 0, "868"], "TV": ["688", "00", "(?:2|7\\d\\d|90)\\d{4}", [5, 6, 7], [["(\\d{2})(\\d{3})", "$1 $2", ["2"]], ["(\\d{2})(\\d{4})", "$1 $2", ["90"]], ["(\\d{2})(\\d{5})", "$1 $2", ["7"]]]], "TW": ["886", "0(?:0[25-79]|19)", "[2-689]\\d{8}|7\\d{9,10}|[2-8]\\d{7}|2\\d{6}", [7, 8, 9, 10, 11], [["(\\d{2})(\\d)(\\d{4})", "$1 $2 $3", ["202"], "0$1"], ["(\\d{3})(\\d{5})", "$1 $2", ["826"], "0$1"], ["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["83"], "0$1"], ["(\\d{2})(\\d{2})(\\d{4})", "$1 $2 $3", ["82"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[25]0|37|49|8[09]"], "0$1"], ["(\\d)(\\d{3,4})(\\d{4})", "$1 $2 $3", ["[23568]|4(?:0[02-48]|[1-478])|7[1-9]", "[23568]|4(?:0[2-48]|[1-478])|(?:400|7)[1-9]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[49]"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4,5})", "$1 $2 $3", ["7"], "0$1"]], "0", 0, 0, 0, 0, 0, 0, 0, "#"], "TZ": ["255", "00[056]", "(?:[25-8]\\d|41|90)\\d{7}", [9], [["(\\d{3})(\\d{2})(\\d{4})", "$1 $2 $3", ["[89]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[24]"], "0$1"], ["(\\d{2})(\\d{7})", "$1 $2", ["5"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[67]"], "0$1"]], "0"], "UA": ["380", "00", "[89]\\d{9}|[3-9]\\d{8}", [9, 10], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["6[12][29]|(?:3[1-8]|4[136-8]|5[12457]|6[49])2|(?:56|65)[24]", "6[12][29]|(?:35|4[1378]|5[12457]|6[49])2|(?:56|65)[24]|(?:3[1-46-8]|46)2[013-9]"], "0$1"], ["(\\d{4})(\\d{5})", "$1 $2", ["3[1-8]|4(?:[1367]|[45][6-9]|8[4-6])|5(?:[1-5]|6[0135689]|7[4-6])|6(?:[12][3-7]|[459])", "3[1-8]|4(?:[1367]|[45][6-9]|8[4-6])|5(?:[1-5]|6(?:[015689]|3[02389])|7[4-6])|6(?:[12][3-7]|[459])"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[3-7]|89|9[1-9]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[89]"], "0$1"]], "0", 0, 0, 0, 0, 0, 0, "0~0"], "UG": ["256", "00[057]", "800\\d{6}|(?:[29]0|[347]\\d)\\d{7}", [9], [["(\\d{4})(\\d{5})", "$1 $2", ["202", "2024"], "0$1"], ["(\\d{3})(\\d{6})", "$1 $2", ["[27-9]|4(?:6[45]|[7-9])"], "0$1"], ["(\\d{2})(\\d{7})", "$1 $2", ["[34]"], "0$1"]], "0"], "US": ["1", "011", "[2-9]\\d{9}|3\\d{6}", [10], [["(\\d{3})(\\d{4})", "$1-$2", ["310"], 0, 1], ["(\\d{3})(\\d{3})(\\d{4})", "($1) $2-$3", ["[2-9]"], 0, 1, "$1-$2-$3"]], "1", 0, 0, 0, 0, 0, [["(?:472[2-47-9]|983[2-57-9])\\d{6}|(?:2(?:0[1-35-9]|1[02-9]|2[03-57-9]|3[1459]|4[08]|5[1-46]|6[0279]|7[02469]|8[13])|3(?:0[1-57-9]|1[02-9]|2[013-79]|3[0-24679]|4[167]|5[0-3]|6[01349]|8[056])|4(?:0[124-9]|1[02-579]|2[3-5]|3[0245]|4[023578]|58|6[349]|7[0589]|8[04])|5(?:0[1-57-9]|1[0235-8]|20|3[0149]|4[01]|5[179]|6[1-47]|7[0-5]|8[0256])|6(?:0[1-35-9]|1[024-9]|2[03689]|3[016]|4[0156]|5[01679]|6[0-279]|78|8[0-269])|7(?:0[1-46-8]|1[2-9]|2[04-8]|3[0-2478]|4[0378]|5[47]|6[02359]|7[0-59]|8[156])|8(?:0[1-68]|1[02-8]|2[0168]|3[0-2589]|4[03578]|5[046-9]|6[02-5]|7[028])|9(?:0[1346-9]|1[02-9]|2[0589]|3[0146-8]|4[01357-9]|5[12469]|7[0-3589]|8[04-69]))[2-9]\\d{6}"], [""], ["8(?:00|33|44|55|66|77|88)[2-9]\\d{6}"], ["900[2-9]\\d{6}"], ["52(?:3(?:[2-46-9][02-9]\\d|5(?:[02-46-9]\\d|5[0-46-9]))|4(?:[2-478][02-9]\\d|5(?:[034]\\d|2[024-9]|5[0-46-9])|6(?:0[1-9]|[2-9]\\d)|9(?:[05-9]\\d|2[0-5]|49)))\\d{4}|52[34][2-9]1[02-9]\\d{4}|5(?:00|2[125-9]|3[23]|44|66|77|88)[2-9]\\d{6}"]]], "UY": ["598", "0(?:0|1[3-9]\\d)", "0004\\d{2,9}|[1249]\\d{7}|2\\d{3,4}|(?:[49]\\d|80)\\d{5}", [4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [["(\\d{4,5})", "$1", ["21"]], ["(\\d{3})(\\d{3,4})", "$1 $2", ["0"]], ["(\\d{3})(\\d{4})", "$1 $2", ["[49]0|8"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["9"], "0$1"], ["(\\d{4})(\\d{4})", "$1 $2", ["[124]"]], ["(\\d{3})(\\d{3})(\\d{2,4})", "$1 $2 $3", ["0"]], ["(\\d{3})(\\d{3})(\\d{3})(\\d{2,4})", "$1 $2 $3 $4", ["0"]]], "0", 0, 0, 0, 0, 0, 0, "00", " int. "], "UZ": ["998", "00", "(?:20|33|[5-9]\\d)\\d{7}", [9], [["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[235-9]"]]]], "VA": ["39", "00", "0\\d{5,10}|3[0-8]\\d{7,10}|55\\d{8}|8\\d{5}(?:\\d{2,4})?|(?:1\\d|39)\\d{7,8}", [6, 7, 8, 9, 10, 11, 12], 0, 0, 0, 0, 0, 0, "06698"], "VC": ["1", "011", "(?:[58]\\d\\d|784|900)\\d{7}", [10], 0, "1", 0, "([2-7]\\d{6})$|1", "784$1", 0, "784"], "VE": ["58", "00", "[68]00\\d{7}|(?:[24]\\d|[59]0)\\d{8}", [10], [["(\\d{3})(\\d{7})", "$1-$2", ["[24-689]"], "0$1"]], "0"], "VG": ["1", "011", "(?:284|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2-578]\\d{6})$|1", "284$1", 0, "284"], "VI": ["1", "011", "[58]\\d{9}|(?:34|90)0\\d{7}", [10], 0, "1", 0, "([2-9]\\d{6})$|1", "340$1", 0, "340"], "VN": ["84", "00", "[12]\\d{9}|[135-9]\\d{8}|[16]\\d{6,7}|7\\d{6}", [7, 8, 9, 10], [["(\\d{4})(\\d{4,6})", "$1 $2", ["1(?:2[02]|[89])"], 0, 1], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["1[26]|6"], "0$1", 1], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[357-9]"], "0$1", 1], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["2[48]"], "0$1", 1], ["(\\d{3})(\\d{4})(\\d{3})", "$1 $2 $3", ["2"], "0$1", 1]], "0"], "VU": ["678", "00", "[57-9]\\d{6}|(?:[238]\\d|48)\\d{3}", [5, 7], [["(\\d{3})(\\d{4})", "$1 $2", ["[57-9]"]]]], "WF": ["681", "00", "(?:40|72|8\\d{4})\\d{4}|[89]\\d{5}", [6, 9], [["(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3", ["[47-9]"]], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"]]]], "WS": ["685", "0", "(?:[2-6]|8\\d{5})\\d{4}|[78]\\d{6}|[68]\\d{5}", [5, 6, 7, 10], [["(\\d{5})", "$1", ["[2-5]|6[1-9]"]], ["(\\d{3})(\\d{3,7})", "$1 $2", ["[68]"]], ["(\\d{2})(\\d{5})", "$1 $2", ["7"]]]], "XK": ["383", "00", "2\\d{7,8}|3\\d{7,11}|(?:4\\d\\d|[89]00)\\d{5}", [8, 9, 10, 11, 12], [["(\\d{3})(\\d{5})", "$1 $2", ["[89]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[2-4]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["2|39"], "0$1"], ["(\\d{2})(\\d{7,10})", "$1 $2", ["3"], "0$1"]], "0"], "YE": ["967", "00", "(?:1|7\\d)\\d{7}|[1-7]\\d{6}", [7, 8, 9], [["(\\d)(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[1-6]|7(?:[24-6]|8[0-7])"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["7"], "0$1"]], "0"], "YT": ["262", "00", "(?:639\\d|7093)\\d{5}|(?:26|80|9\\d)\\d{7}", [9], 0, "0", 0, 0, 0, 0, 0, [["26(?:89\\d|9(?:0[0-467]|15|5[0-4]|6\\d|[78]0))\\d{4}"], ["(?:639(?:0[0-79]|1[019]|[267]\\d|3[09]|40|5[05-9]|9[04-79])|7093[5-7])\\d{4}"], ["80\\d{7}"], 0, 0, 0, 0, 0, ["9(?:(?:39|47)8[01]|769\\d)\\d{4}"]]], "ZA": ["27", "00", "[1-79]\\d{8}|8\\d{4,9}", [5, 6, 7, 8, 9, 10], [["(\\d{2})(\\d{3,4})", "$1 $2", ["8[1-4]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2,3})", "$1 $2 $3", ["8[1-4]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["860"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[1-9]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["8"], "0$1"]], "0"], "ZM": ["260", "00", "800\\d{6}|(?:21|[579]\\d|63)\\d{7}", [9], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[28]"], "0$1"], ["(\\d{2})(\\d{7})", "$1 $2", ["[579]"], "0$1"]], "0"], "ZW": ["263", "00", "2(?:[0-57-9]\\d{6,8}|6[0-24-9]\\d{6,7})|[38]\\d{9}|[35-8]\\d{8}|[3-6]\\d{7}|[1-689]\\d{6}|[1-3569]\\d{5}|[1356]\\d{4}", [5, 6, 7, 8, 9, 10], [["(\\d{3})(\\d{3,5})", "$1 $2", ["2(?:0[45]|2[278]|[49]8)|3(?:[09]8|17)|6(?:[29]8|37|75)|[23][78]|(?:33|5[15]|6[68])[78]"], "0$1"], ["(\\d)(\\d{3})(\\d{2,4})", "$1 $2 $3", ["[49]"], "0$1"], ["(\\d{3})(\\d{4})", "$1 $2", ["80"], "0$1"], ["(\\d{2})(\\d{7})", "$1 $2", ["24|8[13-59]|(?:2[05-79]|39|5[45]|6[15-8])2", "2(?:02[014]|4|[56]20|[79]2)|392|5(?:42|525)|6(?:[16-8]21|52[013])|8[13-59]"], "(0$1)"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["7"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["2(?:1[39]|2[0157]|[378]|[56][14])|3(?:12|29)", "2(?:1[39]|2[0157]|[378]|[56][14])|3(?:123|29)"], "0$1"], ["(\\d{4})(\\d{6})", "$1 $2", ["8"], "0$1"], ["(\\d{2})(\\d{3,5})", "$1 $2", ["1|2(?:0[0-36-9]|12|29|[56])|3(?:1[0-689]|[24-6])|5(?:[0236-9]|1[2-4])|6(?:[013-59]|7[0-46-9])|(?:33|55|6[68])[0-69]|(?:29|3[09]|62)[0-79]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["29[013-9]|39|54"], "0$1"], ["(\\d{4})(\\d{3,5})", "$1 $2", ["(?:25|54)8", "258|5483"], "0$1"]], "0"] }, "nonGeographic": { "800": ["800", 0, "(?:00|[1-9]\\d)\\d{6}", [8], [["(\\d{4})(\\d{4})", "$1 $2", ["\\d"]]], 0, 0, 0, 0, 0, 0, [0, 0, ["(?:00|[1-9]\\d)\\d{6}"]]], "808": ["808", 0, "[1-9]\\d{7}", [8], [["(\\d{4})(\\d{4})", "$1 $2", ["[1-9]"]]], 0, 0, 0, 0, 0, 0, [0, 0, 0, 0, 0, 0, 0, 0, 0, ["[1-9]\\d{7}"]]], "870": ["870", 0, "7\\d{11}|[235-7]\\d{8}", [9, 12], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[235-7]"]]], 0, 0, 0, 0, 0, 0, [0, ["(?:[356]|774[45])\\d{8}|7[6-8]\\d{7}"], 0, 0, 0, 0, 0, 0, ["2\\d{8}", [9]]]], "878": ["878", 0, "10\\d{10}", [12], [["(\\d{2})(\\d{5})(\\d{5})", "$1 $2 $3", ["1"]]], 0, 0, 0, 0, 0, 0, [0, 0, 0, 0, 0, 0, 0, 0, ["10\\d{10}"]]], "881": ["881", 0, "6\\d{9}|[0-36-9]\\d{8}", [9, 10], [["(\\d)(\\d{3})(\\d{5})", "$1 $2 $3", ["[0-37-9]"]], ["(\\d)(\\d{3})(\\d{5,6})", "$1 $2 $3", ["6"]]], 0, 0, 0, 0, 0, 0, [0, ["6\\d{9}|[0-36-9]\\d{8}"]]], "882": ["882", 0, "[13]\\d{6}(?:\\d{2,5})?|[19]\\d{7}|(?:[25]\\d\\d|4)\\d{7}(?:\\d{2})?", [7, 8, 9, 10, 11, 12], [["(\\d{2})(\\d{5})", "$1 $2", ["16|342"]], ["(\\d{2})(\\d{6})", "$1 $2", ["49"]], ["(\\d{2})(\\d{2})(\\d{4})", "$1 $2 $3", ["1[36]|9"]], ["(\\d{2})(\\d{4})(\\d{3})", "$1 $2 $3", ["3[23]"]], ["(\\d{2})(\\d{3,4})(\\d{4})", "$1 $2 $3", ["16"]], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["10|23|3(?:[15]|4[57])|4|5[12]"]], ["(\\d{3})(\\d{4})(\\d{4})", "$1 $2 $3", ["34"]], ["(\\d{2})(\\d{4,5})(\\d{5})", "$1 $2 $3", ["[1-35]"]]], 0, 0, 0, 0, 0, 0, [0, ["342\\d{4}|(?:337|49)\\d{6}|(?:3(?:2|47|7\\d{3})|5(?:0\\d{3}|2[0-2]))\\d{7}", [7, 8, 9, 10, 12]], 0, 0, 0, ["348[57]\\d{7}", [11]], 0, 0, ["1(?:3(?:0[0347]|[13][0139]|2[035]|4[013568]|6[0459]|7[06]|8[15-8]|9[0689])\\d{4}|6\\d{5,10})|(?:345\\d|9[89])\\d{6}|(?:10|2(?:3|85\\d)|3(?:[15]|[69]\\d\\d)|4[15-8]|51)\\d{8}"]]], "883": ["883", 0, "(?:[1-4]\\d|51)\\d{6,10}", [8, 9, 10, 11, 12], [["(\\d{3})(\\d{3})(\\d{2,8})", "$1 $2 $3", ["[14]|2[24-689]|3[02-689]|51[24-9]"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["510"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["21"]], ["(\\d{4})(\\d{4})(\\d{4})", "$1 $2 $3", ["51[13]"]], ["(\\d{3})(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["[235]"]]], 0, 0, 0, 0, 0, 0, [0, 0, 0, 0, 0, 0, 0, 0, ["(?:2(?:00\\d\\d|10)|(?:370[1-9]|51\\d0)\\d)\\d{7}|51(?:00\\d{5}|[24-9]0\\d{4,7})|(?:1[0-79]|2[24-689]|3[02-689]|4[0-4])0\\d{5,9}"]]], "888": ["888", 0, "\\d{11}", [11], [["(\\d{3})(\\d{3})(\\d{5})", "$1 $2 $3"]], 0, 0, 0, 0, 0, 0, [0, 0, 0, 0, 0, 0, ["\\d{11}"]]], "979": ["979", 0, "[1359]\\d{8}", [9], [["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["[1359]"]]], 0, 0, 0, 0, 0, 0, [0, 0, 0, ["[1359]\\d{8}"]]] } };
 
-// node_modules/primeng/fesm2022/primeng-floatlabel.mjs
-var _c093 = ["*"];
-var theme18 = (
-  /*css*/
-  `
-    ${style35}
+// node_modules/libphonenumber-js/min/exports/withMetadataArgument.js
+function withMetadataArgument(func, _arguments) {
+  var args = Array.prototype.slice.call(_arguments);
+  args.push(metadata_min_json_default);
+  return func.apply(this, args);
+}
 
-    /* For PrimeNG */
-    .p-floatlabel:has(.ng-invalid.ng-dirty) label {
-        color: dt('floatlabel.invalid.color');
+// node_modules/libphonenumber-js/es6/tools/semver-compare.js
+function semver_compare_default(a44, b8) {
+  a44 = a44.split("-");
+  b8 = b8.split("-");
+  var pa = a44[0].split(".");
+  var pb = b8[0].split(".");
+  for (var i30 = 0; i30 < 3; i30++) {
+    var na = Number(pa[i30]);
+    var nb = Number(pb[i30]);
+    if (na > nb) return 1;
+    if (nb > na) return -1;
+    if (!isNaN(na) && isNaN(nb)) return 1;
+    if (isNaN(na) && !isNaN(nb)) return -1;
+  }
+  if (a44[1] && b8[1]) {
+    return a44[1] > b8[1] ? 1 : a44[1] < b8[1] ? -1 : 0;
+  }
+  return !a44[1] && b8[1] ? 1 : a44[1] && !b8[1] ? -1 : 0;
+}
+
+// node_modules/libphonenumber-js/es6/helpers/isObject.js
+var objectConstructor = {}.constructor;
+function isObject2(object) {
+  return object !== void 0 && object !== null && object.constructor === objectConstructor;
+}
+
+// node_modules/libphonenumber-js/es6/helpers/isCallingCode.js
+var CALLING_CODE_REG_EXP = /^\d+$/;
+function isCallingCode(string) {
+  return CALLING_CODE_REG_EXP.test(string);
+}
+
+// node_modules/libphonenumber-js/es6/metadata.js
+function _typeof(o88) {
+  "@babel/helpers - typeof";
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o89) {
+    return typeof o89;
+  } : function(o89) {
+    return o89 && "function" == typeof Symbol && o89.constructor === Symbol && o89 !== Symbol.prototype ? "symbol" : typeof o89;
+  }, _typeof(o88);
+}
+function _classCallCheck(a44, n39) {
+  if (!(a44 instanceof n39)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties(e59, r85) {
+  for (var t44 = 0; t44 < r85.length; t44++) {
+    var o88 = r85[t44];
+    o88.enumerable = o88.enumerable || false, o88.configurable = true, "value" in o88 && (o88.writable = true), Object.defineProperty(e59, _toPropertyKey(o88.key), o88);
+  }
+}
+function _createClass(e59, r85, t44) {
+  return r85 && _defineProperties(e59.prototype, r85), t44 && _defineProperties(e59, t44), Object.defineProperty(e59, "prototype", { writable: false }), e59;
+}
+function _toPropertyKey(t44) {
+  var i30 = _toPrimitive(t44, "string");
+  return "symbol" == _typeof(i30) ? i30 : i30 + "";
+}
+function _toPrimitive(t44, r85) {
+  if ("object" != _typeof(t44) || !t44) return t44;
+  var e59 = t44[Symbol.toPrimitive];
+  if (void 0 !== e59) {
+    var i30 = e59.call(t44, r85 || "default");
+    if ("object" != _typeof(i30)) return i30;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r85 ? String : Number)(t44);
+}
+var V3 = "1.2.0";
+var V4 = "1.7.35";
+var DEFAULT_EXT_PREFIX = " ext. ";
+var Metadata = /* @__PURE__ */ (function() {
+  function Metadata2(metadata) {
+    _classCallCheck(this, Metadata2);
+    validateMetadata(metadata);
+    this.metadata = metadata;
+    setVersion.call(this, metadata);
+  }
+  return _createClass(Metadata2, [{
+    key: "getCountries",
+    value: function getCountries3() {
+      return Object.keys(this.metadata.countries).filter(function(_2) {
+        return _2 !== "001";
+      });
     }
-`
-);
-var classes37 = {
-  root: ({
-    instance
-  }) => ["p-floatlabel", {
-    "p-floatlabel-over": instance.variant === "over",
-    "p-floatlabel-on": instance.variant === "on",
-    "p-floatlabel-in": instance.variant === "in"
-  }]
-};
-var FloatLabelStyle = class _FloatLabelStyle extends BaseStyle {
-  name = "floatlabel";
-  theme = theme18;
-  classes = classes37;
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275FloatLabelStyle_BaseFactory;
-    return function FloatLabelStyle_Factory(__ngFactoryType__) {
-      return (\u0275FloatLabelStyle_BaseFactory || (\u0275FloatLabelStyle_BaseFactory = \u0275\u0275getInheritedFactory(_FloatLabelStyle)))(__ngFactoryType__ || _FloatLabelStyle);
-    };
-  })();
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-    token: _FloatLabelStyle,
-    factory: _FloatLabelStyle.\u0275fac
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(FloatLabelStyle, [{
-    type: Injectable
-  }], null, null);
+  }, {
+    key: "getCountryMetadata",
+    value: function getCountryMetadata(countryCode) {
+      return this.metadata.countries[countryCode];
+    }
+  }, {
+    key: "nonGeographic",
+    value: function nonGeographic() {
+      if (this.v1 || this.v2 || this.v3) return;
+      return this.metadata.nonGeographic || this.metadata.nonGeographical;
+    }
+  }, {
+    key: "hasCountry",
+    value: function hasCountry(country) {
+      return this.getCountryMetadata(country) !== void 0;
+    }
+  }, {
+    key: "hasCallingCode",
+    value: function hasCallingCode(callingCode) {
+      if (this.getCountryCodesForCallingCode(callingCode)) {
+        return true;
+      }
+      if (this.nonGeographic()) {
+        if (this.nonGeographic()[callingCode]) {
+          return true;
+        }
+      } else {
+        var countryCodes = this.countryCallingCodes()[callingCode];
+        if (countryCodes && countryCodes.length === 1 && countryCodes[0] === "001") {
+          return true;
+        }
+      }
+    }
+  }, {
+    key: "isNonGeographicCallingCode",
+    value: function isNonGeographicCallingCode(callingCode) {
+      if (this.nonGeographic()) {
+        return this.nonGeographic()[callingCode] ? true : false;
+      } else {
+        return this.getCountryCodesForCallingCode(callingCode) ? false : true;
+      }
+    }
+    // Deprecated.
+  }, {
+    key: "country",
+    value: function country(countryCode) {
+      return this.selectNumberingPlan(countryCode);
+    }
+    /**
+     * Selects a telephone numbering plan based on either a country code or a calling code.
+     * @param {string} argument — Country code or calling code.
+     * @param {string} legacyArgumentCallingCode — Legacy argument: calling code, if the first argument is not passed.
+     */
+  }, {
+    key: "selectNumberingPlan",
+    value: function selectNumberingPlan(argument, legacyArgumentCallingCode) {
+      var countryCode;
+      var callingCode;
+      if (argument) {
+        if (isCallingCode(argument)) {
+          callingCode = argument;
+        } else {
+          countryCode = argument;
+        }
+      }
+      if (legacyArgumentCallingCode) {
+        callingCode = legacyArgumentCallingCode;
+      }
+      if (countryCode && countryCode !== "001") {
+        var countryMetadata = this.getCountryMetadata(countryCode);
+        if (!countryMetadata) {
+          throw new Error("Unknown country: ".concat(countryCode));
+        }
+        this.numberingPlan = new NumberingPlan(countryMetadata, this);
+      } else if (callingCode) {
+        if (!this.hasCallingCode(callingCode)) {
+          throw new Error("Unknown calling code: ".concat(callingCode));
+        }
+        this.numberingPlan = new NumberingPlan(this.getNumberingPlanMetadata(callingCode), this);
+      } else {
+        this.numberingPlan = void 0;
+      }
+      return this;
+    }
+  }, {
+    key: "getCountryCodesForCallingCode",
+    value: function getCountryCodesForCallingCode(callingCode) {
+      var countryCodes = this.countryCallingCodes()[callingCode];
+      if (countryCodes) {
+        if (countryCodes.length === 1 && countryCodes[0].length === 3) {
+          return;
+        }
+        return countryCodes;
+      }
+    }
+  }, {
+    key: "getCountryCodeForCallingCode",
+    value: function getCountryCodeForCallingCode(callingCode) {
+      var countryCodes = this.getCountryCodesForCallingCode(callingCode);
+      if (countryCodes) {
+        return countryCodes[0];
+      }
+    }
+  }, {
+    key: "getNumberingPlanMetadata",
+    value: function getNumberingPlanMetadata(callingCode) {
+      var countryCode = this.getCountryCodeForCallingCode(callingCode);
+      if (countryCode) {
+        return this.getCountryMetadata(countryCode);
+      }
+      if (this.nonGeographic()) {
+        var metadata = this.nonGeographic()[callingCode];
+        if (metadata) {
+          return metadata;
+        }
+      } else {
+        var countryCodes = this.countryCallingCodes()[callingCode];
+        if (countryCodes && countryCodes.length === 1 && countryCodes[0] === "001") {
+          return this.metadata.countries["001"];
+        }
+      }
+    }
+    // Deprecated.
+  }, {
+    key: "countryCallingCode",
+    value: function countryCallingCode() {
+      return this.numberingPlan.callingCode();
+    }
+    // Deprecated.
+  }, {
+    key: "IDDPrefix",
+    value: function IDDPrefix() {
+      return this.numberingPlan.IDDPrefix();
+    }
+    // Deprecated.
+  }, {
+    key: "defaultIDDPrefix",
+    value: function defaultIDDPrefix() {
+      return this.numberingPlan.defaultIDDPrefix();
+    }
+    // Deprecated.
+  }, {
+    key: "nationalNumberPattern",
+    value: function nationalNumberPattern() {
+      return this.numberingPlan.nationalNumberPattern();
+    }
+    // Deprecated.
+  }, {
+    key: "possibleLengths",
+    value: function possibleLengths() {
+      return this.numberingPlan.possibleLengths();
+    }
+    // Deprecated.
+  }, {
+    key: "formats",
+    value: function formats() {
+      return this.numberingPlan.formats();
+    }
+    // Deprecated.
+  }, {
+    key: "nationalPrefixForParsing",
+    value: function nationalPrefixForParsing() {
+      return this.numberingPlan.nationalPrefixForParsing();
+    }
+    // Deprecated.
+  }, {
+    key: "nationalPrefixTransformRule",
+    value: function nationalPrefixTransformRule() {
+      return this.numberingPlan.nationalPrefixTransformRule();
+    }
+    // Deprecated.
+  }, {
+    key: "leadingDigits",
+    value: function leadingDigits() {
+      return this.numberingPlan.leadingDigits();
+    }
+    // Deprecated.
+  }, {
+    key: "hasTypes",
+    value: function hasTypes() {
+      return this.numberingPlan.hasTypes();
+    }
+    // Deprecated.
+  }, {
+    key: "type",
+    value: function type(_type) {
+      return this.numberingPlan.type(_type);
+    }
+    // Deprecated.
+  }, {
+    key: "ext",
+    value: function ext() {
+      return this.numberingPlan.ext();
+    }
+  }, {
+    key: "countryCallingCodes",
+    value: function countryCallingCodes() {
+      if (this.v1) return this.metadata.country_phone_code_to_countries;
+      return this.metadata.country_calling_codes;
+    }
+    // Deprecated.
+  }, {
+    key: "chooseCountryByCountryCallingCode",
+    value: function chooseCountryByCountryCallingCode(callingCode) {
+      return this.selectNumberingPlan(callingCode);
+    }
+  }, {
+    key: "hasSelectedNumberingPlan",
+    value: function hasSelectedNumberingPlan() {
+      return this.numberingPlan !== void 0;
+    }
+  }]);
 })();
-var FloatLabelClasses;
-(function(FloatLabelClasses2) {
-  FloatLabelClasses2["root"] = "p-floatlabel";
-})(FloatLabelClasses || (FloatLabelClasses = {}));
-var FloatLabel = class _FloatLabel extends BaseComponent {
-  _componentStyle = inject(FloatLabelStyle);
-  /**
-   * Defines the positioning of the label relative to the input.
-   * @group Props
-   */
-  variant = "over";
-  static \u0275fac = /* @__PURE__ */ (() => {
-    let \u0275FloatLabel_BaseFactory;
-    return function FloatLabel_Factory(__ngFactoryType__) {
-      return (\u0275FloatLabel_BaseFactory || (\u0275FloatLabel_BaseFactory = \u0275\u0275getInheritedFactory(_FloatLabel)))(__ngFactoryType__ || _FloatLabel);
-    };
-  })();
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-    type: _FloatLabel,
-    selectors: [["p-floatlabel"], ["p-floatLabel"], ["p-float-label"]],
-    hostVars: 2,
-    hostBindings: function FloatLabel_HostBindings(rf, ctx) {
-      if (rf & 2) {
-        \u0275\u0275classMap(ctx.cx("root"));
+var NumberingPlan = /* @__PURE__ */ (function() {
+  function NumberingPlan2(metadata, globalMetadataObject) {
+    _classCallCheck(this, NumberingPlan2);
+    this.globalMetadataObject = globalMetadataObject;
+    this.metadata = metadata;
+    setVersion.call(this, globalMetadataObject.metadata);
+  }
+  return _createClass(NumberingPlan2, [{
+    key: "callingCode",
+    value: function callingCode() {
+      return this.metadata[0];
+    }
+    // When multiple countries share the same calling code,
+    // all phone number formatting rules are included in the metadata
+    // of the "default" country for that calling code.
+    // Any other countries' metdata doesn't include any formatting rules.
+    // Google developers said that such storage architecture was chosen for performance reasons.
+    //
+    // For example, for NANPA region ("North American Numbering Plan Administration",
+    // which includes USA, Canada, Cayman Islands, Bahamas, etc) all formatting rules
+    // are contained in the metadata of `US` country.
+    //
+    // This is not public API.
+    //
+  }, {
+    key: "_getDefaultCountryMetadataForThisCallingCode",
+    value: function _getDefaultCountryMetadataForThisCallingCode() {
+      return this.globalMetadataObject.getNumberingPlanMetadata(this.callingCode());
+    }
+    // Deprecated.
+  }, {
+    key: "getDefaultCountryMetadataForRegion",
+    value: function getDefaultCountryMetadataForRegion() {
+      return this._getDefaultCountryMetadataForThisCallingCode();
+    }
+    // Is always present.
+  }, {
+    key: "IDDPrefix",
+    value: function IDDPrefix() {
+      if (this.v1 || this.v2) return;
+      return this.metadata[1];
+    }
+    // Is only present when a country supports multiple IDD prefixes.
+  }, {
+    key: "defaultIDDPrefix",
+    value: function defaultIDDPrefix() {
+      if (this.v1 || this.v2) return;
+      return this.metadata[12];
+    }
+  }, {
+    key: "nationalNumberPattern",
+    value: function nationalNumberPattern() {
+      if (this.v1 || this.v2) return this.metadata[1];
+      return this.metadata[2];
+    }
+    // "possible length" data is always present in Google's metadata.
+  }, {
+    key: "possibleLengths",
+    value: function possibleLengths() {
+      if (this.v1) return;
+      return this.metadata[this.v2 ? 2 : 3];
+    }
+  }, {
+    key: "_getFormats",
+    value: function _getFormats(metadata) {
+      return metadata[this.v1 ? 2 : this.v2 ? 3 : 4];
+    }
+    // For countries of the same region (e.g. NANPA)
+    // formats are all stored in the "main" country for that region.
+    // E.g. "RU" and "KZ", "US" and "CA".
+  }, {
+    key: "formats",
+    value: function formats() {
+      var _this = this;
+      var formats2 = this._getFormats(this.metadata) || this._getFormats(this._getDefaultCountryMetadataForThisCallingCode()) || [];
+      return formats2.map(function(_2) {
+        return new Format(_2, _this);
+      });
+    }
+  }, {
+    key: "nationalPrefix",
+    value: function nationalPrefix() {
+      return this.metadata[this.v1 ? 3 : this.v2 ? 4 : 5];
+    }
+  }, {
+    key: "_getNationalPrefixFormattingRule",
+    value: function _getNationalPrefixFormattingRule(metadata) {
+      return metadata[this.v1 ? 4 : this.v2 ? 5 : 6];
+    }
+    // For countries of the same region (e.g. NANPA)
+    // national prefix formatting rule is stored in the "main" country for that region.
+    // E.g. "RU" and "KZ", "US" and "CA".
+  }, {
+    key: "nationalPrefixFormattingRule",
+    value: function nationalPrefixFormattingRule() {
+      return this._getNationalPrefixFormattingRule(this.metadata) || this._getNationalPrefixFormattingRule(this._getDefaultCountryMetadataForThisCallingCode());
+    }
+  }, {
+    key: "_nationalPrefixForParsing",
+    value: function _nationalPrefixForParsing() {
+      return this.metadata[this.v1 ? 5 : this.v2 ? 6 : 7];
+    }
+  }, {
+    key: "nationalPrefixForParsing",
+    value: function nationalPrefixForParsing() {
+      return this._nationalPrefixForParsing() || this.nationalPrefix();
+    }
+  }, {
+    key: "nationalPrefixTransformRule",
+    value: function nationalPrefixTransformRule() {
+      return this.metadata[this.v1 ? 6 : this.v2 ? 7 : 8];
+    }
+  }, {
+    key: "_getNationalPrefixIsOptionalWhenFormatting",
+    value: function _getNationalPrefixIsOptionalWhenFormatting() {
+      return !!this.metadata[this.v1 ? 7 : this.v2 ? 8 : 9];
+    }
+    // For countries of the same region (e.g. NANPA)
+    // "national prefix is optional when formatting" flag is
+    // stored in the "main" country for that region.
+    // E.g. "RU" and "KZ", "US" and "CA".
+  }, {
+    key: "nationalPrefixIsOptionalWhenFormattingInNationalFormat",
+    value: function nationalPrefixIsOptionalWhenFormattingInNationalFormat() {
+      return this._getNationalPrefixIsOptionalWhenFormatting(this.metadata) || this._getNationalPrefixIsOptionalWhenFormatting(this._getDefaultCountryMetadataForThisCallingCode());
+    }
+  }, {
+    key: "leadingDigits",
+    value: function leadingDigits() {
+      return this.metadata[this.v1 ? 8 : this.v2 ? 9 : 10];
+    }
+  }, {
+    key: "types",
+    value: function types() {
+      return this.metadata[this.v1 ? 9 : this.v2 ? 10 : 11];
+    }
+  }, {
+    key: "hasTypes",
+    value: function hasTypes() {
+      if (this.types() && this.types().length === 0) {
+        return false;
       }
-    },
-    inputs: {
-      variant: "variant"
-    },
-    features: [\u0275\u0275ProvidersFeature([FloatLabelStyle]), \u0275\u0275InheritDefinitionFeature],
-    ngContentSelectors: _c093,
-    decls: 1,
-    vars: 0,
-    template: function FloatLabel_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275projectionDef();
-        \u0275\u0275projection(0);
+      return !!this.types();
+    }
+  }, {
+    key: "type",
+    value: function type(_type2) {
+      if (this.hasTypes() && getType(this.types(), _type2)) {
+        return new Type(getType(this.types(), _type2), this);
       }
-    },
-    dependencies: [CommonModule, SharedModule],
-    encapsulation: 2,
-    changeDetection: 0
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(FloatLabel, [{
-    type: Component,
-    args: [{
-      selector: "p-floatlabel, p-floatLabel, p-float-label",
-      standalone: true,
-      imports: [CommonModule, SharedModule],
-      template: ` <ng-content></ng-content> `,
-      changeDetection: ChangeDetectionStrategy.OnPush,
-      encapsulation: ViewEncapsulation.None,
-      providers: [FloatLabelStyle],
-      host: {
-        "[class]": "cx('root')"
-      }
-    }]
-  }], null, {
-    variant: [{
-      type: Input
-    }]
-  });
+    }
+  }, {
+    key: "ext",
+    value: function ext() {
+      if (this.v1 || this.v2) return DEFAULT_EXT_PREFIX;
+      return this.metadata[13] || DEFAULT_EXT_PREFIX;
+    }
+  }]);
 })();
-var FloatLabelModule = class _FloatLabelModule {
-  static \u0275fac = function FloatLabelModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _FloatLabelModule)();
+var Format = /* @__PURE__ */ (function() {
+  function Format2(format, metadata) {
+    _classCallCheck(this, Format2);
+    this._format = format;
+    this.metadata = metadata;
+  }
+  return _createClass(Format2, [{
+    key: "pattern",
+    value: function pattern() {
+      return this._format[0];
+    }
+  }, {
+    key: "format",
+    value: function format() {
+      return this._format[1];
+    }
+  }, {
+    key: "leadingDigitsPatterns",
+    value: function leadingDigitsPatterns() {
+      return this._format[2] || [];
+    }
+  }, {
+    key: "nationalPrefixFormattingRule",
+    value: function nationalPrefixFormattingRule() {
+      return this._format[3] || this.metadata.nationalPrefixFormattingRule();
+    }
+  }, {
+    key: "nationalPrefixIsOptionalWhenFormattingInNationalFormat",
+    value: function nationalPrefixIsOptionalWhenFormattingInNationalFormat() {
+      return !!this._format[4] || this.metadata.nationalPrefixIsOptionalWhenFormattingInNationalFormat();
+    }
+  }, {
+    key: "nationalPrefixIsMandatoryWhenFormattingInNationalFormat",
+    value: function nationalPrefixIsMandatoryWhenFormattingInNationalFormat() {
+      return this.usesNationalPrefix() && !this.nationalPrefixIsOptionalWhenFormattingInNationalFormat();
+    }
+    // Checks whether national prefix formatting rule contains national prefix.
+  }, {
+    key: "usesNationalPrefix",
+    value: function usesNationalPrefix() {
+      return this.nationalPrefixFormattingRule() && // Check that national prefix formatting rule is not a "dummy" one.
+      !FIRST_GROUP_ONLY_PREFIX_PATTERN.test(this.nationalPrefixFormattingRule()) ? true : false;
+    }
+  }, {
+    key: "internationalFormat",
+    value: function internationalFormat() {
+      return this._format[5] || this.format();
+    }
+  }]);
+})();
+var FIRST_GROUP_ONLY_PREFIX_PATTERN = /^\(?\$1\)?$/;
+var Type = /* @__PURE__ */ (function() {
+  function Type2(type, metadata) {
+    _classCallCheck(this, Type2);
+    this.type = type;
+    this.metadata = metadata;
+  }
+  return _createClass(Type2, [{
+    key: "pattern",
+    value: function pattern() {
+      if (this.metadata.v1) return this.type;
+      return this.type[0];
+    }
+  }, {
+    key: "possibleLengths",
+    value: function possibleLengths() {
+      if (this.metadata.v1) return;
+      return this.type[1] || this.metadata.possibleLengths();
+    }
+  }]);
+})();
+function getType(types, type) {
+  switch (type) {
+    case "FIXED_LINE":
+      return types[0];
+    case "MOBILE":
+      return types[1];
+    case "TOLL_FREE":
+      return types[2];
+    case "PREMIUM_RATE":
+      return types[3];
+    case "PERSONAL_NUMBER":
+      return types[4];
+    case "VOICEMAIL":
+      return types[5];
+    case "UAN":
+      return types[6];
+    case "PAGER":
+      return types[7];
+    case "VOIP":
+      return types[8];
+    case "SHARED_COST":
+      return types[9];
+  }
+}
+function validateMetadata(metadata) {
+  if (!metadata) {
+    throw new Error("[libphonenumber-js] `metadata` argument not passed. Check your arguments.");
+  }
+  if (!isObject2(metadata) || !isObject2(metadata.countries)) {
+    throw new Error("[libphonenumber-js] `metadata` argument was passed but it's not a valid metadata. Must be an object having `.countries` child object property. Got ".concat(isObject2(metadata) ? "an object of shape: { " + Object.keys(metadata).join(", ") + " }" : "a " + typeOf(metadata) + ": " + metadata, "."));
+  }
+}
+var typeOf = function typeOf2(_2) {
+  return _typeof(_2);
+};
+function getCountryCallingCode(country, metadataJson) {
+  var metadata = new Metadata(metadataJson);
+  if (metadata.hasCountry(country)) {
+    return metadata.selectNumberingPlan(country).countryCallingCode();
+  }
+  throw new Error("Unknown country: ".concat(country));
+}
+function isSupportedCountry(country, metadataJson) {
+  return metadataJson.countries.hasOwnProperty(country);
+}
+function setVersion(metadata) {
+  var version2 = metadata.version;
+  if (typeof version2 === "number") {
+    this.v1 = version2 === 1;
+    this.v2 = version2 === 2;
+    this.v3 = version2 === 3;
+    this.v4 = version2 === 4;
+  } else {
+    if (!version2) {
+      this.v1 = true;
+    } else if (semver_compare_default(version2, V3) === -1) {
+      this.v2 = true;
+    } else if (semver_compare_default(version2, V4) === -1) {
+      this.v3 = true;
+    } else {
+      this.v4 = true;
+    }
+  }
+}
+
+// node_modules/libphonenumber-js/es6/helpers/mergeArrays.js
+function _createForOfIteratorHelperLoose(r85, e59) {
+  var t44 = "undefined" != typeof Symbol && r85[Symbol.iterator] || r85["@@iterator"];
+  if (t44) return (t44 = t44.call(r85)).next.bind(t44);
+  if (Array.isArray(r85) || (t44 = _unsupportedIterableToArray(r85)) || e59 && r85 && "number" == typeof r85.length) {
+    t44 && (r85 = t44);
+    var o88 = 0;
+    return function() {
+      return o88 >= r85.length ? { done: true } : { done: false, value: r85[o88++] };
+    };
+  }
+  throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(r85, a44) {
+  if (r85) {
+    if ("string" == typeof r85) return _arrayLikeToArray(r85, a44);
+    var t44 = {}.toString.call(r85).slice(8, -1);
+    return "Object" === t44 && r85.constructor && (t44 = r85.constructor.name), "Map" === t44 || "Set" === t44 ? Array.from(r85) : "Arguments" === t44 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t44) ? _arrayLikeToArray(r85, a44) : void 0;
+  }
+}
+function _arrayLikeToArray(r85, a44) {
+  (null == a44 || a44 > r85.length) && (a44 = r85.length);
+  for (var e59 = 0, n39 = Array(a44); e59 < a44; e59++) n39[e59] = r85[e59];
+  return n39;
+}
+function mergeArrays(a44, b8) {
+  var merged = a44.slice();
+  for (var _iterator = _createForOfIteratorHelperLoose(b8), _step; !(_step = _iterator()).done; ) {
+    var element = _step.value;
+    if (a44.indexOf(element) < 0) {
+      merged.push(element);
+    }
+  }
+  return merged.sort(function(a45, b9) {
+    return a45 - b9;
+  });
+}
+
+// node_modules/libphonenumber-js/es6/helpers/checkNumberLength.js
+function checkNumberLength(nationalNumber, country, metadata) {
+  return checkNumberLengthForType(nationalNumber, void 0, country, metadata);
+}
+function checkNumberLengthForType(nationalNumber, type, country, metadata) {
+  if (country) {
+    metadata = new Metadata(metadata.metadata);
+    metadata.selectNumberingPlan(country);
+  }
+  var type_info = metadata.type(type);
+  var possible_lengths = type_info && type_info.possibleLengths() || metadata.possibleLengths();
+  if (!possible_lengths) {
+    return "IS_POSSIBLE";
+  }
+  if (type === "FIXED_LINE_OR_MOBILE") {
+    if (!metadata.type("FIXED_LINE")) {
+      return checkNumberLengthForType(nationalNumber, "MOBILE", country, metadata);
+    }
+    var mobile_type = metadata.type("MOBILE");
+    if (mobile_type) {
+      possible_lengths = mergeArrays(possible_lengths, mobile_type.possibleLengths());
+    }
+  } else if (type && !type_info) {
+    return "INVALID_LENGTH";
+  }
+  var actual_length = nationalNumber.length;
+  var minimum_length = possible_lengths[0];
+  if (minimum_length === actual_length) {
+    return "IS_POSSIBLE";
+  }
+  if (minimum_length > actual_length) {
+    return "TOO_SHORT";
+  }
+  if (possible_lengths[possible_lengths.length - 1] < actual_length) {
+    return "TOO_LONG";
+  }
+  return possible_lengths.indexOf(actual_length, 1) >= 0 ? "IS_POSSIBLE" : "INVALID_LENGTH";
+}
+
+// node_modules/libphonenumber-js/es6/isPossible.js
+function isPossiblePhoneNumber(input2, options, metadataJson) {
+  if (options === void 0) {
+    options = {};
+  }
+  var metadata = new Metadata(metadataJson);
+  if (options.v2) {
+    if (!input2.countryCallingCode) {
+      throw new Error("Invalid phone number object passed");
+    }
+    metadata.selectNumberingPlan(input2.country || input2.countryCallingCode);
+  } else {
+    if (!input2.phone) {
+      return false;
+    }
+    if (input2.country) {
+      if (!metadata.hasCountry(input2.country)) {
+        throw new Error("Unknown country: ".concat(input2.country));
+      }
+      metadata.selectNumberingPlan(input2.country);
+    } else {
+      if (!input2.countryCallingCode) {
+        throw new Error("Invalid phone number object passed");
+      }
+      metadata.selectNumberingPlan(input2.countryCallingCode);
+    }
+  }
+  if (metadata.possibleLengths()) {
+    return isPossibleNumber(input2.phone || input2.nationalNumber, metadata);
+  }
+  if (input2.countryCallingCode && metadata.isNonGeographicCallingCode(input2.countryCallingCode)) {
+    return true;
+  }
+  throw new Error('Missing "possibleLengths" in metadata. Perhaps the metadata has been generated before v1.0.18.');
+}
+function isPossibleNumber(nationalNumber, metadata) {
+  switch (checkNumberLength(nationalNumber, void 0, metadata)) {
+    case "IS_POSSIBLE":
+      return true;
+    // This library ignores "local-only" phone numbers (for simplicity).
+    // See the readme for more info on what are "local-only" phone numbers.
+    // case 'IS_POSSIBLE_LOCAL_ONLY':
+    // 	return !isInternational
+    default:
+      return false;
+  }
+}
+
+// node_modules/libphonenumber-js/es6/helpers/matchesEntirely.js
+function matchesEntirely(text, regularExpressionText) {
+  text = text || "";
+  return new RegExp("^(?:" + regularExpressionText + ")$").test(text);
+}
+
+// node_modules/libphonenumber-js/es6/helpers/getNumberType.js
+function _createForOfIteratorHelperLoose2(r85, e59) {
+  var t44 = "undefined" != typeof Symbol && r85[Symbol.iterator] || r85["@@iterator"];
+  if (t44) return (t44 = t44.call(r85)).next.bind(t44);
+  if (Array.isArray(r85) || (t44 = _unsupportedIterableToArray2(r85)) || e59 && r85 && "number" == typeof r85.length) {
+    t44 && (r85 = t44);
+    var o88 = 0;
+    return function() {
+      return o88 >= r85.length ? { done: true } : { done: false, value: r85[o88++] };
+    };
+  }
+  throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray2(r85, a44) {
+  if (r85) {
+    if ("string" == typeof r85) return _arrayLikeToArray2(r85, a44);
+    var t44 = {}.toString.call(r85).slice(8, -1);
+    return "Object" === t44 && r85.constructor && (t44 = r85.constructor.name), "Map" === t44 || "Set" === t44 ? Array.from(r85) : "Arguments" === t44 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t44) ? _arrayLikeToArray2(r85, a44) : void 0;
+  }
+}
+function _arrayLikeToArray2(r85, a44) {
+  (null == a44 || a44 > r85.length) && (a44 = r85.length);
+  for (var e59 = 0, n39 = Array(a44); e59 < a44; e59++) n39[e59] = r85[e59];
+  return n39;
+}
+var NON_FIXED_LINE_PHONE_TYPES = ["MOBILE", "PREMIUM_RATE", "TOLL_FREE", "SHARED_COST", "VOIP", "PERSONAL_NUMBER", "PAGER", "UAN", "VOICEMAIL"];
+function getNumberType(input2, options, metadataJson) {
+  options = options || {};
+  if (!input2.country && !input2.countryCallingCode) {
+    return;
+  }
+  var metadata = new Metadata(metadataJson);
+  metadata.selectNumberingPlan(input2.country || input2.countryCallingCode);
+  var nationalNumber = options.v2 ? input2.nationalNumber : input2.phone;
+  if (!matchesEntirely(nationalNumber, metadata.nationalNumberPattern())) {
+    return;
+  }
+  if (isNumberTypeEqualTo(nationalNumber, "FIXED_LINE", metadata)) {
+    if (metadata.type("MOBILE") && metadata.type("MOBILE").pattern() === "") {
+      return "FIXED_LINE_OR_MOBILE";
+    }
+    if (!metadata.type("MOBILE")) {
+      return "FIXED_LINE_OR_MOBILE";
+    }
+    if (isNumberTypeEqualTo(nationalNumber, "MOBILE", metadata)) {
+      return "FIXED_LINE_OR_MOBILE";
+    }
+    return "FIXED_LINE";
+  }
+  for (var _iterator = _createForOfIteratorHelperLoose2(NON_FIXED_LINE_PHONE_TYPES), _step; !(_step = _iterator()).done; ) {
+    var type = _step.value;
+    if (isNumberTypeEqualTo(nationalNumber, type, metadata)) {
+      return type;
+    }
+  }
+}
+function isNumberTypeEqualTo(nationalNumber, type, metadata) {
+  var typeDefinition = metadata.type(type);
+  if (!typeDefinition || !typeDefinition.pattern()) {
+    return false;
+  }
+  if (typeDefinition.possibleLengths() && typeDefinition.possibleLengths().indexOf(nationalNumber.length) < 0) {
+    return false;
+  }
+  return matchesEntirely(nationalNumber, typeDefinition.pattern());
+}
+
+// node_modules/libphonenumber-js/es6/isValid.js
+function isValidNumber(input2, options, metadataJson) {
+  options = options || {};
+  var metadata = new Metadata(metadataJson);
+  metadata.selectNumberingPlan(input2.country || input2.countryCallingCode);
+  if (metadata.hasTypes()) {
+    return getNumberType(input2, options, metadata.metadata) !== void 0;
+  }
+  var nationalNumber = options.v2 ? input2.nationalNumber : input2.phone;
+  return matchesEntirely(nationalNumber, metadata.nationalNumberPattern());
+}
+
+// node_modules/libphonenumber-js/es6/helpers/isCountryCode.js
+var COUNTRY_CODE_REG_EXP = /^[A-Z]{2}$/;
+function isCountryCode(string) {
+  return COUNTRY_CODE_REG_EXP.test(string);
+}
+
+// node_modules/libphonenumber-js/es6/helpers/getCountryAndCallingCodeFromOneOfThem.js
+var USE_NON_GEOGRAPHIC_COUNTRY_CODE = false;
+function getCountryAndCallingCodeFromOneOfThem(countryOrCallingCode, metadataJson) {
+  var country;
+  var callingCode;
+  var metadata = new Metadata(metadataJson);
+  if (isCountryCode(countryOrCallingCode)) {
+    country = countryOrCallingCode;
+    metadata.selectNumberingPlan(country);
+    callingCode = metadata.countryCallingCode();
+  } else {
+    callingCode = countryOrCallingCode;
+    if (USE_NON_GEOGRAPHIC_COUNTRY_CODE) {
+      if (metadata.isNonGeographicCallingCode(callingCode)) {
+        country = "001";
+      }
+    }
+  }
+  return {
+    country,
+    callingCode
   };
-  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
-    type: _FloatLabelModule,
-    imports: [FloatLabel, SharedModule],
-    exports: [FloatLabel, SharedModule]
+}
+
+// node_modules/libphonenumber-js/es6/helpers/getPossibleCountriesForNumber.js
+function getPossibleCountriesForNumber(callingCode, nationalNumber, metadata) {
+  var _metadata = new Metadata(metadata);
+  var possibleCountries = _metadata.getCountryCodesForCallingCode(callingCode);
+  if (!possibleCountries) {
+    return [];
+  }
+  return possibleCountries.filter(function(country) {
+    return couldNationalNumberBelongToCountry(nationalNumber, country, metadata);
   });
-  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
-    imports: [FloatLabel, SharedModule, SharedModule]
+}
+function couldNationalNumberBelongToCountry(nationalNumber, country, metadataJson) {
+  var metadata = new Metadata(metadataJson);
+  metadata.selectNumberingPlan(country);
+  return metadata.numberingPlan.possibleLengths().indexOf(nationalNumber.length) >= 0;
+}
+
+// node_modules/libphonenumber-js/es6/constants.js
+var MIN_LENGTH_FOR_NSN = 2;
+var MAX_LENGTH_FOR_NSN = 17;
+var MAX_LENGTH_COUNTRY_CODE = 3;
+var VALID_DIGITS = "0-9\uFF10-\uFF19\u0660-\u0669\u06F0-\u06F9";
+var DASHES = "-\u2010-\u2015\u2212\u30FC\uFF0D";
+var SLASHES = "\uFF0F/";
+var DOTS = "\uFF0E.";
+var WHITESPACE = " \xA0\xAD\u200B\u2060\u3000";
+var BRACKETS = "()\uFF08\uFF09\uFF3B\uFF3D\\[\\]";
+var TILDES = "~\u2053\u223C\uFF5E";
+var VALID_PUNCTUATION = "".concat(DASHES).concat(SLASHES).concat(DOTS).concat(WHITESPACE).concat(BRACKETS).concat(TILDES);
+var PLUS_CHARS = "+\uFF0B";
+
+// node_modules/libphonenumber-js/es6/helpers/stripIddPrefix.js
+var CAPTURING_DIGIT_PATTERN = new RegExp("([" + VALID_DIGITS + "])");
+function stripIddPrefix(number, country, callingCode, metadataJson) {
+  if (!country) {
+    return;
+  }
+  var metadata = new Metadata(metadataJson);
+  metadata.selectNumberingPlan(country || callingCode);
+  var IDDPrefixPattern = new RegExp(metadata.IDDPrefix());
+  if (number.search(IDDPrefixPattern) !== 0) {
+    return;
+  }
+  number = number.slice(number.match(IDDPrefixPattern)[0].length);
+  var matchedGroups = number.match(CAPTURING_DIGIT_PATTERN);
+  if (matchedGroups && matchedGroups[1] != null && matchedGroups[1].length > 0) {
+    if (matchedGroups[1] === "0") {
+      return;
+    }
+  }
+  return number;
+}
+
+// node_modules/libphonenumber-js/es6/helpers/extractNationalNumberFromPossiblyIncompleteNumber.js
+function extractNationalNumberFromPossiblyIncompleteNumber(number, metadata) {
+  if (number && metadata.numberingPlan.nationalPrefixForParsing()) {
+    var prefixPattern = new RegExp("^(?:" + metadata.numberingPlan.nationalPrefixForParsing() + ")");
+    var prefixMatch = prefixPattern.exec(number);
+    if (prefixMatch) {
+      var nationalNumber;
+      var carrierCode;
+      var capturedGroupsCount = prefixMatch.length - 1;
+      var hasCapturedGroups = capturedGroupsCount > 0 && prefixMatch[capturedGroupsCount];
+      if (metadata.nationalPrefixTransformRule() && hasCapturedGroups) {
+        nationalNumber = number.replace(prefixPattern, metadata.nationalPrefixTransformRule());
+        if (capturedGroupsCount > 1) {
+          carrierCode = prefixMatch[1];
+        }
+      } else {
+        var prefixBeforeNationalNumber = prefixMatch[0];
+        nationalNumber = number.slice(prefixBeforeNationalNumber.length);
+        if (hasCapturedGroups) {
+          carrierCode = prefixMatch[1];
+        }
+      }
+      var nationalPrefix;
+      if (hasCapturedGroups) {
+        var possiblePositionOfTheFirstCapturedGroup = number.indexOf(prefixMatch[1]);
+        var possibleNationalPrefix = number.slice(0, possiblePositionOfTheFirstCapturedGroup);
+        if (possibleNationalPrefix === metadata.numberingPlan.nationalPrefix()) {
+          nationalPrefix = metadata.numberingPlan.nationalPrefix();
+        }
+      } else {
+        nationalPrefix = prefixMatch[0];
+      }
+      return {
+        nationalNumber,
+        nationalPrefix,
+        carrierCode
+      };
+    }
+  }
+  return {
+    nationalNumber: number
+  };
+}
+
+// node_modules/libphonenumber-js/es6/helpers/getCountryByNationalNumber.js
+function _createForOfIteratorHelperLoose3(r85, e59) {
+  var t44 = "undefined" != typeof Symbol && r85[Symbol.iterator] || r85["@@iterator"];
+  if (t44) return (t44 = t44.call(r85)).next.bind(t44);
+  if (Array.isArray(r85) || (t44 = _unsupportedIterableToArray3(r85)) || e59 && r85 && "number" == typeof r85.length) {
+    t44 && (r85 = t44);
+    var o88 = 0;
+    return function() {
+      return o88 >= r85.length ? { done: true } : { done: false, value: r85[o88++] };
+    };
+  }
+  throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray3(r85, a44) {
+  if (r85) {
+    if ("string" == typeof r85) return _arrayLikeToArray3(r85, a44);
+    var t44 = {}.toString.call(r85).slice(8, -1);
+    return "Object" === t44 && r85.constructor && (t44 = r85.constructor.name), "Map" === t44 || "Set" === t44 ? Array.from(r85) : "Arguments" === t44 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t44) ? _arrayLikeToArray3(r85, a44) : void 0;
+  }
+}
+function _arrayLikeToArray3(r85, a44) {
+  (null == a44 || a44 > r85.length) && (a44 = r85.length);
+  for (var e59 = 0, n39 = Array(a44); e59 < a44; e59++) n39[e59] = r85[e59];
+  return n39;
+}
+function getCountryByNationalNumber(nationalNumber, countries, metadataJson) {
+  var metadata = new Metadata(metadataJson);
+  for (var _iterator = _createForOfIteratorHelperLoose3(countries), _step; !(_step = _iterator()).done; ) {
+    var country = _step.value;
+    metadata.selectNumberingPlan(country);
+    if (metadata.leadingDigits()) {
+      if (nationalNumber && nationalNumber.search(metadata.leadingDigits()) === 0) {
+        return country;
+      }
+    } else if (getNumberType({
+      phone: nationalNumber,
+      country
+    }, void 0, metadata.metadata)) {
+      return country;
+    }
+  }
+}
+
+// node_modules/libphonenumber-js/es6/helpers/getCountryByCallingCode.js
+var USE_NON_GEOGRAPHIC_COUNTRY_CODE2 = false;
+function getCountryByCallingCode(callingCode, _ref) {
+  var nationalNumber = _ref.nationalNumber, metadata = _ref.metadata;
+  if (USE_NON_GEOGRAPHIC_COUNTRY_CODE2) {
+    if (metadata.isNonGeographicCallingCode(callingCode)) {
+      return "001";
+    }
+  }
+  var possibleCountries = metadata.getCountryCodesForCallingCode(callingCode);
+  if (!possibleCountries) {
+    return;
+  }
+  if (possibleCountries.length === 1) {
+    return possibleCountries[0];
+  }
+  return getCountryByNationalNumber(nationalNumber, possibleCountries, metadata.metadata);
+}
+
+// node_modules/libphonenumber-js/es6/helpers/extractNationalNumber.js
+function extractNationalNumber(number, country, metadata) {
+  var _extractNationalNumbe = extractNationalNumberFromPossiblyIncompleteNumber(number, metadata), carrierCode = _extractNationalNumbe.carrierCode, nationalNumber = _extractNationalNumbe.nationalNumber;
+  if (nationalNumber !== number) {
+    if (!shouldHaveExtractedNationalPrefix(number, nationalNumber, metadata)) {
+      return {
+        nationalNumber: number
+      };
+    }
+    if (metadata.numberingPlan.possibleLengths()) {
+      if (!country) {
+        country = getCountryByCallingCode(metadata.numberingPlan.callingCode(), {
+          nationalNumber,
+          metadata
+        });
+      }
+      if (!isPossibleIncompleteNationalNumber(nationalNumber, country, metadata)) {
+        return {
+          nationalNumber: number
+        };
+      }
+    }
+  }
+  return {
+    nationalNumber,
+    carrierCode
+  };
+}
+function shouldHaveExtractedNationalPrefix(nationalNumberBefore, nationalNumberAfter, metadata) {
+  if (matchesEntirely(nationalNumberBefore, metadata.nationalNumberPattern()) && !matchesEntirely(nationalNumberAfter, metadata.nationalNumberPattern())) {
+    return false;
+  }
+  return true;
+}
+function isPossibleIncompleteNationalNumber(nationalNumber, country, metadata) {
+  switch (checkNumberLength(nationalNumber, country, metadata)) {
+    case "TOO_SHORT":
+    case "INVALID_LENGTH":
+      return false;
+    default:
+      return true;
+  }
+}
+
+// node_modules/libphonenumber-js/es6/helpers/extractCountryCallingCodeFromInternationalNumberWithoutPlusSign.js
+function extractCountryCallingCodeFromInternationalNumberWithoutPlusSign(number, country, defaultCountry, defaultCallingCode, metadataJson) {
+  if (!(country || defaultCountry || defaultCallingCode)) {
+    return {
+      number
+    };
+  }
+  var countryCallingCode = country || defaultCountry ? getCountryCallingCode(country || defaultCountry, metadataJson) : defaultCallingCode;
+  if (number.indexOf(countryCallingCode) === 0) {
+    var metadata = new Metadata(metadataJson);
+    metadata.selectNumberingPlan(country || defaultCountry || defaultCallingCode);
+    var possibleShorterNumber = number.slice(countryCallingCode.length);
+    var _extractNationalNumbe = extractNationalNumber(possibleShorterNumber, void 0, metadata), possibleShorterNationalNumber = _extractNationalNumbe.nationalNumber;
+    var _extractNationalNumbe2 = extractNationalNumber(number, void 0, metadata), nationalNumber = _extractNationalNumbe2.nationalNumber;
+    if (!matchesEntirely(nationalNumber, metadata.nationalNumberPattern()) && matchesEntirely(possibleShorterNationalNumber, metadata.nationalNumberPattern()) || checkNumberLength(nationalNumber, void 0, metadata) === "TOO_LONG") {
+      return {
+        countryCallingCode,
+        number: possibleShorterNumber
+      };
+    }
+  }
+  return {
+    number
+  };
+}
+
+// node_modules/libphonenumber-js/es6/helpers/extractCountryCallingCode.js
+function extractCountryCallingCode(number, country, defaultCountry, defaultCallingCode, metadataJson) {
+  if (!number) {
+    return {};
+  }
+  var isNumberWithIddPrefix;
+  if (number[0] !== "+") {
+    var numberWithoutIDD = stripIddPrefix(number, country || defaultCountry, defaultCallingCode, metadataJson);
+    if (numberWithoutIDD && numberWithoutIDD !== number) {
+      isNumberWithIddPrefix = true;
+      number = "+" + numberWithoutIDD;
+    } else {
+      if (country || defaultCountry || defaultCallingCode) {
+        var _extractCountryCallin = extractCountryCallingCodeFromInternationalNumberWithoutPlusSign(number, country, defaultCountry, defaultCallingCode, metadataJson), countryCallingCode = _extractCountryCallin.countryCallingCode, shorterNumber = _extractCountryCallin.number;
+        if (countryCallingCode) {
+          return {
+            countryCallingCodeSource: "FROM_NUMBER_WITHOUT_PLUS_SIGN",
+            countryCallingCode,
+            number: shorterNumber
+          };
+        }
+      }
+      return {
+        // No need to set it to `UNSPECIFIED`. It can be just `undefined`.
+        // countryCallingCodeSource: 'UNSPECIFIED',
+        number
+      };
+    }
+  }
+  if (number[1] === "0") {
+    return {};
+  }
+  var metadata = new Metadata(metadataJson);
+  var i30 = 2;
+  while (i30 - 1 <= MAX_LENGTH_COUNTRY_CODE && i30 <= number.length) {
+    var _countryCallingCode = number.slice(1, i30);
+    if (metadata.hasCallingCode(_countryCallingCode)) {
+      metadata.selectNumberingPlan(_countryCallingCode);
+      return {
+        countryCallingCodeSource: isNumberWithIddPrefix ? "FROM_NUMBER_WITH_IDD" : "FROM_NUMBER_WITH_PLUS_SIGN",
+        countryCallingCode: _countryCallingCode,
+        number: number.slice(i30)
+      };
+    }
+    i30++;
+  }
+  return {};
+}
+
+// node_modules/libphonenumber-js/es6/helpers/applyInternationalSeparatorStyle.js
+function applyInternationalSeparatorStyle(formattedNumber) {
+  return formattedNumber.replace(new RegExp("[".concat(VALID_PUNCTUATION, "]+"), "g"), " ").trim();
+}
+
+// node_modules/libphonenumber-js/es6/helpers/formatNationalNumberUsingFormat.js
+var FIRST_GROUP_PATTERN = /(\$\d)/;
+function formatNationalNumberUsingFormat(number, format, _ref) {
+  var useInternationalFormat = _ref.useInternationalFormat, withNationalPrefix = _ref.withNationalPrefix, carrierCode = _ref.carrierCode, metadata = _ref.metadata;
+  var formattedNumber = number.replace(new RegExp(format.pattern()), useInternationalFormat ? format.internationalFormat() : (
+    // This library doesn't use `domestic_carrier_code_formatting_rule`,
+    // because that one is only used when formatting phone numbers
+    // for dialing from a mobile phone, and this is not a dialing library.
+    // carrierCode && format.domesticCarrierCodeFormattingRule()
+    // 	// First, replace the $CC in the formatting rule with the desired carrier code.
+    // 	// Then, replace the $FG in the formatting rule with the first group
+    // 	// and the carrier code combined in the appropriate way.
+    // 	? format.format().replace(FIRST_GROUP_PATTERN, format.domesticCarrierCodeFormattingRule().replace('$CC', carrierCode))
+    // 	: (
+    // 		withNationalPrefix && format.nationalPrefixFormattingRule()
+    // 			? format.format().replace(FIRST_GROUP_PATTERN, format.nationalPrefixFormattingRule())
+    // 			: format.format()
+    // 	)
+    withNationalPrefix && format.nationalPrefixFormattingRule() ? format.format().replace(FIRST_GROUP_PATTERN, format.nationalPrefixFormattingRule()) : format.format()
+  ));
+  if (useInternationalFormat) {
+    return applyInternationalSeparatorStyle(formattedNumber);
+  }
+  return formattedNumber;
+}
+
+// node_modules/libphonenumber-js/es6/helpers/getIddPrefix.js
+var SINGLE_IDD_PREFIX_REG_EXP = /^[\d]+(?:[~\u2053\u223C\uFF5E][\d]+)?$/;
+function getIddPrefix(country, callingCode, metadata) {
+  var countryMetadata = new Metadata(metadata);
+  countryMetadata.selectNumberingPlan(country || callingCode);
+  if (countryMetadata.defaultIDDPrefix()) {
+    return countryMetadata.defaultIDDPrefix();
+  }
+  if (SINGLE_IDD_PREFIX_REG_EXP.test(countryMetadata.IDDPrefix())) {
+    return countryMetadata.IDDPrefix();
+  }
+}
+
+// node_modules/libphonenumber-js/es6/helpers/extension/createExtensionPattern.js
+var RFC3966_EXTN_PREFIX = ";ext=";
+var getExtensionDigitsPattern = function getExtensionDigitsPattern2(maxLength) {
+  return "([".concat(VALID_DIGITS, "]{1,").concat(maxLength, "})");
+};
+function createExtensionPattern(purpose) {
+  var extLimitAfterExplicitLabel = "20";
+  var extLimitAfterLikelyLabel = "15";
+  var extLimitAfterAmbiguousChar = "9";
+  var extLimitWhenNotSure = "6";
+  var possibleSeparatorsBetweenNumberAndExtLabel = "[ \xA0\\t,]*";
+  var possibleCharsAfterExtLabel = "[:\\.\uFF0E]?[ \xA0\\t,-]*";
+  var optionalExtnSuffix = "#?";
+  var explicitExtLabels = "(?:e?xt(?:ensi(?:o\u0301?|\xF3))?n?|\uFF45?\uFF58\uFF54\uFF4E?|\u0434\u043E\u0431|anexo)";
+  var ambiguousExtLabels = "(?:[x\uFF58#\uFF03~\uFF5E]|int|\uFF49\uFF4E\uFF54)";
+  var ambiguousSeparator = "[- ]+";
+  var possibleSeparatorsNumberExtLabelNoComma = "[ \xA0\\t]*";
+  var autoDiallingAndExtLabelsFound = "(?:,{2}|;)";
+  var rfcExtn = RFC3966_EXTN_PREFIX + getExtensionDigitsPattern(extLimitAfterExplicitLabel);
+  var explicitExtn = possibleSeparatorsBetweenNumberAndExtLabel + explicitExtLabels + possibleCharsAfterExtLabel + getExtensionDigitsPattern(extLimitAfterExplicitLabel) + optionalExtnSuffix;
+  var ambiguousExtn = possibleSeparatorsBetweenNumberAndExtLabel + ambiguousExtLabels + possibleCharsAfterExtLabel + getExtensionDigitsPattern(extLimitAfterAmbiguousChar) + optionalExtnSuffix;
+  var americanStyleExtnWithSuffix = ambiguousSeparator + getExtensionDigitsPattern(extLimitWhenNotSure) + "#";
+  var autoDiallingExtn = possibleSeparatorsNumberExtLabelNoComma + autoDiallingAndExtLabelsFound + possibleCharsAfterExtLabel + getExtensionDigitsPattern(extLimitAfterLikelyLabel) + optionalExtnSuffix;
+  var onlyCommasExtn = possibleSeparatorsNumberExtLabelNoComma + "(?:,)+" + possibleCharsAfterExtLabel + getExtensionDigitsPattern(extLimitAfterAmbiguousChar) + optionalExtnSuffix;
+  return rfcExtn + "|" + explicitExtn + "|" + ambiguousExtn + "|" + americanStyleExtnWithSuffix + "|" + autoDiallingExtn + "|" + onlyCommasExtn;
+}
+
+// node_modules/libphonenumber-js/es6/helpers/isViablePhoneNumber.js
+var MIN_LENGTH_PHONE_NUMBER_PATTERN = "[" + VALID_DIGITS + "]{" + MIN_LENGTH_FOR_NSN + "}";
+var VALID_PHONE_NUMBER = "[" + PLUS_CHARS + "]{0,1}(?:[" + VALID_PUNCTUATION + "]*[" + VALID_DIGITS + "]){3,}[" + VALID_PUNCTUATION + VALID_DIGITS + "]*";
+var VALID_PHONE_NUMBER_START_REG_EXP = new RegExp("^[" + PLUS_CHARS + "]{0,1}(?:[" + VALID_PUNCTUATION + "]*[" + VALID_DIGITS + "]){1,2}$", "i");
+var VALID_PHONE_NUMBER_WITH_EXTENSION = VALID_PHONE_NUMBER + // Phone number extensions
+"(?:" + createExtensionPattern() + ")?";
+var VALID_PHONE_NUMBER_PATTERN = new RegExp(
+  // Either a short two-digit-only phone number
+  "^" + MIN_LENGTH_PHONE_NUMBER_PATTERN + "$|^" + VALID_PHONE_NUMBER_WITH_EXTENSION + "$",
+  "i"
+);
+function isViablePhoneNumber(number) {
+  return number.length >= MIN_LENGTH_FOR_NSN && VALID_PHONE_NUMBER_PATTERN.test(number);
+}
+function isViablePhoneNumberStart(number) {
+  return VALID_PHONE_NUMBER_START_REG_EXP.test(number);
+}
+
+// node_modules/libphonenumber-js/es6/helpers/RFC3966.js
+function formatRFC3966(_ref) {
+  var number = _ref.number, ext = _ref.ext;
+  if (!number) {
+    return "";
+  }
+  if (number[0] !== "+") {
+    throw new Error('"formatRFC3966()" expects "number" to be in E.164 format.');
+  }
+  return "tel:".concat(number).concat(ext ? ";ext=" + ext : "");
+}
+
+// node_modules/libphonenumber-js/es6/format.js
+var DEFAULT_OPTIONS = {
+  formatExtension: function formatExtension(formattedNumber, extension, metadata) {
+    return "".concat(formattedNumber).concat(metadata.ext()).concat(extension);
+  }
+};
+function formatNumber3(input2, format, options, metadataJson) {
+  if (options) {
+    options = merge2({}, DEFAULT_OPTIONS, options);
+  } else {
+    options = DEFAULT_OPTIONS;
+  }
+  var metadata = new Metadata(metadataJson);
+  if (input2.country && input2.country !== "001") {
+    if (!metadata.hasCountry(input2.country)) {
+      throw new Error("Unknown country: ".concat(input2.country));
+    }
+    metadata.selectNumberingPlan(input2.country);
+  } else if (input2.countryCallingCode) {
+    metadata.selectNumberingPlan(input2.countryCallingCode);
+  } else return input2.phone || "";
+  var countryCallingCode = metadata.countryCallingCode();
+  var nationalNumber = options.v2 ? input2.nationalNumber : input2.phone;
+  var number;
+  switch (format) {
+    case "NATIONAL":
+      if (!nationalNumber) {
+        return "";
+      }
+      number = formatNationalNumber(nationalNumber, input2.carrierCode, "NATIONAL", metadata, options);
+      return addExtension(number, input2.ext, metadata, options.formatExtension);
+    case "INTERNATIONAL":
+      if (!nationalNumber) {
+        return "+".concat(countryCallingCode);
+      }
+      number = formatNationalNumber(nationalNumber, null, "INTERNATIONAL", metadata, options);
+      number = "+".concat(countryCallingCode, " ").concat(number);
+      return addExtension(number, input2.ext, metadata, options.formatExtension);
+    case "E.164":
+      return "+".concat(countryCallingCode).concat(nationalNumber);
+    case "RFC3966":
+      return formatRFC3966({
+        number: "+".concat(countryCallingCode).concat(nationalNumber),
+        ext: input2.ext
+      });
+    // For reference, here's Google's IDD formatter:
+    // https://github.com/google/libphonenumber/blob/32719cf74e68796788d1ca45abc85dcdc63ba5b9/java/libphonenumber/src/com/google/i18n/phonenumbers/PhoneNumberUtil.java#L1546
+    // Not saying that this IDD formatter replicates it 1:1, but it seems to work.
+    // Who would even need to format phone numbers in IDD format anyway?
+    case "IDD":
+      if (!options.fromCountry) {
+        return;
+      }
+      var formattedNumber = formatIDD(nationalNumber, input2.carrierCode, countryCallingCode, options.fromCountry, metadata);
+      if (!formattedNumber) {
+        return;
+      }
+      return addExtension(formattedNumber, input2.ext, metadata, options.formatExtension);
+    default:
+      throw new Error('Unknown "format" argument passed to "formatNumber()": "'.concat(format, '"'));
+  }
+}
+function formatNationalNumber(number, carrierCode, formatAs, metadata, options) {
+  var format = chooseFormatForNumber(metadata.formats(), number);
+  if (!format) {
+    return number;
+  }
+  return formatNationalNumberUsingFormat(number, format, {
+    useInternationalFormat: formatAs === "INTERNATIONAL",
+    withNationalPrefix: format.nationalPrefixIsOptionalWhenFormattingInNationalFormat() && options && options.nationalPrefix === false ? false : true,
+    carrierCode,
+    metadata
   });
+}
+function chooseFormatForNumber(availableFormats, nationalNumber) {
+  return pickFirstMatchingElement(availableFormats, function(format) {
+    if (format.leadingDigitsPatterns().length > 0) {
+      var lastLeadingDigitsPattern = format.leadingDigitsPatterns()[format.leadingDigitsPatterns().length - 1];
+      if (nationalNumber.search(lastLeadingDigitsPattern) !== 0) {
+        return false;
+      }
+    }
+    return matchesEntirely(nationalNumber, format.pattern());
+  });
+}
+function addExtension(formattedNumber, ext, metadata, formatExtension2) {
+  return ext ? formatExtension2(formattedNumber, ext, metadata) : formattedNumber;
+}
+function formatIDD(nationalNumber, carrierCode, countryCallingCode, fromCountry, metadata) {
+  var fromCountryCallingCode = getCountryCallingCode(fromCountry, metadata.metadata);
+  if (fromCountryCallingCode === countryCallingCode) {
+    var formattedNumber = formatNationalNumber(nationalNumber, carrierCode, "NATIONAL", metadata);
+    if (countryCallingCode === "1") {
+      return countryCallingCode + " " + formattedNumber;
+    }
+    return formattedNumber;
+  }
+  var iddPrefix = getIddPrefix(fromCountry, void 0, metadata.metadata);
+  if (iddPrefix) {
+    return "".concat(iddPrefix, " ").concat(countryCallingCode, " ").concat(formatNationalNumber(nationalNumber, null, "INTERNATIONAL", metadata));
+  }
+}
+function merge2() {
+  var i30 = 1;
+  for (var _len = arguments.length, objects = new Array(_len), _key = 0; _key < _len; _key++) {
+    objects[_key] = arguments[_key];
+  }
+  while (i30 < objects.length) {
+    if (objects[i30]) {
+      for (var key in objects[i30]) {
+        objects[0][key] = objects[i30][key];
+      }
+    }
+    i30++;
+  }
+  return objects[0];
+}
+function pickFirstMatchingElement(elements2, testFunction) {
+  var i30 = 0;
+  while (i30 < elements2.length) {
+    if (testFunction(elements2[i30])) {
+      return elements2[i30];
+    }
+    i30++;
+  }
+}
+
+// node_modules/libphonenumber-js/es6/PhoneNumber.js
+function _typeof2(o88) {
+  "@babel/helpers - typeof";
+  return _typeof2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o89) {
+    return typeof o89;
+  } : function(o89) {
+    return o89 && "function" == typeof Symbol && o89.constructor === Symbol && o89 !== Symbol.prototype ? "symbol" : typeof o89;
+  }, _typeof2(o88);
+}
+function ownKeys(e59, r85) {
+  var t44 = Object.keys(e59);
+  if (Object.getOwnPropertySymbols) {
+    var o88 = Object.getOwnPropertySymbols(e59);
+    r85 && (o88 = o88.filter(function(r86) {
+      return Object.getOwnPropertyDescriptor(e59, r86).enumerable;
+    })), t44.push.apply(t44, o88);
+  }
+  return t44;
+}
+function _objectSpread(e59) {
+  for (var r85 = 1; r85 < arguments.length; r85++) {
+    var t44 = null != arguments[r85] ? arguments[r85] : {};
+    r85 % 2 ? ownKeys(Object(t44), true).forEach(function(r86) {
+      _defineProperty(e59, r86, t44[r86]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e59, Object.getOwnPropertyDescriptors(t44)) : ownKeys(Object(t44)).forEach(function(r86) {
+      Object.defineProperty(e59, r86, Object.getOwnPropertyDescriptor(t44, r86));
+    });
+  }
+  return e59;
+}
+function _defineProperty(e59, r85, t44) {
+  return (r85 = _toPropertyKey2(r85)) in e59 ? Object.defineProperty(e59, r85, { value: t44, enumerable: true, configurable: true, writable: true }) : e59[r85] = t44, e59;
+}
+function _classCallCheck2(a44, n39) {
+  if (!(a44 instanceof n39)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties2(e59, r85) {
+  for (var t44 = 0; t44 < r85.length; t44++) {
+    var o88 = r85[t44];
+    o88.enumerable = o88.enumerable || false, o88.configurable = true, "value" in o88 && (o88.writable = true), Object.defineProperty(e59, _toPropertyKey2(o88.key), o88);
+  }
+}
+function _createClass2(e59, r85, t44) {
+  return r85 && _defineProperties2(e59.prototype, r85), t44 && _defineProperties2(e59, t44), Object.defineProperty(e59, "prototype", { writable: false }), e59;
+}
+function _toPropertyKey2(t44) {
+  var i30 = _toPrimitive2(t44, "string");
+  return "symbol" == _typeof2(i30) ? i30 : i30 + "";
+}
+function _toPrimitive2(t44, r85) {
+  if ("object" != _typeof2(t44) || !t44) return t44;
+  var e59 = t44[Symbol.toPrimitive];
+  if (void 0 !== e59) {
+    var i30 = e59.call(t44, r85 || "default");
+    if ("object" != _typeof2(i30)) return i30;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r85 ? String : Number)(t44);
+}
+var PhoneNumber = /* @__PURE__ */ (function() {
+  function PhoneNumber2(countryOrCountryCallingCode, nationalNumber, metadata) {
+    _classCallCheck2(this, PhoneNumber2);
+    if (!countryOrCountryCallingCode) {
+      throw new TypeError("First argument is required");
+    }
+    if (typeof countryOrCountryCallingCode !== "string") {
+      throw new TypeError("First argument must be a string");
+    }
+    if (countryOrCountryCallingCode[0] === "+" && !nationalNumber) {
+      throw new TypeError("`metadata` argument not passed");
+    }
+    if (isObject2(nationalNumber) && isObject2(nationalNumber.countries)) {
+      metadata = nationalNumber;
+      var e164Number = countryOrCountryCallingCode;
+      if (!E164_NUMBER_REGEXP.test(e164Number)) {
+        throw new Error('Invalid `number` argument passed: must consist of a "+" followed by digits');
+      }
+      var _extractCountryCallin = extractCountryCallingCode(e164Number, void 0, void 0, void 0, metadata), _countryCallingCode = _extractCountryCallin.countryCallingCode, number = _extractCountryCallin.number;
+      nationalNumber = number;
+      countryOrCountryCallingCode = _countryCallingCode;
+      if (!nationalNumber) {
+        throw new Error("Invalid `number` argument passed: too short");
+      }
+    }
+    if (!nationalNumber) {
+      throw new TypeError("`nationalNumber` argument is required");
+    }
+    if (typeof nationalNumber !== "string") {
+      throw new TypeError("`nationalNumber` argument must be a string");
+    }
+    validateMetadata(metadata);
+    var _getCountryAndCalling = getCountryAndCallingCodeFromOneOfThem(countryOrCountryCallingCode, metadata), country = _getCountryAndCalling.country, countryCallingCode = _getCountryAndCalling.callingCode;
+    this.country = country;
+    this.countryCallingCode = countryCallingCode;
+    this.nationalNumber = nationalNumber;
+    this.number = "+" + this.countryCallingCode + this.nationalNumber;
+    this.getMetadata = function() {
+      return metadata;
+    };
+  }
+  return _createClass2(PhoneNumber2, [{
+    key: "setExt",
+    value: function setExt(ext) {
+      this.ext = ext;
+    }
+  }, {
+    key: "getPossibleCountries",
+    value: function getPossibleCountries() {
+      if (this.country) {
+        return [this.country];
+      }
+      return getPossibleCountriesForNumber(this.countryCallingCode, this.nationalNumber, this.getMetadata());
+    }
+  }, {
+    key: "isPossible",
+    value: function isPossible() {
+      return isPossiblePhoneNumber(this, {
+        v2: true
+      }, this.getMetadata());
+    }
+  }, {
+    key: "isValid",
+    value: function isValid() {
+      return isValidNumber(this, {
+        v2: true
+      }, this.getMetadata());
+    }
+  }, {
+    key: "isNonGeographic",
+    value: function isNonGeographic() {
+      var metadata = new Metadata(this.getMetadata());
+      return metadata.isNonGeographicCallingCode(this.countryCallingCode);
+    }
+  }, {
+    key: "isEqual",
+    value: function isEqual(phoneNumber) {
+      return this.number === phoneNumber.number && this.ext === phoneNumber.ext;
+    }
+    // `validateLength()` method was originally meant to be an equivalent for `validatePhoneNumberLength()`.
+    //
+    // Later, it became apparent that it's not really a true equivalent.
+    // The reason is that a `PhoneNumber` instance is not created
+    // when the phone number string is too short for it to be considered a valid phone number:
+    // * When there must be at least 2 national (significant) number digits: `"1"`.
+    // * When the country calling code part of an international number is incomplete: `"+12"`.
+    //
+    // So leaving this `validateLength()` method here would suggest a hidden anti-pattern
+    // of using it instead of `validatePhoneNumberLength()` while ignoring
+    // the "too short to be even possible" case from phone number length validation.
+    // And ignoring that case wouldn't make any sense in a real-world application
+    // because it would still be a valid case that should be handled.
+    //
+    // Because of that, this method was eventually commented out in order to not introduce
+    // that kind of an anti-pattern.
+    //
+    // validateLength() {
+    // 	const result = checkNumberLength(
+    // 		this.nationalNumber,
+    // 		undefined,
+    // 		this.getMetadata()
+    // 	)
+    // 	if (result !== 'IS_POSSIBLE') {
+    // 		return result
+    // 	}
+    // }
+  }, {
+    key: "getType",
+    value: function getType2() {
+      return getNumberType(this, {
+        v2: true
+      }, this.getMetadata());
+    }
+  }, {
+    key: "format",
+    value: function format(_format, options) {
+      return formatNumber3(this, _format, options ? _objectSpread(_objectSpread({}, options), {}, {
+        v2: true
+      }) : {
+        v2: true
+      }, this.getMetadata());
+    }
+  }, {
+    key: "formatNational",
+    value: function formatNational(options) {
+      return this.format("NATIONAL", options);
+    }
+  }, {
+    key: "formatInternational",
+    value: function formatInternational(options) {
+      return this.format("INTERNATIONAL", options);
+    }
+  }, {
+    key: "getURI",
+    value: function getURI(options) {
+      return this.format("RFC3966", options);
+    }
+  }]);
+})();
+var E164_NUMBER_REGEXP = /^\+\d+$/;
+
+// node_modules/libphonenumber-js/es6/ParseError.js
+function _typeof3(o88) {
+  "@babel/helpers - typeof";
+  return _typeof3 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o89) {
+    return typeof o89;
+  } : function(o89) {
+    return o89 && "function" == typeof Symbol && o89.constructor === Symbol && o89 !== Symbol.prototype ? "symbol" : typeof o89;
+  }, _typeof3(o88);
+}
+function _defineProperties3(e59, r85) {
+  for (var t44 = 0; t44 < r85.length; t44++) {
+    var o88 = r85[t44];
+    o88.enumerable = o88.enumerable || false, o88.configurable = true, "value" in o88 && (o88.writable = true), Object.defineProperty(e59, _toPropertyKey3(o88.key), o88);
+  }
+}
+function _createClass3(e59, r85, t44) {
+  return r85 && _defineProperties3(e59.prototype, r85), t44 && _defineProperties3(e59, t44), Object.defineProperty(e59, "prototype", { writable: false }), e59;
+}
+function _toPropertyKey3(t44) {
+  var i30 = _toPrimitive3(t44, "string");
+  return "symbol" == _typeof3(i30) ? i30 : i30 + "";
+}
+function _toPrimitive3(t44, r85) {
+  if ("object" != _typeof3(t44) || !t44) return t44;
+  var e59 = t44[Symbol.toPrimitive];
+  if (void 0 !== e59) {
+    var i30 = e59.call(t44, r85 || "default");
+    if ("object" != _typeof3(i30)) return i30;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r85 ? String : Number)(t44);
+}
+function _classCallCheck3(a44, n39) {
+  if (!(a44 instanceof n39)) throw new TypeError("Cannot call a class as a function");
+}
+function _callSuper(t44, o88, e59) {
+  return o88 = _getPrototypeOf(o88), _possibleConstructorReturn(t44, _isNativeReflectConstruct() ? Reflect.construct(o88, e59 || [], _getPrototypeOf(t44).constructor) : o88.apply(t44, e59));
+}
+function _possibleConstructorReturn(t44, e59) {
+  if (e59 && ("object" == _typeof3(e59) || "function" == typeof e59)) return e59;
+  if (void 0 !== e59) throw new TypeError("Derived constructors may only return object or undefined");
+  return _assertThisInitialized(t44);
+}
+function _assertThisInitialized(e59) {
+  if (void 0 === e59) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  return e59;
+}
+function _inherits(t44, e59) {
+  if ("function" != typeof e59 && null !== e59) throw new TypeError("Super expression must either be null or a function");
+  t44.prototype = Object.create(e59 && e59.prototype, { constructor: { value: t44, writable: true, configurable: true } }), Object.defineProperty(t44, "prototype", { writable: false }), e59 && _setPrototypeOf(t44, e59);
+}
+function _wrapNativeSuper(t44) {
+  var r85 = "function" == typeof Map ? /* @__PURE__ */ new Map() : void 0;
+  return _wrapNativeSuper = function _wrapNativeSuper2(t45) {
+    if (null === t45 || !_isNativeFunction(t45)) return t45;
+    if ("function" != typeof t45) throw new TypeError("Super expression must either be null or a function");
+    if (void 0 !== r85) {
+      if (r85.has(t45)) return r85.get(t45);
+      r85.set(t45, Wrapper);
+    }
+    function Wrapper() {
+      return _construct(t45, arguments, _getPrototypeOf(this).constructor);
+    }
+    return Wrapper.prototype = Object.create(t45.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }), _setPrototypeOf(Wrapper, t45);
+  }, _wrapNativeSuper(t44);
+}
+function _construct(t44, e59, r85) {
+  if (_isNativeReflectConstruct()) return Reflect.construct.apply(null, arguments);
+  var o88 = [null];
+  o88.push.apply(o88, e59);
+  var p6 = new (t44.bind.apply(t44, o88))();
+  return r85 && _setPrototypeOf(p6, r85.prototype), p6;
+}
+function _isNativeReflectConstruct() {
+  try {
+    var t44 = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+    }));
+  } catch (t45) {
+  }
+  return (_isNativeReflectConstruct = function _isNativeReflectConstruct2() {
+    return !!t44;
+  })();
+}
+function _isNativeFunction(t44) {
+  try {
+    return -1 !== Function.toString.call(t44).indexOf("[native code]");
+  } catch (n39) {
+    return "function" == typeof t44;
+  }
+}
+function _setPrototypeOf(t44, e59) {
+  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t45, e60) {
+    return t45.__proto__ = e60, t45;
+  }, _setPrototypeOf(t44, e59);
+}
+function _getPrototypeOf(t44) {
+  return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function(t45) {
+    return t45.__proto__ || Object.getPrototypeOf(t45);
+  }, _getPrototypeOf(t44);
+}
+var ParseError = /* @__PURE__ */ (function(_Error) {
+  function ParseError2(code) {
+    var _this;
+    _classCallCheck3(this, ParseError2);
+    _this = _callSuper(this, ParseError2, [code]);
+    Object.setPrototypeOf(_this, ParseError2.prototype);
+    _this.name = _this.constructor.name;
+    return _this;
+  }
+  _inherits(ParseError2, _Error);
+  return _createClass3(ParseError2);
+})(/* @__PURE__ */ _wrapNativeSuper(Error));
+
+// node_modules/libphonenumber-js/es6/helpers/extension/extractExtension.js
+var EXTN_PATTERN = new RegExp("(?:" + createExtensionPattern() + ")$", "i");
+function extractExtension(number) {
+  var start = number.search(EXTN_PATTERN);
+  if (start < 0) {
+    return {};
+  }
+  var numberWithoutExtension = number.slice(0, start);
+  var matches = number.match(EXTN_PATTERN);
+  var i30 = 1;
+  while (i30 < matches.length) {
+    if (matches[i30]) {
+      return {
+        number: numberWithoutExtension,
+        ext: matches[i30]
+      };
+    }
+    i30++;
+  }
+}
+
+// node_modules/libphonenumber-js/es6/helpers/parseDigits.js
+function _createForOfIteratorHelperLoose4(r85, e59) {
+  var t44 = "undefined" != typeof Symbol && r85[Symbol.iterator] || r85["@@iterator"];
+  if (t44) return (t44 = t44.call(r85)).next.bind(t44);
+  if (Array.isArray(r85) || (t44 = _unsupportedIterableToArray4(r85)) || e59 && r85 && "number" == typeof r85.length) {
+    t44 && (r85 = t44);
+    var o88 = 0;
+    return function() {
+      return o88 >= r85.length ? { done: true } : { done: false, value: r85[o88++] };
+    };
+  }
+  throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray4(r85, a44) {
+  if (r85) {
+    if ("string" == typeof r85) return _arrayLikeToArray4(r85, a44);
+    var t44 = {}.toString.call(r85).slice(8, -1);
+    return "Object" === t44 && r85.constructor && (t44 = r85.constructor.name), "Map" === t44 || "Set" === t44 ? Array.from(r85) : "Arguments" === t44 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t44) ? _arrayLikeToArray4(r85, a44) : void 0;
+  }
+}
+function _arrayLikeToArray4(r85, a44) {
+  (null == a44 || a44 > r85.length) && (a44 = r85.length);
+  for (var e59 = 0, n39 = Array(a44); e59 < a44; e59++) n39[e59] = r85[e59];
+  return n39;
+}
+var DIGITS = {
+  "0": "0",
+  "1": "1",
+  "2": "2",
+  "3": "3",
+  "4": "4",
+  "5": "5",
+  "6": "6",
+  "7": "7",
+  "8": "8",
+  "9": "9",
+  "\uFF10": "0",
+  // Fullwidth digit 0
+  "\uFF11": "1",
+  // Fullwidth digit 1
+  "\uFF12": "2",
+  // Fullwidth digit 2
+  "\uFF13": "3",
+  // Fullwidth digit 3
+  "\uFF14": "4",
+  // Fullwidth digit 4
+  "\uFF15": "5",
+  // Fullwidth digit 5
+  "\uFF16": "6",
+  // Fullwidth digit 6
+  "\uFF17": "7",
+  // Fullwidth digit 7
+  "\uFF18": "8",
+  // Fullwidth digit 8
+  "\uFF19": "9",
+  // Fullwidth digit 9
+  "\u0660": "0",
+  // Arabic-indic digit 0
+  "\u0661": "1",
+  // Arabic-indic digit 1
+  "\u0662": "2",
+  // Arabic-indic digit 2
+  "\u0663": "3",
+  // Arabic-indic digit 3
+  "\u0664": "4",
+  // Arabic-indic digit 4
+  "\u0665": "5",
+  // Arabic-indic digit 5
+  "\u0666": "6",
+  // Arabic-indic digit 6
+  "\u0667": "7",
+  // Arabic-indic digit 7
+  "\u0668": "8",
+  // Arabic-indic digit 8
+  "\u0669": "9",
+  // Arabic-indic digit 9
+  "\u06F0": "0",
+  // Eastern-Arabic digit 0
+  "\u06F1": "1",
+  // Eastern-Arabic digit 1
+  "\u06F2": "2",
+  // Eastern-Arabic digit 2
+  "\u06F3": "3",
+  // Eastern-Arabic digit 3
+  "\u06F4": "4",
+  // Eastern-Arabic digit 4
+  "\u06F5": "5",
+  // Eastern-Arabic digit 5
+  "\u06F6": "6",
+  // Eastern-Arabic digit 6
+  "\u06F7": "7",
+  // Eastern-Arabic digit 7
+  "\u06F8": "8",
+  // Eastern-Arabic digit 8
+  "\u06F9": "9"
+  // Eastern-Arabic digit 9
+};
+function parseDigit(character) {
+  return DIGITS[character];
+}
+function parseDigits(string) {
+  var result2 = "";
+  for (var _iterator = _createForOfIteratorHelperLoose4(string.split("")), _step; !(_step = _iterator()).done; ) {
+    var character = _step.value;
+    var digit = parseDigit(character);
+    if (digit) {
+      result2 += digit;
+    }
+  }
+  return result2;
+}
+
+// node_modules/libphonenumber-js/es6/parseIncompletePhoneNumber.js
+function _createForOfIteratorHelperLoose5(r85, e59) {
+  var t44 = "undefined" != typeof Symbol && r85[Symbol.iterator] || r85["@@iterator"];
+  if (t44) return (t44 = t44.call(r85)).next.bind(t44);
+  if (Array.isArray(r85) || (t44 = _unsupportedIterableToArray5(r85)) || e59 && r85 && "number" == typeof r85.length) {
+    t44 && (r85 = t44);
+    var o88 = 0;
+    return function() {
+      return o88 >= r85.length ? { done: true } : { done: false, value: r85[o88++] };
+    };
+  }
+  throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray5(r85, a44) {
+  if (r85) {
+    if ("string" == typeof r85) return _arrayLikeToArray5(r85, a44);
+    var t44 = {}.toString.call(r85).slice(8, -1);
+    return "Object" === t44 && r85.constructor && (t44 = r85.constructor.name), "Map" === t44 || "Set" === t44 ? Array.from(r85) : "Arguments" === t44 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t44) ? _arrayLikeToArray5(r85, a44) : void 0;
+  }
+}
+function _arrayLikeToArray5(r85, a44) {
+  (null == a44 || a44 > r85.length) && (a44 = r85.length);
+  for (var e59 = 0, n39 = Array(a44); e59 < a44; e59++) n39[e59] = r85[e59];
+  return n39;
+}
+function parseIncompletePhoneNumber(string) {
+  var result2 = "";
+  for (var _iterator = _createForOfIteratorHelperLoose5(string.split("")), _step; !(_step = _iterator()).done; ) {
+    var character = _step.value;
+    result2 += parsePhoneNumberCharacter(character, result2) || "";
+  }
+  return result2;
+}
+function parsePhoneNumberCharacter(character, prevParsedCharacters, eventListener) {
+  if (character === "+") {
+    if (prevParsedCharacters) {
+      if (typeof eventListener === "function") {
+        eventListener("end");
+      }
+      return;
+    }
+    return "+";
+  }
+  return parseDigit(character);
+}
+
+// node_modules/libphonenumber-js/es6/helpers/extractPhoneContext.js
+var PLUS_SIGN = "+";
+var RFC3966_VISUAL_SEPARATOR_ = "[\\-\\.\\(\\)]?";
+var RFC3966_PHONE_DIGIT_ = "([" + VALID_DIGITS + "]|" + RFC3966_VISUAL_SEPARATOR_ + ")";
+var RFC3966_GLOBAL_NUMBER_DIGITS_ = "^\\" + PLUS_SIGN + RFC3966_PHONE_DIGIT_ + "*[" + VALID_DIGITS + "]" + RFC3966_PHONE_DIGIT_ + "*$";
+var RFC3966_GLOBAL_NUMBER_DIGITS_PATTERN_ = new RegExp(RFC3966_GLOBAL_NUMBER_DIGITS_, "g");
+var ALPHANUM_ = VALID_DIGITS;
+var RFC3966_DOMAINLABEL_ = "[" + ALPHANUM_ + "]+((\\-)*[" + ALPHANUM_ + "])*";
+var VALID_ALPHA_ = "a-zA-Z";
+var RFC3966_TOPLABEL_ = "[" + VALID_ALPHA_ + "]+((\\-)*[" + ALPHANUM_ + "])*";
+var RFC3966_DOMAINNAME_ = "^(" + RFC3966_DOMAINLABEL_ + "\\.)*" + RFC3966_TOPLABEL_ + "\\.?$";
+var RFC3966_DOMAINNAME_PATTERN_ = new RegExp(RFC3966_DOMAINNAME_, "g");
+var RFC3966_PREFIX_ = "tel:";
+var RFC3966_PHONE_CONTEXT_ = ";phone-context=";
+var RFC3966_ISDN_SUBADDRESS_ = ";isub=";
+function extractPhoneContext(numberToExtractFrom) {
+  var indexOfPhoneContext = numberToExtractFrom.indexOf(RFC3966_PHONE_CONTEXT_);
+  if (indexOfPhoneContext < 0) {
+    return null;
+  }
+  var phoneContextStart = indexOfPhoneContext + RFC3966_PHONE_CONTEXT_.length;
+  if (phoneContextStart >= numberToExtractFrom.length) {
+    return "";
+  }
+  var phoneContextEnd = numberToExtractFrom.indexOf(";", phoneContextStart);
+  if (phoneContextEnd >= 0) {
+    return numberToExtractFrom.substring(phoneContextStart, phoneContextEnd);
+  } else {
+    return numberToExtractFrom.substring(phoneContextStart);
+  }
+}
+function isPhoneContextValid(phoneContext) {
+  if (phoneContext === null) {
+    return true;
+  }
+  if (phoneContext.length === 0) {
+    return false;
+  }
+  return RFC3966_GLOBAL_NUMBER_DIGITS_PATTERN_.test(phoneContext) || RFC3966_DOMAINNAME_PATTERN_.test(phoneContext);
+}
+
+// node_modules/libphonenumber-js/es6/helpers/extractFormattedPhoneNumberFromPossibleRfc3966NumberUri.js
+function extractFormattedPhoneNumberFromPossibleRfc3966NumberUri(numberToParse, _ref) {
+  var extractFormattedPhoneNumber2 = _ref.extractFormattedPhoneNumber;
+  var phoneContext = extractPhoneContext(numberToParse);
+  if (!isPhoneContextValid(phoneContext)) {
+    throw new ParseError("NOT_A_NUMBER");
+  }
+  var phoneNumberString;
+  if (phoneContext === null) {
+    phoneNumberString = extractFormattedPhoneNumber2(numberToParse) || "";
+  } else {
+    phoneNumberString = "";
+    if (phoneContext.charAt(0) === PLUS_SIGN) {
+      phoneNumberString += phoneContext;
+    }
+    var indexOfRfc3966Prefix = numberToParse.indexOf(RFC3966_PREFIX_);
+    var indexOfNationalNumber;
+    if (indexOfRfc3966Prefix >= 0) {
+      indexOfNationalNumber = indexOfRfc3966Prefix + RFC3966_PREFIX_.length;
+    } else {
+      indexOfNationalNumber = 0;
+    }
+    var indexOfPhoneContext = numberToParse.indexOf(RFC3966_PHONE_CONTEXT_);
+    phoneNumberString += numberToParse.substring(indexOfNationalNumber, indexOfPhoneContext);
+  }
+  var indexOfIsdn = phoneNumberString.indexOf(RFC3966_ISDN_SUBADDRESS_);
+  if (indexOfIsdn > 0) {
+    phoneNumberString = phoneNumberString.substring(0, indexOfIsdn);
+  }
+  if (phoneNumberString !== "") {
+    return phoneNumberString;
+  }
+}
+
+// node_modules/libphonenumber-js/es6/parse.js
+var MAX_INPUT_STRING_LENGTH = 250;
+var PHONE_NUMBER_START_PATTERN = new RegExp("[" + PLUS_CHARS + VALID_DIGITS + "]");
+var AFTER_PHONE_NUMBER_END_PATTERN = new RegExp("[^" + VALID_DIGITS + "#]+$");
+var USE_NON_GEOGRAPHIC_COUNTRY_CODE3 = false;
+function parse2(text, options, metadataJson) {
+  options = options || {};
+  var metadata = new Metadata(metadataJson);
+  if (options.defaultCountry && !metadata.hasCountry(options.defaultCountry)) {
+    if (options.v2) {
+      throw new ParseError("INVALID_COUNTRY");
+    }
+    throw new Error("Unknown country: ".concat(options.defaultCountry));
+  }
+  var _parseInput = parseInput(text, options.v2, options.extract), formattedPhoneNumber = _parseInput.number, ext = _parseInput.ext, error = _parseInput.error;
+  if (!formattedPhoneNumber) {
+    if (options.v2) {
+      if (error === "TOO_SHORT") {
+        throw new ParseError("TOO_SHORT");
+      }
+      throw new ParseError("NOT_A_NUMBER");
+    }
+    return {};
+  }
+  var _parsePhoneNumber = parsePhoneNumber(
+    formattedPhoneNumber,
+    options.defaultCountry,
+    options.defaultCallingCode,
+    // If `country` is returned, its numbering plan will also be selected in `metadata`.
+    // Otherwise, if `countryCallingCode` is returned, its numbering plan will also be selected in `metadata`.
+    // Otherwise, if neither `country` nor `countryCallingCode` are returned, no numbering plan will be selected in `metadata`.
+    metadata
+  ), country = _parsePhoneNumber.country, nationalNumber = _parsePhoneNumber.nationalNumber, countryCallingCode = _parsePhoneNumber.countryCallingCode, countryCallingCodeSource = _parsePhoneNumber.countryCallingCodeSource, carrierCode = _parsePhoneNumber.carrierCode;
+  if (!metadata.hasSelectedNumberingPlan()) {
+    if (options.v2) {
+      throw new ParseError("INVALID_COUNTRY");
+    }
+    return {};
+  }
+  if (!nationalNumber || nationalNumber.length < MIN_LENGTH_FOR_NSN) {
+    if (options.v2) {
+      throw new ParseError("TOO_SHORT");
+    }
+    return {};
+  }
+  if (nationalNumber.length > MAX_LENGTH_FOR_NSN) {
+    if (options.v2) {
+      throw new ParseError("TOO_LONG");
+    }
+    return {};
+  }
+  if (options.v2) {
+    var phoneNumber = new PhoneNumber(countryCallingCode, nationalNumber, metadata.metadata);
+    if (country) {
+      phoneNumber.country = country;
+    }
+    if (carrierCode) {
+      phoneNumber.carrierCode = carrierCode;
+    }
+    if (ext) {
+      phoneNumber.ext = ext;
+    }
+    phoneNumber.__countryCallingCodeSource = countryCallingCodeSource;
+    return phoneNumber;
+  }
+  var valid = (options.extended ? metadata.hasSelectedNumberingPlan() : country) ? matchesEntirely(nationalNumber, metadata.nationalNumberPattern()) : false;
+  if (!options.extended) {
+    return valid ? result(country, nationalNumber, ext) : {};
+  }
+  return {
+    country,
+    countryCallingCode,
+    carrierCode,
+    valid,
+    possible: valid ? true : options.extended === true && metadata.possibleLengths() && isPossibleNumber(nationalNumber, metadata) ? true : false,
+    phone: nationalNumber,
+    ext
+  };
+}
+function _extractFormattedPhoneNumber(text, extract, throwOnError) {
+  if (!text) {
+    return;
+  }
+  if (text.length > MAX_INPUT_STRING_LENGTH) {
+    if (throwOnError) {
+      throw new ParseError("TOO_LONG");
+    }
+    return;
+  }
+  if (extract === false) {
+    return text;
+  }
+  var startsAt = text.search(PHONE_NUMBER_START_PATTERN);
+  if (startsAt < 0) {
+    return;
+  }
+  return text.slice(startsAt).replace(AFTER_PHONE_NUMBER_END_PATTERN, "");
+}
+function parseInput(text, v22, extract) {
+  var number = extractFormattedPhoneNumberFromPossibleRfc3966NumberUri(text, {
+    extractFormattedPhoneNumber: function extractFormattedPhoneNumber2(text2) {
+      return _extractFormattedPhoneNumber(text2, extract, v22);
+    }
+  });
+  if (!number) {
+    return {};
+  }
+  if (!isViablePhoneNumber(number)) {
+    if (isViablePhoneNumberStart(number)) {
+      return {
+        error: "TOO_SHORT"
+      };
+    }
+    return {};
+  }
+  var withExtensionStripped = extractExtension(number);
+  if (withExtensionStripped.ext) {
+    return withExtensionStripped;
+  }
+  return {
+    number
+  };
+}
+function result(country, nationalNumber, ext) {
+  var result2 = {
+    country,
+    phone: nationalNumber
+  };
+  if (ext) {
+    result2.ext = ext;
+  }
+  return result2;
+}
+function parsePhoneNumber(formattedPhoneNumber, defaultCountry, defaultCallingCode, metadata) {
+  var _extractCountryCallin = extractCountryCallingCode(
+    parseIncompletePhoneNumber(formattedPhoneNumber),
+    void 0,
+    // `defaultCountry` and `defaultCallingCode` are only used to detect
+    // if it's an "international" phone number or not. They won't be used
+    // to derive the resulting `countryCallingCode` from them, or anything like that.
+    defaultCountry,
+    defaultCallingCode,
+    metadata.metadata
+  ), countryCallingCodeSource = _extractCountryCallin.countryCallingCodeSource, countryCallingCode = _extractCountryCallin.countryCallingCode, number = _extractCountryCallin.number;
+  var country;
+  if (countryCallingCode) {
+    metadata.selectNumberingPlan(countryCallingCode);
+  } else if (number && (defaultCountry || defaultCallingCode)) {
+    if (defaultCountry) {
+      country = defaultCountry;
+      metadata.selectNumberingPlan(defaultCountry);
+      countryCallingCode = metadata.numberingPlan.callingCode();
+    } else {
+      metadata.selectNumberingPlan(defaultCallingCode);
+      countryCallingCode = defaultCallingCode;
+      if (USE_NON_GEOGRAPHIC_COUNTRY_CODE3) {
+        if (metadata.isNonGeographicCallingCode(countryCallingCode)) {
+          country = "001";
+        }
+      }
+    }
+  } else return {};
+  if (!number) {
+    return {
+      countryCallingCodeSource,
+      countryCallingCode
+    };
+  }
+  var _extractNationalNumbe = extractNationalNumber(parseIncompletePhoneNumber(number), void 0, metadata), nationalNumber = _extractNationalNumbe.nationalNumber, carrierCode = _extractNationalNumbe.carrierCode;
+  var exactCountry = getCountryByCallingCode(countryCallingCode, {
+    nationalNumber,
+    metadata
+  });
+  if (exactCountry) {
+    country = exactCountry;
+    if (exactCountry === "001") {
+    } else {
+      metadata.selectNumberingPlan(country);
+    }
+  }
+  return {
+    country,
+    countryCallingCode,
+    countryCallingCodeSource,
+    nationalNumber,
+    carrierCode
+  };
+}
+
+// node_modules/libphonenumber-js/es6/parsePhoneNumberWithError_.js
+function _typeof4(o88) {
+  "@babel/helpers - typeof";
+  return _typeof4 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o89) {
+    return typeof o89;
+  } : function(o89) {
+    return o89 && "function" == typeof Symbol && o89.constructor === Symbol && o89 !== Symbol.prototype ? "symbol" : typeof o89;
+  }, _typeof4(o88);
+}
+function ownKeys2(e59, r85) {
+  var t44 = Object.keys(e59);
+  if (Object.getOwnPropertySymbols) {
+    var o88 = Object.getOwnPropertySymbols(e59);
+    r85 && (o88 = o88.filter(function(r86) {
+      return Object.getOwnPropertyDescriptor(e59, r86).enumerable;
+    })), t44.push.apply(t44, o88);
+  }
+  return t44;
+}
+function _objectSpread2(e59) {
+  for (var r85 = 1; r85 < arguments.length; r85++) {
+    var t44 = null != arguments[r85] ? arguments[r85] : {};
+    r85 % 2 ? ownKeys2(Object(t44), true).forEach(function(r86) {
+      _defineProperty2(e59, r86, t44[r86]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e59, Object.getOwnPropertyDescriptors(t44)) : ownKeys2(Object(t44)).forEach(function(r86) {
+      Object.defineProperty(e59, r86, Object.getOwnPropertyDescriptor(t44, r86));
+    });
+  }
+  return e59;
+}
+function _defineProperty2(e59, r85, t44) {
+  return (r85 = _toPropertyKey4(r85)) in e59 ? Object.defineProperty(e59, r85, { value: t44, enumerable: true, configurable: true, writable: true }) : e59[r85] = t44, e59;
+}
+function _toPropertyKey4(t44) {
+  var i30 = _toPrimitive4(t44, "string");
+  return "symbol" == _typeof4(i30) ? i30 : i30 + "";
+}
+function _toPrimitive4(t44, r85) {
+  if ("object" != _typeof4(t44) || !t44) return t44;
+  var e59 = t44[Symbol.toPrimitive];
+  if (void 0 !== e59) {
+    var i30 = e59.call(t44, r85 || "default");
+    if ("object" != _typeof4(i30)) return i30;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r85 ? String : Number)(t44);
+}
+function parsePhoneNumberWithError(text, options, metadata) {
+  return parse2(text, _objectSpread2(_objectSpread2({}, options), {}, {
+    v2: true
+  }), metadata);
+}
+
+// node_modules/libphonenumber-js/es6/normalizeArguments.js
+function _typeof5(o88) {
+  "@babel/helpers - typeof";
+  return _typeof5 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o89) {
+    return typeof o89;
+  } : function(o89) {
+    return o89 && "function" == typeof Symbol && o89.constructor === Symbol && o89 !== Symbol.prototype ? "symbol" : typeof o89;
+  }, _typeof5(o88);
+}
+function ownKeys3(e59, r85) {
+  var t44 = Object.keys(e59);
+  if (Object.getOwnPropertySymbols) {
+    var o88 = Object.getOwnPropertySymbols(e59);
+    r85 && (o88 = o88.filter(function(r86) {
+      return Object.getOwnPropertyDescriptor(e59, r86).enumerable;
+    })), t44.push.apply(t44, o88);
+  }
+  return t44;
+}
+function _objectSpread3(e59) {
+  for (var r85 = 1; r85 < arguments.length; r85++) {
+    var t44 = null != arguments[r85] ? arguments[r85] : {};
+    r85 % 2 ? ownKeys3(Object(t44), true).forEach(function(r86) {
+      _defineProperty3(e59, r86, t44[r86]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e59, Object.getOwnPropertyDescriptors(t44)) : ownKeys3(Object(t44)).forEach(function(r86) {
+      Object.defineProperty(e59, r86, Object.getOwnPropertyDescriptor(t44, r86));
+    });
+  }
+  return e59;
+}
+function _defineProperty3(e59, r85, t44) {
+  return (r85 = _toPropertyKey5(r85)) in e59 ? Object.defineProperty(e59, r85, { value: t44, enumerable: true, configurable: true, writable: true }) : e59[r85] = t44, e59;
+}
+function _toPropertyKey5(t44) {
+  var i30 = _toPrimitive5(t44, "string");
+  return "symbol" == _typeof5(i30) ? i30 : i30 + "";
+}
+function _toPrimitive5(t44, r85) {
+  if ("object" != _typeof5(t44) || !t44) return t44;
+  var e59 = t44[Symbol.toPrimitive];
+  if (void 0 !== e59) {
+    var i30 = e59.call(t44, r85 || "default");
+    if ("object" != _typeof5(i30)) return i30;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r85 ? String : Number)(t44);
+}
+function _slicedToArray(r85, e59) {
+  return _arrayWithHoles(r85) || _iterableToArrayLimit(r85, e59) || _unsupportedIterableToArray6(r85, e59) || _nonIterableRest();
+}
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray6(r85, a44) {
+  if (r85) {
+    if ("string" == typeof r85) return _arrayLikeToArray6(r85, a44);
+    var t44 = {}.toString.call(r85).slice(8, -1);
+    return "Object" === t44 && r85.constructor && (t44 = r85.constructor.name), "Map" === t44 || "Set" === t44 ? Array.from(r85) : "Arguments" === t44 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t44) ? _arrayLikeToArray6(r85, a44) : void 0;
+  }
+}
+function _arrayLikeToArray6(r85, a44) {
+  (null == a44 || a44 > r85.length) && (a44 = r85.length);
+  for (var e59 = 0, n39 = Array(a44); e59 < a44; e59++) n39[e59] = r85[e59];
+  return n39;
+}
+function _iterableToArrayLimit(r85, l19) {
+  var t44 = null == r85 ? null : "undefined" != typeof Symbol && r85[Symbol.iterator] || r85["@@iterator"];
+  if (null != t44) {
+    var e59, n39, i30, u7, a44 = [], f12 = true, o88 = false;
+    try {
+      if (i30 = (t44 = t44.call(r85)).next, 0 === l19) {
+        if (Object(t44) !== t44) return;
+        f12 = false;
+      } else for (; !(f12 = (e59 = i30.call(t44)).done) && (a44.push(e59.value), a44.length !== l19); f12 = true) ;
+    } catch (r86) {
+      o88 = true, n39 = r86;
+    } finally {
+      try {
+        if (!f12 && null != t44["return"] && (u7 = t44["return"](), Object(u7) !== u7)) return;
+      } finally {
+        if (o88) throw n39;
+      }
+    }
+    return a44;
+  }
+}
+function _arrayWithHoles(r85) {
+  if (Array.isArray(r85)) return r85;
+}
+function normalizeArguments(args) {
+  var _Array$prototype$slic = Array.prototype.slice.call(args), _Array$prototype$slic2 = _slicedToArray(_Array$prototype$slic, 4), arg_1 = _Array$prototype$slic2[0], arg_2 = _Array$prototype$slic2[1], arg_3 = _Array$prototype$slic2[2], arg_4 = _Array$prototype$slic2[3];
+  var text;
+  var options;
+  var metadata;
+  if (typeof arg_1 === "string") {
+    text = arg_1;
+  } else throw new TypeError("A text for parsing must be a string.");
+  if (!arg_2 || typeof arg_2 === "string") {
+    if (arg_4) {
+      options = arg_3;
+      metadata = arg_4;
+    } else {
+      options = void 0;
+      metadata = arg_3;
+    }
+    if (arg_2) {
+      options = _objectSpread3({
+        defaultCountry: arg_2
+      }, options);
+    }
+  } else if (isObject2(arg_2)) {
+    if (arg_3) {
+      options = arg_2;
+      metadata = arg_3;
+    } else {
+      metadata = arg_2;
+    }
+  } else throw new Error("Invalid second argument: ".concat(arg_2));
+  return {
+    text,
+    options,
+    metadata
+  };
+}
+
+// node_modules/libphonenumber-js/es6/parsePhoneNumber_.js
+function _typeof6(o88) {
+  "@babel/helpers - typeof";
+  return _typeof6 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o89) {
+    return typeof o89;
+  } : function(o89) {
+    return o89 && "function" == typeof Symbol && o89.constructor === Symbol && o89 !== Symbol.prototype ? "symbol" : typeof o89;
+  }, _typeof6(o88);
+}
+function ownKeys4(e59, r85) {
+  var t44 = Object.keys(e59);
+  if (Object.getOwnPropertySymbols) {
+    var o88 = Object.getOwnPropertySymbols(e59);
+    r85 && (o88 = o88.filter(function(r86) {
+      return Object.getOwnPropertyDescriptor(e59, r86).enumerable;
+    })), t44.push.apply(t44, o88);
+  }
+  return t44;
+}
+function _objectSpread4(e59) {
+  for (var r85 = 1; r85 < arguments.length; r85++) {
+    var t44 = null != arguments[r85] ? arguments[r85] : {};
+    r85 % 2 ? ownKeys4(Object(t44), true).forEach(function(r86) {
+      _defineProperty4(e59, r86, t44[r86]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e59, Object.getOwnPropertyDescriptors(t44)) : ownKeys4(Object(t44)).forEach(function(r86) {
+      Object.defineProperty(e59, r86, Object.getOwnPropertyDescriptor(t44, r86));
+    });
+  }
+  return e59;
+}
+function _defineProperty4(e59, r85, t44) {
+  return (r85 = _toPropertyKey6(r85)) in e59 ? Object.defineProperty(e59, r85, { value: t44, enumerable: true, configurable: true, writable: true }) : e59[r85] = t44, e59;
+}
+function _toPropertyKey6(t44) {
+  var i30 = _toPrimitive6(t44, "string");
+  return "symbol" == _typeof6(i30) ? i30 : i30 + "";
+}
+function _toPrimitive6(t44, r85) {
+  if ("object" != _typeof6(t44) || !t44) return t44;
+  var e59 = t44[Symbol.toPrimitive];
+  if (void 0 !== e59) {
+    var i30 = e59.call(t44, r85 || "default");
+    if ("object" != _typeof6(i30)) return i30;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r85 ? String : Number)(t44);
+}
+function parsePhoneNumber2(text, options, metadata) {
+  if (options && options.defaultCountry && !isSupportedCountry(options.defaultCountry, metadata)) {
+    options = _objectSpread4(_objectSpread4({}, options), {}, {
+      defaultCountry: void 0
+    });
+  }
+  try {
+    return parsePhoneNumberWithError(text, options, metadata);
+  } catch (error) {
+    if (error instanceof ParseError) {
+    } else {
+      throw error;
+    }
+  }
+}
+
+// node_modules/libphonenumber-js/es6/parsePhoneNumber.js
+function parsePhoneNumber3() {
+  var _normalizeArguments = normalizeArguments(arguments), text = _normalizeArguments.text, options = _normalizeArguments.options, metadata = _normalizeArguments.metadata;
+  return parsePhoneNumber2(text, options, metadata);
+}
+
+// node_modules/libphonenumber-js/es6/isValidPhoneNumber.js
+function _typeof7(o88) {
+  "@babel/helpers - typeof";
+  return _typeof7 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o89) {
+    return typeof o89;
+  } : function(o89) {
+    return o89 && "function" == typeof Symbol && o89.constructor === Symbol && o89 !== Symbol.prototype ? "symbol" : typeof o89;
+  }, _typeof7(o88);
+}
+function ownKeys5(e59, r85) {
+  var t44 = Object.keys(e59);
+  if (Object.getOwnPropertySymbols) {
+    var o88 = Object.getOwnPropertySymbols(e59);
+    r85 && (o88 = o88.filter(function(r86) {
+      return Object.getOwnPropertyDescriptor(e59, r86).enumerable;
+    })), t44.push.apply(t44, o88);
+  }
+  return t44;
+}
+function _objectSpread5(e59) {
+  for (var r85 = 1; r85 < arguments.length; r85++) {
+    var t44 = null != arguments[r85] ? arguments[r85] : {};
+    r85 % 2 ? ownKeys5(Object(t44), true).forEach(function(r86) {
+      _defineProperty5(e59, r86, t44[r86]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e59, Object.getOwnPropertyDescriptors(t44)) : ownKeys5(Object(t44)).forEach(function(r86) {
+      Object.defineProperty(e59, r86, Object.getOwnPropertyDescriptor(t44, r86));
+    });
+  }
+  return e59;
+}
+function _defineProperty5(e59, r85, t44) {
+  return (r85 = _toPropertyKey7(r85)) in e59 ? Object.defineProperty(e59, r85, { value: t44, enumerable: true, configurable: true, writable: true }) : e59[r85] = t44, e59;
+}
+function _toPropertyKey7(t44) {
+  var i30 = _toPrimitive7(t44, "string");
+  return "symbol" == _typeof7(i30) ? i30 : i30 + "";
+}
+function _toPrimitive7(t44, r85) {
+  if ("object" != _typeof7(t44) || !t44) return t44;
+  var e59 = t44[Symbol.toPrimitive];
+  if (void 0 !== e59) {
+    var i30 = e59.call(t44, r85 || "default");
+    if ("object" != _typeof7(i30)) return i30;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r85 ? String : Number)(t44);
+}
+function isValidPhoneNumber() {
+  var _normalizeArguments = normalizeArguments(arguments), text = _normalizeArguments.text, options = _normalizeArguments.options, metadata = _normalizeArguments.metadata;
+  options = _objectSpread5(_objectSpread5({}, options), {}, {
+    extract: false
+  });
+  var phoneNumber = parsePhoneNumber2(text, options, metadata);
+  return phoneNumber && phoneNumber.isValid() || false;
+}
+
+// node_modules/libphonenumber-js/es6/AsYouTypeState.js
+function _typeof8(o88) {
+  "@babel/helpers - typeof";
+  return _typeof8 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o89) {
+    return typeof o89;
+  } : function(o89) {
+    return o89 && "function" == typeof Symbol && o89.constructor === Symbol && o89 !== Symbol.prototype ? "symbol" : typeof o89;
+  }, _typeof8(o88);
+}
+function _classCallCheck4(a44, n39) {
+  if (!(a44 instanceof n39)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties4(e59, r85) {
+  for (var t44 = 0; t44 < r85.length; t44++) {
+    var o88 = r85[t44];
+    o88.enumerable = o88.enumerable || false, o88.configurable = true, "value" in o88 && (o88.writable = true), Object.defineProperty(e59, _toPropertyKey8(o88.key), o88);
+  }
+}
+function _createClass4(e59, r85, t44) {
+  return r85 && _defineProperties4(e59.prototype, r85), t44 && _defineProperties4(e59, t44), Object.defineProperty(e59, "prototype", { writable: false }), e59;
+}
+function _toPropertyKey8(t44) {
+  var i30 = _toPrimitive8(t44, "string");
+  return "symbol" == _typeof8(i30) ? i30 : i30 + "";
+}
+function _toPrimitive8(t44, r85) {
+  if ("object" != _typeof8(t44) || !t44) return t44;
+  var e59 = t44[Symbol.toPrimitive];
+  if (void 0 !== e59) {
+    var i30 = e59.call(t44, r85 || "default");
+    if ("object" != _typeof8(i30)) return i30;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r85 ? String : Number)(t44);
+}
+var AsYouTypeState = /* @__PURE__ */ (function() {
+  function AsYouTypeState2(_ref) {
+    var onCountryChange = _ref.onCountryChange, onCallingCodeChange = _ref.onCallingCodeChange;
+    _classCallCheck4(this, AsYouTypeState2);
+    this.onCountryChange = onCountryChange;
+    this.onCallingCodeChange = onCallingCodeChange;
+  }
+  return _createClass4(AsYouTypeState2, [{
+    key: "reset",
+    value: function reset(_ref2) {
+      var country = _ref2.country, callingCode = _ref2.callingCode;
+      this.international = false;
+      this.missingPlus = false;
+      this.IDDPrefix = void 0;
+      this.callingCode = void 0;
+      this.digits = "";
+      this.resetNationalSignificantNumber();
+      this.initCountryAndCallingCode(country, callingCode);
+    }
+  }, {
+    key: "resetNationalSignificantNumber",
+    value: function resetNationalSignificantNumber() {
+      this.nationalSignificantNumber = this.getNationalDigits();
+      this.nationalSignificantNumberIsModified = false;
+      this.nationalPrefix = void 0;
+      this.carrierCode = void 0;
+      this.prefixBeforeNationalSignificantNumberThatIsNotNationalPrefix = void 0;
+    }
+  }, {
+    key: "update",
+    value: function update(properties) {
+      for (var _i = 0, _Object$keys = Object.keys(properties); _i < _Object$keys.length; _i++) {
+        var key = _Object$keys[_i];
+        this[key] = properties[key];
+      }
+    }
+  }, {
+    key: "initCountryAndCallingCode",
+    value: function initCountryAndCallingCode(country, callingCode) {
+      this.setCountry(country);
+      this.setCallingCode(callingCode);
+    }
+  }, {
+    key: "setCountry",
+    value: function setCountry(country) {
+      this.country = country;
+      this.onCountryChange(country);
+    }
+  }, {
+    key: "setCallingCode",
+    value: function setCallingCode(callingCode) {
+      this.callingCode = callingCode;
+      this.onCallingCodeChange(callingCode, this.country);
+    }
+  }, {
+    key: "startInternationalNumber",
+    value: function startInternationalNumber(country, callingCode) {
+      this.international = true;
+      this.initCountryAndCallingCode(country, callingCode);
+    }
+  }, {
+    key: "appendDigits",
+    value: function appendDigits(nextDigits) {
+      this.digits += nextDigits;
+    }
+  }, {
+    key: "appendNationalSignificantNumberDigits",
+    value: function appendNationalSignificantNumberDigits(nextDigits) {
+      this.nationalSignificantNumber += nextDigits;
+    }
+    /**
+     * Returns the part of `this.digits` that corresponds to the national number.
+     * Basically, all digits that have been input by the user, except for the
+     * international prefix and the country calling code part
+     * (if the number is an international one).
+     * @return {string}
+     */
+  }, {
+    key: "getNationalDigits",
+    value: function getNationalDigits() {
+      if (this.international) {
+        return this.digits.slice((this.IDDPrefix ? this.IDDPrefix.length : 0) + (this.callingCode ? this.callingCode.length : 0));
+      }
+      return this.digits;
+    }
+  }, {
+    key: "getDigitsWithoutInternationalPrefix",
+    value: function getDigitsWithoutInternationalPrefix() {
+      if (this.international) {
+        if (this.IDDPrefix) {
+          return this.digits.slice(this.IDDPrefix.length);
+        }
+      }
+      return this.digits;
+    }
+  }]);
+})();
+
+// node_modules/libphonenumber-js/es6/AsYouTypeFormatter.util.js
+function _createForOfIteratorHelperLoose6(r85, e59) {
+  var t44 = "undefined" != typeof Symbol && r85[Symbol.iterator] || r85["@@iterator"];
+  if (t44) return (t44 = t44.call(r85)).next.bind(t44);
+  if (Array.isArray(r85) || (t44 = _unsupportedIterableToArray7(r85)) || e59 && r85 && "number" == typeof r85.length) {
+    t44 && (r85 = t44);
+    var o88 = 0;
+    return function() {
+      return o88 >= r85.length ? { done: true } : { done: false, value: r85[o88++] };
+    };
+  }
+  throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray7(r85, a44) {
+  if (r85) {
+    if ("string" == typeof r85) return _arrayLikeToArray7(r85, a44);
+    var t44 = {}.toString.call(r85).slice(8, -1);
+    return "Object" === t44 && r85.constructor && (t44 = r85.constructor.name), "Map" === t44 || "Set" === t44 ? Array.from(r85) : "Arguments" === t44 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t44) ? _arrayLikeToArray7(r85, a44) : void 0;
+  }
+}
+function _arrayLikeToArray7(r85, a44) {
+  (null == a44 || a44 > r85.length) && (a44 = r85.length);
+  for (var e59 = 0, n39 = Array(a44); e59 < a44; e59++) n39[e59] = r85[e59];
+  return n39;
+}
+var DIGIT_PLACEHOLDER = "x";
+var DIGIT_PLACEHOLDER_MATCHER = new RegExp(DIGIT_PLACEHOLDER);
+function repeat(string, times) {
+  if (times < 1) {
+    return "";
+  }
+  var result2 = "";
+  while (times > 1) {
+    if (times & 1) {
+      result2 += string;
+    }
+    times >>= 1;
+    string += string;
+  }
+  return result2 + string;
+}
+function cutAndStripNonPairedParens(string, cutBeforeIndex) {
+  if (string[cutBeforeIndex] === ")") {
+    cutBeforeIndex++;
+  }
+  return stripNonPairedParens(string.slice(0, cutBeforeIndex));
+}
+function stripNonPairedParens(string) {
+  var dangling_braces = [];
+  var i30 = 0;
+  while (i30 < string.length) {
+    if (string[i30] === "(") {
+      dangling_braces.push(i30);
+    } else if (string[i30] === ")") {
+      dangling_braces.pop();
+    }
+    i30++;
+  }
+  var start = 0;
+  var cleared_string = "";
+  dangling_braces.push(string.length);
+  for (var _i = 0, _dangling_braces = dangling_braces; _i < _dangling_braces.length; _i++) {
+    var index2 = _dangling_braces[_i];
+    cleared_string += string.slice(start, index2);
+    start = index2 + 1;
+  }
+  return cleared_string;
+}
+function populateTemplateWithDigits(template, position, digits) {
+  for (var _iterator2 = _createForOfIteratorHelperLoose6(digits.split("")), _step2; !(_step2 = _iterator2()).done; ) {
+    var digit = _step2.value;
+    if (template.slice(position + 1).search(DIGIT_PLACEHOLDER_MATCHER) < 0) {
+      return;
+    }
+    position = template.search(DIGIT_PLACEHOLDER_MATCHER);
+    template = template.replace(DIGIT_PLACEHOLDER_MATCHER, digit);
+  }
+  return [template, position];
+}
+
+// node_modules/libphonenumber-js/es6/AsYouTypeFormatter.complete.js
+function formatCompleteNumber(state2, format, _ref) {
+  var metadata = _ref.metadata, shouldTryNationalPrefixFormattingRule = _ref.shouldTryNationalPrefixFormattingRule, getSeparatorAfterNationalPrefix = _ref.getSeparatorAfterNationalPrefix;
+  var matcher = new RegExp("^(?:".concat(format.pattern(), ")$"));
+  if (matcher.test(state2.nationalSignificantNumber)) {
+    return formatNationalNumberWithAndWithoutNationalPrefixFormattingRule(state2, format, {
+      metadata,
+      shouldTryNationalPrefixFormattingRule,
+      getSeparatorAfterNationalPrefix
+    });
+  }
+}
+function canFormatCompleteNumber(nationalSignificantNumber, metadata) {
+  return checkNumberLength(nationalSignificantNumber, void 0, metadata) === "IS_POSSIBLE";
+}
+function formatNationalNumberWithAndWithoutNationalPrefixFormattingRule(state2, format, _ref2) {
+  var metadata = _ref2.metadata, shouldTryNationalPrefixFormattingRule = _ref2.shouldTryNationalPrefixFormattingRule, getSeparatorAfterNationalPrefix = _ref2.getSeparatorAfterNationalPrefix;
+  var nationalSignificantNumber = state2.nationalSignificantNumber, international = state2.international, nationalPrefix = state2.nationalPrefix, carrierCode = state2.carrierCode;
+  if (shouldTryNationalPrefixFormattingRule(format)) {
+    var formattedNumber = formatNationalNumber2(state2, format, {
+      useNationalPrefixFormattingRule: true,
+      getSeparatorAfterNationalPrefix,
+      metadata
+    });
+    if (formattedNumber) {
+      return formattedNumber;
+    }
+  }
+  return formatNationalNumber2(state2, format, {
+    useNationalPrefixFormattingRule: false,
+    getSeparatorAfterNationalPrefix,
+    metadata
+  });
+}
+function formatNationalNumber2(state2, format, _ref3) {
+  var metadata = _ref3.metadata, useNationalPrefixFormattingRule = _ref3.useNationalPrefixFormattingRule, getSeparatorAfterNationalPrefix = _ref3.getSeparatorAfterNationalPrefix;
+  var formattedNationalNumber = formatNationalNumberUsingFormat(state2.nationalSignificantNumber, format, {
+    carrierCode: state2.carrierCode,
+    useInternationalFormat: state2.international,
+    withNationalPrefix: useNationalPrefixFormattingRule,
+    metadata
+  });
+  if (!useNationalPrefixFormattingRule) {
+    if (state2.nationalPrefix) {
+      formattedNationalNumber = state2.nationalPrefix + getSeparatorAfterNationalPrefix(format) + formattedNationalNumber;
+    } else if (state2.prefixBeforeNationalSignificantNumberThatIsNotNationalPrefix) {
+      formattedNationalNumber = state2.prefixBeforeNationalSignificantNumberThatIsNotNationalPrefix + " " + formattedNationalNumber;
+    }
+  }
+  if (isValidFormattedNationalNumber(formattedNationalNumber, state2)) {
+    return formattedNationalNumber;
+  }
+}
+function isValidFormattedNationalNumber(formattedNationalNumber, state2) {
+  return parseDigits(formattedNationalNumber) === state2.getNationalDigits();
+}
+
+// node_modules/libphonenumber-js/es6/AsYouTypeFormatter.PatternParser.js
+function _typeof9(o88) {
+  "@babel/helpers - typeof";
+  return _typeof9 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o89) {
+    return typeof o89;
+  } : function(o89) {
+    return o89 && "function" == typeof Symbol && o89.constructor === Symbol && o89 !== Symbol.prototype ? "symbol" : typeof o89;
+  }, _typeof9(o88);
+}
+function _classCallCheck5(a44, n39) {
+  if (!(a44 instanceof n39)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties5(e59, r85) {
+  for (var t44 = 0; t44 < r85.length; t44++) {
+    var o88 = r85[t44];
+    o88.enumerable = o88.enumerable || false, o88.configurable = true, "value" in o88 && (o88.writable = true), Object.defineProperty(e59, _toPropertyKey9(o88.key), o88);
+  }
+}
+function _createClass5(e59, r85, t44) {
+  return r85 && _defineProperties5(e59.prototype, r85), t44 && _defineProperties5(e59, t44), Object.defineProperty(e59, "prototype", { writable: false }), e59;
+}
+function _toPropertyKey9(t44) {
+  var i30 = _toPrimitive9(t44, "string");
+  return "symbol" == _typeof9(i30) ? i30 : i30 + "";
+}
+function _toPrimitive9(t44, r85) {
+  if ("object" != _typeof9(t44) || !t44) return t44;
+  var e59 = t44[Symbol.toPrimitive];
+  if (void 0 !== e59) {
+    var i30 = e59.call(t44, r85 || "default");
+    if ("object" != _typeof9(i30)) return i30;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r85 ? String : Number)(t44);
+}
+var PatternParser = /* @__PURE__ */ (function() {
+  function PatternParser2() {
+    _classCallCheck5(this, PatternParser2);
+  }
+  return _createClass5(PatternParser2, [{
+    key: "parse",
+    value: function parse3(pattern) {
+      this.context = [{
+        or: true,
+        instructions: []
+      }];
+      this.parsePattern(pattern);
+      if (this.context.length !== 1) {
+        throw new Error("Non-finalized contexts left when pattern parse ended");
+      }
+      var _this$context$ = this.context[0], branches = _this$context$.branches, instructions = _this$context$.instructions;
+      if (branches) {
+        return {
+          op: "|",
+          args: branches.concat([expandSingleElementArray(instructions)])
+        };
+      }
+      if (instructions.length === 0) {
+        throw new Error("Pattern is required");
+      }
+      if (instructions.length === 1) {
+        return instructions[0];
+      }
+      return instructions;
+    }
+  }, {
+    key: "startContext",
+    value: function startContext(context) {
+      this.context.push(context);
+    }
+  }, {
+    key: "endContext",
+    value: function endContext() {
+      this.context.pop();
+    }
+  }, {
+    key: "getContext",
+    value: function getContext() {
+      return this.context[this.context.length - 1];
+    }
+  }, {
+    key: "parsePattern",
+    value: function parsePattern(pattern) {
+      if (!pattern) {
+        throw new Error("Pattern is required");
+      }
+      var match2 = pattern.match(OPERATOR);
+      if (!match2) {
+        if (ILLEGAL_CHARACTER_REGEXP.test(pattern)) {
+          throw new Error("Illegal characters found in a pattern: ".concat(pattern));
+        }
+        this.getContext().instructions = this.getContext().instructions.concat(pattern.split(""));
+        return;
+      }
+      var operator = match2[1];
+      var before = pattern.slice(0, match2.index);
+      var rightPart = pattern.slice(match2.index + operator.length);
+      switch (operator) {
+        case "(?:":
+          if (before) {
+            this.parsePattern(before);
+          }
+          this.startContext({
+            or: true,
+            instructions: [],
+            branches: []
+          });
+          break;
+        case ")":
+          if (!this.getContext().or) {
+            throw new Error('")" operator must be preceded by "(?:" operator');
+          }
+          if (before) {
+            this.parsePattern(before);
+          }
+          if (this.getContext().instructions.length === 0) {
+            throw new Error('No instructions found after "|" operator in an "or" group');
+          }
+          var _this$getContext = this.getContext(), branches = _this$getContext.branches;
+          branches.push(expandSingleElementArray(this.getContext().instructions));
+          this.endContext();
+          this.getContext().instructions.push({
+            op: "|",
+            args: branches
+          });
+          break;
+        case "|":
+          if (!this.getContext().or) {
+            throw new Error('"|" operator can only be used inside "or" groups');
+          }
+          if (before) {
+            this.parsePattern(before);
+          }
+          if (!this.getContext().branches) {
+            if (this.context.length === 1) {
+              this.getContext().branches = [];
+            } else {
+              throw new Error('"branches" not found in an "or" group context');
+            }
+          }
+          this.getContext().branches.push(expandSingleElementArray(this.getContext().instructions));
+          this.getContext().instructions = [];
+          break;
+        case "[":
+          if (before) {
+            this.parsePattern(before);
+          }
+          this.startContext({
+            oneOfSet: true
+          });
+          break;
+        case "]":
+          if (!this.getContext().oneOfSet) {
+            throw new Error('"]" operator must be preceded by "[" operator');
+          }
+          this.endContext();
+          this.getContext().instructions.push({
+            op: "[]",
+            args: parseOneOfSet(before)
+          });
+          break;
+        /* istanbul ignore next */
+        default:
+          throw new Error("Unknown operator: ".concat(operator));
+      }
+      if (rightPart) {
+        this.parsePattern(rightPart);
+      }
+    }
+  }]);
+})();
+function parseOneOfSet(pattern) {
+  var values = [];
+  var i30 = 0;
+  while (i30 < pattern.length) {
+    if (pattern[i30] === "-") {
+      if (i30 === 0 || i30 === pattern.length - 1) {
+        throw new Error("Couldn't parse a one-of set pattern: ".concat(pattern));
+      }
+      var prevValue = pattern[i30 - 1].charCodeAt(0) + 1;
+      var nextValue = pattern[i30 + 1].charCodeAt(0) - 1;
+      var value = prevValue;
+      while (value <= nextValue) {
+        values.push(String.fromCharCode(value));
+        value++;
+      }
+    } else {
+      values.push(pattern[i30]);
+    }
+    i30++;
+  }
+  return values;
+}
+var ILLEGAL_CHARACTER_REGEXP = /[\(\)\[\]\?\:\|]/;
+var OPERATOR = new RegExp(
+  // any of:
+  "(\\||\\(\\?\\:|\\)|\\[|\\])"
+);
+function expandSingleElementArray(array) {
+  if (array.length === 1) {
+    return array[0];
+  }
+  return array;
+}
+
+// node_modules/libphonenumber-js/es6/AsYouTypeFormatter.PatternMatcher.js
+function _createForOfIteratorHelperLoose7(r85, e59) {
+  var t44 = "undefined" != typeof Symbol && r85[Symbol.iterator] || r85["@@iterator"];
+  if (t44) return (t44 = t44.call(r85)).next.bind(t44);
+  if (Array.isArray(r85) || (t44 = _unsupportedIterableToArray8(r85)) || e59 && r85 && "number" == typeof r85.length) {
+    t44 && (r85 = t44);
+    var o88 = 0;
+    return function() {
+      return o88 >= r85.length ? { done: true } : { done: false, value: r85[o88++] };
+    };
+  }
+  throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray8(r85, a44) {
+  if (r85) {
+    if ("string" == typeof r85) return _arrayLikeToArray8(r85, a44);
+    var t44 = {}.toString.call(r85).slice(8, -1);
+    return "Object" === t44 && r85.constructor && (t44 = r85.constructor.name), "Map" === t44 || "Set" === t44 ? Array.from(r85) : "Arguments" === t44 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t44) ? _arrayLikeToArray8(r85, a44) : void 0;
+  }
+}
+function _arrayLikeToArray8(r85, a44) {
+  (null == a44 || a44 > r85.length) && (a44 = r85.length);
+  for (var e59 = 0, n39 = Array(a44); e59 < a44; e59++) n39[e59] = r85[e59];
+  return n39;
+}
+function _typeof10(o88) {
+  "@babel/helpers - typeof";
+  return _typeof10 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o89) {
+    return typeof o89;
+  } : function(o89) {
+    return o89 && "function" == typeof Symbol && o89.constructor === Symbol && o89 !== Symbol.prototype ? "symbol" : typeof o89;
+  }, _typeof10(o88);
+}
+function _classCallCheck6(a44, n39) {
+  if (!(a44 instanceof n39)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties6(e59, r85) {
+  for (var t44 = 0; t44 < r85.length; t44++) {
+    var o88 = r85[t44];
+    o88.enumerable = o88.enumerable || false, o88.configurable = true, "value" in o88 && (o88.writable = true), Object.defineProperty(e59, _toPropertyKey10(o88.key), o88);
+  }
+}
+function _createClass6(e59, r85, t44) {
+  return r85 && _defineProperties6(e59.prototype, r85), t44 && _defineProperties6(e59, t44), Object.defineProperty(e59, "prototype", { writable: false }), e59;
+}
+function _toPropertyKey10(t44) {
+  var i30 = _toPrimitive10(t44, "string");
+  return "symbol" == _typeof10(i30) ? i30 : i30 + "";
+}
+function _toPrimitive10(t44, r85) {
+  if ("object" != _typeof10(t44) || !t44) return t44;
+  var e59 = t44[Symbol.toPrimitive];
+  if (void 0 !== e59) {
+    var i30 = e59.call(t44, r85 || "default");
+    if ("object" != _typeof10(i30)) return i30;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r85 ? String : Number)(t44);
+}
+var PatternMatcher = /* @__PURE__ */ (function() {
+  function PatternMatcher2(pattern) {
+    _classCallCheck6(this, PatternMatcher2);
+    this.matchTree = new PatternParser().parse(pattern);
+  }
+  return _createClass6(PatternMatcher2, [{
+    key: "match",
+    value: function match2(string) {
+      var _ref = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {}, allowOverflow = _ref.allowOverflow;
+      if (!string) {
+        throw new Error("String is required");
+      }
+      var result2 = _match(string.split(""), this.matchTree, true);
+      if (result2 && result2.match) {
+        delete result2.matchedChars;
+      }
+      if (result2 && result2.overflow) {
+        if (!allowOverflow) {
+          return;
+        }
+      }
+      return result2;
+    }
+  }]);
+})();
+function _match(characters, tree2, last3) {
+  if (typeof tree2 === "string") {
+    var characterString = characters.join("");
+    if (tree2.indexOf(characterString) === 0) {
+      if (characters.length === tree2.length) {
+        return {
+          match: true,
+          matchedChars: characters
+        };
+      }
+      return {
+        partialMatch: true
+        // matchedChars: characters
+      };
+    }
+    if (characterString.indexOf(tree2) === 0) {
+      if (last3) {
+        if (characters.length > tree2.length) {
+          return {
+            overflow: true
+          };
+        }
+      }
+      return {
+        match: true,
+        matchedChars: characters.slice(0, tree2.length)
+      };
+    }
+    return;
+  }
+  if (Array.isArray(tree2)) {
+    var restCharacters = characters.slice();
+    var i30 = 0;
+    while (i30 < tree2.length) {
+      var subtree = tree2[i30];
+      var result2 = _match(restCharacters, subtree, last3 && i30 === tree2.length - 1);
+      if (!result2) {
+        return;
+      } else if (result2.overflow) {
+        return result2;
+      } else if (result2.match) {
+        restCharacters = restCharacters.slice(result2.matchedChars.length);
+        if (restCharacters.length === 0) {
+          if (i30 === tree2.length - 1) {
+            return {
+              match: true,
+              matchedChars: characters
+            };
+          } else {
+            return {
+              partialMatch: true
+              // matchedChars: characters
+            };
+          }
+        }
+      } else {
+        if (result2.partialMatch) {
+          return {
+            partialMatch: true
+            // matchedChars: characters
+          };
+        } else {
+          throw new Error("Unsupported match result:\n".concat(JSON.stringify(result2, null, 2)));
+        }
+      }
+      i30++;
+    }
+    if (last3) {
+      return {
+        overflow: true
+      };
+    }
+    return {
+      match: true,
+      matchedChars: characters.slice(0, characters.length - restCharacters.length)
+    };
+  }
+  switch (tree2.op) {
+    case "|":
+      var partialMatch;
+      for (var _iterator = _createForOfIteratorHelperLoose7(tree2.args), _step; !(_step = _iterator()).done; ) {
+        var branch = _step.value;
+        var _result = _match(characters, branch, last3);
+        if (_result) {
+          if (_result.overflow) {
+            return _result;
+          } else if (_result.match) {
+            return {
+              match: true,
+              matchedChars: _result.matchedChars
+            };
+          } else {
+            if (_result.partialMatch) {
+              partialMatch = true;
+            } else {
+              throw new Error("Unsupported match result:\n".concat(JSON.stringify(_result, null, 2)));
+            }
+          }
+        }
+      }
+      if (partialMatch) {
+        return {
+          partialMatch: true
+          // matchedChars: ...
+        };
+      }
+      return;
+    case "[]":
+      for (var _iterator2 = _createForOfIteratorHelperLoose7(tree2.args), _step2; !(_step2 = _iterator2()).done; ) {
+        var _char = _step2.value;
+        if (characters[0] === _char) {
+          if (characters.length === 1) {
+            return {
+              match: true,
+              matchedChars: characters
+            };
+          }
+          if (last3) {
+            return {
+              overflow: true
+            };
+          }
+          return {
+            match: true,
+            matchedChars: [_char]
+          };
+        }
+      }
+      return;
+    /* istanbul ignore next */
+    default:
+      throw new Error("Unsupported instruction tree: ".concat(tree2));
+  }
+}
+
+// node_modules/libphonenumber-js/es6/AsYouTypeFormatter.js
+function _typeof11(o88) {
+  "@babel/helpers - typeof";
+  return _typeof11 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o89) {
+    return typeof o89;
+  } : function(o89) {
+    return o89 && "function" == typeof Symbol && o89.constructor === Symbol && o89 !== Symbol.prototype ? "symbol" : typeof o89;
+  }, _typeof11(o88);
+}
+function _createForOfIteratorHelperLoose8(r85, e59) {
+  var t44 = "undefined" != typeof Symbol && r85[Symbol.iterator] || r85["@@iterator"];
+  if (t44) return (t44 = t44.call(r85)).next.bind(t44);
+  if (Array.isArray(r85) || (t44 = _unsupportedIterableToArray9(r85)) || e59 && r85 && "number" == typeof r85.length) {
+    t44 && (r85 = t44);
+    var o88 = 0;
+    return function() {
+      return o88 >= r85.length ? { done: true } : { done: false, value: r85[o88++] };
+    };
+  }
+  throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray9(r85, a44) {
+  if (r85) {
+    if ("string" == typeof r85) return _arrayLikeToArray9(r85, a44);
+    var t44 = {}.toString.call(r85).slice(8, -1);
+    return "Object" === t44 && r85.constructor && (t44 = r85.constructor.name), "Map" === t44 || "Set" === t44 ? Array.from(r85) : "Arguments" === t44 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t44) ? _arrayLikeToArray9(r85, a44) : void 0;
+  }
+}
+function _arrayLikeToArray9(r85, a44) {
+  (null == a44 || a44 > r85.length) && (a44 = r85.length);
+  for (var e59 = 0, n39 = Array(a44); e59 < a44; e59++) n39[e59] = r85[e59];
+  return n39;
+}
+function _classCallCheck7(a44, n39) {
+  if (!(a44 instanceof n39)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties7(e59, r85) {
+  for (var t44 = 0; t44 < r85.length; t44++) {
+    var o88 = r85[t44];
+    o88.enumerable = o88.enumerable || false, o88.configurable = true, "value" in o88 && (o88.writable = true), Object.defineProperty(e59, _toPropertyKey11(o88.key), o88);
+  }
+}
+function _createClass7(e59, r85, t44) {
+  return r85 && _defineProperties7(e59.prototype, r85), t44 && _defineProperties7(e59, t44), Object.defineProperty(e59, "prototype", { writable: false }), e59;
+}
+function _toPropertyKey11(t44) {
+  var i30 = _toPrimitive11(t44, "string");
+  return "symbol" == _typeof11(i30) ? i30 : i30 + "";
+}
+function _toPrimitive11(t44, r85) {
+  if ("object" != _typeof11(t44) || !t44) return t44;
+  var e59 = t44[Symbol.toPrimitive];
+  if (void 0 !== e59) {
+    var i30 = e59.call(t44, r85 || "default");
+    if ("object" != _typeof11(i30)) return i30;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r85 ? String : Number)(t44);
+}
+var DUMMY_DIGIT = "9";
+var LONGEST_NATIONAL_PHONE_NUMBER_LENGTH = 15;
+var LONGEST_DUMMY_PHONE_NUMBER = repeat(DUMMY_DIGIT, LONGEST_NATIONAL_PHONE_NUMBER_LENGTH);
+var NATIONAL_PREFIX_SEPARATORS_PATTERN = /[- ]/;
+var SUPPORT_LEGACY_FORMATTING_PATTERNS = true;
+var CREATE_CHARACTER_CLASS_PATTERN = SUPPORT_LEGACY_FORMATTING_PATTERNS && function() {
+  return /\[([^\[\]])*\]/g;
+};
+var CREATE_STANDALONE_DIGIT_PATTERN = SUPPORT_LEGACY_FORMATTING_PATTERNS && function() {
+  return /\d(?=[^,}][^,}])/g;
+};
+var NON_ALTERING_FORMAT_REG_EXP = new RegExp("[" + VALID_PUNCTUATION + "]*\\$1[" + VALID_PUNCTUATION + "]*(\\$\\d[" + VALID_PUNCTUATION + "]*)*$");
+var MIN_LEADING_DIGITS_LENGTH = 3;
+var AsYouTypeFormatter = /* @__PURE__ */ (function() {
+  function AsYouTypeFormatter2(_ref) {
+    var state2 = _ref.state, metadata = _ref.metadata;
+    _classCallCheck7(this, AsYouTypeFormatter2);
+    this.metadata = metadata;
+    this.resetFormat();
+  }
+  return _createClass7(AsYouTypeFormatter2, [{
+    key: "resetFormat",
+    value: function resetFormat() {
+      this.chosenFormat = void 0;
+      this.template = void 0;
+      this.nationalNumberTemplate = void 0;
+      this.populatedNationalNumberTemplate = void 0;
+      this.populatedNationalNumberTemplatePosition = -1;
+    }
+  }, {
+    key: "reset",
+    value: function reset(numberingPlan, state2) {
+      this.resetFormat();
+      if (numberingPlan) {
+        this.isNANP = numberingPlan.callingCode() === "1";
+        this.matchingFormats = numberingPlan.formats();
+        if (state2.nationalSignificantNumber) {
+          this.narrowDownMatchingFormats(state2);
+        }
+      } else {
+        this.isNANP = void 0;
+        this.matchingFormats = [];
+      }
+    }
+    /**
+     * Formats an updated phone number.
+     * @param  {string} nextDigits — Additional phone number digits.
+     * @param  {object} state — `AsYouType` state.
+     * @return {[string]} Returns undefined if the updated phone number can't be formatted using any of the available formats.
+     */
+  }, {
+    key: "format",
+    value: function format(nextDigits, state2) {
+      var _this = this;
+      if (canFormatCompleteNumber(state2.nationalSignificantNumber, this.metadata)) {
+        for (var _iterator = _createForOfIteratorHelperLoose8(this.matchingFormats), _step; !(_step = _iterator()).done; ) {
+          var _format = _step.value;
+          var formattedCompleteNumber = formatCompleteNumber(state2, _format, {
+            metadata: this.metadata,
+            shouldTryNationalPrefixFormattingRule: function shouldTryNationalPrefixFormattingRule(format2) {
+              return _this.shouldTryNationalPrefixFormattingRule(format2, {
+                international: state2.international,
+                nationalPrefix: state2.nationalPrefix
+              });
+            },
+            getSeparatorAfterNationalPrefix: function getSeparatorAfterNationalPrefix(format2) {
+              return _this.getSeparatorAfterNationalPrefix(format2);
+            }
+          });
+          if (formattedCompleteNumber) {
+            this.resetFormat();
+            this.chosenFormat = _format;
+            this.setNationalNumberTemplate(formattedCompleteNumber.replace(/\d/g, DIGIT_PLACEHOLDER), state2);
+            this.populatedNationalNumberTemplate = formattedCompleteNumber;
+            this.populatedNationalNumberTemplatePosition = this.template.lastIndexOf(DIGIT_PLACEHOLDER);
+            return formattedCompleteNumber;
+          }
+        }
+      }
+      return this.formatNationalNumberWithNextDigits(nextDigits, state2);
+    }
+    // Formats the next phone number digits.
+  }, {
+    key: "formatNationalNumberWithNextDigits",
+    value: function formatNationalNumberWithNextDigits(nextDigits, state2) {
+      var previouslyChosenFormat = this.chosenFormat;
+      var newlyChosenFormat = this.chooseFormat(state2);
+      if (newlyChosenFormat) {
+        if (newlyChosenFormat === previouslyChosenFormat) {
+          return this.formatNextNationalNumberDigits(nextDigits);
+        } else {
+          return this.formatNextNationalNumberDigits(state2.getNationalDigits());
+        }
+      }
+    }
+  }, {
+    key: "narrowDownMatchingFormats",
+    value: function narrowDownMatchingFormats(_ref2) {
+      var _this2 = this;
+      var nationalSignificantNumber = _ref2.nationalSignificantNumber, nationalPrefix = _ref2.nationalPrefix, international = _ref2.international;
+      var leadingDigits = nationalSignificantNumber;
+      var leadingDigitsPatternIndex = leadingDigits.length - MIN_LEADING_DIGITS_LENGTH;
+      if (leadingDigitsPatternIndex < 0) {
+        leadingDigitsPatternIndex = 0;
+      }
+      this.matchingFormats = this.matchingFormats.filter(function(format) {
+        return _this2.formatSuits(format, international, nationalPrefix) && _this2.formatMatches(format, leadingDigits, leadingDigitsPatternIndex);
+      });
+      if (this.chosenFormat && this.matchingFormats.indexOf(this.chosenFormat) === -1) {
+        this.resetFormat();
+      }
+    }
+  }, {
+    key: "formatSuits",
+    value: function formatSuits(format, international, nationalPrefix) {
+      if (nationalPrefix && !format.usesNationalPrefix() && // !format.domesticCarrierCodeFormattingRule() &&
+      !format.nationalPrefixIsOptionalWhenFormattingInNationalFormat()) {
+        return false;
+      }
+      if (!international && !nationalPrefix && format.nationalPrefixIsMandatoryWhenFormattingInNationalFormat()) {
+        return false;
+      }
+      return true;
+    }
+  }, {
+    key: "formatMatches",
+    value: function formatMatches(format, leadingDigits, leadingDigitsPatternIndex) {
+      var leadingDigitsPatternsCount = format.leadingDigitsPatterns().length;
+      if (leadingDigitsPatternsCount === 0) {
+        return true;
+      }
+      leadingDigitsPatternIndex = Math.min(leadingDigitsPatternIndex, leadingDigitsPatternsCount - 1);
+      var leadingDigitsPattern = format.leadingDigitsPatterns()[leadingDigitsPatternIndex];
+      if (leadingDigits.length < MIN_LEADING_DIGITS_LENGTH) {
+        try {
+          return new PatternMatcher(leadingDigitsPattern).match(leadingDigits, {
+            allowOverflow: true
+          }) !== void 0;
+        } catch (error) {
+          console.error(error);
+          return true;
+        }
+      }
+      return new RegExp("^(".concat(leadingDigitsPattern, ")")).test(leadingDigits);
+    }
+  }, {
+    key: "getFormatFormat",
+    value: function getFormatFormat(format, international) {
+      return international ? format.internationalFormat() : format.format();
+    }
+  }, {
+    key: "chooseFormat",
+    value: function chooseFormat(state2) {
+      var _this3 = this;
+      var _loop = function _loop2() {
+        var format = _step2.value;
+        if (_this3.chosenFormat === format) {
+          return 0;
+        }
+        if (!NON_ALTERING_FORMAT_REG_EXP.test(_this3.getFormatFormat(format, state2.international))) {
+          return 1;
+        }
+        if (!_this3.createTemplateForFormat(format, state2)) {
+          _this3.matchingFormats = _this3.matchingFormats.filter(function(_2) {
+            return _2 !== format;
+          });
+          return 1;
+        }
+        _this3.chosenFormat = format;
+        return 0;
+      }, _ret;
+      for (var _iterator2 = _createForOfIteratorHelperLoose8(this.matchingFormats.slice()), _step2; !(_step2 = _iterator2()).done; ) {
+        _ret = _loop();
+        if (_ret === 0) break;
+        if (_ret === 1) continue;
+      }
+      if (!this.chosenFormat) {
+        this.resetFormat();
+      }
+      return this.chosenFormat;
+    }
+  }, {
+    key: "createTemplateForFormat",
+    value: function createTemplateForFormat(format, state2) {
+      if (SUPPORT_LEGACY_FORMATTING_PATTERNS && format.pattern().indexOf("|") >= 0) {
+        return;
+      }
+      var template = this.getTemplateForFormat(format, state2);
+      if (template) {
+        this.setNationalNumberTemplate(template, state2);
+        return true;
+      }
+    }
+  }, {
+    key: "getSeparatorAfterNationalPrefix",
+    value: function getSeparatorAfterNationalPrefix(format) {
+      if (this.isNANP) {
+        return " ";
+      }
+      if (format && format.nationalPrefixFormattingRule() && NATIONAL_PREFIX_SEPARATORS_PATTERN.test(format.nationalPrefixFormattingRule())) {
+        return " ";
+      }
+      return "";
+    }
+  }, {
+    key: "getInternationalPrefixBeforeCountryCallingCode",
+    value: function getInternationalPrefixBeforeCountryCallingCode(_ref3, options) {
+      var IDDPrefix = _ref3.IDDPrefix, missingPlus = _ref3.missingPlus;
+      if (IDDPrefix) {
+        return options && options.spacing === false ? IDDPrefix : IDDPrefix + " ";
+      }
+      if (missingPlus) {
+        return "";
+      }
+      return "+";
+    }
+  }, {
+    key: "getTemplate",
+    value: function getTemplate(state2) {
+      if (!this.template) {
+        return;
+      }
+      var index2 = -1;
+      var i30 = 0;
+      var internationalPrefix = state2.international ? this.getInternationalPrefixBeforeCountryCallingCode(state2, {
+        spacing: false
+      }) : "";
+      while (i30 < internationalPrefix.length + state2.getDigitsWithoutInternationalPrefix().length) {
+        index2 = this.template.indexOf(DIGIT_PLACEHOLDER, index2 + 1);
+        i30++;
+      }
+      return cutAndStripNonPairedParens(this.template, index2 + 1);
+    }
+  }, {
+    key: "setNationalNumberTemplate",
+    value: function setNationalNumberTemplate(template, state2) {
+      this.nationalNumberTemplate = template;
+      this.populatedNationalNumberTemplate = template;
+      this.populatedNationalNumberTemplatePosition = -1;
+      if (state2.international) {
+        this.template = this.getInternationalPrefixBeforeCountryCallingCode(state2).replace(/[\d\+]/g, DIGIT_PLACEHOLDER) + repeat(DIGIT_PLACEHOLDER, state2.callingCode.length) + " " + template;
+      } else {
+        this.template = template;
+      }
+    }
+    /**
+     * Generates formatting template for a national phone number,
+     * optionally containing a national prefix, for a format.
+     * @param  {Format} format
+     * @param  {string} nationalPrefix
+     * @return {string}
+     */
+  }, {
+    key: "getTemplateForFormat",
+    value: function getTemplateForFormat(format, _ref4) {
+      var nationalSignificantNumber = _ref4.nationalSignificantNumber, international = _ref4.international, nationalPrefix = _ref4.nationalPrefix, prefixBeforeNationalSignificantNumberThatIsNotNationalPrefix = _ref4.prefixBeforeNationalSignificantNumberThatIsNotNationalPrefix;
+      var pattern = format.pattern();
+      if (SUPPORT_LEGACY_FORMATTING_PATTERNS) {
+        pattern = pattern.replace(CREATE_CHARACTER_CLASS_PATTERN(), "\\d").replace(CREATE_STANDALONE_DIGIT_PATTERN(), "\\d");
+      }
+      var digits = LONGEST_DUMMY_PHONE_NUMBER.match(pattern)[0];
+      if (nationalSignificantNumber.length > digits.length) {
+        return;
+      }
+      var strictPattern = new RegExp("^" + pattern + "$");
+      var nationalNumberDummyDigits = nationalSignificantNumber.replace(/\d/g, DUMMY_DIGIT);
+      if (strictPattern.test(nationalNumberDummyDigits)) {
+        digits = nationalNumberDummyDigits;
+      }
+      var numberFormat = this.getFormatFormat(format, international);
+      var nationalPrefixIncludedInTemplate;
+      if (this.shouldTryNationalPrefixFormattingRule(format, {
+        international,
+        nationalPrefix
+      })) {
+        var numberFormatWithNationalPrefix = numberFormat.replace(FIRST_GROUP_PATTERN, format.nationalPrefixFormattingRule());
+        if (parseDigits(format.nationalPrefixFormattingRule()) === (nationalPrefix || "") + parseDigits("$1")) {
+          numberFormat = numberFormatWithNationalPrefix;
+          nationalPrefixIncludedInTemplate = true;
+          if (nationalPrefix) {
+            var i30 = nationalPrefix.length;
+            while (i30 > 0) {
+              numberFormat = numberFormat.replace(/\d/, DIGIT_PLACEHOLDER);
+              i30--;
+            }
+          }
+        }
+      }
+      var template = digits.replace(new RegExp(pattern), numberFormat).replace(new RegExp(DUMMY_DIGIT, "g"), DIGIT_PLACEHOLDER);
+      if (!nationalPrefixIncludedInTemplate) {
+        if (prefixBeforeNationalSignificantNumberThatIsNotNationalPrefix) {
+          template = repeat(DIGIT_PLACEHOLDER, prefixBeforeNationalSignificantNumberThatIsNotNationalPrefix.length) + " " + template;
+        } else if (nationalPrefix) {
+          template = repeat(DIGIT_PLACEHOLDER, nationalPrefix.length) + this.getSeparatorAfterNationalPrefix(format) + template;
+        }
+      }
+      if (international) {
+        template = applyInternationalSeparatorStyle(template);
+      }
+      return template;
+    }
+  }, {
+    key: "formatNextNationalNumberDigits",
+    value: function formatNextNationalNumberDigits(digits) {
+      var result2 = populateTemplateWithDigits(this.populatedNationalNumberTemplate, this.populatedNationalNumberTemplatePosition, digits);
+      if (!result2) {
+        this.resetFormat();
+        return;
+      }
+      this.populatedNationalNumberTemplate = result2[0];
+      this.populatedNationalNumberTemplatePosition = result2[1];
+      return cutAndStripNonPairedParens(this.populatedNationalNumberTemplate, this.populatedNationalNumberTemplatePosition + 1);
+    }
+  }, {
+    key: "shouldTryNationalPrefixFormattingRule",
+    value: function shouldTryNationalPrefixFormattingRule(format, _ref5) {
+      var international = _ref5.international, nationalPrefix = _ref5.nationalPrefix;
+      if (format.nationalPrefixFormattingRule()) {
+        var usesNationalPrefix = format.usesNationalPrefix();
+        if (usesNationalPrefix && nationalPrefix || !usesNationalPrefix && !international) {
+          return true;
+        }
+      }
+    }
+  }]);
+})();
+
+// node_modules/libphonenumber-js/es6/AsYouTypeParser.js
+function _typeof12(o88) {
+  "@babel/helpers - typeof";
+  return _typeof12 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o89) {
+    return typeof o89;
+  } : function(o89) {
+    return o89 && "function" == typeof Symbol && o89.constructor === Symbol && o89 !== Symbol.prototype ? "symbol" : typeof o89;
+  }, _typeof12(o88);
+}
+function _slicedToArray2(r85, e59) {
+  return _arrayWithHoles2(r85) || _iterableToArrayLimit2(r85, e59) || _unsupportedIterableToArray10(r85, e59) || _nonIterableRest2();
+}
+function _nonIterableRest2() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray10(r85, a44) {
+  if (r85) {
+    if ("string" == typeof r85) return _arrayLikeToArray10(r85, a44);
+    var t44 = {}.toString.call(r85).slice(8, -1);
+    return "Object" === t44 && r85.constructor && (t44 = r85.constructor.name), "Map" === t44 || "Set" === t44 ? Array.from(r85) : "Arguments" === t44 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t44) ? _arrayLikeToArray10(r85, a44) : void 0;
+  }
+}
+function _arrayLikeToArray10(r85, a44) {
+  (null == a44 || a44 > r85.length) && (a44 = r85.length);
+  for (var e59 = 0, n39 = Array(a44); e59 < a44; e59++) n39[e59] = r85[e59];
+  return n39;
+}
+function _iterableToArrayLimit2(r85, l19) {
+  var t44 = null == r85 ? null : "undefined" != typeof Symbol && r85[Symbol.iterator] || r85["@@iterator"];
+  if (null != t44) {
+    var e59, n39, i30, u7, a44 = [], f12 = true, o88 = false;
+    try {
+      if (i30 = (t44 = t44.call(r85)).next, 0 === l19) {
+        if (Object(t44) !== t44) return;
+        f12 = false;
+      } else for (; !(f12 = (e59 = i30.call(t44)).done) && (a44.push(e59.value), a44.length !== l19); f12 = true) ;
+    } catch (r86) {
+      o88 = true, n39 = r86;
+    } finally {
+      try {
+        if (!f12 && null != t44["return"] && (u7 = t44["return"](), Object(u7) !== u7)) return;
+      } finally {
+        if (o88) throw n39;
+      }
+    }
+    return a44;
+  }
+}
+function _arrayWithHoles2(r85) {
+  if (Array.isArray(r85)) return r85;
+}
+function _classCallCheck8(a44, n39) {
+  if (!(a44 instanceof n39)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties8(e59, r85) {
+  for (var t44 = 0; t44 < r85.length; t44++) {
+    var o88 = r85[t44];
+    o88.enumerable = o88.enumerable || false, o88.configurable = true, "value" in o88 && (o88.writable = true), Object.defineProperty(e59, _toPropertyKey12(o88.key), o88);
+  }
+}
+function _createClass8(e59, r85, t44) {
+  return r85 && _defineProperties8(e59.prototype, r85), t44 && _defineProperties8(e59, t44), Object.defineProperty(e59, "prototype", { writable: false }), e59;
+}
+function _toPropertyKey12(t44) {
+  var i30 = _toPrimitive12(t44, "string");
+  return "symbol" == _typeof12(i30) ? i30 : i30 + "";
+}
+function _toPrimitive12(t44, r85) {
+  if ("object" != _typeof12(t44) || !t44) return t44;
+  var e59 = t44[Symbol.toPrimitive];
+  if (void 0 !== e59) {
+    var i30 = e59.call(t44, r85 || "default");
+    if ("object" != _typeof12(i30)) return i30;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r85 ? String : Number)(t44);
+}
+var VALID_FORMATTED_PHONE_NUMBER_DIGITS_PART = "[" + VALID_PUNCTUATION + VALID_DIGITS + "]+";
+var VALID_FORMATTED_PHONE_NUMBER_DIGITS_PART_PATTERN = new RegExp("^" + VALID_FORMATTED_PHONE_NUMBER_DIGITS_PART + "$", "i");
+var VALID_FORMATTED_PHONE_NUMBER_PART = "(?:[" + PLUS_CHARS + "][" + VALID_PUNCTUATION + VALID_DIGITS + "]*|[" + VALID_PUNCTUATION + VALID_DIGITS + "]+)";
+var AFTER_PHONE_NUMBER_DIGITS_END_PATTERN = new RegExp("[^" + VALID_PUNCTUATION + VALID_DIGITS + "]+.*$");
+var COMPLEX_NATIONAL_PREFIX = /[^\d\[\]]/;
+var AsYouTypeParser = /* @__PURE__ */ (function() {
+  function AsYouTypeParser2(_ref) {
+    var defaultCountry = _ref.defaultCountry, defaultCallingCode = _ref.defaultCallingCode, metadata = _ref.metadata, onNationalSignificantNumberChange = _ref.onNationalSignificantNumberChange;
+    _classCallCheck8(this, AsYouTypeParser2);
+    this.defaultCountry = defaultCountry;
+    this.defaultCallingCode = defaultCallingCode;
+    this.metadata = metadata;
+    this.onNationalSignificantNumberChange = onNationalSignificantNumberChange;
+  }
+  return _createClass8(AsYouTypeParser2, [{
+    key: "input",
+    value: function input2(text, state2) {
+      var _extractFormattedDigi = extractFormattedDigitsAndPlus(text), _extractFormattedDigi2 = _slicedToArray2(_extractFormattedDigi, 2), formattedDigits = _extractFormattedDigi2[0], hasPlus = _extractFormattedDigi2[1];
+      var digits = parseDigits(formattedDigits);
+      var justLeadingPlus;
+      if (hasPlus) {
+        if (!state2.digits) {
+          state2.startInternationalNumber(void 0, void 0);
+          if (!digits) {
+            justLeadingPlus = true;
+          }
+        }
+      }
+      if (digits) {
+        this.inputDigits(digits, state2);
+      }
+      return {
+        digits,
+        justLeadingPlus
+      };
+    }
+    /**
+     * Inputs "next" phone number digits.
+     * @param  {string} digits
+     * @return {string} [formattedNumber] Formatted national phone number (if it can be formatted at this stage). Returning `undefined` means "don't format the national phone number at this stage".
+     */
+  }, {
+    key: "inputDigits",
+    value: function inputDigits(nextDigits, state2) {
+      var digits = state2.digits;
+      var hasReceivedThreeLeadingDigits = digits.length < 3 && digits.length + nextDigits.length >= 3;
+      state2.appendDigits(nextDigits);
+      if (hasReceivedThreeLeadingDigits) {
+        this.extractIddPrefix(state2);
+      }
+      if (this.isWaitingForCountryCallingCode(state2)) {
+        if (!this.extractCountryCallingCode(state2)) {
+          return;
+        }
+      } else {
+        state2.appendNationalSignificantNumberDigits(nextDigits);
+      }
+      if (!state2.international) {
+        if (!this.hasExtractedNationalSignificantNumber) {
+          this.extractNationalSignificantNumber(state2.getNationalDigits(), function(stateUpdate) {
+            return state2.update(stateUpdate);
+          });
+        }
+      }
+    }
+  }, {
+    key: "isWaitingForCountryCallingCode",
+    value: function isWaitingForCountryCallingCode(_ref2) {
+      var international = _ref2.international, callingCode = _ref2.callingCode;
+      return international && !callingCode;
+    }
+    // Extracts a country calling code from a number
+    // being entered in internatonal format.
+  }, {
+    key: "extractCountryCallingCode",
+    value: function extractCountryCallingCode2(state2) {
+      var _extractCountryCallin = extractCountryCallingCode("+" + state2.getDigitsWithoutInternationalPrefix(), state2.country, this.defaultCountry, this.defaultCallingCode, this.metadata.metadata), countryCallingCode = _extractCountryCallin.countryCallingCode, number = _extractCountryCallin.number;
+      if (countryCallingCode) {
+        state2.setCallingCode(countryCallingCode);
+        state2.update({
+          nationalSignificantNumber: number
+        });
+        return true;
+      }
+    }
+  }, {
+    key: "reset",
+    value: function reset(numberingPlan) {
+      if (numberingPlan) {
+        this.hasSelectedNumberingPlan = true;
+        var nationalPrefixForParsing = numberingPlan._nationalPrefixForParsing();
+        this.couldPossiblyExtractAnotherNationalSignificantNumber = nationalPrefixForParsing && COMPLEX_NATIONAL_PREFIX.test(nationalPrefixForParsing);
+      } else {
+        this.hasSelectedNumberingPlan = void 0;
+        this.couldPossiblyExtractAnotherNationalSignificantNumber = void 0;
+      }
+    }
+    /**
+     * Extracts a national (significant) number from user input.
+     * Google's library is different in that it only applies `national_prefix_for_parsing`
+     * and doesn't apply `national_prefix_transform_rule` after that.
+     * https://github.com/google/libphonenumber/blob/a3d70b0487875475e6ad659af404943211d26456/java/libphonenumber/src/com/google/i18n/phonenumbers/AsYouTypeFormatter.java#L539
+     * @return {boolean} [extracted]
+     */
+  }, {
+    key: "extractNationalSignificantNumber",
+    value: function extractNationalSignificantNumber(nationalDigits, setState) {
+      if (!this.hasSelectedNumberingPlan) {
+        return;
+      }
+      var _extractNationalNumbe = extractNationalNumberFromPossiblyIncompleteNumber(nationalDigits, this.metadata), nationalPrefix = _extractNationalNumbe.nationalPrefix, nationalNumber = _extractNationalNumbe.nationalNumber, carrierCode = _extractNationalNumbe.carrierCode;
+      if (nationalNumber === nationalDigits) {
+        return;
+      }
+      this.onExtractedNationalNumber(nationalPrefix, carrierCode, nationalNumber, nationalDigits, setState);
+      return true;
+    }
+    /**
+     * In Google's code this function is called "attempt to extract longer NDD".
+     * "Some national prefixes are a substring of others", they say.
+     * @return {boolean} [result] — Returns `true` if extracting a national prefix produced different results from what they were.
+     */
+  }, {
+    key: "extractAnotherNationalSignificantNumber",
+    value: function extractAnotherNationalSignificantNumber(nationalDigits, prevNationalSignificantNumber, setState) {
+      if (!this.hasExtractedNationalSignificantNumber) {
+        return this.extractNationalSignificantNumber(nationalDigits, setState);
+      }
+      if (!this.couldPossiblyExtractAnotherNationalSignificantNumber) {
+        return;
+      }
+      var _extractNationalNumbe2 = extractNationalNumberFromPossiblyIncompleteNumber(nationalDigits, this.metadata), nationalPrefix = _extractNationalNumbe2.nationalPrefix, nationalNumber = _extractNationalNumbe2.nationalNumber, carrierCode = _extractNationalNumbe2.carrierCode;
+      if (nationalNumber === prevNationalSignificantNumber) {
+        return;
+      }
+      this.onExtractedNationalNumber(nationalPrefix, carrierCode, nationalNumber, nationalDigits, setState);
+      return true;
+    }
+  }, {
+    key: "onExtractedNationalNumber",
+    value: function onExtractedNationalNumber(nationalPrefix, carrierCode, nationalSignificantNumber, nationalDigits, setState) {
+      var nationalSignificantNumberIsModified = false;
+      var prefixBeforeNationalSignificantNumberThatIsNotNationalPrefix;
+      var nationalSignificantNumberIndex = nationalDigits.lastIndexOf(nationalSignificantNumber);
+      if (nationalSignificantNumberIndex < 0 || nationalSignificantNumberIndex !== nationalDigits.length - nationalSignificantNumber.length) {
+        nationalSignificantNumberIsModified = true;
+      } else {
+        var prefixBeforeNationalNumber = nationalDigits.slice(0, nationalSignificantNumberIndex);
+        if (prefixBeforeNationalNumber) {
+          if (prefixBeforeNationalNumber !== nationalPrefix) {
+            prefixBeforeNationalSignificantNumberThatIsNotNationalPrefix = prefixBeforeNationalNumber;
+          }
+        }
+      }
+      setState({
+        nationalPrefix,
+        carrierCode,
+        nationalSignificantNumber,
+        nationalSignificantNumberIsModified,
+        prefixBeforeNationalSignificantNumberThatIsNotNationalPrefix
+      });
+      this.hasExtractedNationalSignificantNumber = true;
+      this.onNationalSignificantNumberChange();
+    }
+  }, {
+    key: "reExtractNationalSignificantNumber",
+    value: function reExtractNationalSignificantNumber(state2) {
+      if (this.extractAnotherNationalSignificantNumber(state2.getNationalDigits(), state2.nationalSignificantNumber, function(stateUpdate) {
+        return state2.update(stateUpdate);
+      })) {
+        return true;
+      }
+      if (this.extractIddPrefix(state2)) {
+        this.extractCallingCodeAndNationalSignificantNumber(state2);
+        return true;
+      }
+      if (this.fixMissingPlus(state2)) {
+        this.extractCallingCodeAndNationalSignificantNumber(state2);
+        return true;
+      }
+    }
+  }, {
+    key: "extractIddPrefix",
+    value: function extractIddPrefix(state2) {
+      var international = state2.international, IDDPrefix = state2.IDDPrefix, digits = state2.digits, nationalSignificantNumber = state2.nationalSignificantNumber;
+      if (international || IDDPrefix) {
+        return;
+      }
+      var numberWithoutIDD = stripIddPrefix(digits, this.defaultCountry, this.defaultCallingCode, this.metadata.metadata);
+      if (numberWithoutIDD !== void 0 && numberWithoutIDD !== digits) {
+        state2.update({
+          IDDPrefix: digits.slice(0, digits.length - numberWithoutIDD.length)
+        });
+        this.startInternationalNumber(state2, {
+          country: void 0,
+          callingCode: void 0
+        });
+        return true;
+      }
+    }
+  }, {
+    key: "fixMissingPlus",
+    value: function fixMissingPlus(state2) {
+      if (!state2.international) {
+        var _extractCountryCallin2 = extractCountryCallingCodeFromInternationalNumberWithoutPlusSign(state2.digits, state2.country, this.defaultCountry, this.defaultCallingCode, this.metadata.metadata), newCallingCode = _extractCountryCallin2.countryCallingCode;
+        if (newCallingCode) {
+          state2.update({
+            missingPlus: true
+          });
+          this.startInternationalNumber(state2, {
+            country: state2.country,
+            callingCode: newCallingCode
+          });
+          return true;
+        }
+      }
+    }
+  }, {
+    key: "startInternationalNumber",
+    value: function startInternationalNumber(state2, _ref3) {
+      var country = _ref3.country, callingCode = _ref3.callingCode;
+      state2.startInternationalNumber(country, callingCode);
+      if (state2.nationalSignificantNumber) {
+        state2.resetNationalSignificantNumber();
+        this.onNationalSignificantNumberChange();
+        this.hasExtractedNationalSignificantNumber = void 0;
+      }
+    }
+  }, {
+    key: "extractCallingCodeAndNationalSignificantNumber",
+    value: function extractCallingCodeAndNationalSignificantNumber(state2) {
+      if (this.extractCountryCallingCode(state2)) {
+        this.extractNationalSignificantNumber(state2.getNationalDigits(), function(stateUpdate) {
+          return state2.update(stateUpdate);
+        });
+      }
+    }
+  }]);
+})();
+function extractFormattedPhoneNumber(text) {
+  var startsAt = text.search(VALID_FORMATTED_PHONE_NUMBER_PART);
+  if (startsAt < 0) {
+    return;
+  }
+  text = text.slice(startsAt);
+  var hasPlus;
+  if (text[0] === "+") {
+    hasPlus = true;
+    text = text.slice("+".length);
+  }
+  text = text.replace(AFTER_PHONE_NUMBER_DIGITS_END_PATTERN, "");
+  if (hasPlus) {
+    text = "+" + text;
+  }
+  return text;
+}
+function _extractFormattedDigitsAndPlus(text) {
+  var extractedNumber = extractFormattedPhoneNumber(text) || "";
+  if (extractedNumber[0] === "+") {
+    return [extractedNumber.slice("+".length), true];
+  }
+  return [extractedNumber];
+}
+function extractFormattedDigitsAndPlus(text) {
+  var _extractFormattedDigi3 = _extractFormattedDigitsAndPlus(text), _extractFormattedDigi4 = _slicedToArray2(_extractFormattedDigi3, 2), formattedDigits = _extractFormattedDigi4[0], hasPlus = _extractFormattedDigi4[1];
+  if (!VALID_FORMATTED_PHONE_NUMBER_DIGITS_PART_PATTERN.test(formattedDigits)) {
+    formattedDigits = "";
+  }
+  return [formattedDigits, hasPlus];
+}
+
+// node_modules/libphonenumber-js/es6/AsYouType.js
+function _typeof13(o88) {
+  "@babel/helpers - typeof";
+  return _typeof13 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o89) {
+    return typeof o89;
+  } : function(o89) {
+    return o89 && "function" == typeof Symbol && o89.constructor === Symbol && o89 !== Symbol.prototype ? "symbol" : typeof o89;
+  }, _typeof13(o88);
+}
+function _slicedToArray3(r85, e59) {
+  return _arrayWithHoles3(r85) || _iterableToArrayLimit3(r85, e59) || _unsupportedIterableToArray11(r85, e59) || _nonIterableRest3();
+}
+function _nonIterableRest3() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray11(r85, a44) {
+  if (r85) {
+    if ("string" == typeof r85) return _arrayLikeToArray11(r85, a44);
+    var t44 = {}.toString.call(r85).slice(8, -1);
+    return "Object" === t44 && r85.constructor && (t44 = r85.constructor.name), "Map" === t44 || "Set" === t44 ? Array.from(r85) : "Arguments" === t44 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t44) ? _arrayLikeToArray11(r85, a44) : void 0;
+  }
+}
+function _arrayLikeToArray11(r85, a44) {
+  (null == a44 || a44 > r85.length) && (a44 = r85.length);
+  for (var e59 = 0, n39 = Array(a44); e59 < a44; e59++) n39[e59] = r85[e59];
+  return n39;
+}
+function _iterableToArrayLimit3(r85, l19) {
+  var t44 = null == r85 ? null : "undefined" != typeof Symbol && r85[Symbol.iterator] || r85["@@iterator"];
+  if (null != t44) {
+    var e59, n39, i30, u7, a44 = [], f12 = true, o88 = false;
+    try {
+      if (i30 = (t44 = t44.call(r85)).next, 0 === l19) {
+        if (Object(t44) !== t44) return;
+        f12 = false;
+      } else for (; !(f12 = (e59 = i30.call(t44)).done) && (a44.push(e59.value), a44.length !== l19); f12 = true) ;
+    } catch (r86) {
+      o88 = true, n39 = r86;
+    } finally {
+      try {
+        if (!f12 && null != t44["return"] && (u7 = t44["return"](), Object(u7) !== u7)) return;
+      } finally {
+        if (o88) throw n39;
+      }
+    }
+    return a44;
+  }
+}
+function _arrayWithHoles3(r85) {
+  if (Array.isArray(r85)) return r85;
+}
+function _classCallCheck9(a44, n39) {
+  if (!(a44 instanceof n39)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties9(e59, r85) {
+  for (var t44 = 0; t44 < r85.length; t44++) {
+    var o88 = r85[t44];
+    o88.enumerable = o88.enumerable || false, o88.configurable = true, "value" in o88 && (o88.writable = true), Object.defineProperty(e59, _toPropertyKey13(o88.key), o88);
+  }
+}
+function _createClass9(e59, r85, t44) {
+  return r85 && _defineProperties9(e59.prototype, r85), t44 && _defineProperties9(e59, t44), Object.defineProperty(e59, "prototype", { writable: false }), e59;
+}
+function _toPropertyKey13(t44) {
+  var i30 = _toPrimitive13(t44, "string");
+  return "symbol" == _typeof13(i30) ? i30 : i30 + "";
+}
+function _toPrimitive13(t44, r85) {
+  if ("object" != _typeof13(t44) || !t44) return t44;
+  var e59 = t44[Symbol.toPrimitive];
+  if (void 0 !== e59) {
+    var i30 = e59.call(t44, r85 || "default");
+    if ("object" != _typeof13(i30)) return i30;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r85 ? String : Number)(t44);
+}
+var USE_NON_GEOGRAPHIC_COUNTRY_CODE4 = false;
+var AsYouType = /* @__PURE__ */ (function() {
+  function AsYouType3(optionsOrDefaultCountry, metadata) {
+    _classCallCheck9(this, AsYouType3);
+    this.metadata = new Metadata(metadata);
+    var _this$getCountryAndCa = this.getCountryAndCallingCode(optionsOrDefaultCountry), _this$getCountryAndCa2 = _slicedToArray3(_this$getCountryAndCa, 2), defaultCountry = _this$getCountryAndCa2[0], defaultCallingCode = _this$getCountryAndCa2[1];
+    this.defaultCountry = defaultCountry;
+    this.defaultCallingCode = defaultCallingCode;
+    this.reset();
+  }
+  return _createClass9(AsYouType3, [{
+    key: "getCountryAndCallingCode",
+    value: function getCountryAndCallingCode(optionsOrDefaultCountry) {
+      var defaultCountry;
+      var defaultCallingCode;
+      if (optionsOrDefaultCountry) {
+        if (isObject2(optionsOrDefaultCountry)) {
+          defaultCountry = optionsOrDefaultCountry.defaultCountry;
+          defaultCallingCode = optionsOrDefaultCountry.defaultCallingCode;
+        } else {
+          defaultCountry = optionsOrDefaultCountry;
+        }
+      }
+      if (defaultCountry && !this.metadata.hasCountry(defaultCountry)) {
+        defaultCountry = void 0;
+      }
+      if (defaultCallingCode) {
+        if (USE_NON_GEOGRAPHIC_COUNTRY_CODE4) {
+          if (this.metadata.isNonGeographicCallingCode(defaultCallingCode)) {
+            defaultCountry = "001";
+          }
+        }
+      }
+      return [defaultCountry, defaultCallingCode];
+    }
+    /**
+     * Inputs "next" phone number characters.
+     * @param  {string} text
+     * @return {string} Formatted phone number characters that have been input so far.
+     */
+  }, {
+    key: "input",
+    value: function input2(text) {
+      var _this$parser$input = this.parser.input(text, this.state), digits = _this$parser$input.digits, justLeadingPlus = _this$parser$input.justLeadingPlus;
+      if (justLeadingPlus) {
+        this.formattedOutput = "+";
+      } else if (digits) {
+        this.determineTheCountryIfNeeded();
+        if (this.state.nationalSignificantNumber) {
+          this.formatter.narrowDownMatchingFormats(this.state);
+        }
+        var formattedNationalNumber;
+        if (this.metadata.hasSelectedNumberingPlan()) {
+          formattedNationalNumber = this.formatter.format(digits, this.state);
+        }
+        if (formattedNationalNumber === void 0) {
+          if (this.parser.reExtractNationalSignificantNumber(this.state)) {
+            this.determineTheCountryIfNeeded();
+            var nationalDigits = this.state.getNationalDigits();
+            if (nationalDigits) {
+              formattedNationalNumber = this.formatter.format(nationalDigits, this.state);
+            }
+          }
+        }
+        this.formattedOutput = formattedNationalNumber ? this.getFullNumber(formattedNationalNumber) : this.getNonFormattedNumber();
+      }
+      return this.formattedOutput;
+    }
+  }, {
+    key: "reset",
+    value: function reset() {
+      var _this = this;
+      this.state = new AsYouTypeState({
+        onCountryChange: function onCountryChange(country) {
+          _this.country = country;
+        },
+        onCallingCodeChange: function onCallingCodeChange(callingCode, country) {
+          _this.metadata.selectNumberingPlan(country || callingCode);
+          _this.formatter.reset(_this.metadata.numberingPlan, _this.state);
+          _this.parser.reset(_this.metadata.numberingPlan);
+        }
+      });
+      this.formatter = new AsYouTypeFormatter({
+        state: this.state,
+        metadata: this.metadata
+      });
+      this.parser = new AsYouTypeParser({
+        defaultCountry: this.defaultCountry,
+        defaultCallingCode: this.defaultCallingCode,
+        metadata: this.metadata,
+        state: this.state,
+        onNationalSignificantNumberChange: function onNationalSignificantNumberChange() {
+          _this.determineTheCountryIfNeeded();
+          _this.formatter.reset(_this.metadata.numberingPlan, _this.state);
+        }
+      });
+      this.state.reset({
+        country: this.defaultCountry,
+        callingCode: this.defaultCallingCode
+      });
+      this.formattedOutput = "";
+      return this;
+    }
+    /**
+     * Returns `true` if the phone number is being input in international format.
+     * In other words, returns `true` if and only if the parsed phone number starts with a `"+"`.
+     * @return {boolean}
+     */
+  }, {
+    key: "isInternational",
+    value: function isInternational() {
+      return this.state.international;
+    }
+    /**
+     * Returns the "calling code" part of the phone number when it's being input
+     * in an international format.
+     * If no valid calling code has been entered so far, returns `undefined`.
+     * @return {string} [callingCode]
+     */
+  }, {
+    key: "getCallingCode",
+    value: function getCallingCode() {
+      if (this.isInternational()) {
+        return this.state.callingCode;
+      }
+    }
+    // A legacy alias.
+  }, {
+    key: "getCountryCallingCode",
+    value: function getCountryCallingCode3() {
+      return this.getCallingCode();
+    }
+    /**
+     * Returns a two-letter country code of the phone number.
+     * Returns `undefined` for "non-geographic" phone numbering plans.
+     * Returns `undefined` if no phone number has been input yet.
+     * @return {string} [country]
+     */
+  }, {
+    key: "getCountry",
+    value: function getCountry() {
+      var digits = this.state.digits;
+      if (digits) {
+        return this._getCountry();
+      }
+    }
+    /**
+     * Returns a two-letter country code of the phone number.
+     * Returns `undefined` for "non-geographic" phone numbering plans.
+     * @return {string} [country]
+     */
+  }, {
+    key: "_getCountry",
+    value: function _getCountry() {
+      var country = this.state.country;
+      if (USE_NON_GEOGRAPHIC_COUNTRY_CODE4) {
+        if (country === "001") {
+          return;
+        }
+      }
+      return country;
+    }
+  }, {
+    key: "determineTheCountryIfNeeded",
+    value: function determineTheCountryIfNeeded() {
+      if (!this.state.country || this.isCountryCallingCodeAmbiguous()) {
+        this.determineTheCountry();
+      }
+    }
+    // Prepends `+CountryCode ` in case of an international phone number
+  }, {
+    key: "getFullNumber",
+    value: function getFullNumber(formattedNationalNumber) {
+      var _this2 = this;
+      if (this.isInternational()) {
+        var prefix = function prefix2(text) {
+          return _this2.formatter.getInternationalPrefixBeforeCountryCallingCode(_this2.state, {
+            spacing: text ? true : false
+          }) + text;
+        };
+        var callingCode = this.state.callingCode;
+        if (!callingCode) {
+          return prefix("".concat(this.state.getDigitsWithoutInternationalPrefix()));
+        }
+        if (!formattedNationalNumber) {
+          return prefix(callingCode);
+        }
+        return prefix("".concat(callingCode, " ").concat(formattedNationalNumber));
+      }
+      return formattedNationalNumber;
+    }
+  }, {
+    key: "getNonFormattedNationalNumberWithPrefix",
+    value: function getNonFormattedNationalNumberWithPrefix() {
+      var _this$state = this.state, nationalSignificantNumber = _this$state.nationalSignificantNumber, prefixBeforeNationalSignificantNumberThatIsNotNationalPrefix = _this$state.prefixBeforeNationalSignificantNumberThatIsNotNationalPrefix, nationalPrefix = _this$state.nationalPrefix;
+      var number = nationalSignificantNumber;
+      var prefix = prefixBeforeNationalSignificantNumberThatIsNotNationalPrefix || nationalPrefix;
+      if (prefix) {
+        number = prefix + number;
+      }
+      return number;
+    }
+  }, {
+    key: "getNonFormattedNumber",
+    value: function getNonFormattedNumber() {
+      var nationalSignificantNumberIsModified = this.state.nationalSignificantNumberIsModified;
+      return this.getFullNumber(nationalSignificantNumberIsModified ? this.state.getNationalDigits() : this.getNonFormattedNationalNumberWithPrefix());
+    }
+  }, {
+    key: "getNonFormattedTemplate",
+    value: function getNonFormattedTemplate() {
+      var number = this.getNonFormattedNumber();
+      if (number) {
+        return number.replace(/[\+\d]/g, DIGIT_PLACEHOLDER);
+      }
+    }
+  }, {
+    key: "isCountryCallingCodeAmbiguous",
+    value: function isCountryCallingCodeAmbiguous() {
+      var callingCode = this.state.callingCode;
+      var countryCodes = this.metadata.getCountryCodesForCallingCode(callingCode);
+      return countryCodes && countryCodes.length > 1;
+    }
+    // Determines the exact country of the phone number
+    // entered so far based on the country phone code
+    // and the national phone number.
+  }, {
+    key: "determineTheCountry",
+    value: function determineTheCountry() {
+      var country = getCountryByCallingCode(this.isInternational() ? this.state.callingCode : this.defaultCallingCode, {
+        nationalNumber: this.state.nationalSignificantNumber,
+        metadata: this.metadata
+      });
+      if (country !== this.state.country) {
+        this.state.setCountry(country);
+        if (country) {
+          this.metadata.selectNumberingPlan(country);
+        }
+      }
+    }
+    /**
+     * Returns a E.164 phone number value for the user's input.
+     *
+     * For example, for country `"US"` and input `"(222) 333-4444"`
+     * it will return `"+12223334444"`.
+     *
+     * For international phone number input, it will also auto-correct
+     * some minor errors such as using a national prefix when writing
+     * an international phone number. For example, if the user inputs
+     * `"+44 0 7400 000000"` then it will return an auto-corrected
+     * `"+447400000000"` phone number value.
+     *
+     * Will return `undefined` if no digits have been input,
+     * or when inputting a phone number in national format and no
+     * default country or default "country calling code" have been set.
+     *
+     * @return {string} [value]
+     */
+  }, {
+    key: "getNumberValue",
+    value: function getNumberValue() {
+      var _this$state2 = this.state, digits = _this$state2.digits, callingCode = _this$state2.callingCode, country = _this$state2.country, nationalSignificantNumber = _this$state2.nationalSignificantNumber;
+      if (!digits) {
+        return;
+      }
+      if (this.isInternational()) {
+        if (callingCode) {
+          return "+" + callingCode + nationalSignificantNumber;
+        } else {
+          return "+" + digits;
+        }
+      } else {
+        if (country || callingCode) {
+          var callingCode_ = country ? this.metadata.countryCallingCode() : callingCode;
+          return "+" + callingCode_ + nationalSignificantNumber;
+        }
+      }
+    }
+    /**
+     * Returns an instance of `PhoneNumber` class.
+     * Will return `undefined` if no national (significant) number
+     * digits have been entered so far, or if no `defaultCountry` has been
+     * set and the user enters a phone number not in international format.
+     */
+  }, {
+    key: "getNumber",
+    value: function getNumber() {
+      var _this$state3 = this.state, nationalSignificantNumber = _this$state3.nationalSignificantNumber, carrierCode = _this$state3.carrierCode, callingCode = _this$state3.callingCode;
+      if (!nationalSignificantNumber) {
+        return;
+      }
+      var country = this._getCountry();
+      if (!country && !callingCode) {
+        return;
+      }
+      if (country) {
+        if (country === this.defaultCountry) {
+          var countryCallingCode = this.metadata.numberingPlan.callingCode();
+          var exactCountry = getExactCountryForMultiCountryCallingCode(countryCallingCode, nationalSignificantNumber, this.metadata);
+          if (exactCountry) {
+            country = exactCountry;
+          }
+        }
+      }
+      var phoneNumber = new PhoneNumber(country || callingCode, nationalSignificantNumber, this.metadata.metadata);
+      if (carrierCode) {
+        phoneNumber.carrierCode = carrierCode;
+      }
+      return phoneNumber;
+    }
+    /**
+     * Returns `true` if the phone number is "possible".
+     * Is just a shortcut for `PhoneNumber.isPossible()`.
+     * @return {boolean}
+     */
+  }, {
+    key: "isPossible",
+    value: function isPossible() {
+      var phoneNumber = this.getNumber();
+      if (!phoneNumber) {
+        return false;
+      }
+      return phoneNumber.isPossible();
+    }
+    /**
+     * Returns `true` if the phone number is "valid".
+     * Is just a shortcut for `PhoneNumber.isValid()`.
+     * @return {boolean}
+     */
+  }, {
+    key: "isValid",
+    value: function isValid() {
+      var phoneNumber = this.getNumber();
+      if (!phoneNumber) {
+        return false;
+      }
+      return phoneNumber.isValid();
+    }
+    /**
+     * Checks if the phone number length is valid.
+     * If it is, nothing is returned.
+     * Otherwise, a rejection reason is returned.
+     * @return {string?}
+     */
+  }, {
+    key: "validateLength",
+    value: function validateLength() {
+      var _this$state4 = this.state, digits = _this$state4.digits, nationalSignificantNumber = _this$state4.nationalSignificantNumber;
+      if (!digits) {
+        return "NOT_A_NUMBER";
+      }
+      if (!this.metadata.numberingPlan) {
+        return "INVALID_COUNTRY";
+      }
+      if (!nationalSignificantNumber) {
+        return "TOO_SHORT";
+      }
+      var result2 = checkNumberLength(nationalSignificantNumber, void 0, this.metadata);
+      if (result2 !== "IS_POSSIBLE") {
+        return result2;
+      }
+    }
+    /**
+     * @deprecated
+     * This method is used in `react-phone-number-input/source/input-control.js`
+     * in versions before `3.0.16`.
+     */
+  }, {
+    key: "getNationalNumber",
+    value: function getNationalNumber() {
+      return this.state.nationalSignificantNumber;
+    }
+    /**
+     * Returns the phone number characters entered by the user.
+     * @return {string}
+     */
+  }, {
+    key: "getChars",
+    value: function getChars() {
+      return (this.state.international ? "+" : "") + this.state.digits;
+    }
+    /**
+     * Returns the template for the formatted phone number.
+     * @return {string}
+     */
+  }, {
+    key: "getTemplate",
+    value: function getTemplate() {
+      return this.formatter.getTemplate(this.state) || this.getNonFormattedTemplate() || "";
+    }
+  }]);
+})();
+function getExactCountryForMultiCountryCallingCode(callingCode, nationalSignificantNumber, metadata) {
+  var ambiguousCountries = metadata.getCountryCodesForCallingCode(callingCode);
+  if (ambiguousCountries.length > 1) {
+    return getCountryByNationalNumber(nationalSignificantNumber, ambiguousCountries, metadata.metadata);
+  }
+}
+
+// node_modules/libphonenumber-js/es6/getCountries.js
+function getCountries(metadata) {
+  return new Metadata(metadata).getCountries();
+}
+
+// node_modules/libphonenumber-js/min/exports/parsePhoneNumber.js
+function parsePhoneNumber4() {
+  return withMetadataArgument(parsePhoneNumber3, arguments);
+}
+
+// node_modules/libphonenumber-js/min/exports/isValidPhoneNumber.js
+function isValidPhoneNumber2() {
+  return withMetadataArgument(isValidPhoneNumber, arguments);
+}
+
+// node_modules/libphonenumber-js/min/exports/AsYouType.js
+function AsYouType2(country) {
+  return AsYouType.call(this, country, metadata_min_json_default);
+}
+AsYouType2.prototype = Object.create(AsYouType.prototype, {});
+AsYouType2.prototype.constructor = AsYouType2;
+
+// node_modules/libphonenumber-js/min/exports/getCountries.js
+function getCountries2() {
+  return withMetadataArgument(getCountries, arguments);
+}
+
+// node_modules/libphonenumber-js/min/exports/getCountryCallingCode.js
+function getCountryCallingCode2() {
+  return withMetadataArgument(getCountryCallingCode, arguments);
+}
+
+// src/app/shared/components/phone-input/phone-input.component.ts
+function PhoneInputComponent_Conditional_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "label", 3);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r1.label);
+  }
+}
+function PhoneInputComponent_ng_template_4_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 7);
+    \u0275\u0275elementStart(1, "span", 8);
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const option_r3 = ctx.$implicit;
+    \u0275\u0275styleProp("background-image", "url(assets/flags/" + option_r3.iso2.toLowerCase() + ".svg)");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(option_r3.dialCode);
+  }
+}
+function PhoneInputComponent_ng_template_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "span", 7);
+    \u0275\u0275elementStart(1, "span", 9);
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "span", 8);
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const option_r4 = ctx.$implicit;
+    \u0275\u0275styleProp("background-image", "url(assets/flags/" + option_r4.iso2.toLowerCase() + ".svg)");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(option_r4.name);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(option_r4.dialCode);
+  }
+}
+var NO_FLAG_ASSET = /* @__PURE__ */ new Set(["AC", "TA"]);
+var PhoneInputComponent = class _PhoneInputComponent {
+  defaultCountry = "SA";
+  label;
+  lockCountry = false;
+  languageService = inject(LanguageService);
+  languageSub;
+  countries = [];
+  selectedCountry = "SA";
+  nationalNumber = "";
+  disabled = false;
+  onChange = () => {
+  };
+  onTouchedFn = () => {
+  };
+  ngOnInit() {
+    this.selectedCountry = this.defaultCountry;
+    this.buildCountryList();
+    this.languageSub = this.languageService.languageChanged$.subscribe(() => this.buildCountryList());
+  }
+  ngOnDestroy() {
+    this.languageSub?.unsubscribe();
+  }
+  buildCountryList() {
+    const lang = this.languageService.getCurrentLanguage();
+    const displayNames = new Intl.DisplayNames([lang], { type: "region" });
+    this.countries = getCountries2().filter((iso2) => !NO_FLAG_ASSET.has(iso2)).map((iso2) => ({
+      iso2,
+      name: displayNames.of(iso2) ?? iso2,
+      dialCode: `+${getCountryCallingCode2(iso2)}`
+    })).sort((a44, b8) => a44.name.localeCompare(b8.name));
+  }
+  onCountryChange(country) {
+    this.selectedCountry = country;
+    this.reformatNationalNumber(this.nationalNumber);
+    this.emitValue();
+  }
+  onNumberInput(value) {
+    this.reformatNationalNumber(value);
+    this.emitValue();
+  }
+  // AsYouType only groups digits once it recognizes a country's national dialing
+  // pattern, which for many countries (e.g. Saudi Arabia) requires the national
+  // trunk prefix to be present. Since this field holds the number *after* the
+  // dial code already shown by the country selector, we format by prepending the
+  // calling code, then strip it back off for display.
+  reformatNationalNumber(value) {
+    const digitsOnly = value.replace(/\D/g, "");
+    if (!digitsOnly) {
+      this.nationalNumber = "";
+      return;
+    }
+    const callingCode = `+${getCountryCallingCode2(this.selectedCountry)}`;
+    const formatted = new AsYouType2().input(`${callingCode}${digitsOnly}`);
+    this.nationalNumber = formatted.startsWith(callingCode) ? formatted.slice(callingCode.length).trim() : formatted;
+  }
+  onBlur() {
+    this.onTouchedFn();
+  }
+  emitValue() {
+    if (!this.nationalNumber) {
+      this.onChange(null);
+      return;
+    }
+    const parsed = parsePhoneNumber4(this.nationalNumber, this.selectedCountry);
+    this.onChange(parsed?.isValid() ? parsed.number : this.nationalNumber);
+  }
+  writeValue(value) {
+    if (!value) {
+      this.nationalNumber = "";
+      return;
+    }
+    const parsed = parsePhoneNumber4(value);
+    if (parsed?.country) {
+      this.selectedCountry = parsed.country;
+      this.nationalNumber = parsed.formatNational();
+    } else {
+      this.nationalNumber = value;
+    }
+  }
+  registerOnChange(fn) {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn) {
+    this.onTouchedFn = fn;
+  }
+  setDisabledState(isDisabled) {
+    this.disabled = isDisabled;
+  }
+  validate() {
+    if (!this.nationalNumber) {
+      return null;
+    }
+    return isValidPhoneNumber2(this.nationalNumber, this.selectedCountry) ? null : { invalidPhone: true };
+  }
+  static \u0275fac = function PhoneInputComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _PhoneInputComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _PhoneInputComponent, selectors: [["app-phone-input"]], inputs: { defaultCountry: "defaultCountry", label: "label", lockCountry: "lockCountry" }, features: [\u0275\u0275ProvidersFeature([
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => _PhoneInputComponent),
+      multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => _PhoneInputComponent),
+      multi: true
+    }
+  ])], decls: 9, vars: 7, consts: [["selectedItem", ""], ["item", ""], [1, "phone-input"], [1, "phone-input-label"], ["dir", "ltr", 1, "phone-input-row"], ["optionLabel", "name", "optionValue", "iso2", "appendTo", "body", 1, "phone-input-country", 3, "ngModelChange", "options", "ngModel", "filter", "disabled"], ["pInputText", "", "type", "tel", 1, "phone-input-number", 3, "ngModelChange", "blur", "ngModel", "disabled"], [1, "phone-input-flag"], [1, "phone-input-dialcode"], [1, "phone-input-country-name"]], template: function PhoneInputComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      const _r1 = \u0275\u0275getCurrentView();
+      \u0275\u0275elementStart(0, "div", 2);
+      \u0275\u0275conditionalCreate(1, PhoneInputComponent_Conditional_1_Template, 2, 1, "label", 3);
+      \u0275\u0275elementStart(2, "div", 4)(3, "p-select", 5);
+      \u0275\u0275listener("ngModelChange", function PhoneInputComponent_Template_p_select_ngModelChange_3_listener($event) {
+        \u0275\u0275restoreView(_r1);
+        return \u0275\u0275resetView(ctx.onCountryChange($event));
+      });
+      \u0275\u0275template(4, PhoneInputComponent_ng_template_4_Template, 3, 3, "ng-template", null, 0, \u0275\u0275templateRefExtractor)(6, PhoneInputComponent_ng_template_6_Template, 5, 4, "ng-template", null, 1, \u0275\u0275templateRefExtractor);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(8, "input", 6);
+      \u0275\u0275listener("ngModelChange", function PhoneInputComponent_Template_input_ngModelChange_8_listener($event) {
+        \u0275\u0275restoreView(_r1);
+        return \u0275\u0275resetView(ctx.onNumberInput($event));
+      })("blur", function PhoneInputComponent_Template_input_blur_8_listener() {
+        \u0275\u0275restoreView(_r1);
+        return \u0275\u0275resetView(ctx.onBlur());
+      });
+      \u0275\u0275elementEnd()()();
+    }
+    if (rf & 2) {
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.label ? 1 : -1);
+      \u0275\u0275advance(2);
+      \u0275\u0275property("options", ctx.countries)("ngModel", ctx.selectedCountry)("filter", true)("disabled", ctx.disabled || ctx.lockCountry);
+      \u0275\u0275advance(5);
+      \u0275\u0275property("ngModel", ctx.nationalNumber)("disabled", ctx.disabled);
+    }
+  }, dependencies: [CommonModule, FormsModule, DefaultValueAccessor, NgControlStatus, NgModel, SelectModule, Select, InputTextModule, InputText], styles: ["\n\n.phone-input[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.4rem;\n  width: 100%;\n}\n.phone-input-label[_ngcontent-%COMP%] {\n  font-size: 0.875rem;\n  color: var(--p-text-muted-color);\n}\n.phone-input-row[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  align-items: stretch;\n}\n.phone-input-country[_ngcontent-%COMP%] {\n  flex: 0 0 auto;\n  min-width: 7rem;\n}\n.phone-input-number[_ngcontent-%COMP%] {\n  flex: 1 1 auto;\n  width: 100%;\n}\n.phone-input-flag[_ngcontent-%COMP%] {\n  display: inline-block;\n  width: 1.333em;\n  height: 1em;\n  margin-inline-end: 0.5rem;\n  border-radius: 2px;\n  background-size: contain;\n  background-position: 50%;\n  background-repeat: no-repeat;\n  vertical-align: middle;\n}\n.phone-input-country-name[_ngcontent-%COMP%] {\n  margin-inline-end: 0.5rem;\n}\n.phone-input-dialcode[_ngcontent-%COMP%] {\n  color: var(--p-text-muted-color);\n}\n/*# sourceMappingURL=phone-input.component.css.map */"] });
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(FloatLabelModule, [{
-    type: NgModule,
-    args: [{
-      imports: [FloatLabel, SharedModule],
-      exports: [FloatLabel, SharedModule]
-    }]
-  }], null, null);
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PhoneInputComponent, [{
+    type: Component,
+    args: [{ selector: "app-phone-input", standalone: true, imports: [CommonModule, FormsModule, SelectModule, InputTextModule], providers: [
+      {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => PhoneInputComponent),
+        multi: true
+      },
+      {
+        provide: NG_VALIDATORS,
+        useExisting: forwardRef(() => PhoneInputComponent),
+        multi: true
+      }
+    ], template: `<div class="phone-input">
+  @if (label) {
+    <label class="phone-input-label">{{ label }}</label>
+  }
+  <div class="phone-input-row" dir="ltr">
+    <p-select
+      class="phone-input-country"
+      [options]="countries"
+      optionLabel="name"
+      optionValue="iso2"
+      [ngModel]="selectedCountry"
+      (ngModelChange)="onCountryChange($event)"
+      [filter]="true"
+      [disabled]="disabled || lockCountry"
+      appendTo="body"
+    >
+      <ng-template #selectedItem let-option>
+        <span class="phone-input-flag" [style.background-image]="'url(assets/flags/' + option.iso2.toLowerCase() + '.svg)'"></span>
+        <span class="phone-input-dialcode">{{ option.dialCode }}</span>
+      </ng-template>
+      <ng-template #item let-option>
+        <span class="phone-input-flag" [style.background-image]="'url(assets/flags/' + option.iso2.toLowerCase() + '.svg)'"></span>
+        <span class="phone-input-country-name">{{ option.name }}</span>
+        <span class="phone-input-dialcode">{{ option.dialCode }}</span>
+      </ng-template>
+    </p-select>
+    <input
+      pInputText
+      type="tel"
+      class="phone-input-number"
+      [ngModel]="nationalNumber"
+      (ngModelChange)="onNumberInput($event)"
+      (blur)="onBlur()"
+      [disabled]="disabled"
+    />
+  </div>
+</div>
+`, styles: ["/* src/app/shared/components/phone-input/phone-input.component.scss */\n.phone-input {\n  display: flex;\n  flex-direction: column;\n  gap: 0.4rem;\n  width: 100%;\n}\n.phone-input-label {\n  font-size: 0.875rem;\n  color: var(--p-text-muted-color);\n}\n.phone-input-row {\n  display: flex;\n  gap: 0.5rem;\n  align-items: stretch;\n}\n.phone-input-country {\n  flex: 0 0 auto;\n  min-width: 7rem;\n}\n.phone-input-number {\n  flex: 1 1 auto;\n  width: 100%;\n}\n.phone-input-flag {\n  display: inline-block;\n  width: 1.333em;\n  height: 1em;\n  margin-inline-end: 0.5rem;\n  border-radius: 2px;\n  background-size: contain;\n  background-position: 50%;\n  background-repeat: no-repeat;\n  vertical-align: middle;\n}\n.phone-input-country-name {\n  margin-inline-end: 0.5rem;\n}\n.phone-input-dialcode {\n  color: var(--p-text-muted-color);\n}\n/*# sourceMappingURL=phone-input.component.css.map */\n"] }]
+  }], null, { defaultCountry: [{
+    type: Input
+  }], label: [{
+    type: Input
+  }], lockCountry: [{
+    type: Input
+  }] });
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(PhoneInputComponent, { className: "PhoneInputComponent", filePath: "src/app/shared/components/phone-input/phone-input.component.ts", lineNumber: 51 });
 })();
 
 // src/app/features/auth/login/login.component.ts
+var _c094 = ["phoneField"];
+function LoginComponent_Conditional_15_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "small", 8);
+    \u0275\u0275text(1);
+    \u0275\u0275pipe(2, "translate");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(2, 1, "auth.validation.invalidPhone"));
+  }
+}
 var LoginComponent = class _LoginComponent {
   emailOrPhone = "";
   loading = false;
   returnUrl = "/";
+  phoneField;
   authService = inject(AuthService);
   router = inject(Router);
   route = inject(ActivatedRoute);
@@ -119235,6 +125283,14 @@ var LoginComponent = class _LoginComponent {
       });
       return;
     }
+    if (this.phoneField?.invalid) {
+      this.messageService.add({
+        severity: "warn",
+        summary: "Warning",
+        detail: this.languageService.translate("auth.validation.invalidPhone")
+      });
+      return;
+    }
     this.loading = true;
     this.authService.sendOtp(this.emailOrPhone).subscribe({
       next: (response) => {
@@ -119245,6 +125301,7 @@ var LoginComponent = class _LoginComponent {
           detail: "OTP Sent Successfully"
         });
         this.router.navigate(["/otp"], {
+          replaceUrl: true,
           queryParams: {
             userId: response.userId,
             identifier: this.emailOrPhone,
@@ -119265,65 +125322,72 @@ var LoginComponent = class _LoginComponent {
   static \u0275fac = function LoginComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _LoginComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LoginComponent, selectors: [["app-login"]], features: [\u0275\u0275ProvidersFeature([MessageService])], decls: 19, vars: 14, consts: [[1, "login-container"], [1, "login-card"], [1, "login-header"], [1, "login-title"], [1, "login-subtitle"], [1, "login-form"], ["pInputText", "", "id", "email", 1, "login-input", 3, "ngModelChange", "ngModel"], ["for", "email"], ["icon", "pi pi-arrow-right", "iconPos", "right", 1, "login-submit-btn", 3, "click", "label", "loading"]], template: function LoginComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LoginComponent, selectors: [["app-login"]], viewQuery: function LoginComponent_Query(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "div", 0);
+      \u0275\u0275viewQuery(_c094, 5);
+    }
+    if (rf & 2) {
+      let _t;
+      \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.phoneField = _t.first);
+    }
+  }, features: [\u0275\u0275ProvidersFeature([MessageService])], decls: 18, vars: 16, consts: [["phoneField", "ngModel"], [1, "login-container"], [1, "login-card"], [1, "login-header"], [1, "login-title"], [1, "login-subtitle"], [1, "login-form"], ["name", "phone", "defaultCountry", "SA", 3, "ngModelChange", "ngModel", "label", "lockCountry"], [1, "p-error"], ["icon", "pi pi-arrow-right", "iconPos", "right", 1, "login-submit-btn", 3, "click", "label", "loading"]], template: function LoginComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      const _r1 = \u0275\u0275getCurrentView();
+      \u0275\u0275elementStart(0, "div", 1);
       \u0275\u0275element(1, "p-toast");
-      \u0275\u0275elementStart(2, "p-card")(3, "div", 1)(4, "div", 2)(5, "div", 3);
+      \u0275\u0275elementStart(2, "p-card")(3, "div", 2)(4, "div", 3)(5, "div", 4);
       \u0275\u0275text(6);
       \u0275\u0275pipe(7, "translate");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(8, "div", 4);
+      \u0275\u0275elementStart(8, "div", 5);
       \u0275\u0275text(9);
       \u0275\u0275pipe(10, "translate");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(11, "div", 5)(12, "p-floatlabel")(13, "input", 6);
-      \u0275\u0275twoWayListener("ngModelChange", function LoginComponent_Template_input_ngModelChange_13_listener($event) {
+      \u0275\u0275elementStart(11, "div", 6)(12, "app-phone-input", 7, 0);
+      \u0275\u0275pipe(14, "translate");
+      \u0275\u0275twoWayListener("ngModelChange", function LoginComponent_Template_app_phone_input_ngModelChange_12_listener($event) {
+        \u0275\u0275restoreView(_r1);
         \u0275\u0275twoWayBindingSet(ctx.emailOrPhone, $event) || (ctx.emailOrPhone = $event);
-        return $event;
+        return \u0275\u0275resetView($event);
       });
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(14, "label", 7);
-      \u0275\u0275text(15);
-      \u0275\u0275pipe(16, "translate");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(17, "p-button", 8);
-      \u0275\u0275pipe(18, "translate");
-      \u0275\u0275listener("click", function LoginComponent_Template_p_button_click_17_listener() {
-        return ctx.onSendOtp();
+      \u0275\u0275conditionalCreate(15, LoginComponent_Conditional_15_Template, 3, 3, "small", 8);
+      \u0275\u0275elementStart(16, "p-button", 9);
+      \u0275\u0275pipe(17, "translate");
+      \u0275\u0275listener("click", function LoginComponent_Template_p_button_click_16_listener() {
+        \u0275\u0275restoreView(_r1);
+        return \u0275\u0275resetView(ctx.onSendOtp());
       });
       \u0275\u0275elementEnd()()()()();
     }
     if (rf & 2) {
+      const phoneField_r2 = \u0275\u0275reference(13);
       \u0275\u0275advance(6);
-      \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(7, 6, "auth.login.title"));
+      \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(7, 8, "auth.login.title"));
       \u0275\u0275advance(3);
-      \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(10, 8, "auth.login.subtitle"));
-      \u0275\u0275advance(4);
+      \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(10, 10, "auth.login.subtitle"));
+      \u0275\u0275advance(3);
       \u0275\u0275twoWayProperty("ngModel", ctx.emailOrPhone);
-      \u0275\u0275advance(2);
-      \u0275\u0275textInterpolate(\u0275\u0275pipeBind1(16, 10, "auth.login.label"));
-      \u0275\u0275advance(2);
-      \u0275\u0275property("label", \u0275\u0275pipeBind1(18, 12, "auth.login.button"))("loading", ctx.loading);
+      \u0275\u0275property("label", \u0275\u0275pipeBind1(14, 12, "auth.login.label"))("lockCountry", true);
+      \u0275\u0275advance(3);
+      \u0275\u0275conditional(phoneField_r2.invalid && phoneField_r2.touched ? 15 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275property("label", \u0275\u0275pipeBind1(17, 14, "auth.login.button"))("loading", ctx.loading);
     }
   }, dependencies: [
     CommonModule,
     FormsModule,
-    DefaultValueAccessor,
     NgControlStatus,
     NgModel,
-    InputTextModule,
-    InputText,
     ButtonModule,
     Button,
     CardModule,
     Card,
     ToastModule,
     Toast,
-    FloatLabelModule,
-    FloatLabel,
+    PhoneInputComponent,
     TranslatePipe
-  ], styles: ["\n\n.login-container[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-height: 100vh;\n  padding: 1rem;\n  background:\n    linear-gradient(\n      135deg,\n      #e8f0ff 0%,\n      #e4e0ff 40%,\n      #d9f7f5 100%);\n}\n.login-card[_ngcontent-%COMP%] {\n  padding: 2.5rem;\n  width: 100%;\n  max-width: 450px;\n}\n.login-header[_ngcontent-%COMP%] {\n  text-align: center;\n  margin-bottom: 2rem;\n}\n.login-header[_ngcontent-%COMP%]   .login-title[_ngcontent-%COMP%] {\n  font-size: 1.75rem;\n  font-weight: 700;\n  margin-bottom: 0.5rem;\n}\n.login-header[_ngcontent-%COMP%]   .login-subtitle[_ngcontent-%COMP%] {\n  font-size: 1rem;\n  line-height: 1.5;\n}\n.login-form[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n}\n.login-form[_ngcontent-%COMP%]   .login-input[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.login-form[_ngcontent-%COMP%]   .login-submit-btn[_ngcontent-%COMP%]     .p-button {\n  width: 100% !important;\n  font-size: 1.1rem;\n}\n/*# sourceMappingURL=login.component.css.map */"] });
+  ], styles: ["\n\n.login-container[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-height: 100vh;\n  padding: 1rem;\n  background:\n    linear-gradient(\n      135deg,\n      #e8f0ff 0%,\n      #e4e0ff 40%,\n      #d9f7f5 100%);\n}\n.login-card[_ngcontent-%COMP%] {\n  padding: 2.5rem;\n  width: 100%;\n  max-width: 450px;\n}\n.login-header[_ngcontent-%COMP%] {\n  text-align: center;\n  margin-bottom: 2rem;\n}\n.login-header[_ngcontent-%COMP%]   .login-title[_ngcontent-%COMP%] {\n  font-size: 1.75rem;\n  font-weight: 700;\n  margin-bottom: 0.5rem;\n}\n.login-header[_ngcontent-%COMP%]   .login-subtitle[_ngcontent-%COMP%] {\n  font-size: 1rem;\n  line-height: 1.5;\n}\n.login-form[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n}\n.login-form[_ngcontent-%COMP%]   .login-input[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.login-form[_ngcontent-%COMP%]   .p-error[_ngcontent-%COMP%] {\n  color: var(--p-red-600);\n  font-size: 0.875rem;\n  margin-top: -0.5rem;\n}\n.login-form[_ngcontent-%COMP%]   .login-submit-btn[_ngcontent-%COMP%]     .p-button {\n  width: 100% !important;\n  font-size: 1.1rem;\n}\n/*# sourceMappingURL=login.component.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LoginComponent, [{
@@ -119331,12 +125395,11 @@ var LoginComponent = class _LoginComponent {
     args: [{ selector: "app-login", standalone: true, imports: [
       CommonModule,
       FormsModule,
-      InputTextModule,
       ButtonModule,
       CardModule,
       ToastModule,
       TranslatePipe,
-      FloatLabelModule
+      PhoneInputComponent
     ], providers: [MessageService], template: `<div class="login-container">\r
   <p-toast></p-toast>\r
   <p-card>\r
@@ -119349,28 +125412,32 @@ var LoginComponent = class _LoginComponent {
       </div>\r
 \r
       <div class="login-form">\r
-        <p-floatlabel>\r
-          <input pInputText id="email" class="login-input" [(ngModel)]="emailOrPhone" />\r
-          <label for="email">{{ 'auth.login.label' | translate }}</label>\r
-        </p-floatlabel>\r
+        <app-phone-input name="phone" [(ngModel)]="emailOrPhone" #phoneField="ngModel"\r
+          [label]="'auth.login.label' | translate" defaultCountry="SA" [lockCountry]="true"></app-phone-input>\r
+        @if (phoneField.invalid && phoneField.touched) {\r
+          <small class="p-error">{{ 'auth.validation.invalidPhone' | translate }}</small>\r
+        }\r
         <p-button (click)="onSendOtp()" [label]="'auth.login.button' | translate" icon="pi pi-arrow-right"\r
           iconPos="right" [loading]="loading" class="login-submit-btn"></p-button>\r
       </div>\r
     </div>\r
   </p-card>\r
-</div>`, styles: ["/* src/app/features/auth/login/login.component.scss */\n.login-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-height: 100vh;\n  padding: 1rem;\n  background:\n    linear-gradient(\n      135deg,\n      #e8f0ff 0%,\n      #e4e0ff 40%,\n      #d9f7f5 100%);\n}\n.login-card {\n  padding: 2.5rem;\n  width: 100%;\n  max-width: 450px;\n}\n.login-header {\n  text-align: center;\n  margin-bottom: 2rem;\n}\n.login-header .login-title {\n  font-size: 1.75rem;\n  font-weight: 700;\n  margin-bottom: 0.5rem;\n}\n.login-header .login-subtitle {\n  font-size: 1rem;\n  line-height: 1.5;\n}\n.login-form {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n}\n.login-form .login-input {\n  width: 100%;\n}\n.login-form .login-submit-btn ::ng-deep .p-button {\n  width: 100% !important;\n  font-size: 1.1rem;\n}\n/*# sourceMappingURL=login.component.css.map */\n"] }]
-  }], () => [], null);
+</div>`, styles: ["/* src/app/features/auth/login/login.component.scss */\n.login-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-height: 100vh;\n  padding: 1rem;\n  background:\n    linear-gradient(\n      135deg,\n      #e8f0ff 0%,\n      #e4e0ff 40%,\n      #d9f7f5 100%);\n}\n.login-card {\n  padding: 2.5rem;\n  width: 100%;\n  max-width: 450px;\n}\n.login-header {\n  text-align: center;\n  margin-bottom: 2rem;\n}\n.login-header .login-title {\n  font-size: 1.75rem;\n  font-weight: 700;\n  margin-bottom: 0.5rem;\n}\n.login-header .login-subtitle {\n  font-size: 1rem;\n  line-height: 1.5;\n}\n.login-form {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n}\n.login-form .login-input {\n  width: 100%;\n}\n.login-form .p-error {\n  color: var(--p-red-600);\n  font-size: 0.875rem;\n  margin-top: -0.5rem;\n}\n.login-form .login-submit-btn ::ng-deep .p-button {\n  width: 100% !important;\n  font-size: 1.1rem;\n}\n/*# sourceMappingURL=login.component.css.map */\n"] }]
+  }], () => [], { phoneField: [{
+    type: ViewChild,
+    args: ["phoneField"]
+  }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LoginComponent, { className: "LoginComponent", filePath: "src/app/features/auth/login/login.component.ts", lineNumber: 31 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LoginComponent, { className: "LoginComponent", filePath: "src/app/features/auth/login/login.component.ts", lineNumber: 29 });
 })();
 
 // node_modules/@primeuix/styles/dist/inputotp/index.mjs
-var style36 = "\n    .p-inputotp {\n        display: flex;\n        align-items: center;\n        gap: dt('inputotp.gap');\n    }\n\n    .p-inputotp-input {\n        text-align: center;\n        width: dt('inputotp.input.width');\n    }\n\n    .p-inputotp-input.p-inputtext-sm {\n        text-align: center;\n        width: dt('inputotp.input.sm.width');\n    }\n\n    .p-inputotp-input.p-inputtext-lg {\n        text-align: center;\n        width: dt('inputotp.input.lg.width');\n    }\n";
+var style35 = "\n    .p-inputotp {\n        display: flex;\n        align-items: center;\n        gap: dt('inputotp.gap');\n    }\n\n    .p-inputotp-input {\n        text-align: center;\n        width: dt('inputotp.input.width');\n    }\n\n    .p-inputotp-input.p-inputtext-sm {\n        text-align: center;\n        width: dt('inputotp.input.sm.width');\n    }\n\n    .p-inputotp-input.p-inputtext-lg {\n        text-align: center;\n        width: dt('inputotp.input.lg.width');\n    }\n";
 
 // node_modules/primeng/fesm2022/primeng-inputotp.mjs
-var _c094 = ["input"];
-var _c170 = (a0, a1, a210) => ({
+var _c095 = ["input"];
+var _c171 = (a0, a1, a210) => ({
   $implicit: a0,
   events: a1,
   index: a210
@@ -119429,7 +125496,7 @@ function InputOtp_ng_container_0_ng_container_2_Template(rf, ctx) {
     const i_r2 = \u0275\u0275nextContext().$implicit;
     const ctx_r2 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r2.inputTemplate || ctx_r2._inputTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction3(2, _c170, ctx_r2.getToken(i_r2 - 1), ctx_r2.getTemplateEvents(i_r2 - 1), i_r2));
+    \u0275\u0275property("ngTemplateOutlet", ctx_r2.inputTemplate || ctx_r2._inputTemplate)("ngTemplateOutletContext", \u0275\u0275pureFunction3(2, _c171, ctx_r2.getToken(i_r2 - 1), ctx_r2.getTemplateEvents(i_r2 - 1), i_r2));
   }
 }
 function InputOtp_ng_container_0_Template(rf, ctx) {
@@ -119452,7 +125519,7 @@ var classes38 = {
 };
 var InputOtpStyle = class _InputOtpStyle extends BaseStyle {
   name = "inputotp";
-  theme = style36;
+  theme = style35;
   classes = classes38;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275InputOtpStyle_BaseFactory;
@@ -119754,7 +125821,7 @@ var InputOtp = class _InputOtp extends BaseEditableHolder {
     selectors: [["p-inputOtp"], ["p-inputotp"], ["p-input-otp"]],
     contentQueries: function InputOtp_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
-        \u0275\u0275contentQuery(dirIndex, _c094, 4);
+        \u0275\u0275contentQuery(dirIndex, _c095, 4);
         \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
       }
       if (rf & 2) {
@@ -119973,7 +126040,7 @@ var OtpComponent = class _OtpComponent {
       this.identifier = params["identifier"];
       this.returnUrl = params["returnUrl"] || "/";
       if (!this.userId) {
-        this.router.navigate(["/login"]);
+        this.router.navigate(["/login"], { replaceUrl: true });
       }
     });
     this.startTimer();
@@ -120017,7 +126084,7 @@ var OtpComponent = class _OtpComponent {
           detail: "Logged in successfully"
         });
         setTimeout(() => {
-          this.router.navigateByUrl(this.returnUrl);
+          this.router.navigateByUrl(this.returnUrl, { replaceUrl: true });
         }, 500);
       },
       error: (err) => {
@@ -120191,13 +126258,25 @@ var authGuard = (route, state2) => {
   return router.createUrlTree(["/login"], { queryParams: { returnUrl: state2.url } });
 };
 
+// src/app/core/guards/guest.guard.ts
+var guestGuard = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+  const languageService = inject(LanguageService);
+  if (!authService.isLoggedIn()) {
+    return true;
+  }
+  const lang = languageService.getCurrentLanguage();
+  return router.createUrlTree([`/${lang}`]);
+};
+
 // node_modules/@primeuix/styles/dist/editor/index.mjs
-var style37 = "\n    /*!\n* Quill Editor v1.3.3\n* https://quilljs.com/\n* Copyright (c) 2014, Jason Chen\n* Copyright (c) 2013, salesforce.com\n*/\n    .ql-container {\n        box-sizing: border-box;\n        font-family: Helvetica, Arial, sans-serif;\n        font-size: 13px;\n        height: 100%;\n        margin: 0;\n        position: relative;\n    }\n    .ql-container.ql-disabled .ql-tooltip {\n        visibility: hidden;\n    }\n    .ql-container.ql-disabled .ql-editor ul[data-checked] > li::before {\n        pointer-events: none;\n    }\n    .ql-clipboard {\n        inset-inline-start: -100000px;\n        height: 1px;\n        overflow-y: hidden;\n        position: absolute;\n        top: 50%;\n    }\n    .ql-clipboard p {\n        margin: 0;\n        padding: 0;\n    }\n    .ql-editor {\n        box-sizing: border-box;\n        line-height: 1.42;\n        height: 100%;\n        outline: none;\n        overflow-y: auto;\n        padding: 12px 15px;\n        tab-size: 4;\n        -moz-tab-size: 4;\n        text-align: left;\n        white-space: pre-wrap;\n        word-wrap: break-word;\n    }\n    .ql-editor > * {\n        cursor: text;\n    }\n    .ql-editor p,\n    .ql-editor ol,\n    .ql-editor ul,\n    .ql-editor pre,\n    .ql-editor blockquote,\n    .ql-editor h1,\n    .ql-editor h2,\n    .ql-editor h3,\n    .ql-editor h4,\n    .ql-editor h5,\n    .ql-editor h6 {\n        margin: 0;\n        padding: 0;\n        counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;\n    }\n    .ql-editor ol,\n    .ql-editor ul {\n        padding-inline-start: 1.5rem;\n    }\n    .ql-editor ol > li,\n    .ql-editor ul > li {\n        list-style-type: none;\n    }\n    .ql-editor ul > li::before {\n        content: '\\2022';\n    }\n    .ql-editor ul[data-checked='true'],\n    .ql-editor ul[data-checked='false'] {\n        pointer-events: none;\n    }\n    .ql-editor ul[data-checked='true'] > li *,\n    .ql-editor ul[data-checked='false'] > li * {\n        pointer-events: all;\n    }\n    .ql-editor ul[data-checked='true'] > li::before,\n    .ql-editor ul[data-checked='false'] > li::before {\n        color: #777;\n        cursor: pointer;\n        pointer-events: all;\n    }\n    .ql-editor ul[data-checked='true'] > li::before {\n        content: '\\2611';\n    }\n    .ql-editor ul[data-checked='false'] > li::before {\n        content: '\\2610';\n    }\n    .ql-editor li::before {\n        display: inline-block;\n        white-space: nowrap;\n        width: 1.2rem;\n    }\n    .ql-editor li:not(.ql-direction-rtl)::before {\n        margin-inline-start: -1.5rem;\n        margin-inline-end: 0.3rem;\n        text-align: right;\n    }\n    .ql-editor li.ql-direction-rtl::before {\n        margin-inline-start: 0.3rem;\n        margin-inline-end: -1.5rem;\n    }\n    .ql-editor ol li:not(.ql-direction-rtl),\n    .ql-editor ul li:not(.ql-direction-rtl) {\n        padding-inline-start: 1.5rem;\n    }\n    .ql-editor ol li.ql-direction-rtl,\n    .ql-editor ul li.ql-direction-rtl {\n        padding-inline-end: 1.5rem;\n    }\n    .ql-editor ol li {\n        counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;\n        counter-increment: list-0;\n    }\n    .ql-editor ol li:before {\n        content: counter(list-0, decimal) '. ';\n    }\n    .ql-editor ol li.ql-indent-1 {\n        counter-increment: list-1;\n    }\n    .ql-editor ol li.ql-indent-1:before {\n        content: counter(list-1, lower-alpha) '. ';\n    }\n    .ql-editor ol li.ql-indent-1 {\n        counter-reset: list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;\n    }\n    .ql-editor ol li.ql-indent-2 {\n        counter-increment: list-2;\n    }\n    .ql-editor ol li.ql-indent-2:before {\n        content: counter(list-2, lower-roman) '. ';\n    }\n    .ql-editor ol li.ql-indent-2 {\n        counter-reset: list-3 list-4 list-5 list-6 list-7 list-8 list-9;\n    }\n    .ql-editor ol li.ql-indent-3 {\n        counter-increment: list-3;\n    }\n    .ql-editor ol li.ql-indent-3:before {\n        content: counter(list-3, decimal) '. ';\n    }\n    .ql-editor ol li.ql-indent-3 {\n        counter-reset: list-4 list-5 list-6 list-7 list-8 list-9;\n    }\n    .ql-editor ol li.ql-indent-4 {\n        counter-increment: list-4;\n    }\n    .ql-editor ol li.ql-indent-4:before {\n        content: counter(list-4, lower-alpha) '. ';\n    }\n    .ql-editor ol li.ql-indent-4 {\n        counter-reset: list-5 list-6 list-7 list-8 list-9;\n    }\n    .ql-editor ol li.ql-indent-5 {\n        counter-increment: list-5;\n    }\n    .ql-editor ol li.ql-indent-5:before {\n        content: counter(list-5, lower-roman) '. ';\n    }\n    .ql-editor ol li.ql-indent-5 {\n        counter-reset: list-6 list-7 list-8 list-9;\n    }\n    .ql-editor ol li.ql-indent-6 {\n        counter-increment: list-6;\n    }\n    .ql-editor ol li.ql-indent-6:before {\n        content: counter(list-6, decimal) '. ';\n    }\n    .ql-editor ol li.ql-indent-6 {\n        counter-reset: list-7 list-8 list-9;\n    }\n    .ql-editor ol li.ql-indent-7 {\n        counter-increment: list-7;\n    }\n    .ql-editor ol li.ql-indent-7:before {\n        content: counter(list-7, lower-alpha) '. ';\n    }\n    .ql-editor ol li.ql-indent-7 {\n        counter-reset: list-8 list-9;\n    }\n    .ql-editor ol li.ql-indent-8 {\n        counter-increment: list-8;\n    }\n    .ql-editor ol li.ql-indent-8:before {\n        content: counter(list-8, lower-roman) '. ';\n    }\n    .ql-editor ol li.ql-indent-8 {\n        counter-reset: list-9;\n    }\n    .ql-editor ol li.ql-indent-9 {\n        counter-increment: list-9;\n    }\n    .ql-editor ol li.ql-indent-9:before {\n        content: counter(list-9, decimal) '. ';\n    }\n    .ql-editor .ql-video {\n        display: block;\n        max-width: 100%;\n    }\n    .ql-editor .ql-video.ql-align-center {\n        margin: 0 auto;\n    }\n    .ql-editor .ql-video.ql-align-right {\n        margin: 0 0 0 auto;\n    }\n    .ql-editor .ql-bg-black {\n        background: #000;\n    }\n    .ql-editor .ql-bg-red {\n        background: #e60000;\n    }\n    .ql-editor .ql-bg-orange {\n        background: #f90;\n    }\n    .ql-editor .ql-bg-yellow {\n        background: #ff0;\n    }\n    .ql-editor .ql-bg-green {\n        background: #008a00;\n    }\n    .ql-editor .ql-bg-blue {\n        background: #06c;\n    }\n    .ql-editor .ql-bg-purple {\n        background: #93f;\n    }\n    .ql-editor .ql-color-white {\n        color: #fff;\n    }\n    .ql-editor .ql-color-red {\n        color: #e60000;\n    }\n    .ql-editor .ql-color-orange {\n        color: #f90;\n    }\n    .ql-editor .ql-color-yellow {\n        color: #ff0;\n    }\n    .ql-editor .ql-color-green {\n        color: #008a00;\n    }\n    .ql-editor .ql-color-blue {\n        color: #06c;\n    }\n    .ql-editor .ql-color-purple {\n        color: #93f;\n    }\n    .ql-editor .ql-font-serif {\n        font-family:\n            Georgia,\n            Times New Roman,\n            serif;\n    }\n    .ql-editor .ql-font-monospace {\n        font-family:\n            Monaco,\n            Courier New,\n            monospace;\n    }\n    .ql-editor .ql-size-small {\n        font-size: 0.75rem;\n    }\n    .ql-editor .ql-size-large {\n        font-size: 1.5rem;\n    }\n    .ql-editor .ql-size-huge {\n        font-size: 2.5rem;\n    }\n    .ql-editor .ql-direction-rtl {\n        direction: rtl;\n        text-align: inherit;\n    }\n    .ql-editor .ql-align-center {\n        text-align: center;\n    }\n    .ql-editor .ql-align-justify {\n        text-align: justify;\n    }\n    .ql-editor .ql-align-right {\n        text-align: right;\n    }\n    .ql-editor.ql-blank::before {\n        color: dt('form.field.placeholder.color');\n        content: attr(data-placeholder);\n        font-style: italic;\n        inset-inline-start: 15px;\n        pointer-events: none;\n        position: absolute;\n        inset-inline-end: 15px;\n    }\n    .ql-snow.ql-toolbar:after,\n    .ql-snow .ql-toolbar:after {\n        clear: both;\n        content: '';\n        display: table;\n    }\n    .ql-snow.ql-toolbar button,\n    .ql-snow .ql-toolbar button {\n        background: none;\n        border: none;\n        cursor: pointer;\n        display: inline-block;\n        float: left;\n        height: 24px;\n        padding-block: 3px;\n        padding-inline: 5px;\n        width: 28px;\n    }\n    .ql-snow.ql-toolbar button svg,\n    .ql-snow .ql-toolbar button svg {\n        float: left;\n        height: 100%;\n    }\n    .ql-snow.ql-toolbar button:active:hover,\n    .ql-snow .ql-toolbar button:active:hover {\n        outline: none;\n    }\n    .ql-snow.ql-toolbar input.ql-image[type='file'],\n    .ql-snow .ql-toolbar input.ql-image[type='file'] {\n        display: none;\n    }\n    .ql-snow.ql-toolbar button:hover,\n    .ql-snow .ql-toolbar button:hover,\n    .ql-snow.ql-toolbar button:focus,\n    .ql-snow .ql-toolbar button:focus,\n    .ql-snow.ql-toolbar button.ql-active,\n    .ql-snow .ql-toolbar button.ql-active,\n    .ql-snow.ql-toolbar .ql-picker-label:hover,\n    .ql-snow .ql-toolbar .ql-picker-label:hover,\n    .ql-snow.ql-toolbar .ql-picker-label.ql-active,\n    .ql-snow .ql-toolbar .ql-picker-label.ql-active,\n    .ql-snow.ql-toolbar .ql-picker-item:hover,\n    .ql-snow .ql-toolbar .ql-picker-item:hover,\n    .ql-snow.ql-toolbar .ql-picker-item.ql-selected,\n    .ql-snow .ql-toolbar .ql-picker-item.ql-selected {\n        color: #06c;\n    }\n    .ql-snow.ql-toolbar button:hover .ql-fill,\n    .ql-snow .ql-toolbar button:hover .ql-fill,\n    .ql-snow.ql-toolbar button:focus .ql-fill,\n    .ql-snow .ql-toolbar button:focus .ql-fill,\n    .ql-snow.ql-toolbar button.ql-active .ql-fill,\n    .ql-snow .ql-toolbar button.ql-active .ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill,\n    .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill,\n    .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill,\n    .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill,\n    .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill,\n    .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill,\n    .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {\n        fill: #06c;\n    }\n    .ql-snow.ql-toolbar button:hover .ql-stroke,\n    .ql-snow .ql-toolbar button:hover .ql-stroke,\n    .ql-snow.ql-toolbar button:focus .ql-stroke,\n    .ql-snow .ql-toolbar button:focus .ql-stroke,\n    .ql-snow.ql-toolbar button.ql-active .ql-stroke,\n    .ql-snow .ql-toolbar button.ql-active .ql-stroke,\n    .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke,\n    .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke,\n    .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke,\n    .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke,\n    .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke,\n    .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke,\n    .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke,\n    .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke,\n    .ql-snow.ql-toolbar button:hover .ql-stroke-miter,\n    .ql-snow .ql-toolbar button:hover .ql-stroke-miter,\n    .ql-snow.ql-toolbar button:focus .ql-stroke-miter,\n    .ql-snow .ql-toolbar button:focus .ql-stroke-miter,\n    .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter,\n    .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter,\n    .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter,\n    .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter,\n    .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,\n    .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,\n    .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter,\n    .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,\n    .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,\n    .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {\n        stroke: #06c;\n    }\n    @media (pointer: coarse) {\n        .ql-snow.ql-toolbar button:hover:not(.ql-active),\n        .ql-snow .ql-toolbar button:hover:not(.ql-active) {\n            color: #444;\n        }\n        .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-fill,\n        .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-fill,\n        .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-stroke.ql-fill,\n        .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-stroke.ql-fill {\n            fill: #444;\n        }\n        .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-stroke,\n        .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-stroke,\n        .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-stroke-miter,\n        .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-stroke-miter {\n            stroke: #444;\n        }\n    }\n    .ql-snow {\n        box-sizing: border-box;\n    }\n    .ql-snow * {\n        box-sizing: border-box;\n    }\n    .ql-snow .ql-hidden {\n        display: none;\n    }\n    .ql-snow .ql-out-bottom,\n    .ql-snow .ql-out-top {\n        visibility: hidden;\n    }\n    .ql-snow .ql-tooltip {\n        position: absolute;\n        transform: translateY(10px);\n    }\n    .ql-snow .ql-tooltip a {\n        cursor: pointer;\n        text-decoration: none;\n    }\n    .ql-snow .ql-tooltip.ql-flip {\n        transform: translateY(-10px);\n    }\n    .ql-snow .ql-formats {\n        display: inline-block;\n        vertical-align: middle;\n    }\n    .ql-snow .ql-formats:after {\n        clear: both;\n        content: '';\n        display: table;\n    }\n    .ql-snow .ql-stroke {\n        fill: none;\n        stroke: #444;\n        stroke-linecap: round;\n        stroke-linejoin: round;\n        stroke-width: 2;\n    }\n    .ql-snow .ql-stroke-miter {\n        fill: none;\n        stroke: #444;\n        stroke-miterlimit: 10;\n        stroke-width: 2;\n    }\n    .ql-snow .ql-fill,\n    .ql-snow .ql-stroke.ql-fill {\n        fill: #444;\n    }\n    .ql-snow .ql-empty {\n        fill: none;\n    }\n    .ql-snow .ql-even {\n        fill-rule: evenodd;\n    }\n    .ql-snow .ql-thin,\n    .ql-snow .ql-stroke.ql-thin {\n        stroke-width: 1;\n    }\n    .ql-snow .ql-transparent {\n        opacity: 0.4;\n    }\n    .ql-snow .ql-direction svg:last-child {\n        display: none;\n    }\n    .ql-snow .ql-direction.ql-active svg:last-child {\n        display: inline;\n    }\n    .ql-snow .ql-direction.ql-active svg:first-child {\n        display: none;\n    }\n    .ql-snow .ql-editor h1 {\n        font-size: 2rem;\n    }\n    .ql-snow .ql-editor h2 {\n        font-size: 1.5rem;\n    }\n    .ql-snow .ql-editor h3 {\n        font-size: 1.17rem;\n    }\n    .ql-snow .ql-editor h4 {\n        font-size: 1rem;\n    }\n    .ql-snow .ql-editor h5 {\n        font-size: 0.83rem;\n    }\n    .ql-snow .ql-editor h6 {\n        font-size: 0.67rem;\n    }\n    .ql-snow .ql-editor a {\n        text-decoration: underline;\n    }\n    .ql-snow .ql-editor blockquote {\n        border-inline-start: 4px solid #ccc;\n        margin-block-end: 5px;\n        margin-block-start: 5px;\n        padding-inline-start: 16px;\n    }\n    .ql-snow .ql-editor code,\n    .ql-snow .ql-editor pre {\n        background: #f0f0f0;\n        border-radius: 3px;\n    }\n    .ql-snow .ql-editor pre {\n        white-space: pre-wrap;\n        margin-block-end: 5px;\n        margin-block-start: 5px;\n        padding: 5px 10px;\n    }\n    .ql-snow .ql-editor code {\n        font-size: 85%;\n        padding: 2px 4px;\n    }\n    .ql-snow .ql-editor pre.ql-syntax {\n        background: #23241f;\n        color: #f8f8f2;\n        overflow: visible;\n    }\n    .ql-snow .ql-editor img {\n        max-width: 100%;\n    }\n    .ql-snow .ql-picker {\n        color: #444;\n        display: inline-block;\n        float: left;\n        inset-inline-start: 0;\n        font-size: 14px;\n        font-weight: 500;\n        height: 24px;\n        position: relative;\n        vertical-align: middle;\n    }\n    .ql-snow .ql-picker-label {\n        cursor: pointer;\n        display: inline-block;\n        height: 100%;\n        padding-inline-start: 8px;\n        padding-inline-end: 2px;\n        position: relative;\n        width: 100%;\n    }\n    .ql-snow .ql-picker-label::before {\n        display: inline-block;\n        line-height: 22px;\n    }\n    .ql-snow .ql-picker-options {\n        background: #fff;\n        display: none;\n        min-width: 100%;\n        padding: 4px 8px;\n        position: absolute;\n        white-space: nowrap;\n    }\n    .ql-snow .ql-picker-options .ql-picker-item {\n        cursor: pointer;\n        display: block;\n        padding-block-end: 5px;\n        padding-block-start: 5px;\n    }\n    .ql-snow .ql-picker.ql-expanded .ql-picker-label {\n        color: #ccc;\n        z-index: 2;\n    }\n    .ql-snow .ql-picker.ql-expanded .ql-picker-label .ql-fill {\n        fill: #ccc;\n    }\n    .ql-snow .ql-picker.ql-expanded .ql-picker-label .ql-stroke {\n        stroke: #ccc;\n    }\n    .ql-snow .ql-picker.ql-expanded .ql-picker-options {\n        display: block;\n        margin-block-start: -1px;\n        top: 100%;\n        z-index: 1;\n    }\n    .ql-snow .ql-color-picker,\n    .ql-snow .ql-icon-picker {\n        width: 28px;\n    }\n    .ql-snow .ql-color-picker .ql-picker-label,\n    .ql-snow .ql-icon-picker .ql-picker-label {\n        padding: 2px 4px;\n    }\n    .ql-snow .ql-color-picker .ql-picker-label svg,\n    .ql-snow .ql-icon-picker .ql-picker-label svg {\n        inset-inline-end: 4px;\n    }\n    .ql-snow .ql-icon-picker .ql-picker-options {\n        padding: 4px 0;\n    }\n    .ql-snow .ql-icon-picker .ql-picker-item {\n        height: 24px;\n        width: 24px;\n        padding: 2px 4px;\n    }\n    .ql-snow .ql-color-picker .ql-picker-options {\n        padding: 3px 5px;\n        width: 152px;\n    }\n    .ql-snow .ql-color-picker .ql-picker-item {\n        border: 1px solid transparent;\n        float: left;\n        height: 16px;\n        margin: 2px;\n        padding: 0;\n        width: 16px;\n    }\n    .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {\n        position: absolute;\n        margin-block-start: -9px;\n        inset-inline-end: 0;\n        top: 50%;\n        width: 18px;\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label[data-label]:not([data-label=''])::before,\n    .ql-snow .ql-picker.ql-font .ql-picker-label[data-label]:not([data-label=''])::before,\n    .ql-snow .ql-picker.ql-size .ql-picker-label[data-label]:not([data-label=''])::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-label]:not([data-label=''])::before,\n    .ql-snow .ql-picker.ql-font .ql-picker-item[data-label]:not([data-label=''])::before,\n    .ql-snow .ql-picker.ql-size .ql-picker-item[data-label]:not([data-label=''])::before {\n        content: attr(data-label);\n    }\n    .ql-snow .ql-picker.ql-header {\n        width: 98px;\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item::before {\n        content: 'Normal';\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='1']::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='1']::before {\n        content: 'Heading 1';\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='2']::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='2']::before {\n        content: 'Heading 2';\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='3']::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='3']::before {\n        content: 'Heading 3';\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='4']::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='4']::before {\n        content: 'Heading 4';\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='5']::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='5']::before {\n        content: 'Heading 5';\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='6']::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='6']::before {\n        content: 'Heading 6';\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='1']::before {\n        font-size: 2rem;\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='2']::before {\n        font-size: 1.5rem;\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='3']::before {\n        font-size: 1.17rem;\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='4']::before {\n        font-size: 1rem;\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='5']::before {\n        font-size: 0.83rem;\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='6']::before {\n        font-size: 0.67rem;\n    }\n    .ql-snow .ql-picker.ql-font {\n        width: 108px;\n    }\n    .ql-snow .ql-picker.ql-font .ql-picker-label::before,\n    .ql-snow .ql-picker.ql-font .ql-picker-item::before {\n        content: 'Sans Serif';\n    }\n    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value='serif']::before,\n    .ql-snow .ql-picker.ql-font .ql-picker-item[data-value='serif']::before {\n        content: 'Serif';\n    }\n    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value='monospace']::before,\n    .ql-snow .ql-picker.ql-font .ql-picker-item[data-value='monospace']::before {\n        content: 'Monospace';\n    }\n    .ql-snow .ql-picker.ql-font .ql-picker-item[data-value='serif']::before {\n        font-family:\n            Georgia,\n            Times New Roman,\n            serif;\n    }\n    .ql-snow .ql-picker.ql-font .ql-picker-item[data-value='monospace']::before {\n        font-family:\n            Monaco,\n            Courier New,\n            monospace;\n    }\n    .ql-snow .ql-picker.ql-size {\n        width: 98px;\n    }\n    .ql-snow .ql-picker.ql-size .ql-picker-label::before,\n    .ql-snow .ql-picker.ql-size .ql-picker-item::before {\n        content: 'Normal';\n    }\n    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value='small']::before,\n    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='small']::before {\n        content: 'Small';\n    }\n    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value='large']::before,\n    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='large']::before {\n        content: 'Large';\n    }\n    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value='huge']::before,\n    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='huge']::before {\n        content: 'Huge';\n    }\n    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='small']::before {\n        font-size: 10px;\n    }\n    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='large']::before {\n        font-size: 18px;\n    }\n    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='huge']::before {\n        font-size: 32px;\n    }\n    .ql-snow .ql-color-picker.ql-background .ql-picker-item {\n        background: #fff;\n    }\n    .ql-snow .ql-color-picker.ql-color .ql-picker-item {\n        background: #000;\n    }\n    .ql-toolbar.ql-snow {\n        border: 1px solid #ccc;\n        box-sizing: border-box;\n        font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;\n        padding: 8px;\n    }\n    .ql-toolbar.ql-snow .ql-formats {\n        margin-inline-end: 15px;\n    }\n    .ql-toolbar.ql-snow .ql-picker-label {\n        border: 1px solid transparent;\n    }\n    .ql-toolbar.ql-snow .ql-picker-options {\n        border: 1px solid transparent;\n        box-shadow: rgba(0, 0, 0, 0.2) 0 2px 8px;\n    }\n    .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {\n        border-color: #ccc;\n    }\n    .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {\n        border-color: #ccc;\n    }\n    .ql-toolbar.ql-snow .ql-color-picker .ql-picker-item.ql-selected,\n    .ql-toolbar.ql-snow .ql-color-picker .ql-picker-item:hover {\n        border-color: #000;\n    }\n    .ql-toolbar.ql-snow + .ql-container.ql-snow {\n        border-block-start: 0;\n    }\n    .ql-snow .ql-tooltip {\n        background: #fff;\n        border: 1px solid #ccc;\n        box-shadow: 0 0 5px #ddd;\n        color: #444;\n        padding: 5px 12px;\n        white-space: nowrap;\n    }\n    .ql-snow .ql-tooltip::before {\n        content: 'Visit URL:';\n        line-height: 26px;\n        margin-inline-end: 8px;\n    }\n    .ql-snow .ql-tooltip input[type='text'] {\n        display: none;\n        border: 1px solid #ccc;\n        font-size: 13px;\n        height: 26px;\n        margin: 0;\n        padding: 3px 5px;\n        width: 170px;\n    }\n    .ql-snow .ql-tooltip a.ql-preview {\n        display: inline-block;\n        max-width: 200px;\n        overflow-x: hidden;\n        text-overflow: ellipsis;\n        vertical-align: top;\n    }\n    .ql-snow .ql-tooltip a.ql-action::after {\n        border-inline-end: 1px solid #ccc;\n        content: 'Edit';\n        margin-inline-start: 16px;\n        padding-inline-end: 8px;\n    }\n    .ql-snow .ql-tooltip a.ql-remove::before {\n        content: 'Remove';\n        margin-inline-start: 8px;\n    }\n    .ql-snow .ql-tooltip a {\n        line-height: 26px;\n    }\n    .ql-snow .ql-tooltip.ql-editing a.ql-preview,\n    .ql-snow .ql-tooltip.ql-editing a.ql-remove {\n        display: none;\n    }\n    .ql-snow .ql-tooltip.ql-editing input[type='text'] {\n        display: inline-block;\n    }\n    .ql-snow .ql-tooltip.ql-editing a.ql-action::after {\n        border-inline-end: 0;\n        content: 'Save';\n        padding-inline-end: 0;\n    }\n    .ql-snow .ql-tooltip[data-mode='link']::before {\n        content: 'Enter link:';\n    }\n    .ql-snow .ql-tooltip[data-mode='formula']::before {\n        content: 'Enter formula:';\n    }\n    .ql-snow .ql-tooltip[data-mode='video']::before {\n        content: 'Enter video:';\n    }\n    .ql-snow a {\n        color: #06c;\n    }\n    .ql-container.ql-snow {\n        border: 1px solid #ccc;\n    }\n\n    .p-editor {\n        display: block;\n    }\n\n    .p-editor .p-editor-toolbar {\n        background: dt('editor.toolbar.background');\n        border-start-end-radius: dt('editor.toolbar.border.radius');\n        border-start-start-radius: dt('editor.toolbar.border.radius');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow {\n        border: 1px solid dt('editor.toolbar.border.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-stroke {\n        stroke: dt('editor.toolbar.item.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-fill {\n        fill: dt('editor.toolbar.item.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker .ql-picker-label {\n        border: 0 none;\n        color: dt('editor.toolbar.item.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker .ql-picker-label:hover {\n        color: dt('editor.toolbar.item.hover.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker .ql-picker-label:hover .ql-stroke {\n        stroke: dt('editor.toolbar.item.hover.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker .ql-picker-label:hover .ql-fill {\n        fill: dt('editor.toolbar.item.hover.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {\n        color: dt('editor.toolbar.item.active.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label .ql-stroke {\n        stroke: dt('editor.toolbar.item.active.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label .ql-fill {\n        fill: dt('editor.toolbar.item.active.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {\n        background: dt('editor.overlay.background');\n        border: 1px solid dt('editor.overlay.border.color');\n        box-shadow: dt('editor.overlay.shadow');\n        border-radius: dt('editor.overlay.border.radius');\n        padding: dt('editor.overlay.padding');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options .ql-picker-item {\n        color: dt('editor.overlay.option.color');\n        border-radius: dt('editor.overlay.option.border.radius');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options .ql-picker-item:hover {\n        background: dt('editor.overlay.option.focus.background');\n        color: dt('editor.overlay.option.focus.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker.ql-expanded:not(.ql-color-picker, .ql-icon-picker) .ql-picker-item {\n        padding: dt('editor.overlay.option.padding');\n    }\n\n    .p-editor .p-editor-content {\n        border-end-end-radius: dt('editor.content.border.radius');\n        border-end-start-radius: dt('editor.content.border.radius');\n    }\n\n    .p-editor .p-editor-content.ql-snow {\n        border: 1px solid dt('editor.content.border.color');\n    }\n\n    .p-editor .p-editor-content .ql-editor {\n        background: dt('editor.content.background');\n        color: dt('editor.content.color');\n        border-end-end-radius: dt('editor.content.border.radius');\n        border-end-start-radius: dt('editor.content.border.radius');\n    }\n\n    .p-editor .ql-snow.ql-toolbar button:hover,\n    .p-editor .ql-snow.ql-toolbar button:focus {\n        color: dt('editor.toolbar.item.hover.color');\n    }\n\n    .p-editor .ql-snow.ql-toolbar button:hover .ql-stroke,\n    .p-editor .ql-snow.ql-toolbar button:focus .ql-stroke {\n        stroke: dt('editor.toolbar.item.hover.color');\n    }\n\n    .p-editor .ql-snow.ql-toolbar button:hover .ql-fill,\n    .p-editor .ql-snow.ql-toolbar button:focus .ql-fill {\n        fill: dt('editor.toolbar.item.hover.color');\n    }\n\n    .p-editor .ql-snow.ql-toolbar button.ql-active,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-label.ql-active,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-item.ql-selected {\n        color: dt('editor.toolbar.item.active.color');\n    }\n\n    .p-editor .ql-snow.ql-toolbar button.ql-active .ql-stroke,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke {\n        stroke: dt('editor.toolbar.item.active.color');\n    }\n\n    .p-editor .ql-snow.ql-toolbar button.ql-active .ql-fill,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill {\n        fill: dt('editor.toolbar.item.active.color');\n    }\n\n    .p-editor .ql-snow.ql-toolbar button.ql-active .ql-picker-label,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-picker-label,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-picker-label {\n        color: dt('editor.toolbar.item.active.color');\n    }\n";
+var style36 = "\n    /*!\n* Quill Editor v1.3.3\n* https://quilljs.com/\n* Copyright (c) 2014, Jason Chen\n* Copyright (c) 2013, salesforce.com\n*/\n    .ql-container {\n        box-sizing: border-box;\n        font-family: Helvetica, Arial, sans-serif;\n        font-size: 13px;\n        height: 100%;\n        margin: 0;\n        position: relative;\n    }\n    .ql-container.ql-disabled .ql-tooltip {\n        visibility: hidden;\n    }\n    .ql-container.ql-disabled .ql-editor ul[data-checked] > li::before {\n        pointer-events: none;\n    }\n    .ql-clipboard {\n        inset-inline-start: -100000px;\n        height: 1px;\n        overflow-y: hidden;\n        position: absolute;\n        top: 50%;\n    }\n    .ql-clipboard p {\n        margin: 0;\n        padding: 0;\n    }\n    .ql-editor {\n        box-sizing: border-box;\n        line-height: 1.42;\n        height: 100%;\n        outline: none;\n        overflow-y: auto;\n        padding: 12px 15px;\n        tab-size: 4;\n        -moz-tab-size: 4;\n        text-align: left;\n        white-space: pre-wrap;\n        word-wrap: break-word;\n    }\n    .ql-editor > * {\n        cursor: text;\n    }\n    .ql-editor p,\n    .ql-editor ol,\n    .ql-editor ul,\n    .ql-editor pre,\n    .ql-editor blockquote,\n    .ql-editor h1,\n    .ql-editor h2,\n    .ql-editor h3,\n    .ql-editor h4,\n    .ql-editor h5,\n    .ql-editor h6 {\n        margin: 0;\n        padding: 0;\n        counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;\n    }\n    .ql-editor ol,\n    .ql-editor ul {\n        padding-inline-start: 1.5rem;\n    }\n    .ql-editor ol > li,\n    .ql-editor ul > li {\n        list-style-type: none;\n    }\n    .ql-editor ul > li::before {\n        content: '\\2022';\n    }\n    .ql-editor ul[data-checked='true'],\n    .ql-editor ul[data-checked='false'] {\n        pointer-events: none;\n    }\n    .ql-editor ul[data-checked='true'] > li *,\n    .ql-editor ul[data-checked='false'] > li * {\n        pointer-events: all;\n    }\n    .ql-editor ul[data-checked='true'] > li::before,\n    .ql-editor ul[data-checked='false'] > li::before {\n        color: #777;\n        cursor: pointer;\n        pointer-events: all;\n    }\n    .ql-editor ul[data-checked='true'] > li::before {\n        content: '\\2611';\n    }\n    .ql-editor ul[data-checked='false'] > li::before {\n        content: '\\2610';\n    }\n    .ql-editor li::before {\n        display: inline-block;\n        white-space: nowrap;\n        width: 1.2rem;\n    }\n    .ql-editor li:not(.ql-direction-rtl)::before {\n        margin-inline-start: -1.5rem;\n        margin-inline-end: 0.3rem;\n        text-align: right;\n    }\n    .ql-editor li.ql-direction-rtl::before {\n        margin-inline-start: 0.3rem;\n        margin-inline-end: -1.5rem;\n    }\n    .ql-editor ol li:not(.ql-direction-rtl),\n    .ql-editor ul li:not(.ql-direction-rtl) {\n        padding-inline-start: 1.5rem;\n    }\n    .ql-editor ol li.ql-direction-rtl,\n    .ql-editor ul li.ql-direction-rtl {\n        padding-inline-end: 1.5rem;\n    }\n    .ql-editor ol li {\n        counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;\n        counter-increment: list-0;\n    }\n    .ql-editor ol li:before {\n        content: counter(list-0, decimal) '. ';\n    }\n    .ql-editor ol li.ql-indent-1 {\n        counter-increment: list-1;\n    }\n    .ql-editor ol li.ql-indent-1:before {\n        content: counter(list-1, lower-alpha) '. ';\n    }\n    .ql-editor ol li.ql-indent-1 {\n        counter-reset: list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;\n    }\n    .ql-editor ol li.ql-indent-2 {\n        counter-increment: list-2;\n    }\n    .ql-editor ol li.ql-indent-2:before {\n        content: counter(list-2, lower-roman) '. ';\n    }\n    .ql-editor ol li.ql-indent-2 {\n        counter-reset: list-3 list-4 list-5 list-6 list-7 list-8 list-9;\n    }\n    .ql-editor ol li.ql-indent-3 {\n        counter-increment: list-3;\n    }\n    .ql-editor ol li.ql-indent-3:before {\n        content: counter(list-3, decimal) '. ';\n    }\n    .ql-editor ol li.ql-indent-3 {\n        counter-reset: list-4 list-5 list-6 list-7 list-8 list-9;\n    }\n    .ql-editor ol li.ql-indent-4 {\n        counter-increment: list-4;\n    }\n    .ql-editor ol li.ql-indent-4:before {\n        content: counter(list-4, lower-alpha) '. ';\n    }\n    .ql-editor ol li.ql-indent-4 {\n        counter-reset: list-5 list-6 list-7 list-8 list-9;\n    }\n    .ql-editor ol li.ql-indent-5 {\n        counter-increment: list-5;\n    }\n    .ql-editor ol li.ql-indent-5:before {\n        content: counter(list-5, lower-roman) '. ';\n    }\n    .ql-editor ol li.ql-indent-5 {\n        counter-reset: list-6 list-7 list-8 list-9;\n    }\n    .ql-editor ol li.ql-indent-6 {\n        counter-increment: list-6;\n    }\n    .ql-editor ol li.ql-indent-6:before {\n        content: counter(list-6, decimal) '. ';\n    }\n    .ql-editor ol li.ql-indent-6 {\n        counter-reset: list-7 list-8 list-9;\n    }\n    .ql-editor ol li.ql-indent-7 {\n        counter-increment: list-7;\n    }\n    .ql-editor ol li.ql-indent-7:before {\n        content: counter(list-7, lower-alpha) '. ';\n    }\n    .ql-editor ol li.ql-indent-7 {\n        counter-reset: list-8 list-9;\n    }\n    .ql-editor ol li.ql-indent-8 {\n        counter-increment: list-8;\n    }\n    .ql-editor ol li.ql-indent-8:before {\n        content: counter(list-8, lower-roman) '. ';\n    }\n    .ql-editor ol li.ql-indent-8 {\n        counter-reset: list-9;\n    }\n    .ql-editor ol li.ql-indent-9 {\n        counter-increment: list-9;\n    }\n    .ql-editor ol li.ql-indent-9:before {\n        content: counter(list-9, decimal) '. ';\n    }\n    .ql-editor .ql-video {\n        display: block;\n        max-width: 100%;\n    }\n    .ql-editor .ql-video.ql-align-center {\n        margin: 0 auto;\n    }\n    .ql-editor .ql-video.ql-align-right {\n        margin: 0 0 0 auto;\n    }\n    .ql-editor .ql-bg-black {\n        background: #000;\n    }\n    .ql-editor .ql-bg-red {\n        background: #e60000;\n    }\n    .ql-editor .ql-bg-orange {\n        background: #f90;\n    }\n    .ql-editor .ql-bg-yellow {\n        background: #ff0;\n    }\n    .ql-editor .ql-bg-green {\n        background: #008a00;\n    }\n    .ql-editor .ql-bg-blue {\n        background: #06c;\n    }\n    .ql-editor .ql-bg-purple {\n        background: #93f;\n    }\n    .ql-editor .ql-color-white {\n        color: #fff;\n    }\n    .ql-editor .ql-color-red {\n        color: #e60000;\n    }\n    .ql-editor .ql-color-orange {\n        color: #f90;\n    }\n    .ql-editor .ql-color-yellow {\n        color: #ff0;\n    }\n    .ql-editor .ql-color-green {\n        color: #008a00;\n    }\n    .ql-editor .ql-color-blue {\n        color: #06c;\n    }\n    .ql-editor .ql-color-purple {\n        color: #93f;\n    }\n    .ql-editor .ql-font-serif {\n        font-family:\n            Georgia,\n            Times New Roman,\n            serif;\n    }\n    .ql-editor .ql-font-monospace {\n        font-family:\n            Monaco,\n            Courier New,\n            monospace;\n    }\n    .ql-editor .ql-size-small {\n        font-size: 0.75rem;\n    }\n    .ql-editor .ql-size-large {\n        font-size: 1.5rem;\n    }\n    .ql-editor .ql-size-huge {\n        font-size: 2.5rem;\n    }\n    .ql-editor .ql-direction-rtl {\n        direction: rtl;\n        text-align: inherit;\n    }\n    .ql-editor .ql-align-center {\n        text-align: center;\n    }\n    .ql-editor .ql-align-justify {\n        text-align: justify;\n    }\n    .ql-editor .ql-align-right {\n        text-align: right;\n    }\n    .ql-editor.ql-blank::before {\n        color: dt('form.field.placeholder.color');\n        content: attr(data-placeholder);\n        font-style: italic;\n        inset-inline-start: 15px;\n        pointer-events: none;\n        position: absolute;\n        inset-inline-end: 15px;\n    }\n    .ql-snow.ql-toolbar:after,\n    .ql-snow .ql-toolbar:after {\n        clear: both;\n        content: '';\n        display: table;\n    }\n    .ql-snow.ql-toolbar button,\n    .ql-snow .ql-toolbar button {\n        background: none;\n        border: none;\n        cursor: pointer;\n        display: inline-block;\n        float: left;\n        height: 24px;\n        padding-block: 3px;\n        padding-inline: 5px;\n        width: 28px;\n    }\n    .ql-snow.ql-toolbar button svg,\n    .ql-snow .ql-toolbar button svg {\n        float: left;\n        height: 100%;\n    }\n    .ql-snow.ql-toolbar button:active:hover,\n    .ql-snow .ql-toolbar button:active:hover {\n        outline: none;\n    }\n    .ql-snow.ql-toolbar input.ql-image[type='file'],\n    .ql-snow .ql-toolbar input.ql-image[type='file'] {\n        display: none;\n    }\n    .ql-snow.ql-toolbar button:hover,\n    .ql-snow .ql-toolbar button:hover,\n    .ql-snow.ql-toolbar button:focus,\n    .ql-snow .ql-toolbar button:focus,\n    .ql-snow.ql-toolbar button.ql-active,\n    .ql-snow .ql-toolbar button.ql-active,\n    .ql-snow.ql-toolbar .ql-picker-label:hover,\n    .ql-snow .ql-toolbar .ql-picker-label:hover,\n    .ql-snow.ql-toolbar .ql-picker-label.ql-active,\n    .ql-snow .ql-toolbar .ql-picker-label.ql-active,\n    .ql-snow.ql-toolbar .ql-picker-item:hover,\n    .ql-snow .ql-toolbar .ql-picker-item:hover,\n    .ql-snow.ql-toolbar .ql-picker-item.ql-selected,\n    .ql-snow .ql-toolbar .ql-picker-item.ql-selected {\n        color: #06c;\n    }\n    .ql-snow.ql-toolbar button:hover .ql-fill,\n    .ql-snow .ql-toolbar button:hover .ql-fill,\n    .ql-snow.ql-toolbar button:focus .ql-fill,\n    .ql-snow .ql-toolbar button:focus .ql-fill,\n    .ql-snow.ql-toolbar button.ql-active .ql-fill,\n    .ql-snow .ql-toolbar button.ql-active .ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill,\n    .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill,\n    .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill,\n    .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill,\n    .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill,\n    .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill,\n    .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,\n    .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill,\n    .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {\n        fill: #06c;\n    }\n    .ql-snow.ql-toolbar button:hover .ql-stroke,\n    .ql-snow .ql-toolbar button:hover .ql-stroke,\n    .ql-snow.ql-toolbar button:focus .ql-stroke,\n    .ql-snow .ql-toolbar button:focus .ql-stroke,\n    .ql-snow.ql-toolbar button.ql-active .ql-stroke,\n    .ql-snow .ql-toolbar button.ql-active .ql-stroke,\n    .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke,\n    .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke,\n    .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke,\n    .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke,\n    .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke,\n    .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke,\n    .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke,\n    .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke,\n    .ql-snow.ql-toolbar button:hover .ql-stroke-miter,\n    .ql-snow .ql-toolbar button:hover .ql-stroke-miter,\n    .ql-snow.ql-toolbar button:focus .ql-stroke-miter,\n    .ql-snow .ql-toolbar button:focus .ql-stroke-miter,\n    .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter,\n    .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter,\n    .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter,\n    .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter,\n    .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,\n    .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,\n    .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter,\n    .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,\n    .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,\n    .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {\n        stroke: #06c;\n    }\n    @media (pointer: coarse) {\n        .ql-snow.ql-toolbar button:hover:not(.ql-active),\n        .ql-snow .ql-toolbar button:hover:not(.ql-active) {\n            color: #444;\n        }\n        .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-fill,\n        .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-fill,\n        .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-stroke.ql-fill,\n        .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-stroke.ql-fill {\n            fill: #444;\n        }\n        .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-stroke,\n        .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-stroke,\n        .ql-snow.ql-toolbar button:hover:not(.ql-active) .ql-stroke-miter,\n        .ql-snow .ql-toolbar button:hover:not(.ql-active) .ql-stroke-miter {\n            stroke: #444;\n        }\n    }\n    .ql-snow {\n        box-sizing: border-box;\n    }\n    .ql-snow * {\n        box-sizing: border-box;\n    }\n    .ql-snow .ql-hidden {\n        display: none;\n    }\n    .ql-snow .ql-out-bottom,\n    .ql-snow .ql-out-top {\n        visibility: hidden;\n    }\n    .ql-snow .ql-tooltip {\n        position: absolute;\n        transform: translateY(10px);\n    }\n    .ql-snow .ql-tooltip a {\n        cursor: pointer;\n        text-decoration: none;\n    }\n    .ql-snow .ql-tooltip.ql-flip {\n        transform: translateY(-10px);\n    }\n    .ql-snow .ql-formats {\n        display: inline-block;\n        vertical-align: middle;\n    }\n    .ql-snow .ql-formats:after {\n        clear: both;\n        content: '';\n        display: table;\n    }\n    .ql-snow .ql-stroke {\n        fill: none;\n        stroke: #444;\n        stroke-linecap: round;\n        stroke-linejoin: round;\n        stroke-width: 2;\n    }\n    .ql-snow .ql-stroke-miter {\n        fill: none;\n        stroke: #444;\n        stroke-miterlimit: 10;\n        stroke-width: 2;\n    }\n    .ql-snow .ql-fill,\n    .ql-snow .ql-stroke.ql-fill {\n        fill: #444;\n    }\n    .ql-snow .ql-empty {\n        fill: none;\n    }\n    .ql-snow .ql-even {\n        fill-rule: evenodd;\n    }\n    .ql-snow .ql-thin,\n    .ql-snow .ql-stroke.ql-thin {\n        stroke-width: 1;\n    }\n    .ql-snow .ql-transparent {\n        opacity: 0.4;\n    }\n    .ql-snow .ql-direction svg:last-child {\n        display: none;\n    }\n    .ql-snow .ql-direction.ql-active svg:last-child {\n        display: inline;\n    }\n    .ql-snow .ql-direction.ql-active svg:first-child {\n        display: none;\n    }\n    .ql-snow .ql-editor h1 {\n        font-size: 2rem;\n    }\n    .ql-snow .ql-editor h2 {\n        font-size: 1.5rem;\n    }\n    .ql-snow .ql-editor h3 {\n        font-size: 1.17rem;\n    }\n    .ql-snow .ql-editor h4 {\n        font-size: 1rem;\n    }\n    .ql-snow .ql-editor h5 {\n        font-size: 0.83rem;\n    }\n    .ql-snow .ql-editor h6 {\n        font-size: 0.67rem;\n    }\n    .ql-snow .ql-editor a {\n        text-decoration: underline;\n    }\n    .ql-snow .ql-editor blockquote {\n        border-inline-start: 4px solid #ccc;\n        margin-block-end: 5px;\n        margin-block-start: 5px;\n        padding-inline-start: 16px;\n    }\n    .ql-snow .ql-editor code,\n    .ql-snow .ql-editor pre {\n        background: #f0f0f0;\n        border-radius: 3px;\n    }\n    .ql-snow .ql-editor pre {\n        white-space: pre-wrap;\n        margin-block-end: 5px;\n        margin-block-start: 5px;\n        padding: 5px 10px;\n    }\n    .ql-snow .ql-editor code {\n        font-size: 85%;\n        padding: 2px 4px;\n    }\n    .ql-snow .ql-editor pre.ql-syntax {\n        background: #23241f;\n        color: #f8f8f2;\n        overflow: visible;\n    }\n    .ql-snow .ql-editor img {\n        max-width: 100%;\n    }\n    .ql-snow .ql-picker {\n        color: #444;\n        display: inline-block;\n        float: left;\n        inset-inline-start: 0;\n        font-size: 14px;\n        font-weight: 500;\n        height: 24px;\n        position: relative;\n        vertical-align: middle;\n    }\n    .ql-snow .ql-picker-label {\n        cursor: pointer;\n        display: inline-block;\n        height: 100%;\n        padding-inline-start: 8px;\n        padding-inline-end: 2px;\n        position: relative;\n        width: 100%;\n    }\n    .ql-snow .ql-picker-label::before {\n        display: inline-block;\n        line-height: 22px;\n    }\n    .ql-snow .ql-picker-options {\n        background: #fff;\n        display: none;\n        min-width: 100%;\n        padding: 4px 8px;\n        position: absolute;\n        white-space: nowrap;\n    }\n    .ql-snow .ql-picker-options .ql-picker-item {\n        cursor: pointer;\n        display: block;\n        padding-block-end: 5px;\n        padding-block-start: 5px;\n    }\n    .ql-snow .ql-picker.ql-expanded .ql-picker-label {\n        color: #ccc;\n        z-index: 2;\n    }\n    .ql-snow .ql-picker.ql-expanded .ql-picker-label .ql-fill {\n        fill: #ccc;\n    }\n    .ql-snow .ql-picker.ql-expanded .ql-picker-label .ql-stroke {\n        stroke: #ccc;\n    }\n    .ql-snow .ql-picker.ql-expanded .ql-picker-options {\n        display: block;\n        margin-block-start: -1px;\n        top: 100%;\n        z-index: 1;\n    }\n    .ql-snow .ql-color-picker,\n    .ql-snow .ql-icon-picker {\n        width: 28px;\n    }\n    .ql-snow .ql-color-picker .ql-picker-label,\n    .ql-snow .ql-icon-picker .ql-picker-label {\n        padding: 2px 4px;\n    }\n    .ql-snow .ql-color-picker .ql-picker-label svg,\n    .ql-snow .ql-icon-picker .ql-picker-label svg {\n        inset-inline-end: 4px;\n    }\n    .ql-snow .ql-icon-picker .ql-picker-options {\n        padding: 4px 0;\n    }\n    .ql-snow .ql-icon-picker .ql-picker-item {\n        height: 24px;\n        width: 24px;\n        padding: 2px 4px;\n    }\n    .ql-snow .ql-color-picker .ql-picker-options {\n        padding: 3px 5px;\n        width: 152px;\n    }\n    .ql-snow .ql-color-picker .ql-picker-item {\n        border: 1px solid transparent;\n        float: left;\n        height: 16px;\n        margin: 2px;\n        padding: 0;\n        width: 16px;\n    }\n    .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {\n        position: absolute;\n        margin-block-start: -9px;\n        inset-inline-end: 0;\n        top: 50%;\n        width: 18px;\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label[data-label]:not([data-label=''])::before,\n    .ql-snow .ql-picker.ql-font .ql-picker-label[data-label]:not([data-label=''])::before,\n    .ql-snow .ql-picker.ql-size .ql-picker-label[data-label]:not([data-label=''])::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-label]:not([data-label=''])::before,\n    .ql-snow .ql-picker.ql-font .ql-picker-item[data-label]:not([data-label=''])::before,\n    .ql-snow .ql-picker.ql-size .ql-picker-item[data-label]:not([data-label=''])::before {\n        content: attr(data-label);\n    }\n    .ql-snow .ql-picker.ql-header {\n        width: 98px;\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item::before {\n        content: 'Normal';\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='1']::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='1']::before {\n        content: 'Heading 1';\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='2']::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='2']::before {\n        content: 'Heading 2';\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='3']::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='3']::before {\n        content: 'Heading 3';\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='4']::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='4']::before {\n        content: 'Heading 4';\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='5']::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='5']::before {\n        content: 'Heading 5';\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='6']::before,\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='6']::before {\n        content: 'Heading 6';\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='1']::before {\n        font-size: 2rem;\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='2']::before {\n        font-size: 1.5rem;\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='3']::before {\n        font-size: 1.17rem;\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='4']::before {\n        font-size: 1rem;\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='5']::before {\n        font-size: 0.83rem;\n    }\n    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='6']::before {\n        font-size: 0.67rem;\n    }\n    .ql-snow .ql-picker.ql-font {\n        width: 108px;\n    }\n    .ql-snow .ql-picker.ql-font .ql-picker-label::before,\n    .ql-snow .ql-picker.ql-font .ql-picker-item::before {\n        content: 'Sans Serif';\n    }\n    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value='serif']::before,\n    .ql-snow .ql-picker.ql-font .ql-picker-item[data-value='serif']::before {\n        content: 'Serif';\n    }\n    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value='monospace']::before,\n    .ql-snow .ql-picker.ql-font .ql-picker-item[data-value='monospace']::before {\n        content: 'Monospace';\n    }\n    .ql-snow .ql-picker.ql-font .ql-picker-item[data-value='serif']::before {\n        font-family:\n            Georgia,\n            Times New Roman,\n            serif;\n    }\n    .ql-snow .ql-picker.ql-font .ql-picker-item[data-value='monospace']::before {\n        font-family:\n            Monaco,\n            Courier New,\n            monospace;\n    }\n    .ql-snow .ql-picker.ql-size {\n        width: 98px;\n    }\n    .ql-snow .ql-picker.ql-size .ql-picker-label::before,\n    .ql-snow .ql-picker.ql-size .ql-picker-item::before {\n        content: 'Normal';\n    }\n    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value='small']::before,\n    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='small']::before {\n        content: 'Small';\n    }\n    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value='large']::before,\n    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='large']::before {\n        content: 'Large';\n    }\n    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value='huge']::before,\n    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='huge']::before {\n        content: 'Huge';\n    }\n    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='small']::before {\n        font-size: 10px;\n    }\n    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='large']::before {\n        font-size: 18px;\n    }\n    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='huge']::before {\n        font-size: 32px;\n    }\n    .ql-snow .ql-color-picker.ql-background .ql-picker-item {\n        background: #fff;\n    }\n    .ql-snow .ql-color-picker.ql-color .ql-picker-item {\n        background: #000;\n    }\n    .ql-toolbar.ql-snow {\n        border: 1px solid #ccc;\n        box-sizing: border-box;\n        font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;\n        padding: 8px;\n    }\n    .ql-toolbar.ql-snow .ql-formats {\n        margin-inline-end: 15px;\n    }\n    .ql-toolbar.ql-snow .ql-picker-label {\n        border: 1px solid transparent;\n    }\n    .ql-toolbar.ql-snow .ql-picker-options {\n        border: 1px solid transparent;\n        box-shadow: rgba(0, 0, 0, 0.2) 0 2px 8px;\n    }\n    .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {\n        border-color: #ccc;\n    }\n    .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {\n        border-color: #ccc;\n    }\n    .ql-toolbar.ql-snow .ql-color-picker .ql-picker-item.ql-selected,\n    .ql-toolbar.ql-snow .ql-color-picker .ql-picker-item:hover {\n        border-color: #000;\n    }\n    .ql-toolbar.ql-snow + .ql-container.ql-snow {\n        border-block-start: 0;\n    }\n    .ql-snow .ql-tooltip {\n        background: #fff;\n        border: 1px solid #ccc;\n        box-shadow: 0 0 5px #ddd;\n        color: #444;\n        padding: 5px 12px;\n        white-space: nowrap;\n    }\n    .ql-snow .ql-tooltip::before {\n        content: 'Visit URL:';\n        line-height: 26px;\n        margin-inline-end: 8px;\n    }\n    .ql-snow .ql-tooltip input[type='text'] {\n        display: none;\n        border: 1px solid #ccc;\n        font-size: 13px;\n        height: 26px;\n        margin: 0;\n        padding: 3px 5px;\n        width: 170px;\n    }\n    .ql-snow .ql-tooltip a.ql-preview {\n        display: inline-block;\n        max-width: 200px;\n        overflow-x: hidden;\n        text-overflow: ellipsis;\n        vertical-align: top;\n    }\n    .ql-snow .ql-tooltip a.ql-action::after {\n        border-inline-end: 1px solid #ccc;\n        content: 'Edit';\n        margin-inline-start: 16px;\n        padding-inline-end: 8px;\n    }\n    .ql-snow .ql-tooltip a.ql-remove::before {\n        content: 'Remove';\n        margin-inline-start: 8px;\n    }\n    .ql-snow .ql-tooltip a {\n        line-height: 26px;\n    }\n    .ql-snow .ql-tooltip.ql-editing a.ql-preview,\n    .ql-snow .ql-tooltip.ql-editing a.ql-remove {\n        display: none;\n    }\n    .ql-snow .ql-tooltip.ql-editing input[type='text'] {\n        display: inline-block;\n    }\n    .ql-snow .ql-tooltip.ql-editing a.ql-action::after {\n        border-inline-end: 0;\n        content: 'Save';\n        padding-inline-end: 0;\n    }\n    .ql-snow .ql-tooltip[data-mode='link']::before {\n        content: 'Enter link:';\n    }\n    .ql-snow .ql-tooltip[data-mode='formula']::before {\n        content: 'Enter formula:';\n    }\n    .ql-snow .ql-tooltip[data-mode='video']::before {\n        content: 'Enter video:';\n    }\n    .ql-snow a {\n        color: #06c;\n    }\n    .ql-container.ql-snow {\n        border: 1px solid #ccc;\n    }\n\n    .p-editor {\n        display: block;\n    }\n\n    .p-editor .p-editor-toolbar {\n        background: dt('editor.toolbar.background');\n        border-start-end-radius: dt('editor.toolbar.border.radius');\n        border-start-start-radius: dt('editor.toolbar.border.radius');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow {\n        border: 1px solid dt('editor.toolbar.border.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-stroke {\n        stroke: dt('editor.toolbar.item.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-fill {\n        fill: dt('editor.toolbar.item.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker .ql-picker-label {\n        border: 0 none;\n        color: dt('editor.toolbar.item.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker .ql-picker-label:hover {\n        color: dt('editor.toolbar.item.hover.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker .ql-picker-label:hover .ql-stroke {\n        stroke: dt('editor.toolbar.item.hover.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker .ql-picker-label:hover .ql-fill {\n        fill: dt('editor.toolbar.item.hover.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {\n        color: dt('editor.toolbar.item.active.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label .ql-stroke {\n        stroke: dt('editor.toolbar.item.active.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label .ql-fill {\n        fill: dt('editor.toolbar.item.active.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {\n        background: dt('editor.overlay.background');\n        border: 1px solid dt('editor.overlay.border.color');\n        box-shadow: dt('editor.overlay.shadow');\n        border-radius: dt('editor.overlay.border.radius');\n        padding: dt('editor.overlay.padding');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options .ql-picker-item {\n        color: dt('editor.overlay.option.color');\n        border-radius: dt('editor.overlay.option.border.radius');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options .ql-picker-item:hover {\n        background: dt('editor.overlay.option.focus.background');\n        color: dt('editor.overlay.option.focus.color');\n    }\n\n    .p-editor .p-editor-toolbar.ql-snow .ql-picker.ql-expanded:not(.ql-color-picker, .ql-icon-picker) .ql-picker-item {\n        padding: dt('editor.overlay.option.padding');\n    }\n\n    .p-editor .p-editor-content {\n        border-end-end-radius: dt('editor.content.border.radius');\n        border-end-start-radius: dt('editor.content.border.radius');\n    }\n\n    .p-editor .p-editor-content.ql-snow {\n        border: 1px solid dt('editor.content.border.color');\n    }\n\n    .p-editor .p-editor-content .ql-editor {\n        background: dt('editor.content.background');\n        color: dt('editor.content.color');\n        border-end-end-radius: dt('editor.content.border.radius');\n        border-end-start-radius: dt('editor.content.border.radius');\n    }\n\n    .p-editor .ql-snow.ql-toolbar button:hover,\n    .p-editor .ql-snow.ql-toolbar button:focus {\n        color: dt('editor.toolbar.item.hover.color');\n    }\n\n    .p-editor .ql-snow.ql-toolbar button:hover .ql-stroke,\n    .p-editor .ql-snow.ql-toolbar button:focus .ql-stroke {\n        stroke: dt('editor.toolbar.item.hover.color');\n    }\n\n    .p-editor .ql-snow.ql-toolbar button:hover .ql-fill,\n    .p-editor .ql-snow.ql-toolbar button:focus .ql-fill {\n        fill: dt('editor.toolbar.item.hover.color');\n    }\n\n    .p-editor .ql-snow.ql-toolbar button.ql-active,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-label.ql-active,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-item.ql-selected {\n        color: dt('editor.toolbar.item.active.color');\n    }\n\n    .p-editor .ql-snow.ql-toolbar button.ql-active .ql-stroke,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke {\n        stroke: dt('editor.toolbar.item.active.color');\n    }\n\n    .p-editor .ql-snow.ql-toolbar button.ql-active .ql-fill,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill {\n        fill: dt('editor.toolbar.item.active.color');\n    }\n\n    .p-editor .ql-snow.ql-toolbar button.ql-active .ql-picker-label,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-picker-label,\n    .p-editor .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-picker-label {\n        color: dt('editor.toolbar.item.active.color');\n    }\n";
 
 // node_modules/primeng/fesm2022/primeng-editor.mjs
-var _c095 = ["header"];
-var _c171 = [[["p-header"]]];
-var _c249 = ["p-header"];
+var _c096 = ["header"];
+var _c174 = [[["p-header"]]];
+var _c250 = ["p-header"];
 function Editor_div_0_ng_container_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainer(0);
@@ -120279,7 +126358,7 @@ var classes39 = {
 };
 var EditorStyle = class _EditorStyle extends BaseStyle {
   name = "editor";
-  theme = style37;
+  theme = style36;
   classes = classes39;
   static \u0275fac = /* @__PURE__ */ (() => {
     let \u0275EditorStyle_BaseFactory;
@@ -120535,7 +126614,7 @@ var Editor = class _Editor extends BaseEditableHolder {
     contentQueries: function Editor_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
         \u0275\u0275contentQuery(dirIndex, Header, 5);
-        \u0275\u0275contentQuery(dirIndex, _c095, 4);
+        \u0275\u0275contentQuery(dirIndex, _c096, 4);
         \u0275\u0275contentQuery(dirIndex, PrimeTemplate, 4);
       }
       if (rf & 2) {
@@ -120568,13 +126647,13 @@ var Editor = class _Editor extends BaseEditableHolder {
       onSelectionChange: "onSelectionChange"
     },
     features: [\u0275\u0275ProvidersFeature([EDITOR_VALUE_ACCESSOR, EditorStyle]), \u0275\u0275InheritDefinitionFeature],
-    ngContentSelectors: _c249,
+    ngContentSelectors: _c250,
     decls: 3,
     vars: 5,
     consts: [[3, "class", 4, "ngIf"], [3, "ngStyle"], [4, "ngTemplateOutlet"], [1, "ql-formats"], [1, "ql-header"], ["value", "1"], ["value", "2"], ["selected", ""], [1, "ql-font"], ["value", "serif"], ["value", "monospace"], ["aria-label", "Bold", "type", "button", 1, "ql-bold"], ["aria-label", "Italic", "type", "button", 1, "ql-italic"], ["aria-label", "Underline", "type", "button", 1, "ql-underline"], [1, "ql-color"], [1, "ql-background"], ["value", "ordered", "aria-label", "Ordered List", "type", "button", 1, "ql-list"], ["value", "bullet", "aria-label", "Unordered List", "type", "button", 1, "ql-list"], [1, "ql-align"], ["value", "center"], ["value", "right"], ["value", "justify"], ["aria-label", "Insert Link", "type", "button", 1, "ql-link"], ["aria-label", "Insert Image", "type", "button", 1, "ql-image"], ["aria-label", "Insert Code Block", "type", "button", 1, "ql-code-block"], ["aria-label", "Remove Styles", "type", "button", 1, "ql-clean"]],
     template: function Editor_Template(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275projectionDef(_c171);
+        \u0275\u0275projectionDef(_c174);
         \u0275\u0275template(0, Editor_div_0_Template, 3, 3, "div", 0)(1, Editor_div_1_Template, 40, 2, "div", 0);
         \u0275\u0275element(2, "div", 1);
       }
@@ -120876,9 +126955,9 @@ var ContentService = class _ContentService {
 })();
 
 // src/app/features/content-preview/content-preview/content-preview.component.ts
-var _c096 = () => [10, 25, 50];
-var _c174 = () => ({ width: "50rem" });
-var _c250 = () => ({ height: "320px" });
+var _c097 = () => [10, 25, 50];
+var _c175 = () => ({ width: "50rem" });
+var _c251 = () => ({ height: "320px" });
 function ContentPreviewComponent_ng_template_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "tr")(1, "th", 25);
@@ -121712,9 +127791,9 @@ var ContentPreviewComponent = class _ContentPreviewComponent {
       \u0275\u0275advance(4);
       \u0275\u0275property("label", \u0275\u0275pipeBind1(5, 63, "contentPreview.button.create"))("disabled", ctx.loading);
       \u0275\u0275advance(2);
-      \u0275\u0275property("value", ctx.contents)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(83, _c096))("loading", ctx.loading)("showCurrentPageReport", true);
+      \u0275\u0275property("value", ctx.contents)("scrollable", true)("paginator", true)("rows", ctx.rows)("first", ctx.first)("totalRecords", ctx.totalRecords)("lazy", true)("currentPageReportTemplate", ctx.pageReportTemplate)("rowsPerPageOptions", \u0275\u0275pureFunction0(83, _c097))("loading", ctx.loading)("showCurrentPageReport", true);
       \u0275\u0275advance(6);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(84, _c174));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(84, _c175));
       \u0275\u0275property("header", ctx.dialogTitle)("modal", true);
       \u0275\u0275twoWayProperty("visible", ctx.createEditDialogVisible);
       \u0275\u0275property("closable", !ctx.loading)("draggable", false)("resizable", false);
@@ -121741,14 +127820,14 @@ var ContentPreviewComponent = class _ContentPreviewComponent {
       \u0275\u0275advance(3);
       \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(42, 73, "contentPreview.field.contentAr"), " ");
       \u0275\u0275advance(4);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(85, _c250));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(85, _c251));
       \u0275\u0275property("disabled", ctx.loading);
       \u0275\u0275advance();
       \u0275\u0275conditional(ctx.hasError("contentAr") || ((tmp_41_0 = ctx.contentForm.get("contentAr")) == null ? null : tmp_41_0.dirty) || ((tmp_41_0 = ctx.contentForm.get("contentAr")) == null ? null : tmp_41_0.touched) ? 46 : -1);
       \u0275\u0275advance(3);
       \u0275\u0275textInterpolate1("", \u0275\u0275pipeBind1(50, 75, "contentPreview.field.contentEn"), " ");
       \u0275\u0275advance(4);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(86, _c250));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(86, _c251));
       \u0275\u0275property("disabled", ctx.loading);
       \u0275\u0275advance();
       \u0275\u0275conditional(ctx.hasError("contentEn") || ((tmp_45_0 = ctx.contentForm.get("contentEn")) == null ? null : tmp_45_0.dirty) || ((tmp_45_0 = ctx.contentForm.get("contentEn")) == null ? null : tmp_45_0.touched) ? 54 : -1);
@@ -121757,7 +127836,7 @@ var ContentPreviewComponent = class _ContentPreviewComponent {
       \u0275\u0275advance(2);
       \u0275\u0275property("label", \u0275\u0275pipeBind1(59, 79, ctx.isEditMode ? "contentPreview.button.update" : "contentPreview.button.create"))("loading", ctx.loading)("disabled", ctx.isSaveDisabled());
       \u0275\u0275advance(2);
-      \u0275\u0275styleMap(\u0275\u0275pureFunction0(87, _c174));
+      \u0275\u0275styleMap(\u0275\u0275pureFunction0(87, _c175));
       \u0275\u0275property("header", \u0275\u0275pipeBind1(61, 81, "contentPreview.dialog.previewTitle"))("modal", true);
       \u0275\u0275twoWayProperty("visible", ctx.previewDialogVisible);
       \u0275\u0275property("closable", !ctx.loading)("draggable", false)("resizable", false);
@@ -122534,10 +128613,12 @@ var routes = [
   // Public Routes (Login, OTP) - No Main Layout, No Auth Guard
   {
     path: "login",
+    canActivate: [guestGuard],
     component: LoginComponent
   },
   {
     path: "otp",
+    canActivate: [guestGuard],
     component: OtpComponent
   },
   // Language-prefixed routes wrapping MainLayout and Protected Routes
@@ -122733,6 +128814,7 @@ moment/locale/ar.js:
 @angular/platform-browser/fesm2022/animations/async.mjs:
 @angular/forms/fesm2022/forms.mjs:
 @angular/animations/fesm2022/animations.mjs:
+@angular/core/fesm2022/rxjs-interop.mjs:
   (**
    * @license Angular v20.2.4
    * (c) 2010-2025 Google LLC. https://angular.io/

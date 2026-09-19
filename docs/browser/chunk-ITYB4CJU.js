@@ -24976,6 +24976,7 @@ export {
   provideBrowserGlobalErrorListeners,
   signal,
   ChangeDetectionScheduler,
+  assertNotInReactiveContext,
   PendingTasksInternal,
   PendingTasks,
   Inject,
@@ -25057,6 +25058,7 @@ export {
   MAX_ANIMATION_TIMEOUT,
   ɵɵconditionalCreate,
   ɵɵconditional,
+  ɵɵrepeaterTrackByIndex,
   ɵɵrepeaterTrackByIdentity,
   ɵɵrepeaterCreate,
   ɵɵrepeater,
@@ -25076,6 +25078,7 @@ export {
   getLocalePluralCase,
   LocaleDataIndex,
   ɵɵlistener,
+  ɵɵdomListener,
   ɵɵnextContext,
   ɵɵprojectionDef,
   ɵɵprojection,
@@ -25204,4 +25207,4 @@ export {
    * found in the LICENSE file at https://angular.dev/license
    *)
 */
-//# sourceMappingURL=chunk-TST4JLLM.js.map
+//# sourceMappingURL=chunk-ITYB4CJU.js.map

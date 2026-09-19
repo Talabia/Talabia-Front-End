@@ -3,7 +3,10 @@
     <app-header (toggleHideSidebar)="toggleHideSidebar()"></app-header>
     <!-- Sidebar + Main Content -->
     <div class="layout-body">
-        <app-side-bar [hidden]="hidden"></app-side-bar>
+        <app-side-bar [hidden]="hidden()"></app-side-bar>
+        @if (showBackdrop()) {
+            <div class="sidebar-backdrop" (click)="closeMobileSidebar()"></div>
+        }
         <main class="layout-content">
             <router-outlet />
         </main>

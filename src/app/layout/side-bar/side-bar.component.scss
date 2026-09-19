@@ -16,7 +16,6 @@
 
   }
 
-  z-index: 10000;
   transition: all 0.3s ease;
 
   &.hidden {
@@ -52,13 +51,23 @@
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .layout-sidebar {
     position: fixed;
-    top: 0px;
-    left: 0;
+    top: 0;
+    inset-inline-start: 0;
+    z-index: 950;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transform: translateX(0);
     transition: transform 0.3s ease;
+
+    &.hidden {
+      width: 280px !important;
+      transform: translateX(-100%);
+
+      &:dir(rtl) {
+        transform: translateX(100%);
+      }
+    }
   }
 }

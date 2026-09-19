@@ -46,10 +46,244 @@
   gap: 1rem;
 }
 
+.detail-row--top {
+  align-items: flex-start;
+
+  > .detail-label {
+    padding-top: 0.35rem;
+  }
+}
+
 .detail-label {
   font-weight: 600;
   color: var(--p-text-color);
   min-width: 140px;
+}
+
+// Vehicle compatibility
+.vehicle-compatibility-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.vehicle-compatibility-item {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  .vehicle-maker-name {
+    font-weight: 500;
+    color: var(--p-text-color);
+  }
+
+  .vehicle-models {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+}
+
+// Offer images
+.offer-images-container {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+
+  ::ng-deep .offer-image-thumb {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    border: 1px solid var(--p-content-border-color);
+  }
+}
+
+// Attachments
+.attachments-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.attachment-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--p-content-border-color);
+  border-radius: 0.5rem;
+  background: var(--p-content-background);
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: var(--p-content-hover-background);
+  }
+}
+
+.attachment-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background: var(--p-primary-50);
+  color: var(--p-primary-color);
+
+  i {
+    font-size: 1.25rem;
+  }
+
+  &--pdf {
+    background: var(--p-red-50);
+    color: var(--p-red-500);
+  }
+
+  &--excel {
+    background: var(--p-green-50);
+    color: var(--p-green-600);
+  }
+
+  &--image {
+    background: var(--p-sky-50);
+    color: var(--p-sky-600);
+  }
+}
+
+.attachment-thumb {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--p-content-border-color);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  cursor: zoom-in;
+  background: none;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+// Attachment preview dialog
+.attachment-preview-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 12rem;
+}
+
+.attachment-preview-image {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 0.5rem;
+}
+
+.attachment-preview-doc {
+  display: block;
+  width: 100%;
+  height: 70vh;
+  border: 1px solid var(--p-content-border-color);
+  border-radius: 0.5rem;
+  overflow: hidden;
+
+  // The viewer's iframe/object has no intrinsic size
+  ::ng-deep iframe,
+  ::ng-deep object {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+.doc-viewer-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  height: 100%;
+  padding: 1rem;
+  text-align: center;
+  color: var(--p-text-muted-color);
+
+  > i {
+    font-size: 2rem;
+    color: var(--p-red-500);
+  }
+}
+
+.doc-viewer-state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.doc-viewer-note {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+  color: var(--p-text-muted-color);
+}
+
+.attachment-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+
+  .attachment-name {
+    color: var(--p-text-color);
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .attachment-type {
+    color: var(--p-text-muted-color);
+    font-size: 0.75rem;
+  }
+}
+
+.attachment-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 0.25rem;
+}
+
+@media (max-width: 640px) {
+  .detail-row--top {
+    flex-direction: column;
+    gap: 0.5rem;
+
+    > .detail-label {
+      padding-top: 0;
+    }
+
+    > .attachments-list,
+    > .vehicle-compatibility-list {
+      width: 100%;
+    }
+  }
 }
 
 .detail-value {

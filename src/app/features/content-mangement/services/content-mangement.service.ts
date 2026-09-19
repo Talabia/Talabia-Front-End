@@ -4,8 +4,10 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import {
-  AdminOffer,
+  AdminOfferDetails,
+  AdminOfferDetailsResponse,
   AdminOffersListRequest,
+  OfferImage,
   AdminOffersListResponse,
   ApiResponse,
   PromoteOfferRequest,
@@ -76,13 +78,32 @@ export class ContentMangementService {
    * Get single admin offer by ID
    * GET /api/AdminOffers/get/details?Id=3fa85f64-5717-4562-b3fc-2c963f66afa6
    */
-  getAdminOfferById(id: string): Observable<AdminOffer> {
+  getAdminOfferById(id: string): Observable<AdminOfferDetails> {
     const params = new HttpParams().set('Id', id);
 
     return this.http.get<any>(`${this.baseUrl}AdminOffers/get/details`, { params }).pipe(
-      map((response) => response.data || response),
+      map((response) => this.normalizeOfferDetails(response.data || response)),
       catchError(this.handleError)
     );
+  }
+
+  /**
+   * Guarantee collections are arrays and images use the object shape
+   * (older responses returned offerImages as plain url strings).
+   */
+  private normalizeOfferDetails(raw: AdminOfferDetailsResponse): AdminOfferDetails {
+    const offerImages: OfferImage[] = (raw.offerImages ?? [])
+      .map((image) =>
+        typeof image === 'string' ? { url: image, publicId: '', variants: null } : image
+      )
+      .filter((image) => !!image?.url);
+
+    return {
+      ...raw,
+      offerImages,
+      attachments: (raw.attachments ?? []).filter((attachment) => !!attachment?.url),
+      vehicleCompatibilities: raw.vehicleCompatibilities ?? [],
+    };
   }
 
   /**

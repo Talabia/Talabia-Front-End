@@ -27,14 +27,91 @@ import { ContentMangementService } from '../services/content-mangement.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import {
   AdminOffer,
+  AdminOfferDetails,
   AdminOffersListRequest,
   AdminOffersListResponse,
   DateRangeDuration,
+  OfferAttachment,
+  PromotableOffer,
+  resolveOfferImageUrl,
+  UploadFileType,
 } from '../models/content-mangement.models';
 import { Subject, takeUntil, timeout, distinctUntilChanged, debounceTime } from 'rxjs';
 import { TooltipModule } from 'primeng/tooltip';
 import { Image } from 'primeng/image';
 import { DateTimePipe } from '../../../shared/pipes/date-time.pipe';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
+
+interface OfferImageView {
+  thumbnailSrc: string;
+  previewSrc: string;
+}
+
+type AttachmentKind = 'image' | 'pdf' | 'excel' | 'other';
+
+interface OfferAttachmentView {
+  url: string;
+  publicId: string;
+  fileName: string;
+  extension: string;
+  kind: AttachmentKind;
+  icon: string;
+  /** Small image shown in the list (images only). */
+  thumbnailSrc: string | null;
+  /** Full-size source used by the in-app preview (images, PDFs and Excel). */
+  previewSrc: string | null;
+  canPreview: boolean;
+  /** Opening in a new tab is only useful for types the browser can render but we don't preview inline. */
+  canOpenInNewTab: boolean;
+}
+
+/** ngx-doc-viewer engine per previewable kind. */
+type DocViewerEngine = 'pdf' | 'office';
+
+interface AttachmentPreview {
+  attachment: OfferAttachmentView;
+  /** null for images, which are rendered with a plain <img>. */
+  docViewer: DocViewerEngine | null;
+}
+
+/**
+ * PDFs use the browser's native viewer (no third party involved).
+ * Excel uses Microsoft Office Online, which fetches the public file URL itself.
+ */
+const DOC_VIEWER_BY_KIND: Partial<Record<AttachmentKind, DocViewerEngine>> = {
+  pdf: 'pdf',
+  excel: 'office',
+};
+
+const ATTACHMENT_KIND_BY_FILE_TYPE: Record<UploadFileType, AttachmentKind> = {
+  [UploadFileType.Image]: 'image',
+  [UploadFileType.Pdf]: 'pdf',
+  [UploadFileType.Excel]: 'excel',
+};
+
+/** Fallback when the backend sends an unknown/missing fileType. */
+const ATTACHMENT_KIND_BY_EXTENSION: Record<string, AttachmentKind> = {
+  jpg: 'image',
+  jpeg: 'image',
+  png: 'image',
+  gif: 'image',
+  webp: 'image',
+  bmp: 'image',
+  svg: 'image',
+  avif: 'image',
+  pdf: 'pdf',
+  xls: 'excel',
+  xlsx: 'excel',
+  csv: 'excel',
+};
+
+const ATTACHMENT_ICONS: Record<AttachmentKind, string> = {
+  image: 'pi pi-image',
+  pdf: 'pi pi-file-pdf',
+  excel: 'pi pi-file-excel',
+  other: 'pi pi-file',
+};
+
 @Component({
   selector: 'app-content-mangement',
   imports: [
@@ -57,7 +134,8 @@ import { DateTimePipe } from '../../../shared/pipes/date-time.pipe';
     TranslatePipe,
     TooltipModule,
     Image,
-    DateTimePipe
+    DateTimePipe,
+    NgxDocViewerModule,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './content-mangement.component.html',
@@ -89,11 +167,16 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
 
   // Dialog properties
   viewDialogVisible: boolean = false;
-  selectedOffer: AdminOffer | null = null;
+  selectedOffer: (AdminOfferDetails & { isPromoted: boolean }) | null = null;
+  selectedOfferImages: OfferImageView[] = [];
+  selectedOfferAttachments: OfferAttachmentView[] = [];
+  downloadingAttachmentIds = new Set<string>();
+  attachmentPreview: AttachmentPreview | null = null;
+  attachmentPreviewVisible: boolean = false;
 
   // Promotion dialog properties
   promoteDialogVisible: boolean = false;
-  selectedOfferForPromotion: AdminOffer | null = null;
+  selectedOfferForPromotion: PromotableOffer | null = null;
   uploadedPromotionImageUrl: string = '';
   isPromotionImageUploading: boolean = false;
 
@@ -335,9 +418,20 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
       .getAdminOfferById(offer.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (detailedOffer: AdminOffer) => {
+        next: (detailedOffer: AdminOfferDetails) => {
           console.log('Offer details loaded:', detailedOffer);
-          this.selectedOffer = detailedOffer;
+          // The details endpoint doesn't return isPromoted, so keep the list row's value
+          this.selectedOffer = {
+            ...detailedOffer,
+            isPromoted: detailedOffer.isPromoted ?? offer.isPromoted,
+          };
+          this.selectedOfferImages = detailedOffer.offerImages.map((image) => ({
+            thumbnailSrc: resolveOfferImageUrl(image, 'Thumbnail'),
+            previewSrc: resolveOfferImageUrl(image, 'Detail'),
+          }));
+          this.selectedOfferAttachments = detailedOffer.attachments.map((attachment) =>
+            this.toAttachmentView(attachment)
+          );
           this.viewDialogVisible = true; // Show dialog only after data is loaded
           this.loading = false;
           this.cdr.detectChanges();
@@ -358,7 +452,7 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
   /**
    * Toggle promote/unpromote offer
    */
-  togglePromote(offer: AdminOffer, event?: Event): void {
+  togglePromote(offer: PromotableOffer, event?: Event): void {
     if (offer.isPromoted) {
       // For unpromoting, show confirmation popup like delete
       this.confirmUnpromote(event!, offer);
@@ -371,7 +465,7 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
   /**
    * Show promote dialog with image upload
    */
-  showPromoteDialog(offer: AdminOffer): void {
+  showPromoteDialog(offer: PromotableOffer): void {
     this.selectedOfferForPromotion = offer;
     this.uploadedPromotionImageUrl = '';
     this.promoteDialogVisible = true;
@@ -380,7 +474,7 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
   /**
    * Confirm unpromote with popup
    */
-  confirmUnpromote(event: Event, offer: AdminOffer): void {
+  confirmUnpromote(event: Event, offer: PromotableOffer): void {
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
       message: this.t('contentManagement.confirm.unpromoteMessage', { title: offer.title }),
@@ -475,7 +569,11 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
   /**
    * Promote offer with image
    */
-  private promoteOffer(offer: AdminOffer, isPromoted: boolean, promotionImageUrl?: string): void {
+  private promoteOffer(
+    offer: PromotableOffer,
+    isPromoted: boolean,
+    promotionImageUrl?: string
+  ): void {
     this.loading = true;
 
     const request = {
@@ -519,7 +617,7 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
   /**
    * Unpromote offer
    */
-  private unpromoteOffer(offer: AdminOffer): void {
+  private unpromoteOffer(offer: PromotableOffer): void {
     this.loading = true;
 
     this.contentManagementService
@@ -645,6 +743,113 @@ export class ContentMangementComponent implements OnInit, OnDestroy {
   closeViewDialog(): void {
     this.viewDialogVisible = false;
     this.selectedOffer = null;
+    this.selectedOfferImages = [];
+    this.selectedOfferAttachments = [];
+    this.closeAttachmentPreview();
+  }
+
+  /**
+   * Download an attachment under its original file name.
+   * Cross-origin URLs ignore the `download` attribute, so the file is fetched as a blob.
+   * Native fetch is used to bypass HttpClient interceptors (no auth header to a third-party host).
+   * Falls back to opening the file in a new tab if the fetch fails (e.g. CORS).
+   */
+  async downloadAttachment(attachment: OfferAttachmentView): Promise<void> {
+    if (this.downloadingAttachmentIds.has(attachment.publicId)) return;
+
+    this.downloadingAttachmentIds.add(attachment.publicId);
+    this.cdr.markForCheck();
+
+    try {
+      const response = await fetch(attachment.url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const objectUrl = URL.createObjectURL(await response.blob());
+      const link = document.createElement('a');
+      link.href = objectUrl;
+      link.download = attachment.fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+    } catch (error) {
+      console.error('Attachment download failed, opening in a new tab instead:', error);
+      window.open(attachment.url, '_blank', 'noopener');
+    } finally {
+      this.downloadingAttachmentIds.delete(attachment.publicId);
+      this.cdr.markForCheck();
+    }
+  }
+
+  /**
+   * Preview images, PDFs and Excel files inside the app. Other types have no preview action.
+   */
+  previewAttachment(attachment: OfferAttachmentView): void {
+    if (!attachment.canPreview || !attachment.previewSrc) return;
+
+    this.attachmentPreview = {
+      attachment,
+      docViewer: DOC_VIEWER_BY_KIND[attachment.kind] ?? null,
+    };
+    this.attachmentPreviewVisible = true;
+    this.cdr.markForCheck();
+  }
+
+  closeAttachmentPreview(): void {
+    this.attachmentPreviewVisible = false;
+    this.attachmentPreview = null;
+  }
+
+  openAttachmentInNewTab(attachment: OfferAttachmentView): void {
+    window.open(attachment.url, '_blank', 'noopener');
+  }
+
+  private toAttachmentView(attachment: OfferAttachment): OfferAttachmentView {
+    const rawName = attachment.fileName || attachment.publicId?.split('/').pop() || '';
+    const nameExtension = this.getFileExtension(rawName);
+    const urlExtension = this.getFileExtension(attachment.url);
+    const extension = nameExtension || urlExtension;
+    const kind = this.resolveAttachmentKind(attachment.fileType, extension);
+
+    // Make sure the downloaded file keeps a usable extension
+    let fileName = rawName || this.t('contentManagement.attachment.file');
+    if (rawName && !nameExtension && urlExtension) {
+      fileName = `${rawName}.${urlExtension}`;
+    }
+
+    // Only preview public http(s) URLs; they are bound to <img>/<object>/<iframe>
+    const isSafeUrl = /^https?:\/\//i.test(attachment.url);
+    const imageSource = { url: attachment.url, publicId: attachment.publicId, variants: attachment.variants };
+    const canPreview = isSafeUrl && kind !== 'other';
+
+    return {
+      url: attachment.url,
+      publicId: attachment.publicId || attachment.url,
+      fileName,
+      extension: extension.toUpperCase(),
+      kind,
+      icon: ATTACHMENT_ICONS[kind],
+      thumbnailSrc: kind === 'image' && isSafeUrl ? resolveOfferImageUrl(imageSource, 'Thumbnail') : null,
+      previewSrc: !canPreview
+        ? null
+        : kind === 'image'
+        ? resolveOfferImageUrl(imageSource, 'Detail')
+        : attachment.url,
+      canPreview,
+      // Browsers can't render Excel (opening the raw URL just downloads it); it's previewed via Office Online instead
+      canOpenInNewTab: kind === 'pdf' || kind === 'other',
+    };
+  }
+
+  private resolveAttachmentKind(fileType: number | null | undefined, extension: string): AttachmentKind {
+    const byType = fileType != null ? ATTACHMENT_KIND_BY_FILE_TYPE[fileType as UploadFileType] : undefined;
+    return byType ?? ATTACHMENT_KIND_BY_EXTENSION[extension] ?? 'other';
+  }
+
+  private getFileExtension(value: string | null | undefined): string {
+    const name = (value ?? '').split(/[?#]/)[0].split('/').pop() ?? '';
+    const dotIndex = name.lastIndexOf('.');
+    return dotIndex > 0 ? name.slice(dotIndex + 1).toLowerCase() : '';
   }
 
   private t(key: string, params?: Record<string, unknown>): string {
