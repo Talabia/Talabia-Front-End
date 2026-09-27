@@ -2,6 +2,6 @@ import { Environment } from './environment.model';
 
 export const environment: Environment = {
   production: false,
-  environmentName: 'development',
-  apiBaseUrl: 'http://talabiamotors.runasp.net/api/',
+  environmentName: 'staging',
+  apiBaseUrl: 'https://api-staging.example.com',
 };

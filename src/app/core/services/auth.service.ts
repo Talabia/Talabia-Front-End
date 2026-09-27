@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { API_BASE_URL } from '../tokens/api-base-url.token';
 
 export interface User {
   id: string;
@@ -32,7 +32,7 @@ export interface RefreshTokenResponse {
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private apiUrl = `${environment.baseUrl}Auth`; // Uses http://talabiamotors.runasp.net/api/Auth
+  private apiUrl = `${inject(API_BASE_URL)}Auth`;
 
   // Signal to hold the current logged-in user
   currentUser = signal<User | null>(this.getUserFromStorage());

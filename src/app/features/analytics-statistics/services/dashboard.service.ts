@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+import { API_BASE_URL } from '../../../core/tokens/api-base-url.token';
 import { DashboardStatistics } from '../models/dashboard-statistics.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardService {
-  private readonly baseUrl = environment.baseUrl;
+  private readonly baseUrl = inject(API_BASE_URL);
 
   constructor(private http: HttpClient) {}
 

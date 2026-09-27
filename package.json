@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:staging": "ng build --configuration staging",
+    "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:gh-pages": "ng build --configuration production --base-href /Talabia-Front-End/ && node deploy-gh-pages.js",
@@ -23,6 +25,9 @@
     ]
   },
   "private": true,
+  "engines": {
+    "node": "22.15.0"
+  },
   "dependencies": {
     "@angular/animations": "^20.2.4",
     "@angular/common": "^20.2.0",

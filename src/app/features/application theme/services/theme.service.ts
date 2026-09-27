@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+import { API_BASE_URL } from '../../../core/tokens/api-base-url.token';
 import {
   Theme,
   CreateThemeRequest,
@@ -20,7 +20,7 @@ import {
   providedIn: 'root',
 })
 export class ThemeService {
-  private readonly baseUrl = environment.baseUrl;
+  private readonly baseUrl = inject(API_BASE_URL);
 
   constructor(private http: HttpClient) {}
 
