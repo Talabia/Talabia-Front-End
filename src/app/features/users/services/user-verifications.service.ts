@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+import { API_BASE_URL } from '../../../core/tokens/api-base-url.token';
 import {
   VerificationsListRequest,
   VerificationsListResponse,
@@ -15,7 +15,7 @@ import {
   providedIn: 'root',
 })
 export class UserVerificationsService {
-  private readonly apiUrl = `${environment.baseUrl}UserVerifications`;
+  private readonly apiUrl = `${inject(API_BASE_URL)}UserVerifications`;
 
   constructor(private http: HttpClient) {}
 
