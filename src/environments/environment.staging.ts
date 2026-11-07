@@ -3,5 +3,5 @@ import { Environment } from './environment.model';
 export const environment: Environment = {
   production: false,
   environmentName: 'staging',
-  apiBaseUrl: 'https://api-staging.example.com',
+  apiBaseUrl: 'https://talabia-back-end.onrender.com/api/',
 };
