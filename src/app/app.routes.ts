@@ -27,6 +27,7 @@ import { LoginComponent } from './features/auth/login/login.component';
 import { OtpComponent } from './features/auth/otp/otp.component';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
+import { DASHBOARD_ROLES } from './core/auth/roles';
 import { ContentPreviewComponent } from './features/content-preview/content-preview/content-preview.component';
 import { UsagePolicyComponent } from './features/content-preview/usage-policy/usage-policy.component';
 import { TermsConditionsComponent } from './features/content-preview/terms-conditions/terms-conditions.component';
@@ -214,10 +215,11 @@ export const routes: Routes = [
         path: 'terms-conditions',
         component: TermsConditionsComponent,
       },
-      // Protected routes with auth guard
+      // Protected routes with auth guard (role-based; a route may narrow `data.roles`)
       ...protectedRoutes.map(route => ({
         ...route,
         canActivate: [authGuard],
+        data: { roles: DASHBOARD_ROLES, ...route.data },
       })),
     ],
   },

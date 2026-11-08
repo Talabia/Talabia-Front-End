@@ -28,6 +28,9 @@ const TRANSLATIONS: Translations = {
     'auth.validation.invalidPhone': 'Please enter a valid phone number',
     'auth.error.sendFailed': 'Failed to send OTP. Please try again.',
     'auth.error.invalidOtp': 'Invalid Verification Code.',
+    'auth.error.notAuthorized': 'This account is not authorized to access the dashboard.',
+    'auth.error.forbiddenTitle': 'Access denied',
+    'auth.error.forbidden': "You don't have permission to perform this action.",
     'header.toggleTheme': 'Toggle Theme',
     'header.toggleLanguage': 'Toggle Language',
     'header.toggleSidebar': 'Toggle Sidebar',
@@ -2002,6 +2005,9 @@ const TRANSLATIONS: Translations = {
     'auth.validation.invalidPhone': 'يرجى إدخال رقم هاتف صحيح',
     'auth.error.sendFailed': 'فشل إرسال الرمز. يرجى المحاولة مرة أخرى.',
     'auth.error.invalidOtp': 'رمز التحقق غير صحيح.',
+    'auth.error.notAuthorized': 'هذا الحساب غير مصرح له بالدخول إلى لوحة التحكم.',
+    'auth.error.forbiddenTitle': 'تم رفض الوصول',
+    'auth.error.forbidden': 'ليس لديك صلاحية لتنفيذ هذا الإجراء.',
   },
 };
 

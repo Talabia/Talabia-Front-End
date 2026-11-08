@@ -7,6 +7,7 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
+import { MessageService } from 'primeng/api';
 import Aura from '@primeuix/themes/aura';
 import MyPreset from '../../mypreset';
 import { routes } from './app.routes';
@@ -20,6 +21,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([languageInterceptor, authInterceptor])),
     provideAnimationsAsync(),
+    // Root MessageService for app-wide toasts (e.g. 403 from the auth interceptor).
+    // Components that provide their own MessageService keep their local instance.
+    MessageService,
     providePrimeNG({
       ripple: true,
       inputVariant: 'filled',
