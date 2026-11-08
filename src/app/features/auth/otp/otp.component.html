@@ -8,8 +8,15 @@
                 <div class="otp-identifier">{{ identifier }}</div>
             </div>
             <!-- [mask]="true" -->
-            <div class="otp-input-wrapper">
-                <p-inputOtp [(ngModel)]="otp" [length]="6" (onChange)="onVerify()" [integerOnly]="true"></p-inputOtp>
+            <!-- Always LTR, even on the Arabic (RTL) page: the code is entered from the left. -->
+            <div class="otp-input-wrapper" dir="ltr">
+                @for (digit of digits; track $index; let i = $index) {
+                <input #otpBox pInputText class="otp-box" type="text" inputmode="numeric" pattern="[0-9]*"
+                    [attr.autocomplete]="i === 0 ? 'one-time-code' : 'off'" [attr.aria-label]="'OTP digit ' + (i + 1)"
+                    [value]="digit" [disabled]="loading"
+                    (keydown)="onDigitKeydown(i, $event)" (input)="onDigitInput(i, $event)"
+                    (paste)="onDigitPaste(i, $event)" (focus)="onDigitFocus($event)" />
+                }
             </div>
 
             <div class="otp-timer-wrapper">

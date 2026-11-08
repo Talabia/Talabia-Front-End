@@ -11,10 +11,8 @@
 
       <div class="login-form">
         <app-phone-input name="phone" [(ngModel)]="emailOrPhone" #phoneField="ngModel"
-          [label]="'auth.login.label' | translate" defaultCountry="SA" [lockCountry]="true"></app-phone-input>
-        @if (phoneField.invalid && phoneField.touched) {
-          <small class="p-error">{{ 'auth.validation.invalidPhone' | translate }}</small>
-        }
+          (ngModelChange)="authError.set(null)" [label]="'auth.login.label' | translate"
+          defaultCountry="SA" [lockCountry]="true" [maxDigits]="9" allowedFirstDigits="5"></app-phone-input>
         @if (authError()) {
           <div class="login-auth-error" role="alert">{{ authError() }}</div>
         }
