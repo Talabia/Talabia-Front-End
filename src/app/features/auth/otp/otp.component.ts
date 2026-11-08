@@ -10,6 +10,11 @@ import { AuthService } from '../../../core/services/auth.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { LanguageService } from '../../../shared/services/language.service';
 import { CardModule } from 'primeng/card';
+import {
+  LOGIN_ERROR_STATE_KEY,
+  apiErrorMessage,
+  isDashboardAccessDenied,
+} from '../../../core/auth/auth-errors';
 @Component({
   selector: 'app-otp',
   standalone: true,
@@ -112,6 +117,20 @@ export class OtpComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.loading = false;
+        if (isDashboardAccessDenied(err)) {
+          // Nothing was stored by AuthService; send the user back to the phone step with the reason.
+          this.stopTimer();
+          const message = apiErrorMessage(
+            err,
+            this.languageService.translate('auth.error.notAuthorized')
+          );
+          this.router.navigate(['/login'], {
+            replaceUrl: true,
+            queryParams: this.returnUrl !== '/' ? { returnUrl: this.returnUrl } : {},
+            state: { [LOGIN_ERROR_STATE_KEY]: message },
+          });
+          return;
+        }
         this.messageService.add({
           severity: 'error',
           summary: 'Error',

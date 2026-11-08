@@ -15,6 +15,9 @@
         @if (phoneField.invalid && phoneField.touched) {
           <small class="p-error">{{ 'auth.validation.invalidPhone' | translate }}</small>
         }
+        @if (authError()) {
+          <div class="login-auth-error" role="alert">{{ authError() }}</div>
+        }
         <p-button (click)="onSendOtp()" [label]="'auth.login.button' | translate" icon="pi pi-arrow-right"
           iconPos="right" [loading]="loading" class="login-submit-btn"></p-button>
       </div>
