@@ -26,6 +26,11 @@
   width: 100%;
 }
 
+// Set by the host page when it wants the number shown as invalid.
+:host(.phone-input-invalid) .phone-input-number {
+  border-color: var(--p-inputtext-invalid-border-color, var(--p-red-500));
+}
+
 .phone-input-flag {
   display: inline-block;
   width: 1.333em;

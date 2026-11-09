@@ -12,7 +12,11 @@
       <div class="login-form">
         <app-phone-input name="phone" [(ngModel)]="emailOrPhone" #phoneField="ngModel"
           (ngModelChange)="authError.set(null)" [label]="'auth.login.label' | translate"
-          defaultCountry="SA" [lockCountry]="true" [maxDigits]="9" allowedFirstDigits="5"></app-phone-input>
+          defaultCountry="SA" [lockCountry]="true" [maxDigits]="9" allowedFirstDigits="5"
+          [class.phone-input-invalid]="phoneField.dirty && phoneField.hasError('invalidPrefix')"></app-phone-input>
+        @if (phoneField.dirty && phoneField.hasError('invalidPrefix')) {
+          <small class="p-error" role="alert">{{ 'auth.validation.mustStartWith5' | translate }}</small>
+        }
         @if (authError()) {
           <div class="login-auth-error" role="alert">{{ authError() }}</div>
         }
