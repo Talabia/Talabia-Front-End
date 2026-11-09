@@ -56,8 +56,8 @@ export class PhoneInputComponent implements ControlValueAccessor, Validator, OnI
   /** Maximum number of digits in the national number (e.g. 9 for Saudi mobiles). */
   @Input() maxDigits?: number;
   /**
-   * Digits the national number may start with (e.g. '5' for Saudi mobiles). Leading digits
-   * that don't match are dropped, so typing "05…" becomes "5…".
+   * Digits the national number may start with (e.g. '5' for Saudi mobiles). A number that
+   * starts with any other digit fails validation with `{ invalidPrefix: { allowed } }`.
    */
   @Input() allowedFirstDigits?: string;
 
@@ -121,19 +121,7 @@ export class PhoneInputComponent implements ControlValueAccessor, Validator, OnI
   }
 
   private applyDigitRules(digits: string): string {
-    let result = digits;
-    if (this.allowedFirstDigits) {
-      const allowed = this.allowedFirstDigits;
-      let start = 0;
-      while (start < result.length && !allowed.includes(result[start])) {
-        start++;
-      }
-      result = result.slice(start);
-    }
-    if (this.maxDigits && this.maxDigits > 0) {
-      result = result.slice(0, this.maxDigits);
-    }
-    return result;
+    return this.maxDigits && this.maxDigits > 0 ? digits.slice(0, this.maxDigits) : digits;
   }
 
   // AsYouType only groups digits once it recognizes a country's national dialing
@@ -196,6 +184,10 @@ export class PhoneInputComponent implements ControlValueAccessor, Validator, OnI
   validate(): ValidationErrors | null {
     if (!this.nationalNumber) {
       return null;
+    }
+    const firstDigit = digitsOnly(this.nationalNumber).charAt(0);
+    if (this.allowedFirstDigits && !this.allowedFirstDigits.includes(firstDigit)) {
+      return { invalidPrefix: { allowed: this.allowedFirstDigits } };
     }
     return isValidPhoneNumber(this.nationalNumber, this.selectedCountry)
       ? null

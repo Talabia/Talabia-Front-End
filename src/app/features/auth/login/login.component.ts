@@ -71,10 +71,15 @@ export class LoginComponent {
     }
 
     if (this.phoneField?.invalid) {
+      this.phoneField.control.markAsDirty();
       this.messageService.add({
         severity: 'warn',
         summary: 'Warning',
-        detail: this.languageService.translate('auth.validation.invalidPhone'),
+        detail: this.languageService.translate(
+          this.phoneField.hasError('invalidPrefix')
+            ? 'auth.validation.mustStartWith5'
+            : 'auth.validation.invalidPhone'
+        ),
       });
       return;
     }
