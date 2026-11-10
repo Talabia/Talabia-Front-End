@@ -11,9 +11,14 @@
 
       <div class="login-form">
         <app-phone-input name="phone" [(ngModel)]="emailOrPhone" #phoneField="ngModel"
-          [label]="'auth.login.label' | translate" defaultCountry="SA" [lockCountry]="true"></app-phone-input>
-        @if (phoneField.invalid && phoneField.touched) {
-          <small class="p-error">{{ 'auth.validation.invalidPhone' | translate }}</small>
+          (ngModelChange)="authError.set(null)" [label]="'auth.login.label' | translate"
+          defaultCountry="SA" [lockCountry]="true" [maxDigits]="9" allowedFirstDigits="5"
+          [class.phone-input-invalid]="phoneField.dirty && phoneField.hasError('invalidPrefix')"></app-phone-input>
+        @if (phoneField.dirty && phoneField.hasError('invalidPrefix')) {
+          <small class="p-error" role="alert">{{ 'auth.validation.mustStartWith5' | translate }}</small>
+        }
+        @if (authError()) {
+          <div class="login-auth-error" role="alert">{{ authError() }}</div>
         }
         <p-button (click)="onSendOtp()" [label]="'auth.login.button' | translate" icon="pi pi-arrow-right"
           iconPos="right" [loading]="loading" class="login-submit-btn"></p-button>

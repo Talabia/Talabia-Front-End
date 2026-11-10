@@ -26,10 +26,14 @@
     </p-select>
     <input
       pInputText
+      #numberInput
       type="tel"
+      inputmode="numeric"
+      autocomplete="tel-national"
       class="phone-input-number"
-      [ngModel]="nationalNumber"
-      (ngModelChange)="onNumberInput($event)"
+      [value]="nationalNumber"
+      (keydown)="onNumberKeydown($event)"
+      (input)="onNumberInput(numberInput)"
       (blur)="onBlur()"
       [disabled]="disabled"
     />

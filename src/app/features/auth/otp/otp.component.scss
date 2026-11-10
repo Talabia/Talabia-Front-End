@@ -43,9 +43,21 @@
 
 .otp-input-wrapper {
     display: flex;
+    flex-direction: row;
+    direction: ltr;
     justify-content: center;
     align-items: center;
+    gap: 0.5rem;
     margin-bottom: 2rem;
+
+    .otp-box {
+        width: 2.75rem;
+        height: 3rem;
+        padding: 0;
+        text-align: center;
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
 }
 
 .otp-timer-wrapper {

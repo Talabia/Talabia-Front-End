@@ -5,13 +5,22 @@ import { Subject, filter, takeUntil } from 'rxjs';
 import { HeaderComponent } from '../header/header.component';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { GlobalLoaderComponent } from '../../shared/components/global-loader/global-loader';
+import { ToastModule } from 'primeng/toast';
+import { GLOBAL_TOAST_KEY } from '../../core/interceptors/auth.interceptor';
 
 const OVERLAY_MEDIA_QUERY = '(max-width: 1024px)';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, HeaderComponent, SideBarComponent, GlobalLoaderComponent],
+  imports: [
+    RouterOutlet,
+    CommonModule,
+    HeaderComponent,
+    SideBarComponent,
+    GlobalLoaderComponent,
+    ToastModule,
+  ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
 })
@@ -24,6 +33,8 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     this.isOverlayMode() ? !this.mobileSidebarOpen() : this.sidebarState() === 'hidden'
   );
   showBackdrop = computed(() => this.isOverlayMode() && this.mobileSidebarOpen());
+
+  readonly globalToastKey = GLOBAL_TOAST_KEY;
 
   private readonly destroy$ = new Subject<void>();
   private mediaQueryList?: MediaQueryList;

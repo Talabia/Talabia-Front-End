@@ -20,6 +20,7 @@ import {
 } from 'libphonenumber-js';
 import { Subscription } from 'rxjs';
 import { LanguageService } from '../../services/language.service';
+import { digitsOnly, isNonDigitCharacterKey } from '../../utils/digits.util';
 
 export interface CountryOption {
   iso2: CountryCode;
@@ -52,6 +53,13 @@ export class PhoneInputComponent implements ControlValueAccessor, Validator, OnI
   @Input() defaultCountry: CountryCode = 'SA';
   @Input() label?: string;
   @Input() lockCountry = false;
+  /** Maximum number of digits in the national number (e.g. 9 for Saudi mobiles). */
+  @Input() maxDigits?: number;
+  /**
+   * Digits the national number may start with (e.g. '5' for Saudi mobiles). A number that
+   * starts with any other digit fails validation with `{ invalidPrefix: { allowed } }`.
+   */
+  @Input() allowedFirstDigits?: string;
 
   private languageService = inject(LanguageService);
   private languageSub?: Subscription;
@@ -97,9 +105,23 @@ export class PhoneInputComponent implements ControlValueAccessor, Validator, OnI
     this.emitValue();
   }
 
-  onNumberInput(value: string): void {
-    this.reformatNationalNumber(value);
+  onNumberInput(input: HTMLInputElement): void {
+    this.reformatNationalNumber(input.value);
+    // Write back explicitly: rejected characters must disappear even when the
+    // sanitised value is unchanged (a bound value wouldn't re-render then).
+    input.value = this.nationalNumber;
     this.emitValue();
+  }
+
+  /** Blocks letters, symbols and spaces before they reach the field. */
+  onNumberKeydown(event: KeyboardEvent): void {
+    if (isNonDigitCharacterKey(event)) {
+      event.preventDefault();
+    }
+  }
+
+  private applyDigitRules(digits: string): string {
+    return this.maxDigits && this.maxDigits > 0 ? digits.slice(0, this.maxDigits) : digits;
   }
 
   // AsYouType only groups digits once it recognizes a country's national dialing
@@ -108,13 +130,13 @@ export class PhoneInputComponent implements ControlValueAccessor, Validator, OnI
   // dial code already shown by the country selector, we format by prepending the
   // calling code, then strip it back off for display.
   private reformatNationalNumber(value: string): void {
-    const digitsOnly = value.replace(/\D/g, '');
-    if (!digitsOnly) {
+    const digits = this.applyDigitRules(digitsOnly(value));
+    if (!digits) {
       this.nationalNumber = '';
       return;
     }
     const callingCode = `+${getCountryCallingCode(this.selectedCountry)}`;
-    const formatted = new AsYouType().input(`${callingCode}${digitsOnly}`);
+    const formatted = new AsYouType().input(`${callingCode}${digits}`);
     this.nationalNumber = formatted.startsWith(callingCode)
       ? formatted.slice(callingCode.length).trim()
       : formatted;
@@ -162,6 +184,10 @@ export class PhoneInputComponent implements ControlValueAccessor, Validator, OnI
   validate(): ValidationErrors | null {
     if (!this.nationalNumber) {
       return null;
+    }
+    const firstDigit = digitsOnly(this.nationalNumber).charAt(0);
+    if (this.allowedFirstDigits && !this.allowedFirstDigits.includes(firstDigit)) {
+      return { invalidPrefix: { allowed: this.allowedFirstDigits } };
     }
     return isValidPhoneNumber(this.nationalNumber, this.selectedCountry)
       ? null
